@@ -1,0 +1,71 @@
+.button {
+    border-radius: var(--border-radius-lg);
+    border-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.4rem;
+}
+
+.mini {
+    width: 4.5rem;
+    height: 1.18rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 10px; /*Este aun lo voy a cambiar*/
+}
+
+.small {
+    font-size: 10px; /*Este aun lo voy a cambiar*/
+    width: 6.5rem;
+    height: 1.5rem;
+}
+
+.medium {
+    font-size: 16px; /*Este aun lo voy a cambiar*/
+    width: 9rem;
+    height: 2rem;
+}
+
+.large {
+    font-size: 24px; /*Este aun lo voy a cambiar*/
+    width: 11.5rem;
+    height: 3rem;
+}
+
+.xl {
+    font-size: 24px; /*Este aun lo voy a cambiar*/
+    width: 18rem;
+    height: 4rem;
+}
+
+.info {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+}
+
+.warning {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-width: 0.12rem;
+    border-color: var(--color-red-primary);
+}
+
+.cancel {
+    background-color: var(--color-bg);
+    color: var(--color-green-secondary);
+    border-width: 0.12rem;
+    border-color: var(--color-green-secondary);
+}
+
+.accept {
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+}
+
+
+.login {
+    background-color: #DBFFF2;
+    color: var(--color-green-primary);
+    border-width: 0.12rem;
+    border-color: var(--color-green-primary);
+}
