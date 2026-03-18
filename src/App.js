@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        
         <Button size='xl' type='info' className='button'>
           Extra grande
         </Button>
@@ -24,8 +26,18 @@ function App() {
         </Button>
 
         <Button size='mini' type='warning' className='button'>
-          Mini
+          Eliminar
         </Button>
+
+        <Button size='mini' type='plus-min' className='button'>
+          <Icon name="plus" size="small" color="primary" />
+        </Button>
+
+        <Button size='mini' type='plus-min' className='button'>
+          <Icon name="minus" size="small" color="primary" />
+        </Button>
+
+        
       </header>
     </div>
   );

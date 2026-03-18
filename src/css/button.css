@@ -11,8 +11,8 @@
 }
 
 .mini {
-    width: 4.5rem;
-    height: 1.18rem;
+    width: 4.25rem;
+    height: 1.3rem;
     border-radius: var(--border-radius-sm);
     font-size: 10px; /*Este aun lo voy a cambiar*/
 }
@@ -71,4 +71,12 @@
     color: var(--color-green-primary);
     border-width: 0.12rem;
     border-color: var(--color-green-primary);
+}
+
+.plus-min{
+    background-color: #CDE8E7;
+    color: var(--color-green-primary);
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--border-radius-sm);
 }
