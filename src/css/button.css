@@ -1,3 +1,6 @@
+@import "./tokens/colors.css";
+@import "./tokens/layout.css";
+
 .button {
     border-radius: var(--border-radius-lg);
     border-width: 0;
