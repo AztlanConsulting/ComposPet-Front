@@ -1,7 +1,7 @@
 import './App.css';
 import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';
-import Input from './components/atoms/Input';
+import InputComponent from './components/molecules/InputComponent';
 import Image from './components/atoms/Image';
 
 import PersonImg from './public/img/person.png';
@@ -44,11 +44,26 @@ function App() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-          
+          <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
+          <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
         </div>
-            <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
-            <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+          <InputComponent
+            id="nombre"
+            type="text"
+            size="md"
+            placeholder=""
+            classNameLabel="label"
+            classNameInput="input"
+            onChange={(e) => console.log(e.target.value)}
+          >
+            Usuario
+          </InputComponent>
         </div>
+
+        </div>
+
     </div>
   );
 }
