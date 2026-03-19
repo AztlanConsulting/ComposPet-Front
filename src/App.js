@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';
+import Input from './components/atoms/Input';
 
 function App() {
   return (
@@ -37,6 +38,10 @@ function App() {
           <Icon name="piggy" size="large" color="primary" />
           <Icon name="search" size="large" color="primary" />
           <Icon name="tiktok" size="large" color="primary" />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+          
         </div>
 
         </div>
