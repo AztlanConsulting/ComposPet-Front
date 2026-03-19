@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';

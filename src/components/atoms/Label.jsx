@@ -3,7 +3,7 @@ import "../../css/input.css";
 
 export default function Label({
     id, 
-    size = "large", 
+    size = "lg", 
     className = "", 
     children,
 }) {
