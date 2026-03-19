@@ -1,3 +1,7 @@
+@import "./tokens/colors.css";
+@import "./tokens/layout.css";
+@import "./tokens/typography.css";
+
 .input {
     border-radius: var(--border-radius-xl);
     border-width: 0;

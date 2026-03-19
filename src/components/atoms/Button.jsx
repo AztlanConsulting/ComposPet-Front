@@ -1,7 +1,7 @@
 import React from 'react'
 import "../../css/button.css";
 
-// sizes: ["mini", "small", "medium", "large", "xl"]
+// sizes: ["mini", "small", "medium", "large", "extra-lg"]
 // type: ["info", "cancel", "accept", "login", "warning", "plus-min"]
 
 export default function Button({

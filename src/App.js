@@ -2,6 +2,10 @@ import './App.css';
 import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';
 import Input from './components/atoms/Input';
+import Image from './components/atoms/Image';
+
+import PersonImg from './public/img/person.png';
+import AniluImg from './public/img/Anilu.png';
 
 function App() {
   return (
@@ -10,7 +14,7 @@ function App() {
         <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-          <Button size='xl' type='info' className='button'>Extra grande</Button>
+          <Button size='extra-lg' type='info' className='button'>Extra grande</Button>
           <Button size='large' type='accept' className='button'>Grande</Button>
           <Button size='medium' type='login' className='button'>Mediano</Button>
           <Button size='small' type='cancel' className='button'>Pequeño</Button>
@@ -42,7 +46,8 @@ function App() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
           
         </div>
-
+            <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
+            <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
         </div>
     </div>
   );

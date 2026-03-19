@@ -2,6 +2,7 @@
     --font-family-primary: Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-family-mono: "Roboto Mono", Consolas, "Courier New", monospace;
 
+    --font-size-mn: 0.62rem; /* 10px */
     --font-size-xs: 0.75rem; /* 12px */
     --font-size-sm: 0.875rem; /* 14px */
     --font-size-md: 1rem; /* 16px */
