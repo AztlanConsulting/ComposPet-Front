@@ -1,0 +1,35 @@
+@import "./tokens/colors.css";
+@import "./tokens/layout.css";
+@import "./tokens/typography.css";
+
+.label {
+    display: flex;
+    color: var(--color-green-secondary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+}
+
+.sm {
+    height: 2rem;
+    border-radius: var(--border-radius-lg);
+    font-size: 12px;
+}
+
+.md {
+    font-size: 16px;
+    width: 15rem;
+    height: 2rem;
+}
+
+.lg {
+    font-size: 16px;
+    width: 24.5rem;
+    height: 2.5rem;
+}
+
+.xl {
+    font-size: 20px;
+    width: 30rem;
+    height: 3rem;
+}
