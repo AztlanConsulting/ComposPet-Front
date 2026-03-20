@@ -1,0 +1,83 @@
+@import "./tokens/colors.css";
+@import "./tokens/layout.css";
+@import "./tokens/typography.css";
+
+.button {
+    border-radius: var(--border-radius-lg);
+    border-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.4rem;
+}
+
+.mini {
+    width: 4.25rem;
+    height: 1.3rem;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-mn);
+}
+
+.small {
+    font-size: var(--font-size-xs);
+    width: 6.5rem;
+    height: 1.5rem;
+}
+
+.medium {
+    font-size: var(--font-size-md);
+    width: 9rem;
+    height: 2rem;
+}
+
+.large {
+    font-size: var(--font-size-xl);
+    width: 11.5rem;
+    height: 3rem;
+}
+
+.extra-lg {
+    font-size: var(--font-size-xl);
+    width: 18rem;
+    height: 4rem;
+}
+
+.info {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+}
+
+.warning {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-width: 0.12rem;
+    border-color: var(--color-red-primary);
+}
+
+.cancel {
+    background-color: var(--color-bg);
+    color: var(--color-green-secondary);
+    border-width: 0.12rem;
+    border-color: var(--color-green-secondary);
+}
+
+.accept {
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+}
+
+
+.login {
+    background-color: #DBFFF2;
+    color: var(--color-green-primary);
+    border-width: 0.12rem;
+    border-color: var(--color-green-primary);
+}
+
+.plus-min{
+    background-color: #CDE8E7;
+    color: var(--color-green-primary);
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--border-radius-sm);
+}

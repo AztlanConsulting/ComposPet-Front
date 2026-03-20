@@ -1,0 +1,35 @@
+@import "./tokens/colors.css";
+@import "./tokens/layout.css";
+
+.icon {
+    display: block;
+}
+
+.small  { 
+    width: 16px; 
+    height: 16px; 
+}
+
+.medium { 
+    width: 24px; 
+    height: 24px; 
+}
+
+.large  { 
+    width: 40px; 
+    height: 40px; 
+}
+
+.primary { 
+    color: var(--color-green-secondary); 
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
