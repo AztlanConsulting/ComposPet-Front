@@ -19,11 +19,10 @@ function Home() {
 
     const login = useGoogleLogin({
       onSuccess: async (tokenResponse) => {
-        console.log("Access Token para Gmail:", tokenResponse.access_token);
         localStorage.setItem('accessToken', tokenResponse.access_token);
         
         try {
-          const res = await axios.post('http://localhost:8080/user/auth/google', {
+          const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
             token: tokenResponse.access_token 
           });
 
