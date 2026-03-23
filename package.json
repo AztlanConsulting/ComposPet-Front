@@ -9,7 +9,9 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.6",
+    "bootstrap": "^5.3.8",
     "react": "^19.2.4",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.1",
     "react-scripts": "5.0.1",
@@ -29,14 +31,18 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 5 Chrome versions",
+      "last 5 ChromeAndroid versions",
+      "last 5 Edge versions",
+      "last 3 Safari versions",
+      "last 3 iOS versions"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 5 Chrome versions",
+      "last 5 ChromeAndroid versions",
+      "last 5 Edge versions",
+      "last 3 Safari versions",
+      "last 3 iOS versions"
     ]
   }
 }

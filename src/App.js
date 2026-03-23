@@ -37,18 +37,18 @@ function Home() {
     });
 
     return (
-        <div className="App" style={{ padding: '40px' }}>
-            <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className='container'>
+            <div className='row'>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                  <h3>Iniciar Sesión con Gmail</h3>
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
+                  <h5>Iniciar Sesión con Gmail</h5>
                   <button onClick={() => login()} className="button-google">
                     Conectar con Google y Gmail
                   </button>
                   
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <Button size='extra-lg' type='info' className='button'>Extra grande</Button>
                     <Button size='large' type='accept' className='button'>Grande</Button>
                     <Button size='medium' type='login' className='button'>Mediano</Button>
@@ -62,7 +62,7 @@ function Home() {
                     </Button>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <Icon name="plus" size="large" color="primary" />
                     <Icon name="minus" size="large" color="primary" />
                     <Icon name="arrow" size="large" color="primary" />
@@ -78,12 +78,12 @@ function Home() {
                     <Icon name="tiktok" size="large" color="primary" />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
                     <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <InputComponent
                         id="nombre"
                         type="text"
