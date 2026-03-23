@@ -10,7 +10,7 @@ const Dashboard = () => {
         const accessToken = localStorage.getItem('accessToken'); // Recuperamos la "llave"
         
         try {
-            const res = await axios.post('http://localhost:8080/user/send-email', {
+            const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/send-email`, {
                 token: accessToken,
                 // temporalmente, a mi misma
                 to: user.email, 
