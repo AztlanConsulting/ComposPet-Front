@@ -33,13 +33,13 @@ function Home() {
           console.error("Error al conectar", error);
         }
       },
-      scope: "https://www.googleapis.com/auth/gmail.send", 
+      scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
     });
 
     return (
         <div className='container'>
             <div className='row'>
-                
+
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                   <h5>Iniciar Sesión con Gmail</h5>
                   <button onClick={() => login()} className="button-google">
