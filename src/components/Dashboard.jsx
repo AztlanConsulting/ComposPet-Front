@@ -15,17 +15,37 @@ const Dashboard = () => {
     });
     const [sheetsData, setSheetsData] = React.useState([]);
 
+    /**
+     * Manejador del evento para enviar correos desde la interfaz.
+     * * Recupera el 'userToken' (sesión) y el 'accessToken' (Google) del localStorage
+     * para realizar la petición POST al backend.
+     * * @async
+     * @function handleSendEmail
+     * @returns {void} Muestra una alerta con el resultado de la operación.
+     */
     const handleSendEmail = async () => {
-        const accessToken = localStorage.getItem('accessToken'); // Recuperamos la "llave"
+        const sessionToken = localStorage.getItem('userToken'); // El JWT de tu server (para el portero/middleware)
+        const googleToken = localStorage.getItem('accessToken');
         
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/send-email`, {
-                token: accessToken,
-                // temporalmente, a mi misma
-                to: user.email, 
-                subject: "Reporte de Composta",
-                message: "¡Hola! Este correo fue enviado desde el botón del Dashboard de Compospet."
-            });
+            await axios.post(
+                `${process.env.REACT_APP_BASE_URL}/user/send-email`, 
+                {
+                    // Solo datos del correo
+                    to: user.email, 
+                    subject: "Reporte de Composta",
+                    message: "¡Hola! Enviado correctamente."
+                },
+                {
+                    // La llave con el prefijo Bearer
+                    headers: {
+                        // Llave 1: Para tu portero (Middleware)
+                        'Authorization': `Bearer ${sessionToken}`,
+                        // Llave 2: Para la API de Google (Header personalizado)
+                        'x-google-token': googleToken 
+                    }
+                }
+            );
             alert("¡Correo enviado con éxito!");
         } catch (error) {
             console.error("Error al enviar", error);
@@ -37,15 +57,24 @@ const Dashboard = () => {
     const sheets = async (e) => {
         e.preventDefault();
 
-        const accesToken = localStorage.getItem('accessToken');
+        const sessionToken = localStorage.getItem('userToken'); 
+        const googleToken = localStorage.getItem('accessToken');
 
         try {
             // Mandamos el nuevo registro
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/sheets`,
+            const response = await axios.post(
+                `${process.env.REACT_APP_BASE_URL}/user/sheets`,
                 {
-                    token: accesToken,
                     numero: sheetsValues.numero,
                     texto: sheetsValues.texto,
+                },
+                {
+                    headers: {
+                        // Llave 1: Para tu portero (Middleware)
+                        'Authorization': `Bearer ${sessionToken}`,
+                        // Llave 2: Para la API de Google (Header personalizado)
+                        'x-google-token': googleToken 
+                    }
                 }
             );
             
@@ -98,7 +127,7 @@ const Dashboard = () => {
                                 placeholder='text'
                                 classNameLabel='label'
                                 classNameInput='input'
-                                value={sheetsValues.text}
+                                value={sheetsValues.texto}
                                 onChange={(e) => setSheetsValues({
                                     ...sheetsValues,
                                     texto: e.target.value
