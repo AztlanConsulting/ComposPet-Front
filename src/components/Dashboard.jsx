@@ -15,6 +15,14 @@ const Dashboard = () => {
     });
     const [sheetsData, setSheetsData] = React.useState([]);
 
+    /**
+     * Manejador del evento para enviar correos desde la interfaz.
+     * * Recupera el 'userToken' (sesión) y el 'accessToken' (Google) del localStorage
+     * para realizar la petición POST al backend.
+     * * @async
+     * @function handleSendEmail
+     * @returns {void} Muestra una alerta con el resultado de la operación.
+     */
     const handleSendEmail = async () => {
         const sessionToken = localStorage.getItem('userToken'); // El JWT de tu server (para el portero/middleware)
         const googleToken = localStorage.getItem('accessToken');

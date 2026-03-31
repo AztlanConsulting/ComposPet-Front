@@ -17,6 +17,15 @@ import Dashboard from './components/Dashboard';
 function Home() {
     const navigate = useNavigate();
 
+    /**
+     * Callback ejecutado tras un inicio de sesión exitoso con Google.
+     * * Realiza la sincronización con el backend para obtener un JWT de sesión
+     * y persiste ambos tokens en el almacenamiento local.
+     * * @async
+     * @param {Object} tokenResponse - Respuesta del SDK de Google.
+     * @param {string} tokenResponse.access_token - Token de portador (Bearer) de Google.
+     * @returns {void} Redirige al usuario a la ruta '/dashboard'.
+     */
     const login = useGoogleLogin({
       onSuccess: async (tokenResponse) => {
         localStorage.setItem('accessToken', tokenResponse.access_token);
