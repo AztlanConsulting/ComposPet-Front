@@ -26,7 +26,8 @@ function Home() {
             token: tokenResponse.access_token 
           });
 
-          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('userToken', res.data.token);
+          localStorage.setItem('accessToken', tokenResponse.access_token);
           localStorage.setItem('user', JSON.stringify(res.data.user));
           navigate('/dashboard');
         } catch (error) {
