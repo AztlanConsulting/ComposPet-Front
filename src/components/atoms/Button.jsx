@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/button.css";
+import "../../css/atoms/button.css";
 
 // sizes: ["mini", "small", "medium", "large", "extra-lg"]
 // type: ["info", "cancel", "accept", "login", "warning", "plus-min"]

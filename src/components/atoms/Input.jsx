@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/input.css";
+import "../../css/atoms/input.css";
 
 // sizes: ["sm", "md", "lg", "xl"]
 // type: ["text", "password", "submit", "checkbox", "radio", "email", "number", "date, "file, "url", "range", "color", "hidden"]

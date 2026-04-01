@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/image.css";
+import "../../css/atoms/image.css";
 
 export default function Image({
     src = "",

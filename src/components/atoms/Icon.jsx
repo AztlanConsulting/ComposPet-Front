@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/icon.css";
+import "../../css/atoms/icon.css";
 
 import { ReactComponent as PlusIcon } from '../../public/icons/plus.svg';
 import { ReactComponent as MinusIcon } from '../../public/icons/minus.svg';

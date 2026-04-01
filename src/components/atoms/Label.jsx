@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/label.css";
+import "../../css/atoms/label.css";
 
 export default function Label({
     id, 

@@ -1,0 +1,38 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.product-card {
+    width: 10.875rem !important;
+    height: 17.313rem !important;
+    border: 0 !important;
+}
+
+.image-back {
+    width: 9.5rem;
+    height: 10.5rem;
+    min-height: 10.5rem;
+    flex-shrink: 0;
+    background-color: rgb(196, 235, 233, 64);
+    border: 1px solid var(--color-green-primary);
+    border-radius: var(--border-radius-lg);
+}
+
+.product-card-body{
+    padding: 0.4rem 0.2rem  !important;
+}
+
+.product-name{
+    font-size: var(--font-size-sm) !important;
+    font-weight: var(--font-weight-bold) !important;
+}
+
+.product-description{
+    font-size: var(--font-size-sm) !important;
+}
+
+.product-price{
+    font-size: var(--font-size-sm) !important;
+    font-weight: var(--font-weight-bold) !important;
+
+}

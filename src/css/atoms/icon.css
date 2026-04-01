@@ -1,5 +1,5 @@
-@import "./tokens/colors.css";
-@import "./tokens/layout.css";
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
 
 .icon {
     display: block;

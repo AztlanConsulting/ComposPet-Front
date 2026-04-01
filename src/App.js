@@ -13,6 +13,7 @@ import PersonImg from './public/img/person.png';
 import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
+import ProductCard from './components/molecules/ProductCard';
 
 function Home() {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ function Home() {
                   <button onClick={() => login()} className="button-google">
                     Conectar con Google y Gmail
                   </button>
-                  
+                
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
@@ -97,6 +98,12 @@ function Home() {
                         Usuario
                     </InputComponent>
                 </div>
+
+            </div>
+
+            <div className='row'>
+
+                <ProductCard></ProductCard>
 
             </div>
         </div>
