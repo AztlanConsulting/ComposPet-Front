@@ -2,11 +2,21 @@ import React from 'react'
 import Card from 'react-bootstrap/Card';
 import "../../css/molecules/productCard.css";
 import Button from '../atoms/Button';
-
 import Image from '../atoms/Image';
-
 import Producto from '../../public/img/product.png';
 
+/**
+ * Tarjeta de presentación de un producto.
+ * Muestra la imagen, nombre, descripción y precio del producto,
+ * junto con un botón para agregarlo (por ejemplo, al carrito).
+ *
+ * @remarks
+ * Actualmente utiliza datos estáticos de ejemplo. Deberá recibir
+ * props con la información real del producto cuando se integre con
+ * la fuente de datos correspondiente.
+ *
+ * @returns {JSX.Element} Tarjeta visual del producto con imagen, detalles y acción.
+ */
 export default function ProductCard() {
     return (
         <Card className='text-center product-card'>
