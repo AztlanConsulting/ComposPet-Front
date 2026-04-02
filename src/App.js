@@ -14,6 +14,7 @@ import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
+import SignIn from './components/organisms/SignIn';
 
 function Home() {
     const navigate = useNavigate();
@@ -108,13 +109,16 @@ function Home() {
                     </InputComponent>
                 </div>
 
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
+                    <ProductCard></ProductCard>
+
+                    <SignIn></SignIn>
+                </div>
+
             </div>
 
-            <div className='row'>
 
-                <ProductCard></ProductCard>
 
-            </div>
         </div>
     );
 }

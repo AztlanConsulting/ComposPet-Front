@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
-    --font-family-primary: Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-family-mono: "Roboto Mono", Consolas, "Courier New", monospace;
+    --font-family-primary: Roboto;
+    --font-family-mono: "Roboto Mono";
 
     --font-size-mn: 0.62rem; /* 10px */
     --font-size-xs: 0.75rem; /* 12px */
