@@ -1,5 +1,4 @@
 import InputComponent from "../molecules/InputComponent";
-import Button from "../atoms/Button";
 import React from 'react'
 
 /**
@@ -15,14 +14,15 @@ import React from 'react'
  * @param {string} [passwordError=""] - Mensaje de error de la contraseña. Si no está vacío, aplica estilo de error al input.
  * @returns {JSX.Element} Formulario con inputs de correo, contraseña y botón de inicio de sesión.
  * @see InputComponent
- * @see Button
  */
 
-export default function SignIn({
+export default function Login({
     onEmailChange = () => {},
     onPasswordChange = () => {},
     emailError = "",
     passwordError = "",
+    email = "",
+    password = "",
 }) {
     return (
 
@@ -31,6 +31,7 @@ export default function SignIn({
                 id="email-input"
                 type="email"
                 size="lg"
+                value={email}
                 classNameLabel="label"
                 classNameInput={`input ${emailError ? "input-error" : ""}`}
                 onChange={onEmailChange}
@@ -42,6 +43,7 @@ export default function SignIn({
                 id="password-input"
                 type="password"
                 size="lg"
+                value={password}
                 classNameLabel="label"
                 classNameInput={`input ${passwordError ? "input-error" : ""}`}
                 onChange={onPasswordChange}
@@ -49,10 +51,6 @@ export default function SignIn({
             >
                 Contraseña
             </InputComponent>
-
-            <Button size="large" type="accept" className='button mt-4'>
-                Iniciar Sesión
-            </Button>
 
         </div>
 

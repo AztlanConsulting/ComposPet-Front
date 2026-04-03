@@ -14,8 +14,8 @@ import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
-import SignIn from './components/organisms/SignIn';
-import SignInForm from './views/auth/SignInView';
+import Login from './components/organisms/Login';
+import LoginForm from '../src/presentation/views/auth/LoginView'
 
 function Home() {
     const navigate = useNavigate();
@@ -113,7 +113,7 @@ function Home() {
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <ProductCard></ProductCard>
 
-                    <SignIn></SignIn>
+                    <Login></Login>
                 </div>
 
             </div>
@@ -130,7 +130,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/signIn" element={<SignInForm />} />
+                <Route path="/login" element={<LoginForm />} />
             </Routes>
         </Router>
     );
