@@ -86,3 +86,51 @@
     height: 2rem;
     border-radius: var(--border-radius-sm);
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+    .large {
+        width: 100%;
+        max-width: 11rem;
+    }
+
+    .extra-lg {
+        width: 100%;
+        max-width: 15rem;
+    }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+    .mini {
+        width: 3.5rem;
+        height: 1.2rem;
+        font-size: 0.6rem;
+    }
+
+    .small {
+        width: 5.5rem;
+        height: 1.3rem;
+        font-size: 0.7rem;
+    }
+
+    .medium {
+        width: 7.5rem;
+        height: 1.8rem;
+        font-size: 0.85rem;
+    }
+
+    .large {
+        width: 100%;
+        max-width: 8.5rem;
+        height: 2rem;
+        font-size: 0.87rem;
+    }
+
+    .extra-lg {
+        width: 100%;
+        max-width: 9.5rem;
+        height: 3rem;
+        font-size: 1rem;
+    }
+}

@@ -5,22 +5,22 @@
     display: block;
 }
 
-.small  { 
+.icon-small  { 
     width: 16px; 
     height: 16px; 
 }
 
-.medium { 
+.icon-medium { 
     width: 24px; 
     height: 24px; 
 }
 
-.large  { 
+.icon-large  { 
     width: 40px; 
     height: 40px; 
 }
 
-.primary { 
+.icon-primary { 
     color: var(--color-green-secondary); 
 }
 

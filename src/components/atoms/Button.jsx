@@ -15,8 +15,8 @@ import "../../css/atoms/button.css";
  */
 
 export default function Button({
-    size = "medium",
-    type = "accept",
+    size = " ",
+    type = " ",
     className = "",
     onClick = () => {},
     children,

@@ -56,3 +56,43 @@
     width: 30rem;
     height: 3rem;
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+    .lg {
+        width: 100%;
+        max-width: 24rem;
+
+        height: 100%;
+        max-height: 2.5rem;
+    }
+
+    .xl {
+        width: 100%;
+        max-width: 26rem;
+
+        height: 100%;
+        max-height: 2.5rem;
+    }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+
+    .lg {
+        width: 100%;
+        max-width: 15rem;
+
+        height: 100%;
+        max-height: 2rem;
+    }
+
+    .xl {
+        width: 100%;
+        max-width: 24rem;
+
+        height: 100%;
+        max-height: 2.5rem;
+    }
+
+}

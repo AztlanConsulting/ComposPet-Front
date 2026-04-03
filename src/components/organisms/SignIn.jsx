@@ -35,7 +35,7 @@ export default function SignIn({
                 Contraseña
             </InputComponent>
 
-            <Button size="large" type="accept" className='button'>
+            <Button size="large" type="accept" className='button mt-4'>
                 Iniciar Sesión
             </Button>
 
