@@ -1,11 +1,11 @@
-import Login from "../../../components/organisms/Login";
 import "../../../css/login/loginView.css"
+
+import Login from "../../../components/organisms/Login";
 import LogoComposPet from '../../../public/img/LogoComposPet.svg';
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 
-// SignInForm.jsx — agrega este import
-import { useSignInViewModel } from "../../viewmodels/auth/loginViewModel";
+import useLoginViewModel from "../../viewmodels/auth/loginViewModel";
 
 function SignInForm(){
 
@@ -17,7 +17,7 @@ function SignInForm(){
         setEmail,
         setPassword,
         onSubmit,
-    } = useSignInViewModel();
+    } = useLoginViewModel();
 
     return(
         <main className="signIn-background">
@@ -34,7 +34,7 @@ function SignInForm(){
                         <p>Bienvenido, por favor inicia sesión con tus credenciales</p>
                     </div>
 
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={onSubmit} className='col d-flex flex-column align-items-center flex-wrap'>
 
                         <Login
                             email={email}
@@ -72,8 +72,6 @@ function SignInForm(){
                 </div>
 
             </div>
-
-
 
         </main>
     );
