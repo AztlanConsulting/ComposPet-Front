@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../css/icon.css";
+import "../../css/atoms/icon.css";
 
 import { ReactComponent as PlusIcon } from '../../public/icons/plus.svg';
 import { ReactComponent as MinusIcon } from '../../public/icons/minus.svg';
@@ -14,6 +14,13 @@ import { ReactComponent as LogoIcon } from '../../public/icons/logo.svg';
 import { ReactComponent as PiggyIcon } from '../../public/icons/piggy.svg';
 import { ReactComponent as SearchIcon } from '../../public/icons/search.svg';
 import { ReactComponent as TiktokIcon } from '../../public/icons/tiktok.svg';
+
+/**
+ * Mapa de nombres de icono a sus componentes SVG correspondientes.
+ * Permite la selección dinámica del icono mediante la prop `name`.
+ *
+ * @type {Object.<string, React.ComponentType>}
+ */
 
 const icons = {
     plus: PlusIcon,
@@ -31,8 +38,22 @@ const icons = {
     tiktok: TiktokIcon,
 };
 
+/**
+ * Componente de icono SVG reutilizable con soporte opcional para interacción.
+ * Si se proporciona `onClick`, el icono se renderiza dentro de un `<button>`
+ * accesible. De lo contrario, se renderiza como SVG simple.
+ *
+ * @param {"small"|"medium"|"large"} [size="medium"] - Tamaño del icono.
+ * @param {string} [name=""] - Clave del icono a renderizar. Debe coincidir con una entrada del mapa `icons`.
+ * @param {string} [color=""] - Clase CSS para aplicar color al icono.
+ * @param {string} [className=""] - Clases CSS adicionales.
+ * @param {Function|null} [onClick=null] - Si se provee, envuelve el icono en un botón con este manejador de clic.
+ * @param {string} [label=""] - Etiqueta accesible (`aria-label`) del botón. Requerida cuando se usa `onClick`.
+ * @returns {JSX.Element|null} SVG del icono o botón con icono, o `null` si el nombre no es válido.
+ */
+
 export default function Icon({
-    size = "medium",    // small | medium | large
+    size = "medium",
     name = "",
     color = "",
     className = "",
