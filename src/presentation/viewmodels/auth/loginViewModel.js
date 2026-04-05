@@ -139,6 +139,16 @@ function useLoginViewModel(){
         }
     };
 
+    /**
+     * Manejador de la autenticación con Google (Google Identity Services).
+     * * 1. Solicita permisos al usuario (incluyendo scopes para Gmail y Sheets).
+     * 2. En el éxito (onSuccess), inicia el estado de carga y persiste el token de acceso de Google.
+     * 3. Instancia las capas de Clean Architecture para validar el acceso con el backend de ComposPet.
+     * 4. Almacena la sesión localmente y redirige al Dashboard.
+     * 5. Gestiona errores de red o de permisos mediante el estado de errores del VM.
+     * * @type {Function}
+     * @see LoginUseCase.executeGoogle
+     */
     const onGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             setLoading(true);

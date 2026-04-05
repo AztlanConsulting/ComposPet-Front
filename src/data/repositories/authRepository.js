@@ -48,8 +48,13 @@ export class AuthRepository extends AuthIRepository{
     }
 
     /**
-     * Lógica para autenticación con Google.
-     * Llama al ApiClient y mapea el resultado a la Entidad User.
+     * Ejecuta la autenticación mediante Google delegando la petición al Data Source.
+     * Transforma la respuesta del servidor (DTO) en una instancia de la entidad User
+     * para asegurar la integridad de los datos en la capa de dominio.
+     * * @async
+     * @param {string} idToken - Token de acceso proporcionado por el SDK de Google.
+     * @returns {Promise<User>} Instancia de la entidad User con los datos de sesión.
+     * @throws {Error} Propaga errores de red o de autenticación del ApiClient.
      */
     async loginWithGoogle(idToken) {
         try {
