@@ -35,9 +35,6 @@ function validateLoginForm(email, password){
     if (!password) {
         errors.password = "La contraseña es requerida.";
         hasErrors = true;
-    } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/.test(password)) {
-        errors.password = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.";
-        hasErrors = true;
     }
 
     return { errors, hasErrors };
@@ -90,12 +87,20 @@ function useLoginViewModel(){
     const onSubmit = async (e) =>{
         e.preventDefault();
 
+        console.log("onSubmit ejecutado", email, password);
+
         const { errors: validationErrors, hasErrors } = validateLoginForm(email, password);
+
+        console.log("validationErrors:", validationErrors);  // ← agrega esto
+        console.log("hasErrors:", hasErrors);   
 
         if (hasErrors){
             setErrors(validationErrors);
+            console.log("hay errores de validación, se corta aquí");
             return;
         }
+
+        console.log("pasó validación, llamando al backend...");
 
         setErrors({ email: "", password: "", general: "" });
         setLoading(true);

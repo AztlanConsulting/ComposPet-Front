@@ -2,6 +2,8 @@ import React from 'react'
 import Input from "../atoms/Input";
 import Label from "../atoms/Label";
 
+import "../../css/molecules/inputComponent.css"
+
 /**
  * Componente de input con label asociado.
  * Combina los átomos Label e Input en un contenedor unificado,
@@ -25,6 +27,8 @@ export default function InputComponent({
     classNameLabel = "",
     classNameInput = "",
     onChange = () => {},
+    value = "",
+    error = "",
     children,
 })  {
     return (
@@ -39,7 +43,13 @@ export default function InputComponent({
                 type={type}
                 onChange={onChange}
                 className={classNameInput}
+                value={value}
             />
+            {error && (
+                <p className='error-message'>
+                    {error}
+                </p>
+            )}
         </div>
     );
 }

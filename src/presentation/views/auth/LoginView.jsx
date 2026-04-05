@@ -48,7 +48,7 @@ function SignInForm(){
                         <p>Bienvenido, por favor inicia sesión con tus credenciales</p>
                     </div>
 
-                    <form onSubmit={onSubmit} className='col d-flex flex-column align-items-center flex-wrap'>
+                    <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
 
                         <Login
                             email={email}
@@ -60,11 +60,10 @@ function SignInForm(){
                         ></Login>
 
                         {/* Error general: cuenta bloqueada, error de red, etc. */}
-                        {errors.general && (
-                            <p className="error-message" role="alert">
+                        {errors.general && 
+                            <p className="error-message">
                                 {errors.general}
-                            </p>
-                        )}
+                            </p>}
 
                         {/* El botón refleja el estado de loading del ViewModel */}
                         <Button size="large" type="submit" csstype="accept" className='button mt-4' disabled={loading}>

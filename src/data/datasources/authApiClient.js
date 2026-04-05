@@ -28,11 +28,20 @@ export class AuthApiClient {
      */
 
     async login(email, password){
+        console.log("Llega al AuthApi");
+
         const response = await fetch(`${this.baseUrl}/login`, {
             method: "POST",
-            headers: { "Content-Type": "aplication/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
         });
+
+
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Error del servidor: ${response.status}`);
+        }
 
         const data = await response.json();
 

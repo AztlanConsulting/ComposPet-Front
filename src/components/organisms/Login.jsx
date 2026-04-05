@@ -35,6 +35,8 @@ export default function Login({
                 classNameLabel="label"
                 classNameInput={`input ${emailError ? "input-error" : ""}`}
                 onChange={onEmailChange}
+                error={emailError} 
+                required
             >
                 Correo
             </InputComponent>
@@ -47,6 +49,7 @@ export default function Login({
                 classNameLabel="label"
                 classNameInput={`input ${passwordError ? "input-error" : ""}`}
                 onChange={onPasswordChange}
+                error={passwordError}
                 required
             >
                 Contraseña
