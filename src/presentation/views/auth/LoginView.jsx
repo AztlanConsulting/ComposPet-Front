@@ -7,6 +7,20 @@ import Icon from "../../../components/atoms/Icon";
 
 import useLoginViewModel from "../../viewmodels/auth/loginViewModel";
 
+/**
+ * Vista de la pantalla de inicio de sesión conectada al ViewModel.
+ * Obtiene el estado y los manejadores desde `useLoginViewModel` y los
+ * delega al organismo `Login` para su presentación.
+ *
+ * Gestiona tres tipos de error: de campo (correo, contraseña) y general
+ * (red, cuenta bloqueada, etc.), mostrando cada uno en su contexto visual.
+ * El botón de envío se deshabilita durante la petición para evitar envíos duplicados.
+ *
+ * @returns {JSX.Element} Pantalla completa de inicio de sesión.
+ * @see useLoginViewModel
+ * @see Login
+ */
+
 function SignInForm(){
 
     const{
@@ -53,7 +67,7 @@ function SignInForm(){
                         )}
 
                         {/* El botón refleja el estado de loading del ViewModel */}
-                        <Button size="large" type="accept" className='button mt-4' disabled={loading}>
+                        <Button size="large" type="submit" csstype="accept" className='button mt-4' disabled={loading}>
                             {loading ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
 
@@ -64,7 +78,7 @@ function SignInForm(){
                         ¿Olvidaste tu contraseña?
                     </a>
                     
-                    <Button type='cancel' className='google-button'>
+                    <Button csstype='cancel' className='google-button'>
                         <Icon name="google" size="icon-medium"></Icon>
                         Continuar con Google
                     </Button>

@@ -5,6 +5,72 @@ import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 import { AuthRepository } from "../../../data/repositories/authRepository";
 import { AuthApiClient } from "../../../data/datasources/authApiClient";
 
+/**
+ * Valida los campos del formulario de inicio de sesión antes de enviarlo.
+ * Aplica validaciones de presencia y formato sobre el correo y la contraseña.
+ *
+ * Validaciones aplicadas:
+ * - Correo: no vacío y formato RFC 5322 simplificado.
+ * - Contraseña: no vacía, mínimo 8 caracteres, al menos una mayúscula,
+ *   una minúscula y un dígito.
+ *
+ * @param {string} email - Correo electrónico ingresado por el usuario.
+ * @param {string} password - Contraseña ingresada por el usuario.
+ * @returns {{ errors: { email: string, password: string, general: string }, hasErrors: boolean }}
+ * Objeto con los mensajes de error por campo y un indicador de si hay al menos un error.
+ */
+
+function validateLoginForm(email, password){
+    const errors = { email: "", password: "", general: ""};
+    let hasErrors = false;
+
+    if(!email){
+        errors.email = "El correo es requerido.";
+        hasErrors = true;
+    } else if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+        errors.email = "Ingresa un correo válido.";
+        hasErrors = true;
+    }
+
+    if (!password) {
+        errors.password = "La contraseña es requerida.";
+        hasErrors = true;
+    } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/.test(password)) {
+        errors.password = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.";
+        hasErrors = true;
+    }
+
+    return { errors, hasErrors };
+}
+
+/**
+ * ViewModel del flujo de inicio de sesión.
+ * Gestiona el estado del formulario, ejecuta las validaciones locales
+ * y orquesta la llamada al caso de uso `LoginUseCase`.
+ *
+ * Tras una autenticación exitosa, almacena el token en `sessionStorage`
+ * y redirige según el rol y estado del usuario:
+ * - Administrador → `/dashboard`
+ * - Usuario en primer inicio → `/`
+ * - Usuario regular → `/`
+ *
+ * Los errores del servidor se clasifican por mensaje para asignarlos
+ * al campo correspondiente (correo, contraseña o error general).
+ *
+ * @returns {{
+ *   email: string,
+ *   password: string,
+ *   errors: { email: string, password: string, general: string },
+ *   loading: boolean,
+ *   setEmail: Function,
+ *   setPassword: Function,
+ *   onSubmit: Function
+ * }} Estado y manejadores del formulario de login.
+ *
+ * @see LoginUseCase
+ * @see validateLoginForm
+ */
+
 function useLoginViewModel(){
 
     const navigate = useNavigate();
@@ -14,15 +80,30 @@ function useLoginViewModel(){
     const[errors, setErrors] = useState({ email: "", password: "", general: "" });
     const[loading, setLoading] = useState(false);
 
+    /**
+     * Maneja el envío del formulario de inicio de sesión.
+     * Valida los campos localmente antes de realizar la petición.
+     * Si la validación falla, actualiza los errores y cancela el envío.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - Evento de envío del formulario.
+     */
     const onSubmit = async (e) =>{
         e.preventDefault();
+
+        const { errors: validationErrors, hasErrors } = validateLoginForm(email, password);
+
+        if (hasErrors){
+            setErrors(validationErrors);
+            return;
+        }
+
         setErrors({ email: "", password: "", general: "" });
         setLoading(true);
 
         try{
 
-            const apiClient    = new AuthApiClient();
-            const authRepo     = new AuthRepository(apiClient);
+            const apiClient = new AuthApiClient();
+            const authRepo = new AuthRepository(apiClient);
             const loginUseCase = new LoginUseCase(authRepo);
 
             const user = await loginUseCase.execute(email, password);
@@ -37,6 +118,7 @@ function useLoginViewModel(){
                 navigate("/");
             }
         } catch (err) {
+            // Se clasifica el error según palabras clave del mensaje para asignarlo al campo correcto
             const msg = err.message;
             if (msg.includes("correo")) {
                 setErrors({ email: msg, password: "", general: "" });

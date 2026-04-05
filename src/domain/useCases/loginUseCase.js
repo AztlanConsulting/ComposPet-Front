@@ -1,17 +1,29 @@
-
+/**
+ * Caso de uso para la autenticación de un usuario.
+ * Actúa como intermediario entre el ViewModel y el repositorio,
+ * aplicando la validación de presencia antes de delegar al repositorio.
+ *
+ * @see AuthIRepository
+ */
 export class LoginUseCase{
 
+    /**
+     * @param {import('../../domain/repositories/authInterfaceRepository').AuthIRepository} authRepository
+     * - Implementación del repositorio de autenticación.
+     */
     constructor(authRepository){
         this.authRepository = authRepository;
     }
 
     /**
-     * Ejecuta el caso de uso de login.
+     * Ejecuta la autenticación con las credenciales proporcionadas.
+     * Valida que ambos campos estén presentes antes de llamar al repositorio.
      *
-     * @param {string} correo
-     * @param {string} password
-     * @returns {Promise<import('../entities/User').User>}
-     * @throws {Error} mensaje para el usuario si falla
+     * @param {string} email - Correo electrónico del usuario.
+     * @param {string} password - Contraseña del usuario.
+     * @returns {Promise<import('../entities/user').User>} Instancia del usuario autenticado con token de sesión.
+     * @throws {Error} Si alguno de los campos está vacío o si el repositorio rechaza las credenciales.
+     * @see AuthIRepository.login
      */
 
     async execute(email, password){

@@ -7,7 +7,7 @@ import "../../css/atoms/button.css";
  * según el contexto de uso (confirmación, cancelación, alerta, etc.).
  *
  * @param {"mini"|"small"|"medium"|"large"|"extra-lg"} [size="medium"] - Tamaño del botón.
- * @param {"info"|"cancel"|"accept"|"login"|"warning"|"plus-min"} [type="accept"] - Variante visual del botón.
+ * @param {"info"|"cancel"|"accept"|"login"|"warning"|"plus-min"} [csstype="accept"] - Variante visual del botón.
  * @param {string} [className=""] - Clases CSS adicionales.
  * @param {Function} [onClick=()=>{}] - Manejador del evento de clic.
  * @param {React.ReactNode} children - Contenido interno del botón (texto o elementos).
@@ -15,14 +15,16 @@ import "../../css/atoms/button.css";
  */
 
 export default function Button({
-    size = " ",
     type = " ",
+    size = " ",
+    csstype = " ",
     className = "",
     onClick = () => {},
+    disabled = false,
     children,
 }) {
     return (
-        <button className={`button ${size} ${type} ${className}`} onClick={onClick}>
+        <button type={type} className={`button ${size} ${csstype} ${className}`} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     );

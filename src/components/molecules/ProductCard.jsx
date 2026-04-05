@@ -31,7 +31,7 @@ export default function ProductCard() {
                 <Card.Text className='m-1 product-price'>
                 Precio $$$
                 </Card.Text>
-                <Button size='small' type='accept' className='button'>Agregar</Button>
+                <Button size='small' csstype='accept' className='button'>Agregar</Button>
             </Card.Body>
         </Card>
     );

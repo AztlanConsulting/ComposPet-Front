@@ -62,16 +62,16 @@ function Home() {
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <Button size='extra-lg' type='info' className='button'>Extra grande</Button>
-                    <Button size='large' type='accept' className='button'>Grande</Button>
-                    <Button size='medium' type='login' className='button'>Mediano</Button>
-                    <Button size='small' type='cancel' className='button'>Pequeño</Button>
-                    <Button size='mini' type='warning' className='button'>Eliminar</Button>
-                    <Button size='mini' type='plus-min' className='button'>
-                        <Icon name="plus" size="small" color="primary" />
+                    <Button size='extra-lg' csstype='info' className='button'>Extra grande</Button>
+                    <Button size='large' csstype='accept' className='button'>Grande</Button>
+                    <Button size='medium' csstype='login' className='button'>Mediano</Button>
+                    <Button size='small' csstype='cancel' className='button'>Pequeño</Button>
+                    <Button size='mini' csstype='warning' className='button'>Eliminar</Button>
+                    <Button size='mini' csstype='plus-min' className='button'>
+                        <Icon name="plus" csssize="small" color="primary" />
                     </Button>
-                    <Button size='mini' type='plus-min' className='button'>
-                        <Icon name="minus" size="icon-small" color="primary" />
+                    <Button size='mini' csstype='plus-min' className='button'>
+                        <Icon name="minus" csssize="icon-small" color="primary" />
                     </Button>
                 </div>
 
