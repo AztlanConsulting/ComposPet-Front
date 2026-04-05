@@ -15,7 +15,8 @@ import AniluImg from './public/img/Anilu.png';
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
 import Login from './components/organisms/Login';
-import LoginForm from '../src/presentation/views/auth/LoginView'
+import LoginForm from '../src/presentation/views/auth/LoginView';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function Home() {
     const navigate = useNavigate();
@@ -30,23 +31,23 @@ function Home() {
      * @returns {void} Redirige al usuario a la ruta '/dashboard'.
      */
     const login = useGoogleLogin({
-      onSuccess: async (tokenResponse) => {
-        localStorage.setItem('accessToken', tokenResponse.access_token);
-        
-        try {
-          const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
-            token: tokenResponse.access_token 
-          });
+        onSuccess: async (tokenResponse) => {
+            localStorage.setItem('accessToken', tokenResponse.access_token);
+            
+            try {
+                const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
+                    token: tokenResponse.access_token 
+                });
 
-          localStorage.setItem('userToken', res.data.token);
-          localStorage.setItem('accessToken', tokenResponse.access_token);
-          localStorage.setItem('user', JSON.stringify(res.data.user));
-          navigate('/dashboard');
-        } catch (error) {
-          console.error("Error al conectar", error);
-        }
-      },
-      scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
+                localStorage.setItem('userToken', res.data.token);
+                localStorage.setItem('accessToken', tokenResponse.access_token);
+                localStorage.setItem('user', JSON.stringify(res.data.user));
+                navigate('/dashboard');
+            } catch (error) {
+                console.error("Error al conectar", error);
+            }
+        },
+        scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
     });
 
     return (
@@ -54,10 +55,10 @@ function Home() {
             <div className='row'>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                  <h5>Iniciar Sesión con Gmail</h5>
-                  <button onClick={() => login()} className="button-google">
-                    Conectar con Google y Gmail
-                  </button>
+                    <h5>Iniciar Sesión con Gmail</h5>
+                    <button onClick={() => login()} className="button-google">
+                        Conectar con Google y Gmail
+                    </button>
                 
                 </div>
 
@@ -128,9 +129,19 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login" element={<LoginForm />} />
+
+                <Route path="/" element={
+                    <ProtectedRoute>
+                        <Home />
+                    </ProtectedRoute>
+                }/>
+
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }/>
             </Routes>
         </Router>
     );
