@@ -5,6 +5,8 @@ import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 import { AuthRepository } from "../../../data/repositories/authRepository";
 import { AuthApiClient } from "../../../data/datasources/authApiClient";
 
+import { useGoogleLogin } from '@react-oauth/google';
+
 /**
  * Valida los campos del formulario de inicio de sesión antes de enviarlo.
  * Aplica validaciones de presencia y formato sobre el correo y la contraseña.
@@ -137,6 +139,32 @@ function useLoginViewModel(){
         }
     };
 
+    const onGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setLoading(true);
+            setErrors({});
+            try {
+                localStorage.setItem('googleAccessToken', tokenResponse.access_token);
+                
+                const userEntity = await LoginUseCase.googleLogin(tokenResponse.access_token);
+                
+                localStorage.setItem('userToken', userEntity.token);
+                localStorage.setItem('user', JSON.stringify(userEntity));
+                
+                navigate('/dashboard');
+            } catch (error) {
+                setErrors({ general: "Este correo no está registrado en ComposPet" });
+            } finally {
+                setLoading(false);
+            }
+        },
+        onError: (error) => {
+            console.error("Login Failed:", error);
+            setErrors({ general: "Error al conectar con Google" });
+        },
+        scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
+    });
+
     return{
         email,
         password,
@@ -145,7 +173,7 @@ function useLoginViewModel(){
 
         setEmail,
         setPassword,
-
+        onGoogleLogin, 
         onSubmit,
     };
 }

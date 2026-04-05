@@ -1,5 +1,6 @@
 import { AuthIRepository } from "../../domain/repositories/authInterfaceRepository";
 import { User } from "../../domain/entities/user";
+import axios from 'axios';
 
 /**
  * Implementación concreta del repositorio de autenticación.
@@ -44,5 +45,25 @@ export class AuthRepository extends AuthIRepository{
             firstLogin: data.primer_inicio_sesion,
             token: data.token,
         });
+    }
+
+    /**
+     * Lógica para autenticación con Google.
+     * Llama al ApiClient y mapea el resultado a la Entidad User.
+     */
+    async loginWithGoogle(idToken) {
+        try {
+            const data = await this.apiClient.loginGoogle(idToken);
+
+            return new User({
+                id: data.id_usuario,
+                email: data.correo,
+                rol: data.rol,
+                firstLogin: data.primer_inicio_sesion,
+                token: data.token, 
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 }

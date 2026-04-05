@@ -24,4 +24,16 @@ export class AuthIRepository{
     async login(email, password){
         throw new Error("AuthIRepository.login()")
     }
+
+    /**
+     * Autentica a un usuario utilizando un token de Google.
+     *
+     * @abstract
+     * @param {string} idToken - Token de acceso proporcionado por Google SDK.
+     * @returns {Promise<import('../entities/user').User>} Usuario autenticado.
+     * @throws {Error} Siempre, si la subclase no sobrescribe este método.
+     */
+    async loginWithGoogle(idToken) {
+        throw new Error("AuthIRepository.loginWithGoogle() no implementado");
+    }
 }

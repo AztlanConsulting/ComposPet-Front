@@ -34,4 +34,24 @@ export class LoginUseCase{
         const user = await this.authRepository.login(email, password)
         return user;
     }
+
+    /**
+     * Ejecuta la lógica de validación para el login de Google.
+     * @param {string} idToken - Token de acceso de Google.
+     * @returns {Promise<User>} Entidad de usuario autenticado.
+     */
+    async executeGoogle(idToken) {
+        if (!idToken) {
+            throw new Error("El token de Google es obligatorio para este caso de uso.");
+        }
+
+        try {
+            const userEntity = await this.authRepository.loginWithGoogle(idToken);
+            
+            
+            return userEntity;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
