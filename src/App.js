@@ -14,6 +14,9 @@ import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
+import Login from './components/organisms/Login';
+import LoginForm from '../src/presentation/views/auth/LoginView';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function Home() {
     const navigate = useNavigate();
@@ -28,23 +31,23 @@ function Home() {
      * @returns {void} Redirige al usuario a la ruta '/dashboard'.
      */
     const login = useGoogleLogin({
-      onSuccess: async (tokenResponse) => {
-        localStorage.setItem('accessToken', tokenResponse.access_token);
-        
-        try {
-          const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
-            token: tokenResponse.access_token 
-          });
+        onSuccess: async (tokenResponse) => {
+            localStorage.setItem('accessToken', tokenResponse.access_token);
+            
+            try {
+                const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
+                    token: tokenResponse.access_token 
+                });
 
-          localStorage.setItem('userToken', res.data.token);
-          localStorage.setItem('accessToken', tokenResponse.access_token);
-          localStorage.setItem('user', JSON.stringify(res.data.user));
-          navigate('/dashboard');
-        } catch (error) {
-          console.error("Error al conectar", error);
-        }
-      },
-      scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
+                localStorage.setItem('userToken', res.data.token);
+                localStorage.setItem('accessToken', tokenResponse.access_token);
+                localStorage.setItem('user', JSON.stringify(res.data.user));
+                navigate('/dashboard');
+            } catch (error) {
+                console.error("Error al conectar", error);
+            }
+        },
+        scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
     });
 
     return (
@@ -52,41 +55,41 @@ function Home() {
             <div className='row'>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                  <h5>Iniciar Sesión con Gmail</h5>
-                  <button onClick={() => login()} className="button-google">
-                    Conectar con Google y Gmail
-                  </button>
+                    <h5>Iniciar Sesión con Gmail</h5>
+                    <button onClick={() => login()} className="button-google">
+                        Conectar con Google y Gmail
+                    </button>
                 
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <Button size='extra-lg' type='info' className='button'>Extra grande</Button>
-                    <Button size='large' type='accept' className='button'>Grande</Button>
-                    <Button size='medium' type='login' className='button'>Mediano</Button>
-                    <Button size='small' type='cancel' className='button'>Pequeño</Button>
-                    <Button size='mini' type='warning' className='button'>Eliminar</Button>
-                    <Button size='mini' type='plus-min' className='button'>
-                        <Icon name="plus" size="small" color="primary" />
+                    <Button size='extra-lg' csstype='info' className='button'>Extra grande</Button>
+                    <Button size='large' csstype='accept' className='button'>Grande</Button>
+                    <Button size='medium' csstype='login' className='button'>Mediano</Button>
+                    <Button size='small' csstype='cancel' className='button'>Pequeño</Button>
+                    <Button size='mini' csstype='warning' className='button'>Eliminar</Button>
+                    <Button size='mini' csstype='plus-min' className='button'>
+                        <Icon name="plus" csssize="small" color="primary" />
                     </Button>
-                    <Button size='mini' type='plus-min' className='button'>
-                        <Icon name="minus" size="small" color="primary" />
+                    <Button size='mini' csstype='plus-min' className='button'>
+                        <Icon name="minus" csssize="icon-small" color="primary" />
                     </Button>
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <Icon name="plus" size="large" color="primary" />
-                    <Icon name="minus" size="large" color="primary" />
-                    <Icon name="arrow" size="large" color="primary" />
-                    <Icon name="bills" size="large" color="primary" />
-                    <Icon name="card" size="large" color="primary" />
-                    <Icon name="copy" size="large" color="primary" />
-                    <Icon name="facebook" size="large" color="primary" />
-                    <Icon name="google" size="large" color="primary" />
-                    <Icon name="instagram" size="large" color="primary" />
-                    <Icon name="logo" size="large" color="primary" />
-                    <Icon name="piggy" size="large" color="primary" />
-                    <Icon name="search" size="large" color="primary" />
-                    <Icon name="tiktok" size="large" color="primary" />
+                    <Icon name="plus" size="icon-large" color="primary" />
+                    <Icon name="minus" size="icon-large" color="primary" />
+                    <Icon name="arrow" size="icon-large" color="primary" />
+                    <Icon name="bills" size="icon-large" color="primary" />
+                    <Icon name="card" size="icon-large" color="primary" />
+                    <Icon name="copy" size="icon-large" color="primary" />
+                    <Icon name="facebook" size="icon-large" color="primary" />
+                    <Icon name="google" size="icon-large" color="primary" />
+                    <Icon name="instagram" size="icon-large" color="primary" />
+                    <Icon name="logo" size="icon-large" color="primary" />
+                    <Icon name="piggy" size="icon-large" color="primary" />
+                    <Icon name="search" size="icon-large" color="primary" />
+                    <Icon name="tiktok" size="icon-large" color="primary" />
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
@@ -108,13 +111,16 @@ function Home() {
                     </InputComponent>
                 </div>
 
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
+                    <ProductCard></ProductCard>
+
+                    <Login></Login>
+                </div>
+
             </div>
 
-            <div className='row'>
 
-                <ProductCard></ProductCard>
 
-            </div>
         </div>
     );
 }
@@ -123,8 +129,19 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/login" element={<LoginForm />} />
+
+                <Route path="/" element={
+                    <ProtectedRoute>
+                        <Home />
+                    </ProtectedRoute>
+                }/>
+
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }/>
             </Routes>
         </Router>
     );

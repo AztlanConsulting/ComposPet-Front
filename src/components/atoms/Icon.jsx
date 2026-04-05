@@ -53,7 +53,7 @@ const icons = {
  */
 
 export default function Icon({
-    size = "medium",
+    size = "",
     name = "",
     color = "",
     className = "",

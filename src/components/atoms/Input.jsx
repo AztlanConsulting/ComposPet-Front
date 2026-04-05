@@ -22,6 +22,7 @@ export default function Input({
     id = "",
     type = "text",
     onChange = () => {},
+    value = "",
 }) {
     return (
         <input
@@ -30,6 +31,7 @@ export default function Input({
         id={id}
         className={`input ${size} ${className}`}
         onChange={onChange}
+        value={value} 
         />
     );
 }

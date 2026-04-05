@@ -1,0 +1,20 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.error-message{
+    margin-top: 10px;
+    color: var(--color-red-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+}
+
+.input-error {
+    border: 1px solid var(--color-red-primary)!important;
+    background-color: var(--color-red-secondary) !important;
+}
+
+.input-error:focus {
+    background-color: var(--color-red-secondary) !important;
+    outline-color: var(--color-red-primary)  !important;
+}
