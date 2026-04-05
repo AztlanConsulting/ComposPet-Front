@@ -59,7 +59,7 @@ export class AuthRepository extends AuthIRepository{
                 id: data.id_usuario,
                 email: data.correo,
                 rol: data.rol,
-                firstLogin: data.primer_inicio_sesion,
+                firstLogin: data.primer_inicio_sesion || false,
                 token: data.token, 
             });
         } catch (error) {

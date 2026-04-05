@@ -144,15 +144,20 @@ function useLoginViewModel(){
             setLoading(true);
             setErrors({});
             try {
-                localStorage.setItem('googleAccessToken', tokenResponse.access_token);
+                sessionStorage.setItem('googleAccessToken', tokenResponse.access_token);
                 
-                const userEntity = await LoginUseCase.googleLogin(tokenResponse.access_token);
+                const apiClient = new AuthApiClient();
+                const authRepo = new AuthRepository(apiClient);
+                const loginUseCase = new LoginUseCase(authRepo); // Creamos la instancia
+
+                const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
                 
-                localStorage.setItem('userToken', userEntity.token);
-                localStorage.setItem('user', JSON.stringify(userEntity));
+                sessionStorage.setItem('token', userEntity.token);
+                sessionStorage.setItem('user', JSON.stringify(userEntity));
                 
                 navigate('/dashboard');
             } catch (error) {
+                console.error("CLIC 3: Error en el bloque try/catch del VM", error);
                 setErrors({ general: "Este correo no está registrado en ComposPet" });
             } finally {
                 setLoading(false);

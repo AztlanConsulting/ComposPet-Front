@@ -17,6 +17,7 @@ import ProductCard from './components/molecules/ProductCard';
 import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function Home() {
     const navigate = useNavigate();
@@ -127,23 +128,25 @@ function Home() {
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/login" element={<LoginForm />} />
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <Router>
+                <Routes>
+                    <Route path="/login" element={<LoginForm />} />
 
-                <Route path="/" element={
-                    <ProtectedRoute>
-                        <Home />
-                    </ProtectedRoute>
-                }/>
+                    <Route path="/" element={
+                        <ProtectedRoute>
+                            <Home />
+                        </ProtectedRoute>
+                    }/>
 
-                <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                }/>
-            </Routes>
-        </Router>
+                    <Route path="/dashboard" element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }/>
+                </Routes>
+            </Router>
+        </GoogleOAuthProvider>
     );
 }
 

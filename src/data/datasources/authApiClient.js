@@ -59,7 +59,7 @@ export class AuthApiClient {
      */
     async loginGoogle(googleToken) {
         try {
-            const response = await fetch(`${this.baseUrl}/user/auth/google`, {
+            const response = await fetch(`${this.baseUrl}/auth/google`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json" 
