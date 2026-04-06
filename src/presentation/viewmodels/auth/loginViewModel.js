@@ -177,7 +177,7 @@ function useLoginViewModel(){
             console.error("Login Failed:", error);
             setErrors({ general: "Error al conectar con Google" });
         },
-        scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
+        scope: process.env.REACT_APP_GOOGLE_SCOPES
     });
 
     return{
