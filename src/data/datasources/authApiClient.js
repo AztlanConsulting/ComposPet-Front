@@ -52,4 +52,30 @@ export class AuthApiClient {
         return data;
     }
 
+    /**
+     * Envía el token de acceso de Google al backend de ComposPet.
+     * @param {string} googleToken - El token obtenido del SDK de Google.
+     * @returns {Promise<object>} Respuesta cruda del backend (id_usuario, token, etc.)
+     */
+    async loginGoogle(googleToken) {
+        try {
+            const response = await fetch(`${this.baseUrl}/auth/google`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({ token: googleToken }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Error en la autenticación con el servidor.");
+            }
+
+            return data; 
+        } catch (error) {
+            throw error;
+        }
+    }
 }

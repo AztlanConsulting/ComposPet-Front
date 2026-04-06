@@ -1,5 +1,6 @@
 import { AuthIRepository } from "../../domain/repositories/authInterfaceRepository";
 import { User } from "../../domain/entities/user";
+import axios from 'axios';
 
 /**
  * Implementación concreta del repositorio de autenticación.
@@ -44,5 +45,30 @@ export class AuthRepository extends AuthIRepository{
             firstLogin: data.primer_inicio_sesion,
             token: data.token,
         });
+    }
+
+    /**
+     * Ejecuta la autenticación mediante Google delegando la petición al Data Source.
+     * Transforma la respuesta del servidor (DTO) en una instancia de la entidad User
+     * para asegurar la integridad de los datos en la capa de dominio.
+     * * @async
+     * @param {string} idToken - Token de acceso proporcionado por el SDK de Google.
+     * @returns {Promise<User>} Instancia de la entidad User con los datos de sesión.
+     * @throws {Error} Propaga errores de red o de autenticación del ApiClient.
+     */
+    async loginWithGoogle(idToken) {
+        try {
+            const data = await this.apiClient.loginGoogle(idToken);
+
+            return new User({
+                id: data.id_usuario,
+                email: data.correo,
+                rol: data.rol,
+                firstLogin: data.primer_inicio_sesion || false,
+                token: data.token, 
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 }

@@ -5,6 +5,8 @@ import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 import { AuthRepository } from "../../../data/repositories/authRepository";
 import { AuthApiClient } from "../../../data/datasources/authApiClient";
 
+import { useGoogleLogin } from '@react-oauth/google';
+
 /**
  * Valida los campos del formulario de inicio de sesión antes de enviarlo.
  * Aplica validaciones de presencia y formato sobre el correo y la contraseña.
@@ -137,6 +139,47 @@ function useLoginViewModel(){
         }
     };
 
+    /**
+     * Manejador de la autenticación con Google (Google Identity Services).
+     * * 1. Solicita permisos al usuario (incluyendo scopes para Gmail y Sheets).
+     * 2. En el éxito (onSuccess), inicia el estado de carga y persiste el token de acceso de Google.
+     * 3. Instancia las capas de Clean Architecture para validar el acceso con el backend de ComposPet.
+     * 4. Almacena la sesión localmente y redirige al Dashboard.
+     * 5. Gestiona errores de red o de permisos mediante el estado de errores del VM.
+     * * @type {Function}
+     * @see LoginUseCase.executeGoogle
+     */
+    const onGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setLoading(true);
+            setErrors({});
+            try {
+                sessionStorage.setItem('googleAccessToken', tokenResponse.access_token);
+                
+                const apiClient = new AuthApiClient();
+                const authRepo = new AuthRepository(apiClient);
+                const loginUseCase = new LoginUseCase(authRepo); // Creamos la instancia
+
+                const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
+                
+                sessionStorage.setItem('token', userEntity.token);
+                sessionStorage.setItem('user', JSON.stringify(userEntity));
+                
+                navigate('/dashboard');
+            } catch (error) {
+                console.error("CLIC 3: Error en el bloque try/catch del VM", error);
+                setErrors({ general: "Este correo no está registrado en ComposPet" });
+            } finally {
+                setLoading(false);
+            }
+        },
+        onError: (error) => {
+            console.error("Login Failed:", error);
+            setErrors({ general: "Error al conectar con Google" });
+        },
+        scope: process.env.REACT_APP_GOOGLE_SCOPES
+    });
+
     return{
         email,
         password,
@@ -145,7 +188,7 @@ function useLoginViewModel(){
 
         setEmail,
         setPassword,
-
+        onGoogleLogin, 
         onSubmit,
     };
 }

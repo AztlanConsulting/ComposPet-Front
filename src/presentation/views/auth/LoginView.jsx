@@ -30,6 +30,7 @@ function SignInForm(){
         loading,
         setEmail,
         setPassword,
+        onGoogleLogin,
         onSubmit,
     } = useLoginViewModel();
 
@@ -77,9 +78,9 @@ function SignInForm(){
                         ¿Olvidaste tu contraseña?
                     </a>
                     
-                    <Button csstype='cancel' className='google-button'>
+                    <Button csstype='cancel' className='google-button' type="button" onClick={() => onGoogleLogin()} disabled={loading}>
                         <Icon name="google" size="icon-medium"></Icon>
-                        Continuar con Google
+                        {loading ? "Conectando..." : "Continuar con Google"}
                     </Button>
 
                 </div>
