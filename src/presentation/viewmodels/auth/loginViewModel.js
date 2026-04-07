@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 import { AuthRepository } from "../../../data/repositories/authRepository";
@@ -73,11 +73,49 @@ function validateLoginForm(email, password){
 function useLoginViewModel(){
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const[errors, setErrors] = useState({ email: "", password: "", general: "" });
     const[loading, setLoading] = useState(false);
+
+
+    /**
+     * Valida si después del login se tiene que hacer una redirección
+     * La redirección al formulario de recolección solo es válida para los clientes
+     *
+     * @param {User} user - Objeto de usuario que inicia sesión
+     * @returns redirect a la ruta correspondiente
+     */
+    const handleRedirect = (user) => {
+        const redirect = searchParams.get("redirect");
+
+        // Solo se acepta el redirect a estas rutas
+        const allowedRoutes = [
+            "/",
+            "/dashboard",
+            "/formulario-recoleccion"
+        ];
+
+        if (redirect && allowedRoutes.includes(redirect)) {
+            // Solo los clientes pueden entrar al formulario de recolección
+            if (redirect === "formulario-recoleccion" && !user.isClient()){
+                navigate("/dashboard")
+                return;
+            }
+            navigate(redirect);
+            return;
+        }
+
+        if(user.isAdmin()){
+            navigate("/dashboard");
+        } else if (user.isFirstLogin()){
+            navigate("/");
+        } else {
+            navigate("/");
+        }
+    }
 
     /**
      * Maneja el envío del formulario de inicio de sesión.
@@ -117,13 +155,7 @@ function useLoginViewModel(){
 
             sessionStorage.setItem("token", user.token);
 
-            if(user.isAdmin()){
-                navigate("/dashboard");
-            } else if (user.isFirstLogin()){
-                navigate("/");
-            } else {
-                navigate("/");
-            }
+            handleRedirect(user);
         } catch (err) {
             // Se clasifica el error según palabras clave del mensaje para asignarlo al campo correcto
             const msg = err.message;
@@ -165,7 +197,7 @@ function useLoginViewModel(){
                 sessionStorage.setItem('token', userEntity.token);
                 sessionStorage.setItem('user', JSON.stringify(userEntity));
                 
-                navigate('/dashboard');
+                handleRedirect(userEntity);
             } catch (error) {
                 console.error("CLIC 3: Error en el bloque try/catch del VM", error);
                 setErrors({ general: "Este correo no está registrado en ComposPet" });
