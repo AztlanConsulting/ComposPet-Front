@@ -59,13 +59,14 @@ export class AuthRepository extends AuthIRepository{
     async loginWithGoogle(idToken) {
         try {
             const data = await this.apiClient.loginGoogle(idToken);
+            const userData = data.user; 
 
             return new User({
-                id: data.id_usuario,
-                email: data.correo,
-                rol: data.rol,
-                firstLogin: data.primer_inicio_sesion || false,
-                token: data.token, 
+                id: userData.id_usuario,
+                email: userData.email, 
+                rol: userData.rol,
+                firstLogin: userData.primer_inicio_sesion,
+                token: data.token,
             });
         } catch (error) {
             throw error;

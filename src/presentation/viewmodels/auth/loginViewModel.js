@@ -158,14 +158,20 @@ function useLoginViewModel(){
                 
                 const apiClient = new AuthApiClient();
                 const authRepo = new AuthRepository(apiClient);
-                const loginUseCase = new LoginUseCase(authRepo); // Creamos la instancia
+                const loginUseCase = new LoginUseCase(authRepo); 
 
                 const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
                 
                 sessionStorage.setItem('token', userEntity.token);
                 sessionStorage.setItem('user', JSON.stringify(userEntity));
                 
-                navigate('/dashboard');
+                if(userEntity.isAdmin()){
+                    navigate("/dashboard");
+                } else if (userEntity.isFirstLogin()){
+                    navigate("/");
+                } else {
+                    navigate("/");
+                }
             } catch (error) {
                 console.error("CLIC 3: Error en el bloque try/catch del VM", error);
                 setErrors({ general: "Este correo no está registrado en ComposPet" });
