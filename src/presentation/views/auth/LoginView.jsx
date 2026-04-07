@@ -4,6 +4,7 @@ import Login from "../../../components/organisms/Login";
 import LogoComposPet from '../../../public/img/LogoComposPet.svg';
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
+import { Link } from 'react-router-dom';
 
 import useLoginViewModel from "../../viewmodels/auth/loginViewModel";
 
@@ -77,6 +78,10 @@ function SignInForm(){
                     <a href="#" className="forgot-password">
                         ¿Olvidaste tu contraseña?
                     </a>
+
+                    <Link to="/first-login" className="forgot-password mb-3">
+                        ¿Eres nuevo aquí?
+                    </Link>
                     
                     <Button csstype='cancel' className='google-button' type="button" onClick={() => onGoogleLogin()} disabled={loading}>
                         <Icon name="google" size="icon-medium"></Icon>
