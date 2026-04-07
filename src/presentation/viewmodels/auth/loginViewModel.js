@@ -190,7 +190,7 @@ function useLoginViewModel(){
                 
                 const apiClient = new AuthApiClient();
                 const authRepo = new AuthRepository(apiClient);
-                const loginUseCase = new LoginUseCase(authRepo); // Creamos la instancia
+                const loginUseCase = new LoginUseCase(authRepo); 
 
                 const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
                 
