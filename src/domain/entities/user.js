@@ -44,4 +44,15 @@ export class User{
     isAdmin(){
         return this.rol === "Administrador";
     }
+
+    /**
+     * Indica si el usuario tiene rol de cliente.
+     * Se utiliza para redirigir al formulario de recolección tras el login.
+     *
+     * @returns {boolean} `true` si el rol del usuario es `"Cliente"`.
+     */
+
+    isClient(){
+        return this.rol === "Cliente";
+    }
 }
