@@ -1,6 +1,5 @@
 
 import { solicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
-import { User } from '../../domain/entities/user';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
 
 /**
