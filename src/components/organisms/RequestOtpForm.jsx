@@ -14,12 +14,9 @@ export default function RequestOtpForm({
                 size="lg"
                 value={email}
                 classNameLabel="label"
-                classNameInput={`input ${emailError ? "input-error" : ""}`}
                 onChange={onEmailChange}
-                error={emailError}
                 required
-            >
-                Correo Institucional
+            > Correo
             </InputComponent>
         </div>
     );

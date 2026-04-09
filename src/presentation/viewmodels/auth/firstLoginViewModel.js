@@ -26,9 +26,8 @@ function validatePasswordForm(p1, p2) {
         errors.hasErrors = true;
     }
 
-    // 3. Validar complejidad: 8 caracteres, 1 mayúscula, 1 número o símbolo
-    // Regex: (?=.*[A-Z]) (una mayúscula), (?=.*[0-9!@#$%^&*]) (número o símbolo), .{8,} (mínimo 8)
-    const complexRegex = /^(?=.*[A-Z])(?=.*[0-9!@#$%^&*])(?=.{8,})/;
+    // 3. Validar complejidad: 12 caracteres, 1 mayúscula, 1 número y 1 símbolo
+    const complexRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{12,}$/;
     
     if (!complexRegex.test(p1)) {
         errors.password = "La contraseña debe tener 8 caracteres, una mayúscula y un número o símbolo.";
@@ -117,7 +116,6 @@ export function useFirstLoginViewModel() {
                 entity.token 
             );
             
-            alert("Cuenta activada con éxito. Ahora puedes iniciar sesión.");
             navigate("/login"); 
         } catch (err) {
             setError(err.message);

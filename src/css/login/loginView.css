@@ -1,154 +1,154 @@
-.signIn-background {
-    min-height: 100vh;
-    min-width: 100vw;  
-    position: fixed;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    background-color: rgba(239, 255, 249, 1);
-    background-image: url('../../public/img/Fondo.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 1rem;
-}
+    .signIn-background {
+        min-height: 100vh;
+        min-width: 100vw;  
+        position: fixed;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        background-color: rgba(239, 255, 249, 1);
+        background-image: url('../../public/img/Fondo.svg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 1rem;
+    }
 
-.logo-compospet {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 24px;
-}
+    .logo-compospet {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 24px;
+    }
 
-.logo-compospet img {
-    width: 340px;
-    height: auto;
-}
-
-.forms-backgound {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 532px;
-    max-width: 100%;
-    height: auto;
-    min-height: 550px;
-    background-color: var(--color-green-quaternary);
-    border-radius: 20px;
-    border: 1px solid var(--color-green-primary);
-    box-shadow: 0px 10px 32px 0px rgba(21, 161, 155, .7);
-    padding: 0 1.5rem 2rem 1.5rem;
-}
-
-.title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 42px;
-    margin-bottom: 16px;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-.title h1 {
-    color: var(--color-green-secondary);
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: 16px;
-}
-
-.title p {
-    color: var(--color-green-secondary);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    line-height: normal;
-}
-
-.forgot-password {
-    color: var(--color-green-secondary);
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-semibold);
-    font-style: normal;
-    line-height: normal;
-    text-decoration: none;
-    margin-top: 24px;
-    margin-bottom: 20px;
-}
-
-.google-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-semibold);
-    width: 24.5rem;
-    max-width: 100%;
-    height: 2.5rem;
-}
-
-/* Tablet */
-@media (max-width: 768px) {
     .logo-compospet img {
-        width: 300px;
+        width: 340px;
+        height: auto;
     }
 
     .forms-backgound {
-        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 532px;
+        max-width: 100%;
+        height: auto;
         min-height: auto;
-        border-radius: 16px;
+        background-color: var(--color-green-quaternary);
+        border-radius: 20px;
+        border: 1px solid var(--color-green-primary);
+        box-shadow: 0px 10px 32px 0px rgba(21, 161, 155, .7);
+        padding: 0 1.5rem 2rem 1.5rem;
     }
 
     .title {
-        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 42px;
+        margin-bottom: 16px;
+        text-align: center;
+        padding: 0 1rem;
     }
 
     .title h1 {
-        font-size: 1.25rem;
-    }
-
-    .google-button {
-        width: 100%;
-    }
-}
-
-/* Móvil */
-@media (max-width: 480px) {
-    .logo-compospet img {
-        width: 250px;
-    }
-
-    .forms-backgound {
-        width: 80%;
-        border-radius: 12px;
-        padding: 0 1rem 1.5rem 1rem;
-    }
-
-    .title {
-        margin-top: 24px;
-        margin-bottom: 12px;
-    }
-
-    .title h1 {
-        font-size: var(--font-size-xl);
-        margin-bottom: 10px;
+        color: var(--color-green-secondary);
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: 16px;
     }
 
     .title p {
-        font-size: var(--font-size-xs);
+        color: var(--color-green-secondary);
+        font-size: var(--font-size-sm);
         font-weight: var(--font-weight-semibold);
         line-height: normal;
     }
 
     .forgot-password {
-        font-size: 0.85rem;
-        margin-top: 16px;
-        margin-bottom: 14px;
+        color: var(--color-green-secondary);
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-semibold);
+        font-style: normal;
+        line-height: normal;
+        text-decoration: none;
+        margin-top: 2px;
+        margin-bottom: 2px;
     }
 
     .google-button {
-        width: 100%;
-        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-semibold);
+        width: 24.5rem;
+        max-width: 100%;
+        height: 2.5rem;
     }
-}
+
+    /* Tablet */
+    @media (max-width: 768px) {
+        .logo-compospet img {
+            width: 300px;
+        }
+
+        .forms-backgound {
+            width: 90%;
+            min-height: auto;
+            border-radius: 16px;
+        }
+
+        .title {
+            margin-top: 32px;
+        }
+
+        .title h1 {
+            font-size: 1.25rem;
+        }
+
+        .google-button {
+            width: 100%;
+        }
+    }
+
+    /* Móvil */
+    @media (max-width: 480px) {
+        .logo-compospet img {
+            width: 250px;
+        }
+
+        .forms-backgound {
+            width: 80%;
+            border-radius: 12px;
+            padding: 0 1rem 1.5rem 1rem;
+        }
+
+        .title {
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .title h1 {
+            font-size: var(--font-size-xl);
+            margin-bottom: 10px;
+        }
+
+        .title p {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            line-height: normal;
+        }
+
+        .forgot-password {
+            font-size: 0.85rem;
+            margin-top: 16px;
+            margin-bottom: 14px;
+        }
+
+        .google-button {
+            width: 100%;
+            font-size: 0.85rem;
+        }
+    }

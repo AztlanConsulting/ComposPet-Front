@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../../css/login/loginView.css";
 
 import LogoComposPet from '../../../public/img/LogoComposPet.svg';
@@ -23,23 +23,38 @@ function FirstLoginView() {
         onFinalize
     } = useFirstLoginViewModel();
 
-    console.log("DEBUG - Estado del ViewModel:", { 
-        step, 
-        onRequestOTP, 
-        onVerifyOTP, 
-        onFinalize 
-    });
 
     const [otp, setOtp] = useState("");
     const [p1, setP1] = useState("");
     const [p2, setP2] = useState("");
 
     const stepInfo = {
-        1: { title: "Activa tu cuenta", sub: "Ingresa tu correo para recibir un código de acceso." },
-        2: { title: "Verifica tu código", sub: `Enviamos un código de 6 dígitos a ${email}` },
-        3: { title: "Crea tu contraseña", sub: "Establece una contraseña segura para tu cuenta." }
+        1: { title: "Activa tu cuenta", sub: "Para asegurar tu cuenta, necesitamos confirmar que tu correo es correcto" },
+        2: { title: "Verifica tu código", sub: `Hemos enviado un código a ${email}. Por favor, ingrésalo abajo` },
+        3: { title: "Crea tu nueva contraseña", sub: "Para proteger tu información en ComposPet, elige una contraseña fuerte" }
     };
-    
+    const [seconds, setSeconds] = useState(30);
+    const [canResend, setCanResend] = useState(false);
+
+    useEffect(() => {
+        let timer;
+        if (step === 2 && seconds > 0) {
+            timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+        } else if (seconds === 0) {
+            setCanResend(true);
+        }
+        return () => clearTimeout(timer);
+    }, [step, seconds]);
+
+    const handleResendOTP = (e) => {
+        e.preventDefault();
+        if (canResend) {
+            onRequestOTP(); // Llama a la función del ViewModel
+            setSeconds(30);
+            setCanResend(false);
+        }
+    };
+
     const handleAction = (e) => {
         if (e) e.preventDefault();
         if (step === 1) onRequestOTP();
@@ -69,16 +84,31 @@ function FirstLoginView() {
                                 email={email} 
                                 onEmailChange={(e) => setEmail(e.target.value)}
                                 emailError={error} // El error de 'correo no encontrado'
+                                autoFocus={true}
                             />
                         )}
 
                         {/* Paso 2: OTP */}
                         {step === 2 && (
-                            <VerifyOtpForm 
-                                otp={otp}
-                                onOtpChange={(e) => setOtp(e.target.value)}
-                                otpError={error} // El error de 'código inválido'
-                            />
+                            <>
+                                <VerifyOtpForm 
+                                    otp={otp}
+                                    onOtpChange={(e) => setOtp(e.target.value)}
+                                    otpError={error}
+                                />
+                                {/* Enlace de reenvío debajo del organismo */}
+                                <div className="mt-2 text-center">
+                                    {canResend ? (
+                                        <a href="#!" className="forgot-password" onClick={handleResendOTP}>
+                                            Reenviar código
+                                        </a>
+                                    ) : (
+                                        <span className="forgot-password" style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+                                            Reenviar código en {seconds}s
+                                        </span>
+                                    )}
+                                </div>
+                            </>
                         )}
 
                         {/* Paso 3: Passwords */}
@@ -106,7 +136,7 @@ function FirstLoginView() {
                             disabled={loading}
                         >
                             {loading ? "Procesando..." : 
-                             step === 3 ? "Finalizar Activación" : "Continuar"}
+                             step === 3 ? "Actualizar" : "Continuar"}
                         </Button>
 
                     </form>

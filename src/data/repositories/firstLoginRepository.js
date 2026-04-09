@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export class FirstLoginRepository extends firstLoginIRepository {
     constructor(apiClient){
-        console.log("DEBUG - Métodos disponibles en apiClient:", Object.getOwnPropertyNames(Object.getPrototypeOf(apiClient)));
         super();
         this.apiClient = apiClient;
     }
