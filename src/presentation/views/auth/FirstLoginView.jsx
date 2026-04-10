@@ -132,7 +132,7 @@ function FirstLoginView() {
                             size="large" 
                             type="submit" 
                             csstype="accept" 
-                            className='button mt-4' 
+                            className='button' 
                             disabled={loading}
                         >
                             {loading ? "Procesando..." : 
