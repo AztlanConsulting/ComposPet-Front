@@ -10,6 +10,14 @@ import RequestOtpForm from "../../../components/organisms/RequestOtpForm";
 import VerifyOtpForm from "../../../components/organisms/VerifyOtpForm";
 import SetPasswordForm from "../../../components/organisms/SetPasswordForm";
 
+/**
+ * Vista de activación de cuenta vinculada a `useFirstLoginViewModel`.
+ * * Orquestra el flujo de tres pasos (Email, OTP y Contraseña) delegando la 
+ * presentación a organismos especializados. Gestiona estados de carga, 
+ * errores de validación y el temporizador de reenvío de código.
+ * * @returns {JSX.Element} Flujo secuencial de primer inicio de sesión.
+ * @see useFirstLoginViewModel
+ */
 function FirstLoginView() {
     const {
         step,

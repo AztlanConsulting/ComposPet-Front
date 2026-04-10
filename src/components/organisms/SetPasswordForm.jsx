@@ -1,6 +1,17 @@
 import InputComponent from "../molecules/InputComponent";
 import React from 'react';
 
+/**
+ * Organismo para el establecimiento de una nueva contraseña.
+ * Incluye validaciones visuales en tiempo real para cumplir con los estándares de seguridad.
+ * * @param {Object} props
+ * @param {string} props.password - Estado de la nueva contraseña.
+ * @param {string} props.confirmPassword - Estado de la confirmación de la contraseña.
+ * @param {function} props.onPasswordChange - Handler para actualizar la contraseña.
+ * @param {function} props.onConfirmChange - Handler para actualizar la confirmación.
+ * @param {string} props.passwordError - Mensaje de error general de la contraseña.
+ * @param {string} props.confirmError - Mensaje de error cuando las contraseñas no coinciden.
+ */
 export default function SetPasswordForm({
     password = "",
     confirmPassword = "",

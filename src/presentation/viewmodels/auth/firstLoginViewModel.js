@@ -7,8 +7,10 @@ import { FirstLoginApiClient } from '../../../data/datasources/FirstLoginApiClie
 
 /**
  * Valida los criterios de seguridad de la nueva contraseña en el Frontend.
- * @param {string} p1 - Nueva contraseña
- * @param {string} p2 - Confirmación de contraseña
+ * Sincronizado con la política de seguridad de 12 caracteres y complejidad.
+ * * @param {string} p1 - Nueva contraseña.
+ * @param {string} p2 - Confirmación de contraseña.
+ * @returns {Object} Objeto con mensajes de error y bandera de estado.
  */
 function validatePasswordForm(p1, p2) {
     const errors = { password: "", confirmPassword: "", hasErrors: false };
@@ -37,6 +39,11 @@ function validatePasswordForm(p1, p2) {
     return errors;
 }
 
+/**
+ * ViewModel para el flujo de Primer Inicio de Sesión.
+ * Gestiona el estado de la UI y coordina las llamadas a los Casos de Uso.
+ * * @returns {Object} Estados y manejadores de eventos para la Vista.
+ */
 export function useFirstLoginViewModel() {
     const navigate = useNavigate();
 
@@ -48,12 +55,19 @@ export function useFirstLoginViewModel() {
     const [entity, setEntity] = useState(null); 
     const [passwordErrors, setPasswordErrors] = useState({ password: "", confirmPassword: "" });
 
+    /**
+     * Factory local para instanciar el caso de uso con sus dependencias.
+     * @private
+     */
     const getUseCase = () => {
         const apiClient = new FirstLoginApiClient();
         const repository = new FirstLoginRepository(apiClient);
         return new FirstLoginUseCase(repository);
     };
 
+    /**
+     * Fase 1: Solicitar código de activación.
+     */
     const onRequestOTP = async (e) => {
         if(e) e.preventDefault();
         setLoading(true);
@@ -72,6 +86,9 @@ export function useFirstLoginViewModel() {
         }
     };
 
+    /**
+     * Fase 2: Verificar el código recibido por correo.
+     */
     const onVerifyOTP = async (code) => {
         setLoading(true);
         setError(null);
@@ -89,6 +106,9 @@ export function useFirstLoginViewModel() {
         }
     };
 
+    /**
+     * Fase 3: Establecer la contraseña final y activar cuenta.
+     */
     const onFinalize = async (pass1, pass2) => {
         const validation = validatePasswordForm(pass1, pass2);
         
