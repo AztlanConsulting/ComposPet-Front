@@ -98,4 +98,34 @@ export class SolicitudesRecApiClient {
             throw error;
         }
     }
+
+     /**
+     * Obtiene los productos extra disponibles para la solicitud de recolección actual.
+     */
+
+    async getExtraProducts() {
+        try{
+            console.log("Llega al SolicitudesRecApiClient con:");
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/obtener`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al guardar la primera sección de la solicitud de recolección.');
+            }
+
+            console.log("Respuesta del backend:", data);
+
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }

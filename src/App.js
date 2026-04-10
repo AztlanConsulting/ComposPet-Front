@@ -14,6 +14,7 @@ import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
+import ExtraProductsView from './presentation/views/collectionRequest/extraProductsView';
 import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -147,6 +148,12 @@ function App() {
                     <Route path="/formulario-recoleccion" element={
                         <ProtectedRoute>
                             <p>Formulario Recoleccion</p>
+                        </ProtectedRoute>
+                    }/>
+
+                    <Route path="/formulario-recoleccion/extraProductos" element={
+                        <ProtectedRoute>
+                           <ExtraProductsView />
                         </ProtectedRoute>
                     }/>
                 </Routes>

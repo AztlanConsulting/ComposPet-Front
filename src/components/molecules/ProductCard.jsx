@@ -17,22 +17,30 @@ import Producto from '../../public/img/product.png';
  *
  * @returns {JSX.Element} Tarjeta visual del producto con imagen, detalles y acción.
  */
-export default function ProductCard() {
+export default function ProductCard({
+    imageUrl = "",
+    name = "",
+    description = "",
+    price = 0,
+    onClick = () => {},
+}) {
     return (
         <Card className='text-center product-card'>
             <div className='d-flex justify-content-center align-items-center image-back'>
-                <Image src={Producto} alt='Foto de Producto' size='image-medium' variant='normal'></Image>
+                <Image src={imageUrl} alt={name} size='image-medium' variant='normal'></Image>
             </div>
             <Card.Body className='d-flex justify-content-center align-items-center flex-wrap product-card-body'>
-                <Card.Title className='product-name'>Nombre del producto</Card.Title>
+                <Card.Title className='product-name'>{name}</Card.Title>
                 <Card.Text className='m-1 product-description'>
-                Descripción del producto
+                {description}
                 </Card.Text>
                 <Card.Text className='m-1 product-price'>
-                Precio $$$
+                Precio: ${price.toFixed(2)}
                 </Card.Text>
-                <Button size='small' csstype='accept' className='button'>Agregar</Button>
+                <Button size='small' csstype='accept' className='button' onClick={onClick}>
+                    Agregar
+                </Button>
             </Card.Body>
         </Card>
     );
-}
+}                                   

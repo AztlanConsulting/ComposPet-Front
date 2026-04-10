@@ -1,6 +1,7 @@
 
 import { solicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
+import {ExtraProduct} from '../../domain/entities/extraProduct';
 
 /**
  * Implementación concreta del repositorio de solicitudes de recolección.
@@ -83,6 +84,20 @@ export class SolicitudesRecRepository extends solicitudesRecIRepository{
             quiereProductosExtra: data.quiere_productos_extra,
             idPago: data.id_pago,
         });
+    }
+
+    async getExtraProducts(){
+        const response = await this.apiClient.getExtraProducts();
+
+        return response.data.map(productData => new ExtraProduct({
+            idProduct: productData.id_producto,
+            name: productData.nombre,
+            price: productData.precio,
+            description: productData.descripcion,
+            quantity: productData.cantidad,
+            imageUrl: productData.imagen_url,
+            status: productData.estatus,
+        }));
     }
 
 }
