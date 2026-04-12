@@ -32,7 +32,7 @@ function validatePasswordForm(p1, p2) {
     const complexRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{12,}$/;
     
     if (!complexRegex.test(p1)) {
-        errors.password = "La contraseña debe tener 8 caracteres, una mayúscula y un número o símbolo.";
+        errors.password = "La contraseña debe tener 12 caracteres, una mayúscula y un número o símbolo.";
         errors.hasErrors = true;
     }
 
@@ -50,9 +50,12 @@ export function useFirstLoginViewModel() {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
     const [email, setEmail] = useState("");
-    const [entity, setEntity] = useState(null); 
+    const [otpCode, setOtpCode] = useState("");
+    const [entity, setEntity] = useState(null);
+
+    const [p1, setP1] = useState("");
+    const [p2, setP2] = useState("");
     const [passwordErrors, setPasswordErrors] = useState({ password: "", confirmPassword: "" });
 
     /**
@@ -63,6 +66,40 @@ export function useFirstLoginViewModel() {
         const apiClient = new FirstLoginApiClient();
         const repository = new FirstLoginRepository(apiClient);
         return new FirstLoginUseCase(repository);
+    };
+
+    /**
+     * Maneja el cambio del código OTP limitándolo a 6 caracteres.
+     * @param {string} value - El valor del input.
+     */
+    const handleOtpChange = (e) => {
+        const value = e.target.value.replace(/\D/g, ""); 
+        if (value.length <= 6) setOtpCode(value);
+    };
+
+    /**
+     * Actualiza la contraseña y limpia errores previos para restaurar la visualización de los checks.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Evento de cambio del input.
+     */
+    const handlePasswordChange = (e) => {
+        const val = e.target.value;
+        setP1(val);
+        // Clean Code: Si ya existe un error, lo removemos para mostrar los checks de nuevo
+        if (passwordErrors.password) {
+            setPasswordErrors(prev => ({ ...prev, password: "" }));
+        }
+    };
+
+    /**
+     * Actualiza la confirmación de contraseña y limpia el error de coincidencia.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Evento de cambio del input.
+     */
+    const handleConfirmChange = (e) => {
+        const val = e.target.value;
+        setP2(val);
+        if (passwordErrors.confirmPassword) {
+            setPasswordErrors(prev => ({ ...prev, confirmPassword: "" }));
+        }
     };
 
     /**
@@ -80,7 +117,11 @@ export function useFirstLoginViewModel() {
             setEntity(resultEntity);
             setStep(2); 
         } catch (err) {
-            setError(err.message);
+            if (err.message === "Failed to fetch" || !navigator.onLine) {
+                setError("No se pudo establecer conexión con el servidor. Intenta más tarde.");
+            } else {
+                setError(err.message || "Ocurrió un error inesperado.");
+            }
         } finally {
             setLoading(false);
         }
@@ -89,18 +130,28 @@ export function useFirstLoginViewModel() {
     /**
      * Fase 2: Verificar el código recibido por correo.
      */
-    const onVerifyOTP = async (code) => {
+    const onVerifyOTP = async () => {
+        if (otpCode.length !== 6) {
+            setError("El código debe ser de 6 dígitos.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
         try {
             const useCase = getUseCase();
-            const updatedEntity = await useCase.executeVerify(email, code, entity.token);
+            const token = entity?.token || "";
+            const updatedEntity = await useCase.executeVerify(email, otpCode, token);
             
             setEntity(updatedEntity);
             setStep(3); 
         } catch (err) {
-            setError(err.message);
+            if (err.message === "Failed to fetch" || !navigator.onLine) {
+                setError("No se pudo establecer conexión con el servidor. Intenta más tarde.");
+            } else {
+                setError(err.message || "Ocurrió un error inesperado.");
+            }
         } finally {
             setLoading(false);
         }
@@ -109,36 +160,34 @@ export function useFirstLoginViewModel() {
     /**
      * Fase 3: Establecer la contraseña final y activar cuenta.
      */
-    const onFinalize = async (pass1, pass2) => {
-        const validation = validatePasswordForm(pass1, pass2);
+    const onFinalize = async () => {
+        const validation = validatePasswordForm(p1, p2);
         
         if (validation.hasErrors) {
-            setPasswordErrors({
-                password: validation.password,
-                confirmPassword: validation.confirmPassword
-            });
+            setPasswordErrors(validation);
             return; 
         }
 
-        setPasswordErrors({ password: "", confirmPassword: "" });
         setLoading(true);
         setError(null);
 
         try {
-            const apiClient = new FirstLoginApiClient();
-            const repository = new FirstLoginRepository(apiClient);
-            const useCase = new FirstLoginUseCase(repository);
+            const useCase = getUseCase();
 
             await useCase.executeFinalize(
-                entity.email, 
-                pass1, 
-                pass2, 
-                entity.token 
+                entity?.email || email, 
+                p1, 
+                p2, 
+                entity?.token 
             );
             
             navigate("/login"); 
         } catch (err) {
-            setError(err.message);
+            if (err.message === "Failed to fetch" || !navigator.onLine) {
+                setError("No se pudo establecer conexión con el servidor. Intenta más tarde.");
+            } else {
+                setError(err.message || "Ocurrió un error inesperado.");
+            }
         } finally {
             setLoading(false);
         }
@@ -149,9 +198,17 @@ export function useFirstLoginViewModel() {
         loading,
         error,
         email,
+        otpCode, 
         entity,
-        passwordErrors, 
+        p1,
+        p2, 
+        passwordErrors,
+        handlePasswordChange,
+        handleConfirmChange,  
+        handleOtpChange, 
         setEmail,
+        setP1, 
+        setP2,
         onRequestOTP,
         onVerifyOTP,
         onFinalize

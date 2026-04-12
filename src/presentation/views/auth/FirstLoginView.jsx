@@ -24,17 +24,18 @@ function FirstLoginView() {
         loading,
         error,
         email,
-        passwordErrors,
+        otpCode,
+        p1,
+        p2, 
+        passwordErrors,  
+        handleOtpChange, 
         setEmail,
+        handlePasswordChange, 
+        handleConfirmChange,
         onRequestOTP,
         onVerifyOTP,
         onFinalize
     } = useFirstLoginViewModel();
-
-
-    const [otp, setOtp] = useState("");
-    const [p1, setP1] = useState("");
-    const [p2, setP2] = useState("");
 
     const stepInfo = {
         1: { title: "Activa tu cuenta", sub: "Para asegurar tu cuenta, necesitamos confirmar que tu correo es correcto" },
@@ -57,7 +58,7 @@ function FirstLoginView() {
     const handleResendOTP = (e) => {
         e.preventDefault();
         if (canResend) {
-            onRequestOTP(); // Llama a la función del ViewModel
+            onRequestOTP(); 
             setSeconds(30);
             setCanResend(false);
         }
@@ -66,8 +67,8 @@ function FirstLoginView() {
     const handleAction = (e) => {
         if (e) e.preventDefault();
         if (step === 1) onRequestOTP();
-        if (step === 2) onVerifyOTP(otp);
-        if (step === 3) onFinalize(p1, p2);
+        if (step === 2) onVerifyOTP();
+        if (step === 3) onFinalize();
     };
 
     return (
@@ -100,8 +101,8 @@ function FirstLoginView() {
                         {step === 2 && (
                             <>
                                 <VerifyOtpForm 
-                                    otp={otp}
-                                    onOtpChange={(e) => setOtp(e.target.value)}
+                                    otp={otpCode}
+                                    onOtpChange={handleOtpChange}
                                     otpError={error}
                                 />
                                 {/* Enlace de reenvío debajo del organismo */}
@@ -124,8 +125,8 @@ function FirstLoginView() {
                             <SetPasswordForm 
                                 password={p1}
                                 confirmPassword={p2}
-                                onPasswordChange={(e) => setP1(e.target.value)}
-                                onConfirmChange={(e) => setP2(e.target.value)}
+                                onPasswordChange={handlePasswordChange}
+                                onConfirmChange={handleConfirmChange}
                                 passwordError={passwordErrors.password}
                                 confirmError={passwordErrors.confirmPassword}
                             />

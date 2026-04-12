@@ -3,14 +3,15 @@ import React from 'react';
 
 /**
  * Organismo para el establecimiento de una nueva contraseña.
- * Incluye validaciones visuales en tiempo real para cumplir con los estándares de seguridad.
- * * @param {Object} props
- * @param {string} props.password - Estado de la nueva contraseña.
- * @param {string} props.confirmPassword - Estado de la confirmación de la contraseña.
- * @param {function} props.onPasswordChange - Handler para actualizar la contraseña.
- * @param {function} props.onConfirmChange - Handler para actualizar la confirmación.
- * @param {string} props.passwordError - Mensaje de error general de la contraseña.
- * @param {string} props.confirmError - Mensaje de error cuando las contraseñas no coinciden.
+ * Muestra dinámicamente o los requisitos de seguridad (checks) o los errores de validación.
+ * * @component
+ * @param {Object} props
+ * @param {string} props.password - Valor de la nueva contraseña.
+ * @param {string} props.confirmPassword - Valor de la confirmación.
+ * @param {function} props.onPasswordChange - Handler para cambios en la contraseña.
+ * @param {function} props.onConfirmChange - Handler para cambios en la confirmación.
+ * @param {string} props.passwordError - Mensaje de error de formato de contraseña.
+ * @param {string} props.confirmError - Mensaje de error de coincidencia.
  */
 export default function SetPasswordForm({
     password = "",
@@ -54,28 +55,38 @@ export default function SetPasswordForm({
                 Confirmar Contraseña
             </InputComponent>
 
-            <div className="d-flex flex-column align-items-center px-4 mt-1 mb-3">
-                {checks.map((check, index) => (
-                    <span 
-                        key={index}
-                        className="forgot-password"
-                        style={{ 
-                            fontSize: 'var(--font-size-xs)',
-                            marginBottom: '0px',
-                            fontWeight: check.met 
-                                ? 'var(--font-weight-semibold)' 
-                                : 'var(--font-weight-regular)',
-                            opacity: check.met ? 1 : 0.7,
-                            transition: 'all 0.2s ease'
-                        }}
-                    >
-                        {check.met ? '✓ ' : '○ '} {check.label}
-                    </span>
-                ))}
-            </div>
+            {!passwordError ? (
+                <div className="d-flex flex-column align-items-center px-4 mt-1 mb-3">
+                    {checks.map((check, index) => (
+                        <span 
+                            key={index}
+                            className="forgot-password"
+                            style={{ 
+                                fontSize: 'var(--font-size-xs)',
+                                marginBottom: '0px',
+                                fontWeight: check.met 
+                                    ? 'var(--font-weight-semibold)' 
+                                    : 'var(--font-weight-regular)',
+                                opacity: check.met ? 1 : 0.7,
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            {check.met ? '✓ ' : '○ '} {check.label}
+                        </span>
+                    ))}
+                </div>
+            ) : (
+                <div className="mt-1 mb-3 px-4 text-center">
+                    <p className="error-message" style={{ fontSize: 'var(--font-size-xs)' }}>
+                        {passwordError}
+                    </p>
+                </div>
+            )}
 
-            {passwordError && <p className="error-message">{passwordError}</p>}
-            {confirmError && <p className="error-message">{confirmError}</p>}
+            {/* Error de confirmación: Siempre visible si existe */}
+            {confirmError && (
+                <p className="error-message text-center">{confirmError}</p>
+            )}
         </div>
     );
 }

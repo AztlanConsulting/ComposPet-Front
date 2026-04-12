@@ -46,8 +46,8 @@ function SignInForm(){
 
                 <div className="forms-backgound">
                     <div className="title">
-                        <h1>Inicio de Sesión</h1>
-                        <p>Bienvenido, por favor inicia sesión con tus credenciales</p>
+                        <h1>Inicio de Sesión de familias ComposPet</h1>
+                        <p>¡Bienvenid@! Entra a tu sesión y sigue compostando con nosotros</p>
                     </div>
 
                     <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
@@ -66,6 +66,11 @@ function SignInForm(){
                             <p className="error-message">
                                 {errors.general}
                             </p>}
+                            
+                        <Button csstype='cancel' className='google-button' type="button" onClick={() => onGoogleLogin()} disabled={loading}>
+                            <Icon name="google" size="icon-medium"></Icon>
+                            {loading ? "Conectando..." : "Continuar con Google"}
+                        </Button>
 
                         {/* El botón refleja el estado de loading del ViewModel */}
                         <Button size="large" type="submit" csstype="accept" className='button mt-4' disabled={loading}>
@@ -83,10 +88,7 @@ function SignInForm(){
                         ¿Eres nuevo aquí?
                     </Link>
                     
-                    <Button csstype='cancel' className='google-button' type="button" onClick={() => onGoogleLogin()} disabled={loading}>
-                        <Icon name="google" size="icon-medium"></Icon>
-                        {loading ? "Conectando..." : "Continuar con Google"}
-                    </Button>
+                    
 
                 </div>
 
