@@ -30,6 +30,7 @@ export default function InputComponent({
     value = "",
     error = "",
     children,
+    ref = "", 
 })  {
     return (
         <div className="ml-4">
@@ -44,6 +45,7 @@ export default function InputComponent({
                 onChange={onChange}
                 className={classNameInput}
                 value={value}
+                ref={ref}
             />
             {error && (
                 <p className='error-message'>

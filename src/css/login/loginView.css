@@ -32,7 +32,7 @@
     width: 532px;
     max-width: 100%;
     height: auto;
-    min-height: 550px;
+    min-height: auto;
     background-color: var(--color-green-quaternary);
     border-radius: 20px;
     border: 1px solid var(--color-green-primary);
@@ -46,7 +46,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 42px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     text-align: center;
     padding: 0 1rem;
 }
@@ -72,8 +72,8 @@
     font-style: normal;
     line-height: normal;
     text-decoration: none;
-    margin-top: 24px;
-    margin-bottom: 20px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .google-button {
@@ -120,9 +120,9 @@
     }
 
     .forms-backgound {
-        width: 80%;
+        width: 98%;
         border-radius: 12px;
-        padding: 0 1rem 1.5rem 1rem;
+        padding: 0 0.5rem 0.5rem 0.5rem;
     }
 
     .title {
@@ -136,15 +136,15 @@
     }
 
     .title p {
-        font-size: var(--font-size-xs);
+        font-size: var(--font-size-mn);
         font-weight: var(--font-weight-semibold);
         line-height: normal;
     }
 
     .forgot-password {
         font-size: 0.85rem;
-        margin-top: 16px;
-        margin-bottom: 14px;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 
     .google-button {

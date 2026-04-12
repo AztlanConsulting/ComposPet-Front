@@ -18,6 +18,7 @@ import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import FirstLoginView from './presentation/views/auth/FirstLoginView';
 
 function Home() {
     const navigate = useNavigate();
@@ -132,6 +133,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<LoginForm />} />
+                    <Route path="/first-login" element={<FirstLoginView />} />
 
                     <Route path="/" element={
                         <ProtectedRoute>
