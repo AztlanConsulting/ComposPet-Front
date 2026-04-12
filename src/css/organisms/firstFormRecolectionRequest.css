@@ -1,0 +1,14 @@
+.first-form-recolection-request-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 4rem;
+    align-items: start;
+    justify-items: center;
+}
+
+@media (max-width: 768px) {
+    .first-form-recolection-request-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}

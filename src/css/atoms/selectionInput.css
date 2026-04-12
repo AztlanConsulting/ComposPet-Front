@@ -1,7 +1,7 @@
 .selection-input {
     cursor: pointer;
     accent-color: #03504D;
-    transform: scale(1.4);
+    transform: scale(1.6);
 }
 
 .selection-input:disabled {

@@ -21,15 +21,21 @@ import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import YesNoQuestion from './components/molecules/YesNoQuestion';
+import CounterInput from '../src/components/molecules/counterInput';
+import FormCard from './components/Template/formCard';
+
+import SolicitudView from './presentation/views/solicitudes/solicitudView';
 
 function Home() {
     const navigate = useNavigate();
 
     const [siquiereRecoleccion, setQuiereRecoleccion] = useState(true);
+    const [cubetasEntregadas, setCubetasEntregadas] = useState(5);
     
 
     const errors = useState({
         quiereRecoleccion: '',
+        cubetasEntregadas: '',
     });
 
     /**
@@ -138,6 +144,22 @@ function Home() {
                     />
                 </div>
 
+                <div className='col d-flex flex-column align-items-center flex-wrap'>
+                    <CounterInput
+                        question="¿Cuántas cubetas vacías quieres?"
+                        value={cubetasEntregadas}
+                        onIncrement={() => setCubetasEntregadas((prev) => prev + 1)}
+                        onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
+                        error={errors.cubetasEntregadas}
+                    />
+                </div>
+
+                <div className='col-12 d-flex justify-content-center mt-4'>
+                    <FormCard>
+                        <p style={{ margin: 0 }}>Preview de FormCard</p>
+                    </FormCard>
+                </div>
+
             </div>
 
 
@@ -164,9 +186,10 @@ function App() {
                             <Dashboard />
                         </ProtectedRoute>
                     }/>
-                    <Route path="/formulario-recoleccion" element={
+                    <Route path="/formulario-recoleccion" 
+                    element={
                         <ProtectedRoute>
-                            <p>Formulario Recoleccion</p>
+                            <SolicitudView />
                         </ProtectedRoute>
                     }/>
                 </Routes>
