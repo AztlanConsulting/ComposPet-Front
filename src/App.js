@@ -146,6 +146,11 @@ function App() {
                             <Dashboard />
                         </ProtectedRoute>
                     }/>
+                    <Route path="/formulario-recoleccion" element={
+                        <ProtectedRoute>
+                            <p>Formulario Recoleccion</p>
+                        </ProtectedRoute>
+                    }/>
                 </Routes>
             </Router>
         </GoogleOAuthProvider>
