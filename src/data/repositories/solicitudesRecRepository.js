@@ -1,5 +1,5 @@
 
-import { solicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
+import { SolicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
 
 /**
@@ -12,7 +12,7 @@ import {SolicitudRec} from '../../domain/entities/solicitudRec';
  * @see SolicitudRec
  */
 
-export class SolicitudesRecRepository extends solicitudesRecIRepository{
+export class SolicitudesRecRepository extends SolicitudesRecIRepository{
 
     /**
      * @param {import('../datasources/solicitudesRecApiClient').SolicitudesRecApiClient} apiClient
@@ -33,7 +33,6 @@ export class SolicitudesRecRepository extends solicitudesRecIRepository{
      * @param {string} fechaInicioSemana - Fecha inicial del rango semanal.
      * @param {string} fechaFinSemana - Fecha final del rango semanal.
      * @param {string} token - Token JWT del usuario autenticado.
-     * @returns {Promise<SolicitudRec>} Entidad de dominio con la solicitud obtenida.
      */
 
     async obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana){

@@ -9,7 +9,7 @@
  * @abstract
  */
 
-export class solicitudesRecIRepository{
+export class SolicitudesRecIRepository{
     /**
      * Obtiene la solicitud de recolección actual del cliente dentro del rango semanal indicado.
      *

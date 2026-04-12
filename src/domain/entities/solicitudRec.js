@@ -7,19 +7,19 @@
 export class SolicitudRec {
 
     /**
-     * @param {object} params - Datos de la solicitud provenientes del repositorio.
-     * @param {string} params.idSolicitud - Identificador único de la solicitud.
-     * @param {string} params.idCliente - Identificador único del cliente.
-     * @param {number|null} params.cubetasEntregadas - Cantidad de cubetas que el cliente entregará.
-     * @param {number|null} params.cubetasRecolectadas - Cantidad de cubetas vacías solicitadas.
-     * @param {number|null} params.totalAPagar - Total a pagar asociado a la solicitud.
-     * @param {number|null} params.totalPagado - Total pagado asociado a la solicitud.
-     * @param {string|Date} params.fecha - Fecha de la solicitud.
-     * @param {string|Date|null} params.horario - Horario asociado a la solicitud.
-     * @param {string|null} params.notas - Notas adicionales de la solicitud.
-     * @param {boolean|null} params.quiereRecoleccion - Indica si el cliente desea recolección.
-     * @param {boolean|null} params.quiereProductosExtra - Indica si el cliente desea productos extra.
-     * @param {number|null} params.idPago - Identificador de la forma de pago asociada.
+     * @param {object} params - Datos de la solicitud provenientes del repositorio
+     * @param {string} params.idSolicitud - Id único de la solicitud
+     * @param {string} params.idCliente - Id único del cliente.
+     * @param {number} params.cubetasEntregadas - Cantidad de cubetas vacías solicitadas
+     * @param {number} params.cubetasRecolectadas - Cantidad de cubetas entregadas por el cliente
+     * @param {number} params.totalAPagar - Total a pagar asociado a la solicitud
+     * @param {number} params.totalPagado - Total pagado asociado a la solicitud
+     * @param {string|Date} params.fecha - Fecha de la solicitud
+     * @param {string|Date} params.horario - Horario asociado a la solicitud
+     * @param {string} params.notas - Notas adicionales de la solicitud
+     * @param {boolean} params.quiereRecoleccion - Indica si el cliente desea recolección.
+     * @param {boolean} params.quiereProductosExtra - Indica si el cliente desea productos extra.
+     * @param {number} params.idPago - Id de la forma de pago asociada.
      */
 
     constructor({
@@ -55,7 +55,7 @@ export class SolicitudRec {
      *
      * @returns {boolean} `true` si el cliente desea recolección
      */
-    quiereRecoleccion(){
+    deseaRecoleccion(){
         return this.quiereRecoleccion === true;
     }
 
@@ -64,7 +64,7 @@ export class SolicitudRec {
      *
      * @returns {boolean} `true` si el cliente desea productos extra.
      */
-    quiereProductosExtra(){
+    deseaProductosExtra(){
         return this.quiereProductosExtra === true;
     }
 

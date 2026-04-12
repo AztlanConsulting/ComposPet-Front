@@ -17,6 +17,15 @@ export class SolicitudesRecApiClient {
     }
 
     /**
+     * Obtiene el token de autenticación almacenado en el navegador.
+     *
+     * @returns {string} Token JWT almacenado.
+     */
+    getToken() {
+        return localStorage.getItem('token');
+    }
+
+    /**
      * Obtiene la solicitud de recolección actual del cliente para el rango semanal indicado.
      * Si no existe una solicitud en ese rango, el backend crea una nueva y la retorna.
      *
@@ -28,21 +37,30 @@ export class SolicitudesRecApiClient {
 
     async obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana) {
 
-        console.log("Llega al SolicitudesRecApiClient con:", {idCliente, fechaInicioSemana, fechaFinSemana});
-        
-        const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/obtener`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({idCliente,fechaInicioSemana,fechaFinSemana})
-        });
+        try {
+            console.log("Llega al SolicitudesRecApiClient con:", {idCliente, fechaInicioSemana, fechaFinSemana});
 
-        const data = await response.json();
+            const token = this.getToken();
+            
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/obtener`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({idCliente,fechaInicioSemana,fechaFinSemana}),
+            });
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al obtener la solicitud de recolección.');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al obtener la solicitud de recolección.');
+            }
+
+            return data;
+        } catch (error) {
+            throw error;
         }
-
-        return data;
     }
 
     /**
@@ -72,10 +90,13 @@ export class SolicitudesRecApiClient {
                 cubetasEntregadas
             });
 
+            const token = this.getToken();
+
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/guardar`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     idSolicitud, 

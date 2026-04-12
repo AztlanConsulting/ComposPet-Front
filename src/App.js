@@ -3,11 +3,13 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import {useState} from 'react';
 
 import Icon from './components/atoms/Icon';
 import Button from './components/atoms/Button';
 import InputComponent from './components/molecules/InputComponent';
 import Image from './components/atoms/Image';
+
 
 import PersonImg from './public/img/person.png';
 import AniluImg from './public/img/Anilu.png';
@@ -18,9 +20,17 @@ import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import YesNoQuestion from './components/molecules/YesNoQuestion';
 
 function Home() {
     const navigate = useNavigate();
+
+    const [siquiereRecoleccion, setQuiereRecoleccion] = useState(true);
+    
+
+    const errors = useState({
+        quiereRecoleccion: '',
+    });
 
     /**
      * Callback ejecutado tras un inicio de sesión exitoso con Google.
@@ -116,6 +126,16 @@ function Home() {
                     <ProductCard></ProductCard>
 
                     <Login></Login>
+                </div>
+
+                <div>
+                    <YesNoQuestion
+                        id="quiere-recoleccion"
+                        question="¿Quieres recolección?"
+                        value={siquiereRecoleccion}
+                        onChange={setQuiereRecoleccion}
+                        error={errors.quiereRecoleccion}
+                    />
                 </div>
 
             </div>
