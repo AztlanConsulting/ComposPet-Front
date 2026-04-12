@@ -1,14 +1,46 @@
 .first-form-recolection-request-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+        "recoleccion cantidad-entregadas"
+        "productos cantidad-recolectadas";
     gap: 2.5rem 4rem;
     align-items: start;
     justify-items: center;
 }
 
+.first-form-recolection-request-recoleccion {
+    grid-area: recoleccion;
+}
+
+.first-form-recolection-request-cantidad-entregadas {
+    grid-area: cantidad-entregadas;
+}
+
+.first-form-recolection-request-productos {
+    grid-area: productos;
+}
+
+.first-form-recolection-request-cantidad-recolectadas {
+    grid-area: cantidad-recolectadas;
+}
+
 @media (max-width: 768px) {
     .first-form-recolection-request-grid {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "recoleccion"
+            "productos"
+            "cantidad-entregadas"
+            "cantidad-recolectadas";
         gap: 2rem;
+        justify-items: stretch;
+    }
+
+    .first-form-recolection-request-recoleccion,
+    .first-form-recolection-request-cantidad-entregadas,
+    .first-form-recolection-request-productos,
+    .first-form-recolection-request-cantidad-recolectadas {
+        width: 100%;
     }
 }

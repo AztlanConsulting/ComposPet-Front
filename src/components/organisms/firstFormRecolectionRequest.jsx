@@ -36,37 +36,45 @@ export default function FirstFormRecolectionRequest({
     return (
         <FormCard>
             <div className="first-form-recolection-request-grid">
-                <YesNoQuestion
-                    id="quiere-recoleccion"
-                    question="¿Quieres recolección?"
-                    value={quiereRecoleccion}
-                    onChange={setQuiereRecoleccion}
-                    error={errors.quiereRecoleccion}
-                />
+                <div className="first-form-recolection-request-recoleccion">
+                    <YesNoQuestion
+                        id="quiere-recoleccion"
+                        question="¿Te anotamos para recolección?"
+                        value={quiereRecoleccion}
+                        onChange={setQuiereRecoleccion}
+                        error={errors.quiereRecoleccion}
+                    />
+                </div>
 
-                <CounterInput
-                    question="¿Cuántas cubetas vacías quieres?"
-                    value={cubetasEntregadas}
-                    onIncrement={() => setCubetasEntregadas((prev) => prev + 1)}
-                    onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
-                    error={errors.cubetasEntregadas}
-                />
 
-                <YesNoQuestion
-                    id="quiere-productos-extra"
-                    question="¿Quieres productos extra?"
-                    value={quiereProductosExtra}
-                    onChange={setQuiereProductosExtra}
-                    error={errors.quiereProductosExtra}
-                />
+                <div className="first-form-recolection-request-cantidad-entregadas">
+                    <CounterInput
+                        question="¿Cuántas cubetas necesitas?"
+                        value={cubetasEntregadas}
+                        onIncrement={() => setCubetasEntregadas((prev) => prev + 1)}
+                        onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
+                        error={errors.cubetasEntregadas}
+                    />
+                </div>
 
-                <CounterInput
-                    question="¿Cuántas cubetas vas a entregar?"
-                    value={cubetasRecolectadas}
-                    onIncrement={() => setCubetasRecolectadas((prev) => prev + 1)}
-                    onDecrement={() => setCubetasRecolectadas((prev) => Math.max(0, prev - 1))}
-                    error={errors.cubetasRecolectadas}
-                />
+                <div className="first-form-recolection-request-productos">
+                    <YesNoQuestion
+                        id="quiere-productos-extra"
+                        question="¿Quieres productos extra?"
+                        value={quiereProductosExtra}
+                        onChange={setQuiereProductosExtra}
+                        error={errors.quiereProductosExtra}
+                    />
+                </div>
+                <div className="first-form-recolection-request-cantidad-recolectadas">
+                    <CounterInput
+                        question="¿Cuántas cubetas vas a entregar?"
+                        value={cubetasRecolectadas}
+                        onIncrement={() => setCubetasRecolectadas((prev) => prev + 1)}
+                        onDecrement={() => setCubetasRecolectadas((prev) => Math.max(0, prev - 1))}
+                        error={errors.cubetasRecolectadas}
+                    />
+                </div>            
             </div>
         </FormCard>
     );

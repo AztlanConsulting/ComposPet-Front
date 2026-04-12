@@ -11,6 +11,7 @@ import InputComponent from './components/molecules/InputComponent';
 import Image from './components/atoms/Image';
 
 
+
 import PersonImg from './public/img/person.png';
 import AniluImg from './public/img/Anilu.png';
 
@@ -23,20 +24,25 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import YesNoQuestion from './components/molecules/YesNoQuestion';
 import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
+import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 
 import SolicitudView from './presentation/views/solicitudes/solicitudView';
+
 
 function Home() {
     const navigate = useNavigate();
 
     const [siquiereRecoleccion, setQuiereRecoleccion] = useState(true);
     const [cubetasEntregadas, setCubetasEntregadas] = useState(5);
+
+    const currentStep = 3;
+    const totalSteps = 5;
     
 
-    const errors = useState({
+    const errors = {
         quiereRecoleccion: '',
         cubetasEntregadas: '',
-    });
+    };
 
     /**
      * Callback ejecutado tras un inicio de sesión exitoso con Google.
@@ -152,6 +158,14 @@ function Home() {
                         onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
                         error={errors.cubetasEntregadas}
                     />
+                </div>
+
+                <div className='col-12 d-flex flex-column align-items-center flex-wrap mt-4'>
+                    <h4>Preview ProgressSection</h4>
+
+                    <div style={{ width: '100%', maxWidth: '40rem' }}>
+                        <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
+                    </div>
                 </div>
 
                 <div className='col-12 d-flex justify-content-center mt-4'>

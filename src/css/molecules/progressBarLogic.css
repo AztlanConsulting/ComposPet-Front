@@ -1,0 +1,66 @@
+@import "../tokens/colors.css";
+@import "../tokens/typography.css";
+
+.progress-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-section-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-green-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 1.2rem;
+}
+
+.progress-section-bar-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 1.4rem;
+}
+
+.progress-section-percentage {
+    position: absolute;
+    top: -0.40rem;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-green-secondary);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .progress-section-title {
+        font-size: 1.3rem;
+        margin-top: 0.9rem;
+    }
+
+    .progress-section-percentage {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .progress-section-title {
+        font-size: 1.15rem;
+        margin-top: 0.8rem;
+    }
+
+    .progress-section-percentage {
+        font-size: 1rem;
+        top: -0.1rem;
+    }
+}

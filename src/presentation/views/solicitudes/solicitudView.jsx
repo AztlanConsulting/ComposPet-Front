@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
+import Button from '../../../components/atoms/Button';
+import '../../../css/recolectionRequest/solicitudView.css';
+import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 
 /**
  * Vista de la primera sección del formulario de recolección.
@@ -41,24 +44,54 @@ export default function SolicitudView() {
     };
 
     return (
-        <div className="solicitud-view-container">
-            <h1>Formulario de recolección</h1>
+        <main className="solicitud-view-background">
+            <section className="solicitud-content">
+                <h1 className="solicitud-title">
+                    Formulario de recolección
+                </h1>
 
-            <FirstFormRecolectionRequest
-                quiereRecoleccion={quiereRecoleccion}
-                setQuiereRecoleccion={setQuiereRecoleccion}
+                <div className="solicitud-progress">
+                    <ProgressBarLogic currentStep={1} totalSteps={5} />
+                </div>
 
-                quiereProductosExtra={quiereProductosExtra}
-                setQuiereProductosExtra={setQuiereProductosExtra}
 
-                cubetasEntregadas={cubetasEntregadas}
-                setCubetasEntregadas={setCubetasEntregadas}
+                <FirstFormRecolectionRequest
+                    quiereRecoleccion={quiereRecoleccion}
+                    setQuiereRecoleccion={setQuiereRecoleccion}
 
-                cubetasRecolectadas={cubetasRecolectadas}
-                setCubetasRecolectadas={setCubetasRecolectadas}
+                    quiereProductosExtra={quiereProductosExtra}
+                    setQuiereProductosExtra={setQuiereProductosExtra}
 
-                errors={errors}
-            />
-        </div>
+                    cubetasEntregadas={cubetasEntregadas}
+                    setCubetasEntregadas={setCubetasEntregadas}
+
+                    cubetasRecolectadas={cubetasRecolectadas}
+                    setCubetasRecolectadas={setCubetasRecolectadas}
+
+                    errors={errors}
+                />
+
+                <div className="solicitud-actions">
+                    <Button
+                        type="button"
+                        size="medium"
+                        csstype="cancel"
+                        className="solicitud-cancel-button"
+                    >
+                        Cancelar
+                    </Button>
+
+                    <Button
+                        type="button"
+                        size="medium"
+                        csstype="accept"
+                        className="solicitud-next-button"
+                    >
+                        Siguiente
+                    </Button>
+
+                </div>
+            </section>
+        </main>
     );
 }
