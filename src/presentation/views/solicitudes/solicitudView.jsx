@@ -88,13 +88,6 @@ export default function SolicitudView() {
                     </div>
                 )}
 
-                {currentStep === 5 && (
-                    <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
-                        <p>Contenido del Step 5</p>
-                    </div>
-                )}
-
 
                 <div className="solicitud-actions">
                     <Button

@@ -47,7 +47,7 @@ function calcularRangoSemanaActual() {
  * @returns {object} Estado general del formulario y acciones de navegación.
  */
 function useSolicitudViewModel() {
-    const totalSteps = 5;
+    const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
     
     const { idCliente } = useAuthenticatedClient();
