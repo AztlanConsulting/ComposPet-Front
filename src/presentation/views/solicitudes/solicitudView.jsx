@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
-import Button from '../../../components/atoms/Button';
 import '../../../css/recolectionRequest/solicitudView.css';
+
+import React from 'react';
+
+import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
+import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
+
+import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
+
+
 
 /**
  * Vista de la primera sección del formulario de recolección.
- * Actualmente funciona como una versión inicial de integración visual
- * del organismo `FirstFormRecolectionRequest`, utilizando estado local
- * para simular el comportamiento del formulario antes de conectarlo
- * al ViewModel y a la lógica completa del flujo.
+ * Actualmente funciona con steps conectado al viewmodel `useSolicitudViewModel`
+ * Primer step = organismo `FirstFormRecolectionRequest`
  *
- * Esta vista administra temporalmente:
+ * Esta vista administra:
  * - la respuesta de si el cliente desea recolección;
  * - la respuesta de si el cliente desea productos extra;
  * - la cantidad de cubetas entregadas;
@@ -22,26 +26,29 @@ import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
  */
 
 export default function SolicitudView() {
-    //Estado temporal para indicar si el cliente desea recolección.
-    const [quiereRecoleccion, setQuiereRecoleccion] = useState(true);
-
-    //Estado temporal para indicar si el cliente desea productos extra.
-    const [quiereProductosExtra, setQuiereProductosExtra] = useState(false);
-
-     //Estado temporal para la cantidad de cubetas vacías que serán entregadas al cliente.
-    const [cubetasEntregadas, setCubetasEntregadas] = useState(5);
-
-    
-    //Estado temporal para la cantidad de cubetas que serán recolectadas del cliente.
-    const [cubetasRecolectadas, setCubetasRecolectadas] = useState(5);
 
     //Objeto temporal de errores por campo, para simular validación y mostrar mensajes asociados.
-    const errors = {
-        quiereRecoleccion: '',
-        quiereProductosExtra: '',
-        cubetasEntregadas: '',
-        cubetasRecolectadas: '',
-    };
+    const {
+        currentStep,
+        totalSteps,
+
+        quiereRecoleccion,
+        setQuiereRecoleccion,
+
+        quiereProductosExtra,
+        setQuiereProductosExtra,
+
+        cubetasEntregadas,
+        setCubetasEntregadas,
+
+        cubetasRecolectadas,
+        setCubetasRecolectadas,
+
+        errors,
+
+        onNext,
+        onBack,
+    } = useSolicitudViewModel();
 
     return (
         <main className="solicitud-view-background">
@@ -51,7 +58,7 @@ export default function SolicitudView() {
                 </h1>
 
                 <div className="solicitud-progress">
-                    <ProgressBarLogic currentStep={1} totalSteps={5} />
+                    <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
                 </div>
 
 
@@ -77,6 +84,7 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="cancel"
                         className="solicitud-cancel-button"
+                        onClick={onBack}
                     >
                         Cancelar
                     </Button>
@@ -86,6 +94,7 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="accept"
                         className="solicitud-next-button"
+                        onClick={onNext}
                     >
                         Siguiente
                     </Button>
