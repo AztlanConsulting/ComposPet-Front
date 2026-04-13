@@ -36,7 +36,7 @@ export class ClientApiClient {
      */
 
     async obtenerClientePorIdUsuario(idUsuario) {
-
+        console.log("LLEGA A CLIENTE===================")
         try {
 
             console.log('Llega al ClienteApiClient con:', { idUsuario });

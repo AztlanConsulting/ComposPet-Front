@@ -45,4 +45,19 @@ export class SolicitudesRecIRepository{
         throw new Error("solicitudesRecIRepository.guardarSolicitudRecPrimeraSeccion() no implementado");
     }
 
+    /**
+     * Retrieves available extra products.
+     *
+     * @abstract
+     * @throws {Error}
+     */
+    async getExtraProducts() {
+        throw new Error("CollectionRequestRepositoryInterface.getExtraProducts() not implemented");
+    }
+
+
+    async guardarExtraProducts(idSolicitud, productos) {
+        throw new Error("SolicitudesRecIRepository.guardarExtraProducts() no implementado");
+    }
+
 }

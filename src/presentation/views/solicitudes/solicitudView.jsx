@@ -5,7 +5,7 @@ import React from 'react';
 import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
-
+import SecondPageForm from '../../../components/organisms/secondPageFormRecolectionRequest';
 import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
 
 
@@ -35,7 +35,8 @@ export default function SolicitudView() {
         onSecondaryAction,
         primaryButtonText,
         secondaryButtonText,
-        primeraSeccionVM
+        primeraSeccionVM,
+        segundaSeccionVM,
     } = useSolicitudViewModel();
 
     return (
@@ -68,10 +69,7 @@ export default function SolicitudView() {
                 )}
 
                 {currentStep === 2 && (
-                    <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
-                        <p>Contenido del Step 2</p>
-                    </div>
+                    <SecondPageForm segundaSeccionVM={segundaSeccionVM} />
                 )}
 
                 {currentStep === 3 && (

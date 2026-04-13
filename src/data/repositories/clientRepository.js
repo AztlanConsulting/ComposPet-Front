@@ -34,6 +34,7 @@ export class ClientRepository extends ClientIRepository{
 
     async obtenerClientePorIdUsuario(idUsuario) {
         const response = await this.apiClient.obtenerClientePorIdUsuario(idUsuario);
+        console.log("Respuesta cruda del apiClient:", response.data);
 
         //Importante para acceder a el cuerpo de la respuesta
         const data = response.data;

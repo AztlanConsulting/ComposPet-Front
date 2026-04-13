@@ -36,7 +36,7 @@ export class SolicitudesRecApiClient {
      */
 
     async obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana) {
-
+        console.log("Llega a la api =================")
         try {
             console.log("Llega al SolicitudesRecApiClient con:", {idCliente, fechaInicioSemana, fechaFinSemana});
 
@@ -113,6 +113,73 @@ export class SolicitudesRecApiClient {
 
             if (!response.ok) {
                 throw new Error(data.message || 'Error al guardar la primera sección de la solicitud de recolección.');
+            }
+
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Obtiene los productos extra disponibles para la solicitud de recolección actual.
+     */
+
+    async getExtraProducts() {
+        try{
+            console.log("Llega al SolicitudesRecApiClient con:");
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/obtener`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al guardar la primera sección de la solicitud de recolección.');
+            }
+
+            console.log("Respuesta del backend:", data);
+
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async guardarProductosExtra(
+        idSolicitud,
+        producto,
+    ) {
+        try{
+            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
+                idSolicitud,
+                producto
+            });
+
+            const token = this.getToken();
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/guardar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    idSolicitud,
+                    producto
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al guardar los productos extra de la solicitud de recolección.');
             }
 
             return data;
