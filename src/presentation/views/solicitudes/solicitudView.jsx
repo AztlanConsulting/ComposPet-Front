@@ -32,8 +32,10 @@ export default function SolicitudView() {
     const {
         currentStep,
         totalSteps,
-        onNext,
-        onBack,
+        onPrimaryAction,
+        onSecondaryAction,
+        primaryButtonText,
+        secondaryButtonText,
         primeraSeccionVM
     } = useSolicitudViewModel();
 
@@ -68,8 +70,26 @@ export default function SolicitudView() {
                 )}
 
                 {currentStep === 2 && (
-                    <SecondPageForm />
+                    <div>
+                        {/* Aquí irá la lógica del step 2, 3, 4... */}
+                        <p>Contenido del Step 2</p>
+                    </div>
                 )}
+
+                {currentStep === 3 && (
+                    <div>
+                        {/* Aquí irá la lógica del step 2, 3, 4... */}
+                        <p>Contenido del Step 3</p>
+                    </div>
+                )}
+
+                {currentStep === 4 && (
+                    <div>
+                        {/* Aquí irá la lógica del step 2, 3, 4... */}
+                        <p>Contenido del Step 4</p>
+                    </div>
+                )}
+
 
                 <div className="solicitud-actions">
                     <Button
@@ -77,9 +97,9 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="cancel"
                         className="solicitud-cancel-button"
-                        onClick={onBack}
+                        onClick={onSecondaryAction}
                     >
-                        Cancelar
+                        {secondaryButtonText}
                     </Button>
 
                     <Button
@@ -87,10 +107,10 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="accept"
                         className="solicitud-next-button"
-                        onClick={onNext}
+                        onClick={onPrimaryAction}
                         disabled={primeraSeccionVM.loading}
                     >
-                        {primeraSeccionVM.loading ? 'Guardando...' : 'Siguiente'}
+                        {primeraSeccionVM.loading ? 'Guardando...' : primaryButtonText}
                     </Button>
                 </div>
             </section>
