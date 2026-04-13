@@ -13,9 +13,9 @@ import { GetClientUseCase } from '../../../domain/useCases/getClientUseCase';
 function useAuthenticatedClient() {
     const [client, setClient] = useState(null);
 
-    const rawUser = sessionStorage.getItem('user');
-    const storedUser = rawUser ? JSON.parse(rawUser) : null;
-    const idUsuario = storedUser?.id || null;
+    const token = sessionStorage.getItem("token");
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const idUsuario = payload.id;
 
     useEffect(() => {
         const obtenerCliente = async () => {
