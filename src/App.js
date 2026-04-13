@@ -23,46 +23,11 @@ import FirstLoginView from './presentation/views/auth/FirstLoginView';
 function Home() {
     const navigate = useNavigate();
 
-    /**
-     * Callback ejecutado tras un inicio de sesión exitoso con Google.
-     * * Realiza la sincronización con el backend para obtener un JWT de sesión
-     * y persiste ambos tokens en el almacenamiento local.
-     * * @async
-     * @param {Object} tokenResponse - Respuesta del SDK de Google.
-     * @param {string} tokenResponse.access_token - Token de portador (Bearer) de Google.
-     * @returns {void} Redirige al usuario a la ruta '/dashboard'.
-     */
-    const login = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            localStorage.setItem('accessToken', tokenResponse.access_token);
-            
-            try {
-                const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/auth/google`, {
-                    token: tokenResponse.access_token 
-                });
-
-                localStorage.setItem('userToken', res.data.token);
-                localStorage.setItem('accessToken', tokenResponse.access_token);
-                localStorage.setItem('user', JSON.stringify(res.data.user));
-                navigate('/dashboard');
-            } catch (error) {
-                console.error("Error al conectar", error);
-            }
-        },
-        scope: "https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/spreadsheets"
-    });
 
     return (
         <div className='container'>
             <div className='row'>
 
-                <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <h5>Iniciar Sesión con Gmail</h5>
-                    <button onClick={() => login()} className="button-google">
-                        Conectar con Google y Gmail
-                    </button>
-                
-                </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <Button size='extra-lg' csstype='info' className='button'>Extra grande</Button>
@@ -135,22 +100,11 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/first-login" element={<FirstLoginView />} />
 
-                    <Route path="/" element={
-                        <ProtectedRoute>
-                            <Home />
-                        </ProtectedRoute>
-                    }/>
-
-                    <Route path="/dashboard" element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }/>
-                    <Route path="/formulario-recoleccion" element={
-                        <ProtectedRoute>
-                            <p>Formulario Recoleccion</p>
-                        </ProtectedRoute>
-                    }/>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/formulario-recoleccion" element={<p>Formulario Recoleccion</p>} />
+                    </Route>
                 </Routes>
             </Router>
         </GoogleOAuthProvider>

@@ -1,4 +1,5 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { isAuthenticated } from "../api/axiosConfig";
 
 /**
  * Componente de ruta protegida que restringe el acceso a usuarios autenticados.
@@ -10,12 +11,12 @@ import { Navigate } from "react-router-dom";
  * @param {React.ReactNode} props.children - Componente o vista a renderizar si el usuario está autenticado.
  * @returns {JSX.Element} El contenido protegido o una redirección a `/login`.
  */
-export default function ProtectedRoute({ children }) {
-    const token = sessionStorage.getItem("token");
+export default function ProtectedRoute() {
+    const user = sessionStorage.getItem("user");
 
-    if (!token) {
-        return <Navigate to="/login" replace />;
+    if (isAuthenticated() || user) {
+        return <Outlet />;
     }
 
-    return children;
+    return <Navigate to="/login" replace />;
 }
