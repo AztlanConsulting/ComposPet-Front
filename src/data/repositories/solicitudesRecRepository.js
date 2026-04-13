@@ -36,7 +36,13 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
      */
 
     async obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana){
-        const data = await this.apiClient.obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana);
+        const response = await this.apiClient.obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana);
+
+        //Importante para acceder a el cuerpo de la respuesta
+        const data = response.data;
+
+        console.log('Respuesta cruda del apiClient:', response);
+        console.log('response.data:', response.data);
 
         return new SolicitudRec({
             idSolicitud: data.id_solicitud,
@@ -67,7 +73,10 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
      */
 
     async guardarSolicitudRecPrimeraSeccion(idSolicitud, quiereRecoleccion, quiereProductosExtra, cubetasRecolectadas, cubetasEntregadas){
-        const data = await this.apiClient.guardarSolicitudRecPrimeraSeccion(idSolicitud, quiereRecoleccion, quiereProductosExtra, cubetasRecolectadas, cubetasEntregadas);
+        const response = await this.apiClient.guardarSolicitudRecPrimeraSeccion(idSolicitud, quiereRecoleccion, quiereProductosExtra, cubetasRecolectadas, cubetasEntregadas);
+
+        const data = response.data;
+
         return new SolicitudRec({
             idSolicitud: data.id_solicitud,
             idCliente: data.id_cliente,

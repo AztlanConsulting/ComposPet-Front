@@ -31,23 +31,9 @@ export default function SolicitudView() {
     const {
         currentStep,
         totalSteps,
-
-        quiereRecoleccion,
-        setQuiereRecoleccion,
-
-        quiereProductosExtra,
-        setQuiereProductosExtra,
-
-        cubetasEntregadas,
-        setCubetasEntregadas,
-
-        cubetasRecolectadas,
-        setCubetasRecolectadas,
-
-        errors,
-
         onNext,
         onBack,
+        primeraSeccionVM
     } = useSolicitudViewModel();
 
     return (
@@ -61,22 +47,23 @@ export default function SolicitudView() {
                     <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
                 </div>
 
+                {currentStep === 1 && (
+                    <FirstFormRecolectionRequest
+                        quiereRecoleccion={primeraSeccionVM.quiereRecoleccion}
+                        setQuiereRecoleccion={primeraSeccionVM.setQuiereRecoleccion}
 
-                <FirstFormRecolectionRequest
-                    quiereRecoleccion={quiereRecoleccion}
-                    setQuiereRecoleccion={setQuiereRecoleccion}
+                        quiereProductosExtra={primeraSeccionVM.quiereProductosExtra}
+                        setQuiereProductosExtra={primeraSeccionVM.setQuiereProductosExtra}
 
-                    quiereProductosExtra={quiereProductosExtra}
-                    setQuiereProductosExtra={setQuiereProductosExtra}
+                        cubetasEntregadas={primeraSeccionVM.cubetasEntregadas}
+                        setCubetasEntregadas={primeraSeccionVM.setCubetasEntregadas}
 
-                    cubetasEntregadas={cubetasEntregadas}
-                    setCubetasEntregadas={setCubetasEntregadas}
+                        cubetasRecolectadas={primeraSeccionVM.cubetasRecolectadas}
+                        setCubetasRecolectadas={primeraSeccionVM.setCubetasRecolectadas}
 
-                    cubetasRecolectadas={cubetasRecolectadas}
-                    setCubetasRecolectadas={setCubetasRecolectadas}
-
-                    errors={errors}
-                />
+                        errors={primeraSeccionVM.errors}
+                    />
+                )}
 
                 <div className="solicitud-actions">
                     <Button
@@ -95,10 +82,10 @@ export default function SolicitudView() {
                         csstype="accept"
                         className="solicitud-next-button"
                         onClick={onNext}
+                        disabled={primeraSeccionVM.loading}
                     >
-                        Siguiente
+                        {primeraSeccionVM.loading ? 'Guardando...' : 'Siguiente'}
                     </Button>
-
                 </div>
             </section>
         </main>
