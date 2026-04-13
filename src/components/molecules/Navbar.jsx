@@ -41,10 +41,15 @@ export default function Navbar() {
 
     const title = "Inicio";
     const homeOptions = [
-        { label: "Solicitar recolección", path: "" },
         { label: "¿Quiénes somos?", path: "" },
         { label: "Equipo", path: "" },
         { label: "¿Cómo funciona?", path: "" }
+    ];
+
+    const titleMyRecolections = "Mis recolecciones";
+    const myRecolectionsOptions = [
+        { label: "Solicitar recolección", path: "" },
+        { label: "Mi Perfil", path: "" },
     ];
 
     return (
@@ -58,8 +63,10 @@ export default function Navbar() {
             {/* Links centro — solo desktop */}
             <div className="navbarCenter">
                 <Dropdown title={title} options={homeOptions} />
-                <NavbarItem route="/MisRecolecciones">Mis recolecciones</NavbarItem>
-                <NavbarItem route="/faq">FAQ</NavbarItem>
+                {isLoggedIn && (
+                    <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
+                )}
+                <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem>
             </div>
 
             {/* Cerrar sesión — solo desktop */}
@@ -94,7 +101,9 @@ export default function Navbar() {
             {menuOpen && (
                 <div className="navbarMobileMenu">
                     <Dropdown title={title} options={homeOptions} />
-                    <NavbarItem route="/MisRecolecciones">Mis recolecciones</NavbarItem>
+                    {isLoggedIn && (
+                        <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
+                    )}
                     <NavbarItem route="/faq">FAQ</NavbarItem>
                     {isLoggedIn ? (
                         <NavbarItem route="/logout" logout={true}>
