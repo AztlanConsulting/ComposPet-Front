@@ -8,7 +8,7 @@
 
 export class ObtenerSolicitudRecActualUseCase {
     /**
-     * @param {import('../../domain/repositories/solicitudesRecInterfaceRepository').SolicitudesRecIRepository} solicitudesRecRepository
+     * @param {import('../repositories/solicitudesRecInterfaceRepository').SolicitudesRecIRepository} solicitudesRecRepository
      * Implementación del repositorio de solicitudes de recolección.
      */
 
@@ -28,15 +28,22 @@ export class ObtenerSolicitudRecActualUseCase {
      */
 
     async execute(idCliente, fechaInicioSemana, fechaFinSemana){
-        if(!idCliente,fechaInicioSemana, fechaFinSemana){
-            throw new Error("El id ")
+        console.log('UseCase execute recibió:', {
+            idCliente,
+            fechaInicioSemana,
+            fechaFinSemana,
+        });
+        if(!idCliente || !fechaInicioSemana || !fechaFinSemana){
+            throw new Error("Faltan parámetros requeridos")
         }
 
         const solicitudRec = await this.solicitudesRecRepository.obtenerSolicitudRecActual(
             idCliente,
             fechaInicioSemana,
-            fechaFinSemana
+            fechaFinSemana,
         );
+
+        console.log('Solicitud de recolección actual obtenida:', solicitudRec);
         return solicitudRec; 
     }
 }

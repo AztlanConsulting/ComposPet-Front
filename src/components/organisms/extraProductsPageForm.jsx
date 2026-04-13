@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CollectionRequestViewModel from "../../presentation/viewmodels/collectionRequest/collectionRequestViewModel";
+import CollectionRequestViewModel from "../../presentation/viewmodels/solicitudes/collectionRequestViewModel";
 import ProductCard from "../molecules/ProductCard";
 import NavBar from "../molecules/Navbar";
 import FormCard from "../Template/formCard";
@@ -136,25 +136,6 @@ function ExtraProductsView() {
                 )}
 
             </FormCard>
-            <div className="solicitud-actions">
-                <Button
-                    type="button"
-                    size="medium"
-                    csstype="cancel"
-                >
-                    Atrás
-                </Button>
-
-                <Button
-                    type="button"
-                    size="medium"
-                    csstype="accept"
-                    onClick={handleSiguiente}
-                >
-                    Siguiente
-                </Button>
-
-            </div>
             
         </div>
     );

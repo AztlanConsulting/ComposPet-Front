@@ -15,9 +15,6 @@ function CollectionRequestViewModel() {
     const token = sessionStorage.getItem("token");
     const payload = JSON.parse(atob(token.split('.')[1]));
     const idCliente = payload.id;
-    console.log("Toke", token);
-    console.log("Payload", payload);
-    console.log("ID Cliente", idCliente);
 
     const apiClient = new SolicitudesRecApiClient();
     const repository = new SolicitudesRecRepository(apiClient);

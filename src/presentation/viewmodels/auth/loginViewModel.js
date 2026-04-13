@@ -154,6 +154,9 @@ function useLoginViewModel(){
             const user = await loginUseCase.execute(email, password);
 
             sessionStorage.setItem("token", user.token);
+            sessionStorage.setItem("user", JSON.stringify({
+                id: user.id,
+            }));
 
             handleRedirect(user);
         } catch (err) {

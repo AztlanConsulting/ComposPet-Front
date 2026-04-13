@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
-import Button from '../../../components/atoms/Button';
 import '../../../css/recolectionRequest/solicitudView.css';
+
+import React from 'react';
+
+import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
+import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
 import NavBar from '../../../components/molecules/Navbar';
+import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
+import SecondPageForm from '../../../components/organisms/extraProductsPageForm';
+
+
 
 /**
  * Vista de la primera sección del formulario de recolección.
- * Actualmente funciona como una versión inicial de integración visual
- * del organismo `FirstFormRecolectionRequest`, utilizando estado local
- * para simular el comportamiento del formulario antes de conectarlo
- * al ViewModel y a la lógica completa del flujo.
+ * Actualmente funciona con steps conectado al viewmodel `useSolicitudViewModel`
+ * Primer step = organismo `FirstFormRecolectionRequest`
  *
- * Esta vista administra temporalmente:
+ * Esta vista administra:
  * - la respuesta de si el cliente desea recolección;
  * - la respuesta de si el cliente desea productos extra;
  * - la cantidad de cubetas entregadas;
@@ -23,26 +27,15 @@ import NavBar from '../../../components/molecules/Navbar';
  */
 
 export default function SolicitudView() {
-    //Estado temporal para indicar si el cliente desea recolección.
-    const [quiereRecoleccion, setQuiereRecoleccion] = useState(true);
-
-    //Estado temporal para indicar si el cliente desea productos extra.
-    const [quiereProductosExtra, setQuiereProductosExtra] = useState(false);
-
-     //Estado temporal para la cantidad de cubetas vacías que serán entregadas al cliente.
-    const [cubetasEntregadas, setCubetasEntregadas] = useState(5);
-
-    
-    //Estado temporal para la cantidad de cubetas que serán recolectadas del cliente.
-    const [cubetasRecolectadas, setCubetasRecolectadas] = useState(5);
 
     //Objeto temporal de errores por campo, para simular validación y mostrar mensajes asociados.
-    const errors = {
-        quiereRecoleccion: '',
-        quiereProductosExtra: '',
-        cubetasEntregadas: '',
-        cubetasRecolectadas: '',
-    };
+    const {
+        currentStep,
+        totalSteps,
+        onNext,
+        onBack,
+        primeraSeccionVM
+    } = useSolicitudViewModel();
 
     return (
         <main className="solicitud-view-background">
@@ -53,25 +46,30 @@ export default function SolicitudView() {
                 </h1>
 
                 <div className="solicitud-progress">
-                    <ProgressBarLogic currentStep={1} totalSteps={5} />
+                    <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
                 </div>
 
+                {currentStep === 1 && (
+                    <FirstFormRecolectionRequest
+                        quiereRecoleccion={primeraSeccionVM.quiereRecoleccion}
+                        setQuiereRecoleccion={primeraSeccionVM.setQuiereRecoleccion}
 
-                <FirstFormRecolectionRequest
-                    quiereRecoleccion={quiereRecoleccion}
-                    setQuiereRecoleccion={setQuiereRecoleccion}
+                        quiereProductosExtra={primeraSeccionVM.quiereProductosExtra}
+                        setQuiereProductosExtra={primeraSeccionVM.setQuiereProductosExtra}
 
-                    quiereProductosExtra={quiereProductosExtra}
-                    setQuiereProductosExtra={setQuiereProductosExtra}
+                        cubetasEntregadas={primeraSeccionVM.cubetasEntregadas}
+                        setCubetasEntregadas={primeraSeccionVM.setCubetasEntregadas}
 
-                    cubetasEntregadas={cubetasEntregadas}
-                    setCubetasEntregadas={setCubetasEntregadas}
+                        cubetasRecolectadas={primeraSeccionVM.cubetasRecolectadas}
+                        setCubetasRecolectadas={primeraSeccionVM.setCubetasRecolectadas}
 
-                    cubetasRecolectadas={cubetasRecolectadas}
-                    setCubetasRecolectadas={setCubetasRecolectadas}
+                        errors={primeraSeccionVM.errors}
+                    />
+                )}
 
-                    errors={errors}
-                />
+                {currentStep === 2 && (
+                    <SecondPageForm />
+                )}
 
                 <div className="solicitud-actions">
                     <Button
@@ -79,6 +77,7 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="cancel"
                         className="solicitud-cancel-button"
+                        onClick={onBack}
                     >
                         Cancelar
                     </Button>
@@ -88,10 +87,11 @@ export default function SolicitudView() {
                         size="medium"
                         csstype="accept"
                         className="solicitud-next-button"
+                        onClick={onNext}
+                        disabled={primeraSeccionVM.loading}
                     >
-                        Siguiente
+                        {primeraSeccionVM.loading ? 'Guardando...' : 'Siguiente'}
                     </Button>
-
                 </div>
             </section>
         </main>

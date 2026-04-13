@@ -36,3 +36,24 @@
     font-size: 1.2rem;
     color: #d9534f;
 }
+
+@media (max-width: 768px) {
+    .yes-no-question-title {
+        font-size: 1.45rem;
+    }
+
+    .yes-no-question-option {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .yes-no-question-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .yes-no-question-option {
+        font-size: 1.1rem;
+    }
+}
