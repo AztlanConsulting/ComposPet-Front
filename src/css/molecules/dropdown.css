@@ -1,0 +1,30 @@
+/* BOTÓN DEL DROPDOWN */
+.my-dropdown .dropdown-menu{
+    background-color: #EFFFF9 !important;
+    color: black !important;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px 16px;
+    border-color: #15A19B;
+    width: 203px;
+}
+
+/* items */
+.my-dropdown .dropdown-item {
+  color: black;
+  padding: 12px 16px;
+}
+
+/* estilo cuando los items tienen hover */
+.my-dropdown .dropdown-item:hover,
+.my-dropdown .dropdown-item:focus {
+  background-color: #EFFFF9;
+  color: black;
+  font-weight: bold;
+}
+
+/* Estiliza el botón visible del dropdown dentro del navbar */
+.my-dropdown .dropdown-toggle {
+  background-color: #EFFFF9 !important;
+  color: black !important;
+}

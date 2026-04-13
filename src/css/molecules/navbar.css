@@ -1,0 +1,189 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+/**
+ * NAVBAR - ESTILOS GENERALES
+ *
+ * Define la estructura visual del navbar en modo escritorio (desktop).
+ * Utiliza flexbox para alinear los elementos y posicionamiento absoluto
+ * para centrar los links principales.
+ */
+
+/* Contenedor principal del navbar */
+.navbar {
+    width: 100%;
+    background-color: #EFFFF9;
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    position: relative;
+    font-weight: bold;
+}
+
+/* Imagen del navbar */
+.navbarLogo {
+    width: 161px;
+    height: auto;
+    margin-left: 120px;
+}
+
+/* Ajusta la imagen */
+.navbarLeft {
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+/* Ajusta los texto */
+.navbarCenter {
+    position: absolute;
+    left: 35%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    color: black;
+}
+
+/* Ajusta el botón (logín / logout) */
+.navbarRight {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 100px;
+}
+
+/* Da estilo a los links del navbar */
+.navbarItem {
+    text-decoration: none;
+    color: black;
+}
+
+/* Da formato al boton de logout */
+.logout {
+    color: #D14242;
+    text-decoration: none;
+    background-color: #E9D9D4;
+    padding: 4px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Da formato al boton de logout cuando tiene hover */
+.logout:hover {
+    color: #D14242;
+    border: 1px solid #D14242;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #E9D9D4;
+}
+
+/* Da estilo al botóm de login */
+.login .navbarItem{
+    color: #15A19B;
+    text-decoration: none;
+    background-color: #DBFFF2;
+    padding: 4px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Da estilo al botón de login cuando tiene hover */
+.login .navbarItem:hover {
+    color: #15A19B;
+    border: 1px solid #15A19B;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #DBFFF2;
+}
+
+/* Ocultar elementos mobile en desktop */
+.navbarHamburger {
+    display: none;
+}
+
+/* Menu desplegable móvil */
+.navbarMobileMenu {
+    display: none;
+}
+
+/**
+ * NAVBAR - ESTILOS GENERALES
+ *
+ * . Ajusta el navbar para pantallas pequeñas:
+ * - Oculta navegación de escritorio
+ * - Muestra botón hamburguesa
+ * - Despliega menú vertical
+ */
+@media (max-width: 1300px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        padding: 16px 20px !important;
+    }
+
+    .navbarLogo {
+        margin-left: 0;
+        width: 130px;
+    }
+
+    /* Ocultar links y cerrar sesión de desktop */
+    .navbarCenter,
+    .navbarRight {
+        display: none;
+    }
+
+    /* Mostrar hamburguesa a la derecha */
+    .navbarHamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    /* Ícono de 3 líneas */
+    .hamburgerIcon {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 24px;
+    }
+
+    .hamburgerIcon span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: #333;
+        border-radius: 2px;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    /* Animación X al abrir el menu en el teléfono*/
+    /* Ajusta los ángulos de los tres span rotandolos 45 ángulos y ocultando la línea del centro */
+    .hamburgerIcon.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .hamburgerIcon.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburgerIcon.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Menú desplegable mobile */
+    .navbarMobileMenu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+        padding: 16px 4px 8px;
+        border-top: 1px solid #d5f0e8;
+        margin-top: 8px;
+    }
+}
