@@ -2,7 +2,13 @@ import { useState } from 'react';
 
 
 import useSolicitudRecPrimeraSeccionViewModel from './firstFormViewModel';
-import useAuthenticatedClient from '../share/useAuthenticatedClient';
+//import useSolicitudRecSegundaSeccionViewModel from './secondFormViewModel';
+//import useSolicitudRecTerceraSeccionViewModel from './thirdFormViewModel';
+//import useSolicitudRecCuartaSeccionViewModel from './fourthFormViewModel';
+//import useSolicitudRecQuintaSeccionViewModel from './fifthFormViewModel';
+
+
+import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 
 /**
  * Calcula el rango de la semana actual 
@@ -55,28 +61,72 @@ function useSolicitudViewModel() {
         fechaFinSemana,
     );
 
-    const onBack = () => {
+    /*const segundaSeccionVM = useSolicitudRecSegundaSeccionViewModel(
+        idCliente,
+        fechaInicioSemana,
+        fechaFinSemana,
+    );*/
+
+    const regresarStep = () => {
         if (currentStep > 1) {
             setCurrentStep((prev) => prev - 1);
         }
     };
 
-    const onNext = async () => {
+    const cancelarFormulario = () => {
+        console.log('Aquí irá la lógica de cancelar del step 1');
+        // Aquí puedes agregar la lógica para cancelar el formulario, como limpiar estados y redirigir a Home 
+        // Mandas a llamar a la función ya sea que la separes en utils o este en un viewmodel específico.
+    };
+
+
+    const onSecondaryAction = () => {
+        if (currentStep === 1) {
+            cancelarFormulario();
+            return;
+        }
+
+        regresarStep();
+    };
+
+    const onPrimaryAction = async () => {
         if (currentStep === 1) {
             const result = await primeraSeccionVM.guardarPrimeraSeccion();
 
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
             }
+            return;
         }
+
+        if (currentStep < totalSteps) {
+            setCurrentStep((prev) => prev + 1);
+        }
+        // Aquí después irá la lógica del step 2, 3, 4...
+        /*if (currentStep === 2) {
+            const result = await segundaSeccionVM.guardarSegundaSeccion();
+
+            if (result.success && result.nextStep) {
+                setCurrentStep(result.nextStep);
+            }
+            return;
+        }*/
     };
+
+    const secondaryButtonText = currentStep === 1 ? 'Cancelar' : 'Regresar';
+    const primaryButtonText = currentStep === totalSteps ? 'Enviar' : 'Siguiente';
+
+
 
     return {
         currentStep,
         totalSteps,
-        onNext,
-        onBack,
+        onPrimaryAction,
+        onSecondaryAction,
+        primaryButtonText,
+        secondaryButtonText,
         primeraSeccionVM,
+        //SegundaSeccionVM, // Reemplazar con segundaSeccionVM cuando esté implementada
     };
 }
 
