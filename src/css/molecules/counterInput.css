@@ -41,3 +41,33 @@
     font-size: 1.2rem;
     color: #d9534f;
 }
+
+@media (max-width: 768px) {
+    .counter-input-title {
+        font-size: 1.45rem;
+    }
+
+    .counter-input-value {
+        width: 4.2rem;
+        height: 2rem;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .counter-input-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .counter-input-controls {
+        gap: 0.65rem;
+        justify-content: center;
+    }
+
+    .counter-input-value {
+        width: 3.8rem;
+        height: 1.9rem;
+        font-size: 1.1rem;
+    }
+}

@@ -24,5 +24,11 @@
     .form-card {
         padding: 1rem;
         border-radius: 1rem;
+        padding: 1rem;
+        min-height: auto;
+        border-width: 0.15rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.15rem 1.5rem #03504D55;
     }
 }
+
