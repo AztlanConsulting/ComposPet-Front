@@ -3,6 +3,7 @@ import FirstFormRecolectionRequest from '../../../components/organisms/firstForm
 import Button from '../../../components/atoms/Button';
 import '../../../css/recolectionRequest/solicitudView.css';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
+import NavBar from '../../../components/molecules/Navbar';
 
 /**
  * Vista de la primera sección del formulario de recolección.
@@ -45,6 +46,7 @@ export default function SolicitudView() {
 
     return (
         <main className="solicitud-view-background">
+            <NavBar />
             <section className="solicitud-content">
                 <h1 className="solicitud-title">
                     Formulario de recolección

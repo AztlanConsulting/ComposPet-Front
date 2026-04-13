@@ -1,4 +1,3 @@
-
 import { SolicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
 import {ExtraProduct} from '../../domain/entities/extraProduct';
@@ -99,4 +98,26 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
         }));
     }
 
+    async guardarExtraProducts(idSolicitud, productos) {
+        return await this.apiClient.guardarProductosExtra(idSolicitud, productos);
+    }
+
+    async obtenerUltimaSolicitudRec(idCliente){
+        const data = await this.apiClient.obtenerUltimaSolicitudRec(idCliente);
+
+        return new SolicitudRec({
+            idSolicitud: data.id_solicitud,
+            idCliente: data.id_cliente,
+            cubetasEntregadas: data.cubetas_entregadas,
+            cubetasRecolectadas: data.cubetas_recolectadas,
+            totalAPagar: data.total_a_pagar,
+            totalPagado: data.total_pagado,
+            fecha: data.fecha,
+            horario: data.horario,
+            notas: data.notas,
+            quiereRecoleccion: data.quiere_recoleccion,
+            quiereProductosExtra: data.quiere_productos_extra,
+            idPago: data.id_pago,
+        });
+    }
 }

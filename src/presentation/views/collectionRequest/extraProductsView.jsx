@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import CollectionRequestViewModel from "../../viewmodels/collectionRequest/collectionRequestViewModel";
+import CollectionRequestViewModel from "../../../presentation/viewmodels/collectionRequest/collectionRequestViewModel";
 import ProductCard from "../../../components/molecules/ProductCard";
 import NavBar from "../../../components/molecules/Navbar";
 

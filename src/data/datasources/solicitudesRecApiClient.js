@@ -149,4 +149,75 @@ export class SolicitudesRecApiClient {
             throw error;
         }
     }
+
+    async guardarProductosExtra(
+        idSolicitud,
+        producto,
+    ) {
+        try{
+            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
+                idSolicitud,
+                producto
+            });
+
+            const token = this.getToken();
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/guardar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    idSolicitud,
+                    producto
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al guardar los productos extra de la solicitud de recolección.');
+            }
+
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async obtenerUltimaSolicitudRec(
+        idCliente,
+    ) {
+        try{
+            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
+                idCliente,
+            });
+
+            const token = this.getToken();
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/ultimaSolicitud`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_cliente : idCliente,
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al obtener la última solicitud de recolección.');
+            }
+
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }

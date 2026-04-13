@@ -65,7 +65,7 @@ export default function Navbar() {
             {/* Cerrar sesión — solo desktop */}
             <div className="navbarRight">
                 {isLoggedIn ? (
-                    <NavbarItem route="/logout" logout={true}>
+                    <NavbarItem route="/" logout={true}>
                         Cerrar sesión
                     </NavbarItem>
                 ) : (

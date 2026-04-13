@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { SolicitudesRecApiClient } from "../../../data/datasources/solicitudesRecApiClient";    

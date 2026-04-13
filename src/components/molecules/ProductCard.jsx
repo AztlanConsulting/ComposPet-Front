@@ -22,10 +22,13 @@ export default function ProductCard({
     name = "",
     description = "",
     price = 0,
-    onClick = () => {},
+    cantidad = 0,
+    onClickAgregar = () => {},
+    onClickEliminar = () => {},
+    agotado = false
 }) {
     return (
-        <Card className='text-center product-card'>
+        <Card className='product-card justify-content-center align-items-center'>
             <div className='d-flex justify-content-center align-items-center image-back'>
                 <Image src={imageUrl} alt={name} size='image-medium' variant='normal'></Image>
             </div>
@@ -37,9 +40,20 @@ export default function ProductCard({
                 <Card.Text className='m-1 product-price'>
                 Precio: ${price.toFixed(2)}
                 </Card.Text>
-                <Button size='small' csstype='accept' className='button' onClick={onClick}>
-                    Agregar
-                </Button>
+                <div className='buttons'>
+                     <Button size='small' csstype='delete' className='buttonDelete' onClick={onClickEliminar} disabled={cantidad === 0}>
+                        -
+                    </Button>
+                    {cantidad > 0 && (
+                        <p className="product-cantidad">{cantidad}</p>
+                    )}
+                    <Button size='small' csstype='accept' className='buttonAdd' onClick={onClickAgregar} disabled={agotado}>
+                        +
+                    </Button>
+                </div>
+                {agotado && (
+                    <p className="product-agotado">Producto agotado</p>
+                )}
             </Card.Body>
         </Card>
     );

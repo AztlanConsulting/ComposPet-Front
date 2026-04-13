@@ -55,4 +55,12 @@ export class SolicitudesRecIRepository{
         throw new Error("CollectionRequestRepositoryInterface.getExtraProducts() not implemented");
     }
 
+
+    async guardarExtraProducts(idSolicitud, productos) {
+        throw new Error("SolicitudesRecIRepository.guardarExtraProducts() no implementado");
+    }
+
+    async obtenerUltimaSolicitudRec(idCliente){
+        throw new Error("solicitudesRecIRepository.obtenerUltimaSolicitudRec() no implementado");
+    }
 }

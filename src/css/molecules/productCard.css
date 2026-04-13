@@ -6,8 +6,12 @@
     width: 10.875rem !important;
     height: 17.313rem !important;
     border: 0 !important;
+    text-align: center;
 }
 
+.product-card .card{
+    margin-left: 0.3rem !important;
+}
 .image-back {
     width: 9.5rem;
     height: 10.5rem;
@@ -16,10 +20,15 @@
     background-color: rgb(196, 235, 233, 64);
     border: 1px solid var(--color-green-primary);
     border-radius: var(--border-radius-lg);
+    margin-left: 0.2rem !important;
 }
 
 .product-card-body{
-    padding: 0.4rem 0.2rem  !important;
+    padding: 0.4rem 0.2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    flex-grow: 1 !important;
 }
 
 .product-name{
@@ -34,5 +43,32 @@
 .product-price{
     font-size: var(--font-size-sm) !important;
     font-weight: var(--font-weight-bold) !important;
-
+}
+.buttons {
+    display: flex;
+    margin-top: auto !important;
+    width: 100%;
+    justify-content: center;
+    gap: 4px;
+}
+.buttonDelete{
+    background-color: #D14242;
+    color:white;
+    width: 2rem;
+}
+.product-cantidad{
+    font-weight: bold;
+    margin-top: 0.3rem;
+}
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.product-agotado{
+    color: #D14242;
+    font-weight: bold;
+}
+.buttonAdd{
+    width: 2rem;
 }
