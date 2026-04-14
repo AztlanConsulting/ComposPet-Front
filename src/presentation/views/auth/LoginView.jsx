@@ -29,6 +29,7 @@ function SignInForm(){
         password,
         errors,
         loading,
+        loadingAction,
         setEmail,
         setPassword,
         onGoogleLogin,
@@ -50,6 +51,7 @@ function SignInForm(){
                         <p>¡Bienvenid@! Entra a tu sesión y sigue compostando con nosotros</p>
                     </div>
 
+
                     <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
 
                         <Login
@@ -67,34 +69,32 @@ function SignInForm(){
                                 {errors.general}
                             </p>}
                         
+                        <Button 
+                            csstype='cancel' 
+                            className='google-button' 
+                            type="button" 
+                            onClick={() => onGoogleLogin()} 
+                            disabled={loadingAction === 'google'}
+                        >
+                            <Icon name="google" size="icon-medium"></Icon>
+                            {loadingAction ? "Conectando..." : "Continuar con Google"}
+                        </Button>
 
-                        {/* El botón refleja el estado de loading del ViewModel */}
                         <Button 
                             size="large" 
                             type="submit" 
                             csstype="accept" 
                             className='button' 
-                            disabled={loading !== null}
+                            disabled={loading}
                         >
                             {loading ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
 
                     </form>
-                    
-                    <Button 
-                            csstype='cancel' 
-                            className='google-button mt-3' 
-                            type="button" 
-                            onClick={(e) => {
-                                onGoogleLogin();
-                            }} 
-                            disabled={loading}
-                        >
-                            <Icon name="google" size="icon-medium"></Icon>
-                            {loading ? "Conectando..." : "Continuar con Google"}
-                        </Button>
 
-                    <a href="#" className="forgot-password">
+                    
+
+                    <a className="forgot-password">
                         ¿Olvidaste tu contraseña?
                     </a>
 
