@@ -31,11 +31,7 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const { data } = await axios.post(
-                    `${process.env.REACT_APP_API_URL}/auth/refresh`, 
-                    {}, 
-                    { withCredentials: true }
-                );
+                const { data } = await api.post('/api/refresh');
 
                 accessToken = data.accessToken;
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;

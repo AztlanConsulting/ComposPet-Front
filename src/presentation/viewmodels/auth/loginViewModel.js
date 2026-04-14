@@ -203,7 +203,7 @@ function useLoginViewModel(){
                 const publicUser = { 
                     id: userEntity.id, 
                     email: userEntity.email, 
-                    rol: userEntity.rol // "rol" como en tu clase, no "role"
+                    rol: userEntity.rol 
                 };
                 sessionStorage.setItem('user', JSON.stringify(publicUser));
                 
