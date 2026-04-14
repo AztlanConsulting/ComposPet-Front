@@ -28,6 +28,7 @@ import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 
+import FirstLoginView from './presentation/views/auth/FirstLoginView';
 
 function Home() {
     const navigate = useNavigate();
@@ -188,6 +189,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<LoginForm />} />
+                    <Route path="/first-login" element={<FirstLoginView />} />
 
                     <Route path="/" element={
                         <ProtectedRoute>

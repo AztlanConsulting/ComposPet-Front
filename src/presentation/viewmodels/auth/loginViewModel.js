@@ -127,20 +127,13 @@ function useLoginViewModel(){
     const onSubmit = async (e) =>{
         e.preventDefault();
 
-        console.log("onSubmit ejecutado", email, password);
 
-        const { errors: validationErrors, hasErrors } = validateLoginForm(email, password);
-
-        console.log("validationErrors:", validationErrors);  // ← agrega esto
-        console.log("hasErrors:", hasErrors);   
+        const { errors: validationErrors, hasErrors } = validateLoginForm(email, password); 
 
         if (hasErrors){
             setErrors(validationErrors);
-            console.log("hay errores de validación, se corta aquí");
             return;
         }
-
-        console.log("pasó validación, llamando al backend...");
 
         setErrors({ email: "", password: "", general: "" });
         setLoading(true);
