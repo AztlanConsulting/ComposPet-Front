@@ -28,7 +28,6 @@ export class AuthApiClient {
      */
 
     async login(email, password){
-        console.log("Llega al AuthApi");
 
         const response = await fetch(`${this.baseUrl}/login`, {
             method: "POST",
