@@ -45,9 +45,6 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
         // Permite acceder al cuerpo de la respuesta enviada por el backend
         const data = response.data;
 
-        console.log('Respuesta cruda del apiClient:', response);
-        console.log('response.data:', response.data);
-
         return new CollectionRequest({
             id: data.id_solicitud,
             clientId: data.id_cliente,

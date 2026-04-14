@@ -88,12 +88,6 @@ function validateCollectionRequestFirstSection({
  * @returns {Object} Estado y acciones del step 1.
  */
 function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, weekEndDate) {
-    console.log('Initializing step 1 ViewModel with:', {
-        clientId,
-        weekStartDate,
-        weekEndDate,
-    });
-
 
     //Estados iniciales del formulario para valores controlados de las moleculas
     const [requestId, setRequestId] = useState('');
@@ -119,11 +113,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     //Carga la solicitud de recolección actual del cliente al montar el componente
     useEffect(() => {
         
-        console.log('Entró al useEffect de cargar solicitud');
-
         const loadCurrentCollectionRequest = async () => {
-
-            console.log('No pasó el if, faltan parámetros');
 
             setLoading(true);
 
@@ -145,12 +135,6 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                     collectionRequestRepository,
                 );
 
-                console.log('Executing GetCurrentCollectionRequestUseCase with:', {
-                    clientId,
-                    weekStartDate,
-                    weekEndDate,
-                });
-
                 // Ejecuta el caso de uso para obtener la solicitud de recolección actual del cliente.
                 const collectionRequest = await getCurrentCollectionRequestUseCase.execute(
                     clientId,
@@ -158,8 +142,6 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                     weekEndDate,
                 );
 
-
-                console.log('Respuesta del caso de uso:', collectionRequest);
 
                 // Guarda los datos para mostrarlos. Si existe la solicitud actual, la usa; en caso contrario se mantienen los valores iniciales.
                 setRequestId(collectionRequest.id);
@@ -180,25 +162,14 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                     general: error.message || 'Error al cargar la solicitud de recolección actual.',
                 });
 
-                console.error('Error al cargar solicitud actual:', error);
-
             //Apaga el loading sin importar si la carga fue exitosa o si hubo un error
             } finally {
                 setLoading(false);
             }
         };
 
-        console.log('Values before if condition:', {
-            clientId,
-            weekStartDate,
-            weekEndDate,
-        });
-
         if (clientId && weekStartDate && weekEndDate) {
-            console.log('If condition passed, loadCurrentCollectionRequest will run.');
             loadCurrentCollectionRequest();
-        } else {
-            console.log('If condition failed, missing required parameters.');
         }
     }, [clientId, weekStartDate, weekEndDate]);
 

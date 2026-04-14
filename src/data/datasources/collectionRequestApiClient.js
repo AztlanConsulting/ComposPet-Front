@@ -41,11 +41,9 @@ export class CollectionRequestApiClient{
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate) {
 
         try {
-            console.log("Llega al SolicitudesRecApiClient con:", {clientId, weekStartDate, weekEndDate});
 
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
-            console.log('Token usado para obtener solicitud:', token);
 
              // Envía el rango semanal necesario para obtener o crear la solicitud.
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/obtener`, {
@@ -94,17 +92,9 @@ export class CollectionRequestApiClient{
         deliveredBuckets
     ) {
         try{
-            console.log("Llega al SolicitudesRecApiClient con:", {
-                requestId, 
-                wantsCollection, 
-                wantsExtraProducts, 
-                collectedBuckets, 
-                deliveredBuckets
-            });
-
+            
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
-            console.log('Token usado para guardar solicitud:', token);
 
             // Envía únicamente los datos capturados en la primera sección.
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/guardar`, {

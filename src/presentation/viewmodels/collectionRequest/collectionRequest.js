@@ -19,7 +19,6 @@ import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 function calculateCurrentWeekRange() {
     const today = new Date();
     const dayOfWeek = today.getDay(); // 0 (Domingo) a 6 (Sábado)
-    console.log('Current day of week (0-6, Sunday-Saturday):', dayOfWeek);
 
     const weekStartDate = new Date(today);
     const weekEndDate = new Date(today);
@@ -27,13 +26,11 @@ function calculateCurrentWeekRange() {
     // Ajusta la fecha de inicio al domingo.
     weekStartDate.setDate(today.getDate() - dayOfWeek);
     weekStartDate.setHours(0, 0, 0, 0);
-    console.log('Week start date (Sunday):', weekStartDate);
 
     // Ajusta la fecha de fin al sábado.
     weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
     weekEndDate.setHours(23, 59, 59, 999);
-    console.log('Week end date (Saturday):', weekEndDate);
-
+    
     return { 
         weekStartDate: weekStartDate.toISOString(),
         weekEndDate: weekEndDate.toISOString(),

@@ -27,11 +27,7 @@ export class GetCurrentCollectionRequestUseCase {
      * @throws {Error} Si falta algún dato requerido o si el repositorio falla.
      */
     async execute(clientId, weekStartDate, weekEndDate){
-        console.log('UseCase execute recibió:', {
-            clientId,
-            weekStartDate,
-            weekEndDate,
-        });
+
         if(!clientId || !weekStartDate || !weekEndDate){
             throw new Error("Faltan parámetros requeridos")
         }
@@ -42,7 +38,6 @@ export class GetCurrentCollectionRequestUseCase {
             weekEndDate,
         );
 
-        console.log('Solicitud de recolección actual obtenida:');
         return collectionRequest; 
     }
 }

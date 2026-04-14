@@ -38,11 +38,8 @@ export class ClientApiClient {
 
         try {
 
-            console.log('Llega al ClienteApiClient con:', { userId });
-
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
-            console.log('Token usado para obtener cliente:', token);
 
             // Envía únicamente los datos capturados en la primera sección.
             const response = await fetch(`${this.baseUrl}/cliente/obtener-id-cliente`, {
