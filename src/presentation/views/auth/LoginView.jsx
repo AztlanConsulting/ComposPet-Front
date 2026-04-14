@@ -84,8 +84,8 @@ function SignInForm(){
                         ¿Olvidaste tu contraseña?
                     </a>
 
-                    <Link to="/first-login" className="forgot-password mb-3">
-                        ¿Eres nuevo aquí?
+                    <Link to="/first-login" className="first-login">
+                        Activa tu cuenta aquí
                     </Link>
                     
                     
