@@ -80,6 +80,7 @@ function useLoginViewModel(){
     const[password, setPassword] = useState("");
     const[errors, setErrors] = useState({ email: "", password: "", general: "" });
     const[loading, setLoading] = useState(false);
+    const [loadingAction, setLoadingAction] = useState(null);
 
 
     /**
@@ -188,8 +189,8 @@ function useLoginViewModel(){
      */
     const onGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
-            setLoading(true);
             setErrors({});
+            setLoadingAction('google');
             try {
                 
                 const apiClient = new AuthApiClient();
@@ -211,7 +212,7 @@ function useLoginViewModel(){
                 console.error("CLIC 3: Error en el bloque try/catch del VM", error);
                 setErrors({ general: "Este correo no está registrado en ComposPet" });
             } finally {
-                setLoading(false);
+                setLoadingAction(null);
             }
         },
         onError: (error) => {
@@ -226,7 +227,7 @@ function useLoginViewModel(){
         password,
         errors,
         loading,
-
+        loadingAction,
         setEmail,
         setPassword,
         onGoogleLogin, 

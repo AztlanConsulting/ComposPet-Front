@@ -67,13 +67,27 @@ function SignInForm(){
                                 {errors.general}
                             </p>}
                             
-                        <Button csstype='cancel' className='google-button' type="button" onClick={() => onGoogleLogin()} disabled={loading}>
+                        <Button 
+                            csstype='cancel' 
+                            className='google-button mt-3' 
+                            type="button" 
+                            onClick={(e) => {
+                                onGoogleLogin();
+                            }} 
+                            disabled={loading}
+                        >
                             <Icon name="google" size="icon-medium"></Icon>
                             {loading ? "Conectando..." : "Continuar con Google"}
                         </Button>
 
                         {/* El botón refleja el estado de loading del ViewModel */}
-                        <Button size="large" type="submit" csstype="accept" className='button mt-4' disabled={loading}>
+                        <Button 
+                            size="large" 
+                            type="submit" 
+                            csstype="accept" 
+                            className='button' 
+                            disabled={loading !== null}
+                        >
                             {loading ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
 
