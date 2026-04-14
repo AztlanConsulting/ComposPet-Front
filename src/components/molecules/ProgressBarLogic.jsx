@@ -17,6 +17,7 @@ export default function ProgressBarLogic({
     const safeTotalSteps = totalSteps > 0 ? totalSteps : 1;
     const safeCurrentStep = Math.min(Math.max(currentStep, 1), safeTotalSteps);
     const progressPercentage = Math.round((safeCurrentStep / safeTotalSteps) * 100);
+    const currentStepLabel = `Paso ${safeCurrentStep}`;
 
     return (
         <section className="progress-section">
@@ -27,7 +28,7 @@ export default function ProgressBarLogic({
                     className="progress-section-percentage"
                     style={{ left: `min(calc(${progressPercentage}% - 1.5rem), calc(100% - 2.5rem))` }}
                 >
-                    {progressPercentage}%
+                    {currentStepLabel}
                 </span>
 
                 <ProgressBar
