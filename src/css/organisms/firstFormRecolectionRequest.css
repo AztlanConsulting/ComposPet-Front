@@ -1,46 +1,46 @@
-.first-form-recolection-request-grid {
+.first-form-collection-request-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-        "recoleccion cantidad-entregadas"
-        "productos cantidad-recolectadas";
+        "collection delivered-buckets"
+        "extra-products collected-buckets";
     gap: 2.5rem 4rem;
     align-items: start;
     justify-items: center;
 }
 
-.first-form-recolection-request-recoleccion {
-    grid-area: recoleccion;
+.first-form-collection-request-collection {
+    grid-area: collection;
 }
 
-.first-form-recolection-request-cantidad-entregadas {
-    grid-area: cantidad-entregadas;
+.first-form-collection-request-delivered-buckets {
+    grid-area: delivered-buckets;
 }
 
-.first-form-recolection-request-productos {
-    grid-area: productos;
+.first-form-collection-request-extra-products {
+    grid-area: extra-products;
 }
 
-.first-form-recolection-request-cantidad-recolectadas {
-    grid-area: cantidad-recolectadas;
+.first-form-collection-request-collected-buckets {
+    grid-area: collected-buckets;
 }
 
 @media (max-width: 768px) {
-    .first-form-recolection-request-grid {
+    .first-form-collection-request-grid {
         grid-template-columns: 1fr;
         grid-template-areas:
-            "recoleccion"
-            "productos"
-            "cantidad-entregadas"
-            "cantidad-recolectadas";
+            "collection"
+            "extra-products"
+            "delivered-buckets"
+            "collected-buckets";
         gap: 2rem;
         justify-items: stretch;
     }
 
-    .first-form-recolection-request-recoleccion,
-    .first-form-recolection-request-cantidad-entregadas,
-    .first-form-recolection-request-productos,
-    .first-form-recolection-request-cantidad-recolectadas {
+    .first-form-collection-request-collection,
+    .first-form-collection-request-delivered-buckets,
+    .first-form-collection-request-extra-products,
+    .first-form-collection-request-collected-buckets {
         width: 100%;
     }
 }

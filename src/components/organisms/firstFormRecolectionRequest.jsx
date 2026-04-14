@@ -6,75 +6,75 @@ import CounterInput from '../molecules/counterInput';
 import '../../css/organisms/firstFormRecolectionRequest.css';
 
 /**
- * Organismo que agrupa todos los componentes de la primera sección del formulario de recolección
+ * Organismo que agrupa todos los componentes de la primera sección del formulario de recolección.
  * Utiliza un contenedor reutilizable y organiza las preguntas de sí y no
- * y los contadores en una cuadrícula responsiva
+ * y los contadores en una cuadrícula responsiva.
  *
- * @param {object} props - Props del organismo.
- * @param {boolean} props.quiereRecoleccion - Indica si el cliente desea recolección
- * @param {Function} props.setQuiereRecoleccion - Actualiza el estado de recolección
- * @param {boolean} props.quiereProductosExtra - Indica si el cliente desea productos extra
- * @param {Function} props.setQuiereProductosExtra - Actualiza el estado de productos extra
- * @param {number} props.cubetasEntregadas - Cantidad de cubetas vacías que se entregarán al cliente
- * @param {Function} props.setCubetasEntregadas - Actualiza la cantidad de cubetas entregadas
- * @param {number} props.cubetasRecolectadas - Cantidad de cubetas que se recolectarán del cliente
- * @param {Function} props.setCubetasRecolectadas - Actualiza la cantidad de cubetas recolectadas
- * @param {object} props.errors - Objeto de errores del formulario.
- * @returns {JSX.Element}
+ * @param {Object} props - Props del organismo.
+ * @param {boolean} props.wantsCollection - Indica si el cliente desea recolección.
+ * @param {Function} props.setWantsCollection - Actualiza el estado de recolección.
+ * @param {boolean} props.wantsExtraProducts - Indica si el cliente desea productos extra.
+ * @param {Function} props.setWantsExtraProducts - Actualiza el estado de productos extra.
+ * @param {number} props.deliveredBuckets - Cantidad de cubetas vacías que se entregarán al cliente.
+ * @param {Function} props.setDeliveredBuckets - Actualiza la cantidad de cubetas entregadas.
+ * @param {number} props.collectedBuckets - Cantidad de cubetas que se recolectarán del cliente.
+ * @param {Function} props.setCollectedBuckets - Actualiza la cantidad de cubetas recolectadas.
+ * @param {Object} props.errors - Objeto de errores del formulario.
+ * @returns {JSX.Element} Primera sección del formulario de recolección.
  */
-export default function FirstFormRecolectionRequest({
-    quiereRecoleccion,
-    setQuiereRecoleccion,
-    quiereProductosExtra,
-    setQuiereProductosExtra,
-    cubetasEntregadas,
-    setCubetasEntregadas,
-    cubetasRecolectadas,
-    setCubetasRecolectadas,
+export default function FirstFormCollectionRequest({
+    wantsCollection,
+    setWantsCollection,
+    wantsExtraProducts,
+    setWantsExtraProducts,
+    deliveredBuckets,
+    setDeliveredBuckets,
+    collectedBuckets,
+    setCollectedBuckets,
     errors,
 }) {
     return (
         <FormCard>
-            <div className="first-form-recolection-request-grid">
-                <div className="first-form-recolection-request-recoleccion">
+            <div className="first-form-collection-request-grid">
+                <div className="first-form-collection-request-collection">
                     <YesNoQuestion
-                        id="quiere-recoleccion"
-                        question="¿Te anotamos para recolección?"
-                        value={quiereRecoleccion}
-                        onChange={setQuiereRecoleccion}
-                        error={errors.quiereRecoleccion}
+                        id="wants-collection"
+                        question="¿Te anotamos para recolección de esta semana?"
+                        value={wantsCollection}
+                        onChange={setWantsCollection}
+                        error={errors.wantsCollection}
                     />
                 </div>
 
-
-                <div className="first-form-recolection-request-cantidad-entregadas">
+                <div className="first-form-collection-request-delivered-buckets">
                     <CounterInput
                         question="¿Cuántas cubetas necesitas?"
-                        value={cubetasEntregadas}
-                        onIncrement={() => setCubetasEntregadas((prev) => prev + 1)}
-                        onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
-                        error={errors.cubetasEntregadas}
+                        value={deliveredBuckets}
+                        onIncrement={() => setDeliveredBuckets((previousValue) => previousValue + 1)}
+                        onDecrement={() => setDeliveredBuckets((previousValue) => Math.max(0, previousValue - 1))}
+                        error={errors.deliveredBuckets}
                     />
                 </div>
 
-                <div className="first-form-recolection-request-productos">
+                <div className="first-form-collection-request-extra-products">
                     <YesNoQuestion
-                        id="quiere-productos-extra"
+                        id="wants-extra-products"
                         question="¿Quieres productos extra?"
-                        value={quiereProductosExtra}
-                        onChange={setQuiereProductosExtra}
-                        error={errors.quiereProductosExtra}
+                        value={wantsExtraProducts}
+                        onChange={setWantsExtraProducts}
+                        error={errors.wantsExtraProducts}
                     />
                 </div>
-                <div className="first-form-recolection-request-cantidad-recolectadas">
+
+                <div className="first-form-collection-request-collected-buckets">
                     <CounterInput
                         question="¿Cuántas cubetas vas a entregar?"
-                        value={cubetasRecolectadas}
-                        onIncrement={() => setCubetasRecolectadas((prev) => prev + 1)}
-                        onDecrement={() => setCubetasRecolectadas((prev) => Math.max(0, prev - 1))}
-                        error={errors.cubetasRecolectadas}
+                        value={collectedBuckets}
+                        onIncrement={() => setCollectedBuckets((previousValue) => previousValue + 1)}
+                        onDecrement={() => setCollectedBuckets((previousValue) => Math.max(0, previousValue - 1))}
+                        error={errors.collectedBuckets}
                     />
-                </div>            
+                </div>
             </div>
         </FormCard>
     );

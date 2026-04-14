@@ -8,8 +8,9 @@
 
 export class GetClientUseCase {
     /**
-     * @param {import('../repositories/clientInterfaceRepository').ClientIRepository} clientRepository
-     * Implementación del repositorio de clientes.
+     * Crea una instancia del caso de uso para obtener el cliente.
+     *
+     * @param {import('../repositories/clientInterfaceRepository').ClientIRepository} clientRepository - Implementación del repositorio de clientes.
      */
 
     constructor(clientRepository) {
@@ -20,17 +21,16 @@ export class GetClientUseCase {
      * Ejecuta la obtención del cliente asociado al id del usuario.
      *
      * @async
-     * @param {string} idUsuario - Id del usuario 
+     * @param {string} userId - Id del usuario.
      * @returns {Promise<import('../entities/client').Client>} Entidad `Client` encontrada.
      * @throws {Error} Si falta el id del usuario o si el repositorio falla.
      */
-
-    async execute(idUsuario) {
-        if (!idUsuario) {
+    async execute(userId) {
+        if (!userId) {
             throw new Error("Falta el id del usuario");
         }
 
-        const client = await this.clientRepository.obtenerClientePorIdUsuario(idUsuario);
+        const client = await this.clientRepository.getClientByUserId(userId);
         return client;
     }
 }

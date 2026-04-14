@@ -1,4 +1,4 @@
-import '../../../css/recolectionRequest/solicitudView.css';
+import '../../../css/collectionRequest/collectionRequestView.css';
 
 import React from 'react';
 
@@ -6,13 +6,13 @@ import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
 
-import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
+import useCollectionRequestViewModel from '../../viewmodels/collectionRequest/collectionRequest';
 
 
 
 /**
  * Vista de la primera sección del formulario de recolección.
- * Actualmente funciona con steps conectado al viewmodel `useSolicitudViewModel`
+ * Actualmente funciona con steps conectado al viewmodel `useCollectionRequestViewModel`
  * Primer step = organismo `FirstFormRecolectionRequest`
  *
  * Esta vista administra:
@@ -25,7 +25,7 @@ import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewMod
  * @returns {JSX.Element} Vista inicial del formulario de recolección.
  */
 
-export default function SolicitudView() {
+export default function CollectionRequestView() {
 
     //Objeto temporal de errores por campo, para simular validación y mostrar mensajes asociados.
     const {
@@ -35,35 +35,35 @@ export default function SolicitudView() {
         onSecondaryAction,
         primaryButtonText,
         secondaryButtonText,
-        primeraSeccionVM
-    } = useSolicitudViewModel();
+        firstSectionViewModel,
+    } = useCollectionRequestViewModel();
 
     return (
-        <main className="solicitud-view-background">
-            <section className="solicitud-content">
-                <h1 className="solicitud-title">
+        <main className="collection-request-view-background">
+            <section className="collection-request-content">
+                <h1 className="collection-request-title">
                     Formulario de recolección
                 </h1>
 
-                <div className="solicitud-progress">
+                <div className="collection-request-progress">
                     <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
                 </div>
 
                 {currentStep === 1 && (
                     <FirstFormRecolectionRequest
-                        quiereRecoleccion={primeraSeccionVM.quiereRecoleccion}
-                        setQuiereRecoleccion={primeraSeccionVM.setQuiereRecoleccion}
+                        wantsCollection={firstSectionViewModel.wantsCollection}
+                        setWantsCollection={firstSectionViewModel.setWantsCollection}
 
-                        quiereProductosExtra={primeraSeccionVM.quiereProductosExtra}
-                        setQuiereProductosExtra={primeraSeccionVM.setQuiereProductosExtra}
+                        wantsExtraProducts={firstSectionViewModel.wantsExtraProducts}
+                        setWantsExtraProducts={firstSectionViewModel.setWantsExtraProducts}
 
-                        cubetasEntregadas={primeraSeccionVM.cubetasEntregadas}
-                        setCubetasEntregadas={primeraSeccionVM.setCubetasEntregadas}
+                        deliveredBuckets={firstSectionViewModel.deliveredBuckets}
+                        setDeliveredBuckets={firstSectionViewModel.setDeliveredBuckets}
 
-                        cubetasRecolectadas={primeraSeccionVM.cubetasRecolectadas}
-                        setCubetasRecolectadas={primeraSeccionVM.setCubetasRecolectadas}
+                        collectedBuckets={firstSectionViewModel.collectedBuckets}
+                        setCollectedBuckets={firstSectionViewModel.setCollectedBuckets}
 
-                        errors={primeraSeccionVM.errors}
+                        errors={firstSectionViewModel.errors}
                     />
                 )}
 
@@ -89,12 +89,12 @@ export default function SolicitudView() {
                 )}
 
 
-                <div className="solicitud-actions">
+                <div className="collection-request-actions">
                     <Button
                         type="button"
                         size="medium"
                         csstype="cancel"
-                        className="solicitud-cancel-button"
+                        className="collection-request-cancel-button"
                         onClick={onSecondaryAction}
                     >
                         {secondaryButtonText}
@@ -104,11 +104,11 @@ export default function SolicitudView() {
                         type="button"
                         size="medium"
                         csstype="accept"
-                        className="solicitud-next-button"
+                        className="collection-request-next-button"
                         onClick={onPrimaryAction}
-                        disabled={primeraSeccionVM.loading}
+                        disabled={firstSectionViewModel.loading}
                     >
-                        {primeraSeccionVM.loading ? 'Guardando...' : primaryButtonText}
+                        {firstSectionViewModel.loading ? 'Guardando...' : primaryButtonText}
                     </Button>
                 </div>
             </section>

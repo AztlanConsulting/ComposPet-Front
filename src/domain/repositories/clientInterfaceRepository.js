@@ -11,15 +11,15 @@
 
 export class ClientIRepository{
     /**
-     * Obtiene el cliente asociado al id de usuario 
+     * Obtiene el cliente asociado al id de usuario.
      *
      * @abstract
-     * @param {string} idUsuario - Id del usuario 
+     * @param {string} userId - Id del usuario.
      * @returns {Promise<Client|null>} Objeto con el cliente o `null` si no existe.
      * @throws {Error} Si el método no ha sido implementado.
      */
 
-    async obtenerClientePorIdUsuario(idUsuario){
-        throw new Error("ClientIRepository.obtenerClientePorIdUsuario() no implementado");
+    async getClientByUserId(userId) {
+        throw new Error('ClientIRepository.getClientByUserId() not implemented');
     }
 }

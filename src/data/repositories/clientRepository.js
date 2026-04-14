@@ -14,10 +14,10 @@ import {Client} from '../../domain/entities/client';
 export class ClientRepository extends ClientIRepository{
 
     /**
-     * @param {import('../datasources/clientApiClient').ClientApiClient} apiClient
-     * Cliente HTTP que realiza las peticiones al servidor del módulo de clientes.
+     * Crea una instancia del repositorio de clientes.
+     *
+     * @param {import('../datasources/clientApiClient').ClientApiClient} apiClient - Cliente HTTP que realiza las peticiones al servidor del módulo de clientes.
      */
-
     constructor(apiClient){
         super();
         this.apiClient = apiClient;
@@ -27,28 +27,27 @@ export class ClientRepository extends ClientIRepository{
      * Obtiene el cliente asociado al id del usuario proporcionado.
      *
      * @async
-     * @param {string} idUsuario - Id del usuario 
-     * @returns {Promise<Client>} Entidad `Cliente` con la información recuperada.
+     * @param {string} userId - Id del usuario.
+     * @returns {Promise<Client>} Entidad `Client` con la información recuperada.
      * @throws {Error} Si la respuesta no contiene un cliente válido.
      */
+    async getClientByUserId(userId) {
+        const response = await this.apiClient.getClientByUserId(userId);
 
-    async obtenerClientePorIdUsuario(idUsuario) {
-        const response = await this.apiClient.obtenerClientePorIdUsuario(idUsuario);
-
-        //Importante para acceder a el cuerpo de la respuesta
+        //Importante para acceder a el cuerpo del backend
         const data = response.data;
 
         return new Client({
-            idCliente: data.id_cliente,
-            idUsuario: data.id_usuario,
-            idRuta: data.id_ruta,
-            mascotas: data.mascotas,
-            cantidadFamilia: data.cantidad_familia,
-            direccion: data.direccion,
-            ordenHorario: data.orden_horario,
-            notas: data.notas,
-            fechaEntrada: data.fecha_entrada,
-            fechaSalida: data.fecha_salida,
+            clientId: data.id_cliente,
+            userId: data.id_usuario,
+            routeId: data.id_ruta,
+            pets: data.mascotas,
+            familySize: data.cantidad_familia,
+            address: data.direccion,
+            scheduleOrder: data.orden_horario,
+            notes: data.notas,
+            entryDate: data.fecha_entrada,
+            exitDate: data.fecha_salida,
         });
     }
 }

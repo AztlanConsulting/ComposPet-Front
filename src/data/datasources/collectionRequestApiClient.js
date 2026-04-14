@@ -6,11 +6,12 @@
  * La URL base se obtiene de la variable de entorno `REACT_APP_API_URL`.
  */
 
-export class SolicitudesRecApiClient {
+export class CollectionRequestApiClient{
 
-    /**
+     /**
+     * Crea una instancia del cliente HTTP para solicitudes de recolección.
+     *
      * @param {string} [baseUrl=process.env.REACT_APP_API_URL] - URL base del servidor.
-     * Debe configurarse en el archivo `.env` del proyecto.
      */
     constructor(baseUrl = process.env.REACT_APP_API_URL) {
         this.baseUrl = baseUrl;
@@ -19,7 +20,7 @@ export class SolicitudesRecApiClient {
     /**
      * Obtiene el token de autenticación almacenado en el navegador.
      *
-     * @returns {string} Token JWT almacenado.
+     * @returns {string|null} Token JWT almacenado o `null` si no existe.
      */
     getToken() {
         return sessionStorage.getItem('token');
@@ -29,27 +30,35 @@ export class SolicitudesRecApiClient {
      * Obtiene la solicitud de recolección actual del cliente para el rango semanal indicado.
      * Si no existe una solicitud en ese rango, el backend crea una nueva y la retorna.
      *
-     * @param {string} idCliente - Id del cliente en formato UUID. si es que existe.
-     * @param {string} fechaInicioSemana - Fecha inicial del rango semanal.
-     * @param {string} fechaFinSemana - Fecha final del rango semanal.
+     * @async
+     * @param {string} clientId - Id del cliente.
+     * @param {string} weekStartDate - Fecha inicial del rango semanal.
+     * @param {string} weekEndDate - Fecha final del rango semanal.
+     * @returns {Promise<Object>} Respuesta de la API con la solicitud encontrada o creada.
      * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
 
-    async obtenerSolicitudRecActual(idCliente, fechaInicioSemana, fechaFinSemana) {
+    async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate) {
 
         try {
-            console.log("Llega al SolicitudesRecApiClient con:", {idCliente, fechaInicioSemana, fechaFinSemana});
+            console.log("Llega al SolicitudesRecApiClient con:", {clientId, weekStartDate, weekEndDate});
 
+            // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
             console.log('Token usado para obtener solicitud:', token);
-            
+
+             // Envía el rango semanal necesario para obtener o crear la solicitud.
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/obtener`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({idCliente,fechaInicioSemana,fechaFinSemana}),
+                body: JSON.stringify({
+                    clientId,
+                    weekStartDate,
+                    weekEndDate,
+                }),
             });
 
             const data = await response.json();
@@ -65,35 +74,39 @@ export class SolicitudesRecApiClient {
     }
 
     /**
-     * Guarda la información de la primera sección del formulario de recolección
+     * Guarda la información de la primera sección del formulario de recolección.
      *
-     * @param {string} idSolicitud - Id de la solicitud 
-     * @param {boolean} quiereRecoleccion - Indica si el cliente desea recolección
-     * @param {boolean} quiereProductosExtra - Indica si el cliente desea productos extra
-     * @param {number} cubetasRecolectadas - Cantidad de cubetas que el cliente entregará
-     * @param {number} cubetasEntregadas - Cantidad de cubetas vacías solicitadas
-     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido
-    */
+     * @async
+     * @param {string} requestId - Id de la solicitud.
+     * @param {boolean} wantsCollection - Indica si el cliente desea recolección.
+     * @param {boolean} wantsExtraProducts - Indica si el cliente desea productos extra.
+     * @param {number} collectedBuckets - Cantidad de cubetas que el cliente entregará.
+     * @param {number} deliveredBuckets - Cantidad de cubetas vacías solicitadas.
+     * @returns {Promise<Object>} Respuesta de la API con la solicitud actualizada.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
 
-    async guardarSolicitudRecPrimeraSeccion(
-        idSolicitud, 
-        quiereRecoleccion, 
-        quiereProductosExtra, 
-        cubetasRecolectadas, 
-        cubetasEntregadas
+    async saveCollectionRequestFirstSection(
+        requestId, 
+        wantsCollection, 
+        wantsExtraProducts, 
+        collectedBuckets, 
+        deliveredBuckets
     ) {
         try{
             console.log("Llega al SolicitudesRecApiClient con:", {
-                idSolicitud, 
-                quiereRecoleccion, 
-                quiereProductosExtra, 
-                cubetasRecolectadas, 
-                cubetasEntregadas
+                requestId, 
+                wantsCollection, 
+                wantsExtraProducts, 
+                collectedBuckets, 
+                deliveredBuckets
             });
 
+            // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
             console.log('Token usado para guardar solicitud:', token);
 
+            // Envía únicamente los datos capturados en la primera sección.
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/guardar`, {
                 method: 'POST',
                 headers: {
@@ -101,11 +114,11 @@ export class SolicitudesRecApiClient {
                     'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    idSolicitud, 
-                    quiereRecoleccion, 
-                    quiereProductosExtra, 
-                    cubetasRecolectadas, 
-                    cubetasEntregadas
+                    requestId,
+                    wantsCollection,
+                    wantsExtraProducts,
+                    collectedBuckets,
+                    deliveredBuckets,
                 })
             });
 

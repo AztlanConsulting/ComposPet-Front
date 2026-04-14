@@ -2,7 +2,7 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-.solicitud-view-background {
+.collection-request-view-background {
     min-height: 100vh;
     background-color: var(--color-bg);
     display: flex;
@@ -11,7 +11,7 @@
     padding: 3rem 1.5rem;
 }
 
-.solicitud-content {
+.collection-request-content {
     width: 100%;
     max-width: 76rem;
     display: flex;
@@ -20,7 +20,7 @@
     gap: 2rem;
 }
 
-.solicitud-title {
+.collection-request-title  {
     margin: 0;
     font-size: 3rem;
     font-weight: 700;
@@ -29,13 +29,13 @@
 }
 
 /* La barra usa el mismo ancho visual que la card */
-.solicitud-progress {
+.collection-request-progress {
     width: 100%;
     max-width: 71rem;
 }
 
 /* Los botones usan el mismo ancho visual que la card */
-.solicitud-actions {
+.collection-request-actions {
     width: 100%;
     max-width: 71rem;
     display: flex;
@@ -43,27 +43,27 @@
     align-items: center;
 }
 
-.solicitud-cancel-button {
+.collection-request-cancel-button {
     align-self: flex-start;
 }
 
-.solicitud-next-button {
+.collection-request-next-button {
     align-self: flex-end;
 }
 
 /*Tablet*/
 
 @media (max-width: 768px) {
-    .solicitud-background {
+    .collection-request-view-background {
         padding: 2rem 1rem;
     }
 
-    .solicitud-content {
+    .collection-request-content {
         gap: 1.75rem;
     }
 
 
-    .solicitud-title {
+    .collection-request-title {
         font-size: 2.2rem;
     }
 
@@ -72,39 +72,39 @@
 /* Mobile */
 @media (max-width: 480px) {
     
-    .solicitud-background {
+    .collection-request-view-background {
         padding: 2rem 0.9rem 2rem;
     }
 
-    .solicitud-content {
+    .collection-request-content {
         gap: 1.5rem;
     }
     
 
-    .solicitud-title {
+    .collection-request-title {
         font-size: 1.8rem;
         line-height: 1.2;
     }
 
     /* Mantener mismo ancho que la card en móvil */
-    .solicitud-progress,
-    .solicitud-actions {
+    .collection-request-progress,
+    .collection-request-actions {
         max-width: 100%;
     }
 
     /*En esquinas opuestas */
-    .solicitud-actions {
+    .collection-request-actions {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 1rem;
     }
 
-    .solicitud-cancel-button {
+    .collection-request-cancel-button {
         align-self: flex-start;
     }
 
-    .solicitud-next-button {
+    .collection-request-next-button {
         align-self: flex-end;
     }
 }

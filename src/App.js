@@ -26,7 +26,7 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 
-import SolicitudView from './presentation/views/solicitudes/solicitudView';
+import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 
 
 function Home() {
@@ -203,7 +203,7 @@ function App() {
                     <Route path="/formulario-recoleccion" 
                     element={
                         <ProtectedRoute>
-                            <SolicitudView />
+                            <CollectionRequestView />
                         </ProtectedRoute>
                     }/>
                 </Routes>
