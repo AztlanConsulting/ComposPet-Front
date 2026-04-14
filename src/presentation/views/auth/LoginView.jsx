@@ -66,19 +66,7 @@ function SignInForm(){
                             <p className="error-message">
                                 {errors.general}
                             </p>}
-                            
-                        <Button 
-                            csstype='cancel' 
-                            className='google-button mt-3' 
-                            type="button" 
-                            onClick={(e) => {
-                                onGoogleLogin();
-                            }} 
-                            disabled={loading}
-                        >
-                            <Icon name="google" size="icon-medium"></Icon>
-                            {loading ? "Conectando..." : "Continuar con Google"}
-                        </Button>
+                        
 
                         {/* El botón refleja el estado de loading del ViewModel */}
                         <Button 
@@ -93,6 +81,18 @@ function SignInForm(){
 
                     </form>
                     
+                    <Button 
+                            csstype='cancel' 
+                            className='google-button mt-3' 
+                            type="button" 
+                            onClick={(e) => {
+                                onGoogleLogin();
+                            }} 
+                            disabled={loading}
+                        >
+                            <Icon name="google" size="icon-medium"></Icon>
+                            {loading ? "Conectando..." : "Continuar con Google"}
+                        </Button>
 
                     <a href="#" className="forgot-password">
                         ¿Olvidaste tu contraseña?
