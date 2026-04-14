@@ -29,7 +29,7 @@ export class AuthApiClient {
 
     async login(email, password){
 
-        const response = await fetch(`${this.baseUrl}/login`, {
+        const response = await fetch(`${this.baseUrl}/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -58,7 +58,7 @@ export class AuthApiClient {
      */
     async loginGoogle(googleToken) {
         try {
-            const response = await fetch(`${this.baseUrl}/auth/google`, {
+            const response = await fetch(`${this.baseUrl}/api/auth/google`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json" 

@@ -39,7 +39,7 @@ export class FirstLoginApiClient {
      * @returns {Promise<{success: boolean, seedToken: string}>}
      */
     async requestOTP(email) {
-        return await this.#post('/request-otp', { email });
+        return await this.#post('/api/request-otp', { email });
     }
 
     /**
@@ -50,7 +50,7 @@ export class FirstLoginApiClient {
      * @returns {Promise<{success: boolean, flowToken: string}>}
      */
     async verifyOTP(email, code, seedToken) {
-        return await this.#post('/verify-otp', { email, code, seedToken });
+        return await this.#post('/api/verify-otp', { email, code, seedToken });
     }
 
     /**
@@ -61,6 +61,6 @@ export class FirstLoginApiClient {
      * @returns {Promise<{success: boolean, message: string}>}
      */
     async updatePassword(email, password, flowToken) {
-        return await this.#post('/update-password', { email, password, flowToken });
+        return await this.#post('/api/update-password', { email, password, flowToken });
     }
 }
