@@ -189,7 +189,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [clientId, weekStartDate, weekEndDate]);
 
-    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección o productos extra.
+    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
     useEffect(() => {
         if (wantsCollection === false) {
             setCollectedBuckets(0);
