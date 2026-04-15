@@ -67,26 +67,21 @@ function validateCollectionRequestFirstSection({
         hasErrors = true;
     }
 
-    //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && collectedBuckets !== 0) {
-        errors.collectedBuckets = 'Si no deseas recolección, la cantidad debe ser 0.';
-        hasErrors = true;
-    }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas entregadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets === 0 && deliveredBuckets !== 0) {
+    if (wantsCollection === false  &&collectedBuckets === 0 && deliveredBuckets !== 0) {
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets === 0) {
+    if (wantsCollection === false  &&collectedBuckets !== 0 && deliveredBuckets === 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
+    if (wantsCollection === false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
@@ -194,16 +189,9 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [clientId, weekStartDate, weekEndDate]);
 
-    // Efectos ajustar a 0 las cuetas recolectadas si el cliente no quiere recolección
-    useEffect(() => {
-        if (wantsCollection === false) {
-            setCollectedBuckets(0);
-        }
-    }, [wantsCollection]);
-
     // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección o productos extra.
     useEffect(() => {
-        if (wantsCollection === false && wantsExtraProducts === false) {
+        if (wantsCollection === false) {
             setCollectedBuckets(0);
             setDeliveredBuckets(0);
         }
