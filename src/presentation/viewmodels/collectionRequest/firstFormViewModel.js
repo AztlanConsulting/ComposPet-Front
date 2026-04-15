@@ -197,6 +197,53 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [wantsCollection, wantsExtraProducts]);
 
+    // Limpia el error de recolección cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsCollection !== undefined && wantsCollection !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsCollection: '',
+            }));
+        }
+    }, [wantsCollection]);
+
+    // Limpia el error de productos extra cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsExtraProducts !== undefined && wantsExtraProducts !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsExtraProducts: '',
+            }));
+        }
+    }, [wantsExtraProducts]);
+
+    // Limpia el error de cubetas a entregar cuando el valor ya es válido
+    useEffect(() => {
+        const collectedBucketsIsValid =
+            (wantsCollection === true && collectedBuckets > 0) ||
+            (wantsCollection === false && collectedBuckets === 0);
+
+        if (collectedBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                collectedBuckets: '',
+            }));
+        }
+    }, [wantsCollection, collectedBuckets]);
+
+    // Limpia el error de cubetas necesarias cuando el valor ya es válido
+    useEffect(() => {
+        const deliveredBucketsIsValid =
+            (wantsCollection === false && deliveredBuckets === 0);
+
+        if (deliveredBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                deliveredBuckets: '',
+            }));
+        }
+    }, [wantsCollection, wantsExtraProducts, deliveredBuckets]);
+
     /**
      * Valida y guarda la primera sección del formulario.
      * Retorna al ViewModel padre el siguiente step sugerido.
