@@ -63,13 +63,32 @@ function validateCollectionRequestFirstSection({
 
     // Si el cliente desea recolección, la cantidad de cubetas recolectadas debe ser mayor a 0.
     if (wantsCollection && collectedBuckets <= 0) {
-        errors.collectedBuckets = 'La cantidad de cubetas que vas a entregar no puede ser igual o menor a 0.';
+        errors.collectedBuckets = 'La cantidad de cubetas no puede ser 0.';
         hasErrors = true;
     }
 
     //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
     if (wantsCollection === false && collectedBuckets !== 0) {
-        errors.collectedBuckets = 'Si no deseas recolección, la cantidad de cubetas que vas a entregar debe ser 0.';
+        errors.collectedBuckets = 'Si no deseas recolección, la cantidad debe ser 0.';
+        hasErrors = true;
+    }
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas entregadas debe ser 0
+    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets === 0 && deliveredBuckets !== 0) {
+        errors.deliveredBuckets = 'La cantidad debe ser 0.';
+        hasErrors = true;
+    }
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
+    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets === 0) {
+        errors.collectedBuckets = 'La cantidad debe ser 0.';
+        hasErrors = true;
+    }
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
+    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
+        errors.collectedBuckets = 'La cantidad debe ser 0.';
+        errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
@@ -109,6 +128,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Saber si se está cargando la solicitud actual o guardando los datos, para mostrar en la UI
     const [loading, setLoading] = useState(false);
+
+    //Empiezan los efectos
 
     //Carga la solicitud de recolección actual del cliente al montar el componente
     useEffect(() => {
@@ -173,6 +194,21 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [clientId, weekStartDate, weekEndDate]);
 
+    // Efectos ajustar a 0 las cuetas recolectadas si el cliente no quiere recolección
+    useEffect(() => {
+        if (wantsCollection === false) {
+            setCollectedBuckets(0);
+        }
+    }, [wantsCollection]);
+
+    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección o productos extra.
+    useEffect(() => {
+        if (wantsCollection === false && wantsExtraProducts === false) {
+            setCollectedBuckets(0);
+            setDeliveredBuckets(0);
+        }
+    }, [wantsCollection, wantsExtraProducts]);
+
     /**
      * Valida y guarda la primera sección del formulario.
      * Retorna al ViewModel padre el siguiente step sugerido.
@@ -220,10 +256,20 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 Number(deliveredBuckets),
             );
 
+            let nextStep = 2; // Si el cliente desea productos extra, va al step 2 
+
+            // Si el cliente no desea productos extra, pero sí recolección, va al step 3
+            if (!collectionRequest.wantsAdditionalProducts() && collectionRequest.wantsPickup()) {
+                nextStep = 3;
+
+            // Si el cliente no desea recolección ni productos extra va directo al resumen sin agendar
+            }else if (!collectionRequest.wantsPickup() && !collectionRequest.wantsAdditionalProducts()) {
+                nextStep = 4; 
+            }
             
             return { 
                 success: true, 
-                nextStep: collectionRequest.wantsAdditionalProducts() ? 2 : 3,
+                nextStep,
             };
         } catch (error) {
             const msg = error.message || '';

@@ -1,3 +1,7 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .first-form-collection-request-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

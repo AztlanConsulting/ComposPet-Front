@@ -1,6 +1,10 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .selection-input {
     cursor: pointer;
-    accent-color: #03504D;
+    accent-color: var(--color-green-secondary);
     transform: scale(1.6);
 }
 

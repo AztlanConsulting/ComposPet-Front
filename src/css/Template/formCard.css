@@ -1,3 +1,7 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .form-card {
     width: 100%;
     max-width: 71rem;
@@ -8,6 +12,7 @@
     border: 1px solid var(--color-green-secondary);
     border-width: 0.2rem;
     border-radius: var(--border-radius-lg);
+    /* Se mantiene sombra específica por ajuste visual del contenedor principal */
     box-shadow: 0 0.2rem 3rem #03504D87;
 }
 
@@ -23,12 +28,10 @@
 @media (max-width: 480px) {
     .form-card {
         padding: 1rem;
-        border-radius: 1rem;
-        padding: 1rem;
         min-height: auto;
         border-width: 0.15rem;
-        border-radius: 1rem;
+        border-radius: var(--border-radius-2xl);
+        /* Se mantiene sombra específica por ajuste visual responsivo */
         box-shadow: 0 0.15rem 1.5rem #03504D55;
     }
 }
-
