@@ -73,19 +73,19 @@ function validateCollectionRequestFirstSection({
         hasErrors = true;
     }
 
-     //Si el cliente no desea recolección, la cantidad de cubetas entregadas debe ser 0
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas entregadas debe ser 0
     if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets === 0 && deliveredBuckets !== 0) {
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
-     //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
     if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets === 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
-     //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
     if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
@@ -128,6 +128,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Saber si se está cargando la solicitud actual o guardando los datos, para mostrar en la UI
     const [loading, setLoading] = useState(false);
+
+    //Empiezan los efectos
 
     //Carga la solicitud de recolección actual del cliente al montar el componente
     useEffect(() => {
@@ -191,6 +193,21 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
             loadCurrentCollectionRequest();
         }
     }, [clientId, weekStartDate, weekEndDate]);
+
+    // Efectos ajustar a 0 las cuetas recolectadas si el cliente no quiere recolección
+    useEffect(() => {
+        if (wantsCollection === false) {
+            setCollectedBuckets(0);
+        }
+    }, [wantsCollection]);
+
+    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección o productos extra.
+    useEffect(() => {
+        if (wantsCollection === false && wantsExtraProducts === false) {
+            setCollectedBuckets(0);
+            setDeliveredBuckets(0);
+        }
+    }, [wantsCollection, wantsExtraProducts]);
 
     /**
      * Valida y guarda la primera sección del formulario.

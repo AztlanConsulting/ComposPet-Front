@@ -42,6 +42,16 @@
     line-height: var(--line-height-normal);
 }
 
+.counter-input-disabled .counter-input-controls button {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.counter-input-disabled .counter-input-title,
+.counter-input-disabled .counter-input-value {
+    opacity: 0.2;
+}
+
 .counter-input-error {
     margin-top: 0.25rem;
     color: var(--color-red-primary);
