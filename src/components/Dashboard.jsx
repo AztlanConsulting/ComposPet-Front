@@ -170,11 +170,9 @@ const Dashboard = () => {
         }}>
             <h1>Panel de Control - Compospet</h1>
             
-            {/* El único sobreviviente */}
             <Button 
                 size='medium' 
                 className='button'
-                onClick={() => alert("¡Dashboard activo!")}
             >
                 Dashboard
             </Button>
