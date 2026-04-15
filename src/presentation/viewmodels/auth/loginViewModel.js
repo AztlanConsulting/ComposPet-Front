@@ -147,6 +147,7 @@ function useLoginViewModel(){
             const user = await loginUseCase.execute(email, password);
 
             sessionStorage.setItem("token", user.token);
+    
 
             handleRedirect(user);
         } catch (err) {
