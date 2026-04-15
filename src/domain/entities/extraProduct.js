@@ -11,7 +11,7 @@ export class ExtraProduct {
      * @param {string|null} params.descripcion - Descripción del producto.
      * @param {number} params.cantidad - Cantidad disponible en inventario.
      * @param {string|null} params.imagenUrl - URL o ruta de la imagen del producto.
-     * @param {string} params.estatus - Estado del producto.
+     * @param {boolean} params.estatus - Estado del producto.
      */
     constructor({
         idProduct,
@@ -29,37 +29,5 @@ export class ExtraProduct {
         this.quantity = quantity;
         this.imageUrl = imageUrl;
         this.status = status;
-    }
-
-    /**
-     * Indica si el producto está activo.
-     * @returns {boolean}
-     */
-    estaActivo() {
-        return this.status === 'activo';
-    }
-
-    /**
-     * Indica si hay stock disponible.
-     * @returns {boolean}
-     */
-    tieneStock() {
-        return this.quantity > 0;
-    }
-
-    /**
-     * Retorna el precio del producto.
-     * @returns {number}
-     */
-    obtenerPrecio() {
-        return this.price;
-    }
-
-    /**
-     * Retorna la ruta de la imagen del producto.
-     * @returns {string|null}
-     */
-    obtenerImagenUrl() {
-        return this.imageUrl;
     }
 }

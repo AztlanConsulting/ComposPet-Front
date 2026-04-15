@@ -63,4 +63,8 @@ export class SolicitudesRecIRepository{
     async obtenerUltimaSolicitudRec(idCliente){
         throw new Error("solicitudesRecIRepository.obtenerUltimaSolicitudRec() no implementado");
     }
+
+    async getInfoAboutExtraProuctsSelected(requestID){
+        throw new Error("solicitudesRecIRepository.obtenerUltimaSolicitudRec() no implementado");
+    }
 }

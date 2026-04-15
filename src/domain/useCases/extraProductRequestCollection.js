@@ -1,7 +1,7 @@
 /**
  * Use case for retrieving the latest collection request of a client.
  */
-export class ObtenerUltimaSolicitudUseCase {
+export class ExtraProductRequestCollection {
 
     /**
      * @param {import('../repositories/solicitudesRecInterfaceRepository').SolicitudesRecIRepository} solicitudesRecRepository
@@ -16,8 +16,8 @@ export class ObtenerUltimaSolicitudUseCase {
      * @param {string} idCliente
      * @returns {Promise<import('../entities/solicitudRec').SolicitudRec | null>}
      */
-    async execute(idCliente) {
-        const result = await this.solicitudesRecRepository.obtenerUltimaSolicitudRec(idCliente);
+    async execute(requestID) {
+        const result = await this.solicitudesRecRepository.getInfoAboutExtraProductsSelected(requestID);
         return result;
     }
 }

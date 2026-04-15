@@ -21,6 +21,7 @@ export class SaveExtraProductsCollection {
      * @throws {Error} If an error occurs while saving the products.
      */
     async execute(idSolicitud, productos) {
+        console.log("LLEGOOO AL EXECUTE DE SAVE");
         return await this.solicitudesRecRepository.guardarExtraProducts(idSolicitud, productos);
     }
 }

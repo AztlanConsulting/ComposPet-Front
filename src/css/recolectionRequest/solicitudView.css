@@ -6,11 +6,12 @@
     min-height: 100vh;
     background-color: var(--color-bg);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 3rem 1.5rem;
     flex-direction: column;
+    align-items: center;
     padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .solicitud-content {
@@ -20,7 +21,9 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin: 0 12rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    box-sizing: border-box;
 }
 
 .solicitud-title {
@@ -31,20 +34,19 @@
     color: #000000;
 }
 
-/* La barra usa el mismo ancho visual que la card */
 .solicitud-progress {
     width: 100%;
     max-width: 71rem;
 }
 
-/* Los botones usan el mismo ancho visual que la card */
 .solicitud-actions {
     width: 100%;
     max-width: 71rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    gap: 1rem;
+    box-sizing: border-box;
 }
 
 .solicitud-cancel-button {
@@ -55,60 +57,53 @@
     align-self: flex-end;
 }
 
-/*Tablet*/
-
+/* Tablet */
 @media (max-width: 768px) {
-    .solicitud-background {
-        padding: 2rem 1rem;
+    .solicitud-view-background {
+        padding: 0;
     }
 
     .solicitud-content {
         gap: 1.75rem;
+        padding: 1rem;
     }
-
 
     .solicitud-title {
         font-size: 2.2rem;
     }
 
+    .solicitud-progress,
+    .solicitud-actions {
+        max-width: 100%;
+    }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
-    
-    .solicitud-background {
-        padding: 2rem 0.9rem 2rem;
+    .solicitud-view-background {
+        padding: 0;
     }
 
     .solicitud-content {
         gap: 1.5rem;
+        padding: 0.75rem;
     }
-    
 
     .solicitud-title {
         font-size: 1.8rem;
         line-height: 1.2;
     }
 
-    /* Mantener mismo ancho que la card en móvil */
     .solicitud-progress,
     .solicitud-actions {
         max-width: 100%;
+        width: 100%;
     }
 
-    /*En esquinas opuestas */
     .solicitud-actions {
-        display: flex;
         flex-direction: row;
+        justify-content: space-between;
         align-items: center;
-        gap: 1rem;
-    }
-
-    .solicitud-cancel-button {
-        align-self: flex-start;
-    }
-
-    .solicitud-next-button {
-        align-self: flex-end;
+        gap: 0.75rem;
     }
 }

@@ -8,7 +8,7 @@ import '../../css/organisms/extraProductsPageForm.css';
 import Loading from '../Template/loading';
 import Error from '../Template/error';
 
-function SecondPageForm({ segundaSeccionVM }) {
+function SecondPageForm({ segundaSeccionVM, currentStep }) {
     const {
         products,
         selectedProducts,
@@ -16,6 +16,7 @@ function SecondPageForm({ segundaSeccionVM }) {
         error,
         handleAgregar,
         handleEliminar,
+        guardarSegundaSeccion,
     } = segundaSeccionVM;
 
     if (loading) {

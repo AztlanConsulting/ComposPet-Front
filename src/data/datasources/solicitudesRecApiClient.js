@@ -83,16 +83,15 @@ export class SolicitudesRecApiClient {
         cubetasEntregadas
     ) {
         try{
-            console.log("Llega al SolicitudesRecApiClient con:", {
-                idSolicitud, 
-                quiereRecoleccion, 
-                quiereProductosExtra, 
-                cubetasRecolectadas, 
-                cubetasEntregadas
-            });
+            // console.log("Llega al SolicitudesRecApiClient con:", {
+            //     idSolicitud,
+            //     quiereRecoleccion,
+            //     quiereProductosExtra,
+            //     cubetasRecolectadas,
+            //     cubetasEntregadas
+            // });
 
             const token = this.getToken();
-            console.log('Token usado para guardar solicitud:', token);
 
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/guardar`, {
                 method: 'POST',
@@ -126,40 +125,39 @@ export class SolicitudesRecApiClient {
      * Obtiene los productos extra disponibles para la solicitud de recolección actual.
      */
 
-    async getExtraProducts() {
-        try{
-            console.log("Llega al SolicitudesRecApiClient con:");
+    async getExtraProducts () {
+        try {
+
+            const token = this.getToken();
 
             const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/obtener`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Error al guardar la primera sección de la solicitud de recolección.');
+                throw new Error(data.message || 'Error al obtener los productos extra de la solicitud de recolección.');
             }
 
-            console.log("Respuesta del backend:", data);
-
             return data;
-
         } catch (error) {
             throw error;
         }
     }
 
     async guardarProductosExtra(
-        idSolicitud,
-        producto,
+        id_solicitud,
+        productos,
     ) {
         try{
             console.log("Llega al SolicitudesRecApiClient Guardar con:", {
-                idSolicitud,
-                producto
+                id_solicitud,
+                productos
             });
 
             const token = this.getToken();
@@ -171,8 +169,8 @@ export class SolicitudesRecApiClient {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    idSolicitud,
-                    producto
+                    id_solicitud,
+                    productos
                 })
             });
 
@@ -193,7 +191,7 @@ export class SolicitudesRecApiClient {
         idCliente,
     ) {
         try{
-            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
+            console.log("Llega al SolicitudesRecApiClient ObtenerUltimaSolicitud con:", {
                 idCliente,
             });
 
@@ -211,9 +209,45 @@ export class SolicitudesRecApiClient {
             });
 
             const data = await response.json();
+            console.log("RESPUESTA DE OBTENER ULTIMA SOLICITUD EN EL API CLIENT:", data.data.id_solicitud);
 
             if (!response.ok) {
                 throw new Error(data.message || 'Error al obtener la última solicitud de recolección.');
+            }
+
+            return data.data.id_solicitud;
+
+        } catch (error) {
+            console.log("ERRRRRRRO", error)
+            throw error;
+        }
+    }
+
+    async getInfoAboutExtraProductsSelected(
+        requestID,
+    ) {
+        try{
+            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
+                requestID,
+            });
+
+            const token = this.getToken();
+
+            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form03/obtenerInfo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    requestID,
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al guardar los productos extra de la solicitud de recolección.');
             }
 
             return data;

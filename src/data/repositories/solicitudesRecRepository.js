@@ -1,6 +1,8 @@
 import { SolicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
 import {ExtraProduct} from '../../domain/entities/extraProduct';
+import { IdentificadorSolicitud } from '../../domain/entities/identificadorSolicitud';
+import { ExtraProductRequest } from '../../domain/entities/extraProductRequestCollection';
 
 /**
  * Implementación concreta del repositorio de solicitudes de recolección.
@@ -95,6 +97,7 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
 
     async getExtraProducts(){
         const response = await this.apiClient.getExtraProducts();
+        console.log('Respuesta cruda del apiClient getExtraProducts:', response);
 
         return response.data.map(productData => new ExtraProduct({
             idProduct: productData.id_producto,
@@ -108,25 +111,25 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
     }
 
     async guardarExtraProducts(idSolicitud, productos) {
+        console.log("LLEGO AL REPOSITORY DATA SAVE CON", {idSolicitud, productos});
         return await this.apiClient.guardarProductosExtra(idSolicitud, productos);
     }
 
     async obtenerUltimaSolicitudRec(idCliente){
-        const data = await this.apiClient.obtenerUltimaSolicitudRec(idCliente);
+        const idSolicitud = await this.apiClient.obtenerUltimaSolicitudRec(idCliente);
+        return new IdentificadorSolicitud(idSolicitud);
+    }
 
-        return new SolicitudRec({
-            idSolicitud: data.id_solicitud,
-            idCliente: data.id_cliente,
-            cubetasEntregadas: data.cubetas_entregadas,
-            cubetasRecolectadas: data.cubetas_recolectadas,
-            totalAPagar: data.total_a_pagar,
-            totalPagado: data.total_pagado,
-            fecha: data.fecha,
-            horario: data.horario,
-            notas: data.notas,
-            quiereRecoleccion: data.quiere_recoleccion,
-            quiereProductosExtra: data.quiere_productos_extra,
-            idPago: data.id_pago,
-        });
+    async getInfoAboutExtraProductsSelected(requestID) {
+        const response = await this.apiClient.getInfoAboutExtraProductsSelected(requestID);
+
+        console.log('Respuesta cruda del apiClient getInfoAboutExtraProductsSelected:', response);
+
+        const data = response?.data || response || [];
+
+        return data.map(productData => new ExtraProductRequest({
+            idProduct: productData.id_producto,
+            quantity: productData.cantidad,
+        }));
     }
 }

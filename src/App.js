@@ -17,7 +17,7 @@ import AniluImg from './public/img/Anilu.png';
 
 import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
-import SecondPage from './components/organisms/extraProductsPageForm';
+import SecondPage from './components/organisms/secondPageForm';
 import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './components/ProtectedRoute';

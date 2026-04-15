@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 
 import useSolicitudRecPrimeraSeccionViewModel from './firstFormViewModel';
-//import useSolicitudRecSegundaSeccionViewModel from './secondFormViewModel';
+import useSolicitudRecSegundaSeccionViewModel  from './secondPageViewModel';
 //import useSolicitudRecTerceraSeccionViewModel from './thirdFormViewModel';
 //import useSolicitudRecCuartaSeccionViewModel from './fourthFormViewModel';
 //import useSolicitudRecQuintaSeccionViewModel from './fifthFormViewModel';
@@ -51,7 +51,7 @@ function useSolicitudViewModel() {
     const [currentStep, setCurrentStep] = useState(1);
     
     const { idCliente } = useAuthenticatedClient();
-
+    console.log('?¡===================ID del cliente obtenido en SolicitudViewModel:', idCliente);
 
     const { fechaInicioSemana, fechaFinSemana } = calcularRangoSemanaActual();
 
@@ -61,11 +61,10 @@ function useSolicitudViewModel() {
         fechaFinSemana,
     );
 
-    /*const segundaSeccionVM = useSolicitudRecSegundaSeccionViewModel(
+    const segundaSeccionVM = useSolicitudRecSegundaSeccionViewModel(
         idCliente,
-        fechaInicioSemana,
-        fechaFinSemana,
-    );*/
+        currentStep === 2,
+    )
 
     const regresarStep = () => {
         if (currentStep > 1) {
@@ -99,18 +98,18 @@ function useSolicitudViewModel() {
             return;
         }
 
-        if (currentStep < totalSteps) {
-            setCurrentStep((prev) => prev + 1);
-        }
-        // Aquí después irá la lógica del step 2, 3, 4...
-        /*if (currentStep === 2) {
+        if (currentStep === 2) {
             const result = await segundaSeccionVM.guardarSegundaSeccion();
 
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
             }
             return;
-        }*/
+        }
+
+        if (currentStep < totalSteps) {
+            setCurrentStep((prev) => prev + 1);
+        }
     };
 
     const secondaryButtonText = currentStep === 1 ? 'Cancelar' : 'Regresar';
@@ -126,7 +125,7 @@ function useSolicitudViewModel() {
         primaryButtonText,
         secondaryButtonText,
         primeraSeccionVM,
-        //SegundaSeccionVM, // Reemplazar con segundaSeccionVM cuando esté implementada
+        segundaSeccionVM,
     };
 }
 

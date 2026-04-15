@@ -48,7 +48,7 @@ export default function Navbar() {
 
     const titleMyRecolections = "Mis recolecciones";
     const myRecolectionsOptions = [
-        { label: "Solicitar recolección", path: "" },
+        { label: "Solicitar recolección", path: "/formulario-recoleccion" },
         { label: "Mi Perfil", path: "" },
     ];
 
@@ -57,7 +57,7 @@ export default function Navbar() {
 
             {/* Logo — siempre visible */}
             <div className="navbarLeft">
-                <img src={logo} alt="ComposPet" className="navbarLogo" />
+                <img src={logo} alt="ComposPet" className="navbarLogo" onClick={() => window.location.href = '/'} />
             </div>
 
             {/* Links centro — solo desktop */}

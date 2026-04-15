@@ -5,9 +5,9 @@ import React from 'react';
 import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
-import NavBar from '../../../components/molecules/Navbar';
+import SecondPageForm from '../../../components/organisms/secondPageForm';
 import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
-import SecondPageForm from '../../../components/organisms/extraProductsPageForm';
+import Navbar from '../../../components/molecules/Navbar';
 
 
 
@@ -36,12 +36,13 @@ export default function SolicitudView() {
         onSecondaryAction,
         primaryButtonText,
         secondaryButtonText,
-        primeraSeccionVM
+        primeraSeccionVM,
+        segundaSeccionVM,
     } = useSolicitudViewModel();
 
     return (
         <main className="solicitud-view-background">
-            <NavBar />
+            <Navbar />
             <section className="solicitud-content">
                 <h1 className="solicitud-title">
                     Formulario de recolección
@@ -70,10 +71,7 @@ export default function SolicitudView() {
                 )}
 
                 {currentStep === 2 && (
-                    <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
-                        <p>Contenido del Step 2</p>
-                    </div>
+                    <SecondPageForm segundaSeccionVM={segundaSeccionVM} />
                 )}
 
                 {currentStep === 3 && (
@@ -108,7 +106,13 @@ export default function SolicitudView() {
                         csstype="accept"
                         className="solicitud-next-button"
                         onClick={onPrimaryAction}
-                        disabled={primeraSeccionVM.loading}
+                        disabled={
+                            currentStep === 1
+                                ? primeraSeccionVM.loading
+                                : currentStep === 2
+                                    ? segundaSeccionVM.loading
+                                    : false
+                        }
                     >
                         {primeraSeccionVM.loading ? 'Guardando...' : primaryButtonText}
                     </Button>
