@@ -1,0 +1,110 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.collection-request-view-background {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 1.5rem;
+}
+
+.collection-request-content {
+    width: 100%;
+    max-width: 76rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.collection-request-title  {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    color: #000000;
+}
+
+/* La barra usa el mismo ancho visual que la card */
+.collection-request-progress {
+    width: 100%;
+    max-width: 71rem;
+}
+
+/* Los botones usan el mismo ancho visual que la card */
+.collection-request-actions {
+    width: 100%;
+    max-width: 71rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collection-request-cancel-button {
+    align-self: flex-start;
+}
+
+.collection-request-next-button {
+    align-self: flex-end;
+}
+
+/*Tablet*/
+
+@media (max-width: 768px) {
+    .collection-request-view-background {
+        padding: 2rem 1rem;
+    }
+
+    .collection-request-content {
+        gap: 1.75rem;
+    }
+
+
+    .collection-request-title {
+        font-size: 2.2rem;
+    }
+
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    
+    .collection-request-view-background {
+        padding: 2rem 0.9rem 2rem;
+    }
+
+    .collection-request-content {
+        gap: 1.5rem;
+    }
+    
+
+    .collection-request-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+
+    /* Mantener mismo ancho que la card en móvil */
+    .collection-request-progress,
+    .collection-request-actions {
+        max-width: 100%;
+    }
+
+    /*En esquinas opuestas */
+    .collection-request-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .collection-request-cancel-button {
+        align-self: flex-start;
+    }
+
+    .collection-request-next-button {
+        align-self: flex-end;
+    }
+}
