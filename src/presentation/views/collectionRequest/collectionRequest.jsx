@@ -1,19 +1,14 @@
-import '../../../css/recolectionRequest/solicitudView.css';
-
-import React from 'react';
-
+import '../../../css/collectionRequest/collectionRequestView.css';
 import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
 import SecondPageForm from '../../../components/organisms/secondPageForm';
-import useSolicitudViewModel from '../../viewmodels/solicitudes/solicitudViewModel';
+import useCollectionRequestViewModel from '../../viewmodels/collectionRequest/collectionRequest';
 import Navbar from '../../../components/molecules/Navbar';
-
-
 
 /**
  * Vista de la primera sección del formulario de recolección.
- * Actualmente funciona con steps conectado al viewmodel `useSolicitudViewModel`
+ * Actualmente funciona con steps conectado al viewmodel `useCollectionRequestViewModel`
  * Primer step = organismo `FirstFormRecolectionRequest`
  *
  * Esta vista administra:
@@ -25,10 +20,7 @@ import Navbar from '../../../components/molecules/Navbar';
  *
  * @returns {JSX.Element} Vista inicial del formulario de recolección.
  */
-
-export default function SolicitudView() {
-
-    //Objeto temporal de errores por campo, para simular validación y mostrar mensajes asociados.
+export default function CollectionRequestView() {
     const {
         currentStep,
         totalSteps,
@@ -36,65 +28,62 @@ export default function SolicitudView() {
         onSecondaryAction,
         primaryButtonText,
         secondaryButtonText,
-        primeraSeccionVM,
-        segundaSeccionVM,
-    } = useSolicitudViewModel();
+        firstSectionViewModel,
+        secondSectionViewModel,
+    } = useCollectionRequestViewModel();
 
     return (
-        <main className="solicitud-view-background">
+        <main className="collection-request-view-background">
             <Navbar />
-            <section className="solicitud-content">
-                <h1 className="solicitud-title">
+            <section className="collection-request-content">
+                <h1 className="collection-request-title">
                     Formulario de recolección
                 </h1>
 
-                <div className="solicitud-progress">
+                <div className="collection-request-progress">
                     <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
                 </div>
 
                 {currentStep === 1 && (
                     <FirstFormRecolectionRequest
-                        quiereRecoleccion={primeraSeccionVM.quiereRecoleccion}
-                        setQuiereRecoleccion={primeraSeccionVM.setQuiereRecoleccion}
+                        wantsCollection={firstSectionViewModel.wantsCollection}
+                        setWantsCollection={firstSectionViewModel.setWantsCollection}
 
-                        quiereProductosExtra={primeraSeccionVM.quiereProductosExtra}
-                        setQuiereProductosExtra={primeraSeccionVM.setQuiereProductosExtra}
+                        wantsExtraProducts={firstSectionViewModel.wantsExtraProducts}
+                        setWantsExtraProducts={firstSectionViewModel.setWantsExtraProducts}
 
-                        cubetasEntregadas={primeraSeccionVM.cubetasEntregadas}
-                        setCubetasEntregadas={primeraSeccionVM.setCubetasEntregadas}
+                        deliveredBuckets={firstSectionViewModel.deliveredBuckets}
+                        setDeliveredBuckets={firstSectionViewModel.setDeliveredBuckets}
 
-                        cubetasRecolectadas={primeraSeccionVM.cubetasRecolectadas}
-                        setCubetasRecolectadas={primeraSeccionVM.setCubetasRecolectadas}
+                        collectedBuckets={firstSectionViewModel.collectedBuckets}
+                        setCollectedBuckets={firstSectionViewModel.setCollectedBuckets}
 
-                        errors={primeraSeccionVM.errors}
+                        errors={firstSectionViewModel.errors}
                     />
                 )}
 
                 {currentStep === 2 && (
-                    <SecondPageForm segundaSeccionVM={segundaSeccionVM} />
+                    <SecondPageForm secondSectionViewModel={secondSectionViewModel} />
                 )}
 
                 {currentStep === 3 && (
                     <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
                         <p>Contenido del Step 3</p>
                     </div>
                 )}
 
                 {currentStep === 4 && (
                     <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
                         <p>Contenido del Step 4</p>
                     </div>
                 )}
 
-
-                <div className="solicitud-actions">
+                <div className="collection-request-actions">
                     <Button
                         type="button"
                         size="medium"
                         csstype="cancel"
-                        className="solicitud-cancel-button"
+                        className="collection-request-cancel-button"
                         onClick={onSecondaryAction}
                     >
                         {secondaryButtonText}
@@ -104,17 +93,21 @@ export default function SolicitudView() {
                         type="button"
                         size="medium"
                         csstype="accept"
-                        className="solicitud-next-button"
+                        className="collection-request-next-button"
                         onClick={onPrimaryAction}
                         disabled={
                             currentStep === 1
-                                ? primeraSeccionVM.loading
+                                ? firstSectionViewModel.loading
                                 : currentStep === 2
-                                    ? segundaSeccionVM.loading
+                                    ? secondSectionViewModel.loading
                                     : false
                         }
                     >
-                        {primeraSeccionVM.loading ? 'Guardando...' : primaryButtonText}
+                        {currentStep === 1 && firstSectionViewModel.loading
+                            ? 'Guardando...'
+                            : currentStep === 2 && secondSectionViewModel.loading
+                                ? 'Guardando...'
+                                : primaryButtonText}
                     </Button>
                 </div>
             </section>

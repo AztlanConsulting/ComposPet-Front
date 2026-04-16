@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { ExtraProductsUseCase } from "../../../domain/useCases/ExtraProducts";
 import { SaveExtraProductsCollection } from "../../../domain/useCases/saveExtraProductsCollection";
-import { SolicitudesRecRepository } from "../../../data/repositories/solicitudesRecRepository";
-import { SolicitudesRecApiClient } from "../../../data/datasources/solicitudesRecApiClient";
+import { CollectionRequestRepository } from "../../../data/repositories/collectionRequestRepository";
+import { CollectionRequestApiClient } from "../../../data/datasources/collectionRequestApiClient";
 import { GetLastRequestPerClient } from "../../../domain/useCases/getLastRequestPerClient";
 import { ExtraProductRequestCollection } from "../../../domain/useCases/extraProductRequestCollection";
 
 function useSecondPageViewModel(idClient, isActive) {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState({});
-    const [idSolicitud, setIdSolicitud] = useState("");
+    const [requestID, setIdSolicitud] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
-    const apiClient = new SolicitudesRecApiClient();
-    const repository = new SolicitudesRecRepository(apiClient);
+    const apiClient = new CollectionRequestApiClient();
+    const repository = new CollectionRequestRepository(apiClient);
     const extraProductsUseCase = new ExtraProductsUseCase(repository);
     const saveExtraProductsUseCase = new SaveExtraProductsCollection(repository);
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
@@ -44,7 +44,7 @@ function useSecondPageViewModel(idClient, isActive) {
 
                 const mappedSelectedProducts = {};
                 (selectedExtraProducts || []).forEach((product) => {
-                    mappedSelectedProducts[product.idProducto] = product.quantity;
+                    mappedSelectedProducts[product.idProduct] = product.quantity;
                 });
 
                 setSelectedProducts(mappedSelectedProducts);
@@ -95,7 +95,7 @@ function useSecondPageViewModel(idClient, isActive) {
         setSuccessMessage("");
 
         try {
-            if (!idSolicitud) {
+            if (!requestID) {
                 throw new Error("No hay solicitud activa.");
             }
 
@@ -104,13 +104,13 @@ function useSecondPageViewModel(idClient, isActive) {
                 cantidad: quantity,
             }));
 
-            console.log("PRODUCTOS A GUARDAR", productsArray, idSolicitud);
+            console.log("PRODUCTOS A GUARDAR", productsArray, requestID);
 
             // if (productsArray.length === 0) {
             //     throw new Error("Debes seleccionar al menos un producto extra.");
             // }
 
-            const result = await saveExtraProductsUseCase.execute(idSolicitud, productsArray);
+            const result = await saveExtraProductsUseCase.execute(requestID, productsArray);
 
             console.log("RESULTADO DE GUARDAR PRODUCTOS EXTRA", result);
 
@@ -131,7 +131,7 @@ function useSecondPageViewModel(idClient, isActive) {
     return {
         products,
         selectedProducts,
-        idSolicitud,
+        requestID,
         loading,
         error,
         successMessage,

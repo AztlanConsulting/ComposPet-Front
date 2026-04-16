@@ -15,16 +15,16 @@ function useAuthenticatedClient() {
 
     const token = sessionStorage.getItem("token");
     const payload = JSON.parse(atob(token.split('.')[1]));
-    const idUsuario = payload.id;
+    const userId = payload.id;
 
     useEffect(() => {
-        const obtenerCliente = async () => {
+        const getAuthenticatedClient= async () => {
             try {
                 const apiClient = new ClientApiClient();
                 const clientRepository = new ClientRepository(apiClient);
                 const getClientUseCase = new GetClientUseCase(clientRepository);
 
-                const clientEntity = await getClientUseCase.execute(idUsuario);
+                const clientEntity = await getClientUseCase.execute(userId);
 
                 setClient(clientEntity);
             } catch (error) {
@@ -32,16 +32,16 @@ function useAuthenticatedClient() {
             }
         };
 
-        if (idUsuario) {
-            obtenerCliente();
+        if (userId) {
+            getAuthenticatedClient();
         }
-    }, [idUsuario]);
+    }, [userId]);
 
-    const idCliente = client?.obtenerIdCliente() || null;
+    const clientId = client?.getClientId() || null;
 
     return {
         client,
-        idCliente,
+        clientId,
     };
 }
 

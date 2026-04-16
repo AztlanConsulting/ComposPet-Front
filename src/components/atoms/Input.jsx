@@ -32,6 +32,7 @@ export default function Input({
         className={`input ${size} ${className}`}
         onChange={onChange}
         value={value} 
+        maxLength={50}
         />
     );
 }

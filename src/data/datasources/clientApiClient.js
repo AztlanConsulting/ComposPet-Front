@@ -30,27 +30,25 @@ export class ClientApiClient {
      * Obtiene el cliente asociado al id del usuario proporcionado.
      *
      * @async
-     * @param {string} idUsuario - Id del usuario 
-     * @returns {Promise<object>} Respuesta JSON del backend con el cliente encontrado
-     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido
+     * @param {string} userId - Id del usuario.
+     * @returns {Promise<Object>} Respuesta JSON del backend con el cliente encontrado.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
-
-    async obtenerClientePorIdUsuario(idUsuario) {
+    async getClientByUserId(userId) {
 
         try {
 
-            console.log('Llega al ClienteApiClient con:', { idUsuario });
-
+            // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
-            console.log('Token usado para obtener cliente:', token);
 
+            // Envía únicamente los datos capturados en la primera sección.
             const response = await fetch(`${this.baseUrl}/cliente/obtener-id-cliente`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({idUsuario}),
+                body: JSON.stringify({userId}),
             });
 
             const data = await response.json();

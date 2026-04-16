@@ -2,7 +2,7 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-.solicitud-view-background {
+.collection-request-view-background {
     min-height: 100vh;
     background-color: var(--color-bg);
     display: flex;
@@ -14,7 +14,7 @@
     box-sizing: border-box;
 }
 
-.solicitud-content {
+.collection-request-content {
     width: 100%;
     max-width: 76rem;
     display: flex;
@@ -26,20 +26,22 @@
     box-sizing: border-box;
 }
 
-.solicitud-title {
+.collection-request-title {
     margin: 0;
+    /* Se mantiene un tamaño específico por jerarquía visual principal de la vista */
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     text-align: center;
-    color: #000000;
+    color: var(--color-black);
+    line-height: var(--line-height-tight);
 }
 
-.solicitud-progress {
+.collection-request-progress {
     width: 100%;
     max-width: 71rem;
 }
 
-.solicitud-actions {
+.collection-request-actions {
     width: 100%;
     max-width: 71rem;
     display: flex;
@@ -49,61 +51,67 @@
     box-sizing: border-box;
 }
 
-.solicitud-cancel-button {
+.collection-request-cancel-button {
     align-self: flex-start;
 }
 
-.solicitud-next-button {
+.collection-request-next-button {
     align-self: flex-end;
 }
 
 /* Tablet */
 @media (max-width: 768px) {
-    .solicitud-view-background {
-        padding: 0;
+    .collection-request-view-background {
+        padding: 2rem 1rem;
     }
 
-    .solicitud-content {
+    .collection-request-content {
         gap: 1.75rem;
         padding: 1rem;
     }
 
-    .solicitud-title {
+    .collection-request-title {
+        /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 2.2rem;
-    }
-
-    .solicitud-progress,
-    .solicitud-actions {
-        max-width: 100%;
     }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
-    .solicitud-view-background {
-        padding: 0;
+    .collection-request-view-background {
+        padding: 2rem 0.9rem 2rem;
     }
 
-    .solicitud-content {
+    .collection-request-content {
         gap: 1.5rem;
         padding: 0.75rem;
     }
 
-    .solicitud-title {
+    .collection-request-title {
+        /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 1.8rem;
         line-height: 1.2;
     }
 
-    .solicitud-progress,
-    .solicitud-actions {
+    .collection-request-progress,
+    .collection-request-actions {
         max-width: 100%;
         width: 100%;
     }
 
-    .solicitud-actions {
+    .collection-request-actions {
+        display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 0.75rem;
+        gap: 1rem;
+    }
+
+    .collection-request-cancel-button {
+        align-self: flex-start;
+    }
+
+    .collection-request-next-button {
+        align-self: flex-end;
     }
 }
