@@ -67,26 +67,21 @@ function validateCollectionRequestFirstSection({
         hasErrors = true;
     }
 
-    //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && collectedBuckets !== 0) {
-        errors.collectedBuckets = 'Si no deseas recolección, la cantidad debe ser 0.';
-        hasErrors = true;
-    }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas entregadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets === 0 && deliveredBuckets !== 0) {
+    if (wantsCollection === false  &&collectedBuckets === 0 && deliveredBuckets !== 0) {
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets === 0) {
+    if (wantsCollection === false  &&collectedBuckets !== 0 && deliveredBuckets === 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
     //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && wantsExtraProducts===false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
+    if (wantsCollection === false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
         errors.collectedBuckets = 'La cantidad debe ser 0.';
         errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
@@ -194,20 +189,60 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [clientId, weekStartDate, weekEndDate]);
 
-    // Efectos ajustar a 0 las cuetas recolectadas si el cliente no quiere recolección
+    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
     useEffect(() => {
         if (wantsCollection === false) {
-            setCollectedBuckets(0);
-        }
-    }, [wantsCollection]);
-
-    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección o productos extra.
-    useEffect(() => {
-        if (wantsCollection === false && wantsExtraProducts === false) {
             setCollectedBuckets(0);
             setDeliveredBuckets(0);
         }
     }, [wantsCollection, wantsExtraProducts]);
+
+    // Limpia el error de recolección cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsCollection !== undefined && wantsCollection !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsCollection: '',
+            }));
+        }
+    }, [wantsCollection]);
+
+    // Limpia el error de productos extra cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsExtraProducts !== undefined && wantsExtraProducts !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsExtraProducts: '',
+            }));
+        }
+    }, [wantsExtraProducts]);
+
+    // Limpia el error de cubetas a entregar cuando el valor ya es válido
+    useEffect(() => {
+        const collectedBucketsIsValid =
+            (wantsCollection === true && collectedBuckets > 0) ||
+            (wantsCollection === false && collectedBuckets === 0);
+
+        if (collectedBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                collectedBuckets: '',
+            }));
+        }
+    }, [wantsCollection, collectedBuckets]);
+
+    // Limpia el error de cubetas necesarias cuando el valor ya es válido
+    useEffect(() => {
+        const deliveredBucketsIsValid =
+            (wantsCollection === false && deliveredBuckets === 0);
+
+        if (deliveredBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                deliveredBuckets: '',
+            }));
+        }
+    }, [wantsCollection, wantsExtraProducts, deliveredBuckets]);
 
     /**
      * Valida y guarda la primera sección del formulario.

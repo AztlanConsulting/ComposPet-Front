@@ -40,12 +40,13 @@
 }
 
 .yes-no-question-error {
-    margin: 0;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-normal);
+    margin-top: 0.25rem;
     color: var(--color-red-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
 }
+
 
 @media (max-width: 768px) {
     .yes-no-question-title {
