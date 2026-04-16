@@ -39,7 +39,7 @@ export class AuthApiClient {
 
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
-            throw new Error(`Error del servidor: ${response.status}`);
+            throw new Error(`Error del servidor, inténtalo más tarde.`);
         }
 
         const data = await response.json();
