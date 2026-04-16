@@ -53,8 +53,8 @@ export default function FirstFormCollectionRequest({
                         onIncrement={() => setDeliveredBuckets((previousValue) => previousValue + 1)}
                         onDecrement={() => setDeliveredBuckets((previousValue) => Math.max(0, previousValue - 1))}
                         error={errors.deliveredBuckets}
-                        // Deshabilitar si no desea recolección ni productos extra
-                        disabled={wantsCollection === false && wantsExtraProducts === false} 
+                        // Deshabilitar si no desea recolección
+                        disabled={wantsCollection === false} 
                     />
                 </div>
 
