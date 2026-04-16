@@ -13,7 +13,7 @@ export class GetLastRequestPerClient {
     /**
      * Executes the retrieval of the latest collection request.
      *
-     * @param {string} idCliente
+     * @param {string} idClient
      * @returns {Promise<import('../entities/solicitudRec').SolicitudRec | null>}
      */
     async execute(idClient) {

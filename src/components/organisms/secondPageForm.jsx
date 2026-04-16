@@ -8,15 +8,17 @@ import '../../css/organisms/extraProductsPageForm.css';
 import Loading from '../Template/loading';
 import Error from '../Template/error';
 
-function SecondPageForm({ segundaSeccionVM }) {
+function SecondPageForm({ secondSectionViewModel }) {
     const {
         products,
         selectedProducts,
         loading,
         error,
-        handleAgregar,
-        handleEliminar,
-    } = segundaSeccionVM;
+        addProduct,
+        removeProduct,
+        message,
+        name
+    } = secondSectionViewModel;
 
     if (loading) {
         return <Loading />;
@@ -26,12 +28,18 @@ function SecondPageForm({ segundaSeccionVM }) {
         return <Error message={error} />;
     }
 
-    const totalSeleccionados = Object.keys(selectedProducts).length;
+    // const totalSeleccionados = Object.keys(selectedProducts).length;
 
     return (
         <div className="secondPage">
             <FormCard className="extra-products-form-card">
                 <h2>Productos Extra</h2>
+
+                {
+                    message && (
+                        <p className="limite-mensaje">Haz alcanzado el maximo de {name.join(", ")}</p>
+                    )
+                }
 
                 {/* {totalSeleccionados >= 3 && (
                     <p className="limite-mensaje">
@@ -55,28 +63,30 @@ function SecondPageForm({ segundaSeccionVM }) {
                         }}
                     >
                         {products.map((product) => (
-                            <SwiperSlide key={product.idProducto}>
+                            <SwiperSlide key={product.idProduct}>
+                                {/* {(product.name == "Composta (en cubeta)" || product.name === "Composta (en costal)") && selectedProducts[product.idProduct] == 1 && (
+                                    <p className="product-agotado">Haz alcanzado el maximo de {product.name}</p>
+                                )} */}
                                 <div
-                                    // className={`swiper-product-card ${
-                                    //     totalSeleccionados >= 3 && !selectedProducts[product.idProducto]
-                                    //         ? 'product-disabled'
-                                    //         : ''
-                                    // }`}
+                                    className="swiper-product-card"
+                                //     {`swiper-product-card"
+                                //          ${
+                                //         (product.name == "Composta (en cubeta)" || product.name === "Composta (en costal)") && selectedProducts[product.idProduct] == 1
+                                //             ? 'product-disabled'
+                                //             : ''
+                                //     }`
+                                // }
                                 >
                                     <ProductCard
                                         imageUrl={product.imageUrl}
                                         name={product.name}
                                         description={product.description}
-                                        price={product.price}
-                                        cantidad={selectedProducts[product.idProducto] || 0}
-                                        onClickAgregar={() => handleAgregar(product.idProducto, product.quantity)}
-                                        onClickEliminar={() => handleEliminar(product.idProducto)}
-                                        disabled={
-                                            totalSeleccionados >= 3 &&
-                                            !selectedProducts[product.idProducto]
-                                        }
+                                        price={product.name === "Aserrín" || product.name === "Composta (en cubeta)" || product.name === "Composta (en costal)" ? "Sin costo" : product.price}
+                                        cantidad={selectedProducts[product.idProduct] || 0}
+                                        onClickAgregar={() => addProduct(product.idProduct, product.quantity, product.name)}
+                                        onClickEliminar={() => removeProduct(product.idProduct, product.name)}
                                         agotado={
-                                            (selectedProducts[product.idProducto] || 0) >= product.quantity
+                                            (product.name == "Composta (en cubeta)" || product.name === "Composta (en costal)") && selectedProducts[product.idProduct] == 1
                                         }
                                     />
                                 </div>

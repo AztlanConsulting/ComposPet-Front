@@ -46,6 +46,8 @@ function useCollectionRequestViewModel() {
 
     const { clientId } = useAuthenticatedClient();
 
+    console.log("CLIENTE ID EN EL VIEWMODEL PRINCIPAL", clientId);
+
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
     const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(
@@ -55,8 +57,7 @@ function useCollectionRequestViewModel() {
     );
 
     const secondSectionViewModel = useSecondPageViewModel(
-        clientId,
-        currentStep === 2,
+        clientId
     );
 
     const goBackStep = () => {

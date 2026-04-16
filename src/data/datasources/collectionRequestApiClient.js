@@ -45,6 +45,8 @@ export class CollectionRequestApiClient{
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
 
+            console.log("Token en getLastRequestPerClient del API Client:", token);
+
              // Envía el rango semanal necesario para obtener o crear la solicitud.
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/obtener`, {
                 method: 'POST',
@@ -129,7 +131,7 @@ export class CollectionRequestApiClient{
      * Obtiene los productos extra disponibles para la solicitud de recolección actual.
      */
 
-    async getExtraProducts () {
+    async getExtraProducts() {
         try {
 
             const token = this.getToken();
@@ -142,7 +144,11 @@ export class CollectionRequestApiClient{
                 }
             });
 
+            console.log("Response cruda del API Client getExtraProducts:", response);
+
             const data = await response.json();
+
+            console.log("Response cruda del API Client getExtraProducts:", data);
 
             if (!response.ok) {
                 throw new Error(data.message || 'Error al obtener los productos extra de la solicitud de recolección.');
@@ -195,11 +201,12 @@ export class CollectionRequestApiClient{
         idClient,
     ) {
         try{
-            console.log("Llega al SolicitudesRecApiClient ObtenerUltimaSolicitud con:", {
-                idClient,
-            });
+            // console.log("Llega al SolicitudesRecApiClient ObtenerUltimaSolicitud con:", {
+            //     idClient,
+            // });
 
             const token = this.getToken();
+            // console.log("Token en getLastRequestPerClient del API Client:", token);
 
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/ultimaSolicitud`, {
                 method: 'POST',
@@ -212,8 +219,10 @@ export class CollectionRequestApiClient{
                 })
             });
 
+            // console.log("Respuesta cruda del API Client getLastRequestPerClient:", response);
+
             const data = await response.json();
-            console.log("RESPUESTA DE OBTENER ULTIMA SOLICITUD EN EL API CLIENT:", data.data.id_solicitud);
+            // console.log("RESPUESTA DE OBTENER ULTIMA SOLICITUD EN EL API CLIENT:", data);
 
             if (!response.ok) {
                 throw new Error(data.message || 'Error al obtener la última solicitud de recolección.');
@@ -222,7 +231,7 @@ export class CollectionRequestApiClient{
             return data.data.id_solicitud;
 
         } catch (error) {
-            console.log("ERRRRRRRO", error)
+            console.log("ERRRRRRROR", error)
             throw error;
         }
     }

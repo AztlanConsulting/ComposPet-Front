@@ -127,11 +127,11 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
 
     async saveExtraProducts(requestID,  products,) {
         console.log("LLEGO AL REPOSITORY DATA SAVE CON", {requestID, products});
-        return await this.apiClient.guardarProductosExtra(requestID, products);
+        return await this.apiClient.saveExtraProducts(requestID, products);
     }
 
-    async getLastRequestPerClient(idCliente){
-        const requestID = await this.apiClient.getLastRequestPerClient(idCliente);
+    async getLastRequestPerClient(idClient){
+        const requestID = await this.apiClient.getLastRequestPerClient(idClient);
         return new RequestIdentifier(requestID);
     }
 

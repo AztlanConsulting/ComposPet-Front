@@ -6,13 +6,15 @@ import { CollectionRequestApiClient } from "../../../data/datasources/collection
 import { GetLastRequestPerClient } from "../../../domain/useCases/getLastRequestPerClient";
 import { ExtraProductRequestCollection } from "../../../domain/useCases/extraProductRequestCollection";
 
-function useSecondPageViewModel(idClient, isActive) {
+function useSecondPageViewModel(idClient) {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState({});
     const [requestID, setIdSolicitud] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const [message, setMessage] = useState(false);
+    const [name, setName] = useState([]);
 
     const apiClient = new CollectionRequestApiClient();
     const repository = new CollectionRequestRepository(apiClient);
@@ -21,9 +23,14 @@ function useSecondPageViewModel(idClient, isActive) {
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
     const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
+    console.log("ID CLIENT EN EL VIEWMODEL DE LA SEGUNDA PÁGINA", idClient);
+
     useEffect(() => {
         const loadData = async () => {
-            if (!idClient || !isActive) return;
+
+            console.log("idClient:", idClient);
+
+            if (!idClient) return;
 
             setLoading(true);
             setError("");
@@ -35,6 +42,8 @@ function useSecondPageViewModel(idClient, isActive) {
 
                 const extraProducts = await extraProductsUseCase.execute();
                 setProducts(extraProducts || []);
+
+                console.log("PRODUCTOS EXTRA OBTENIDOS", extraProducts);
 
                 const selectedExtraProducts = await getSelectedExtraProductsUseCase.execute(
                     solicitud?.idRequest || ""
@@ -56,15 +65,24 @@ function useSecondPageViewModel(idClient, isActive) {
         };
 
         loadData();
-    }, [idClient, isActive]);
+    }, [idClient]);
 
-    const addProduct = (id, availableStock) => {
+    const addProduct = (id, availableStock, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
-            const totalSelectedProducts = Object.keys(prevSelectedProducts).length;
             const currentQuantity = prevSelectedProducts[id] || 0;
+            console.log("Cantidad actual del producto", id, ":", currentQuantity);
+            if (currentQuantity >= availableStock){
+                return prevSelectedProducts
+            };
 
-            if (currentQuantity >= availableStock) return prevSelectedProducts;
-            if (totalSelectedProducts >= 3 && !prevSelectedProducts[id]) return prevSelectedProducts;
+            if ( (id == 3 && currentQuantity == 0)  || (id == 2 && currentQuantity == 0)){
+                setMessage(true)
+                setName((prevProductName) =>
+                    prevProductName.includes(productName)
+                        ? prevProductName
+                        : [...prevProductName, productName]
+                );
+            }
 
             return {
                 ...prevSelectedProducts,
@@ -73,14 +91,25 @@ function useSecondPageViewModel(idClient, isActive) {
         });
     };
 
-    const removeProduct = (id) => {
+    const removeProduct = (id, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
+            console.log("ALOPOOOO")
             const currentQuantity = prevSelectedProducts[id] || 0;
+
+            if ( (id == 3 && currentQuantity > 0)  || (id == 2 && currentQuantity > 0)){
+                console.log("NETROOOOOO")
+                setMessage(name.length == 2);
+                setName((prevProductName) => {
+                    const updated = prevProductName.filter(n => n !== productName);
+                    return updated;
+                });
+            }
 
             if (currentQuantity <= 1) {
                 const { [id]: removedProduct, ...remainingProducts } = prevSelectedProducts;
                 return remainingProducts;
             }
+            console.log("ALOPOOOO2")
 
             return {
                 ...prevSelectedProducts,
@@ -135,6 +164,8 @@ function useSecondPageViewModel(idClient, isActive) {
         loading,
         error,
         successMessage,
+        message,
+        name,
         addProduct,
         removeProduct,
         saveSecondSection,

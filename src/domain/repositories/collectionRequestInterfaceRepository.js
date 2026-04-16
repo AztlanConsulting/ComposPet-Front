@@ -58,8 +58,8 @@ export class CollectionRequestIRepository {
         throw new Error("solicitudesRecIRepository.getLastRequestPerClient() no implementado");
     }
 
-    async getInfoAboutExtraProuctsSelected(requestID){
-        throw new Error("solicitudesRecIRepository.getInfoAboutExtraProuctsSelected() no implementado");
+    async getInfoAboutExtraProductsSelected(requestID){
+        throw new Error("solicitudesRecIRepository.getInfoAboutExtraProductsSelected() no implementado");
     }
 
 
