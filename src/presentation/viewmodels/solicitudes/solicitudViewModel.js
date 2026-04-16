@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 
 import useSolicitudRecPrimeraSeccionViewModel from './firstFormViewModel';
-import useSolicitudRecSegundaSeccionViewModel  from './secondPageViewModel';
+import useSecondPageViewModel  from './secondPageViewModel';
 //import useSolicitudRecTerceraSeccionViewModel from './thirdFormViewModel';
 //import useSolicitudRecCuartaSeccionViewModel from './fourthFormViewModel';
 //import useSolicitudRecQuintaSeccionViewModel from './fifthFormViewModel';
@@ -50,19 +50,19 @@ function useSolicitudViewModel() {
     const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
     
-    const { idCliente } = useAuthenticatedClient();
-    console.log('?¡===================ID del cliente obtenido en SolicitudViewModel:', idCliente);
+    const { idClient } = useAuthenticatedClient();
+    console.log('?¡===================ID del cliente obtenido en SolicitudViewModel:', idClient);
 
     const { fechaInicioSemana, fechaFinSemana } = calcularRangoSemanaActual();
 
     const primeraSeccionVM = useSolicitudRecPrimeraSeccionViewModel(
-        idCliente,
+        idClient,
         fechaInicioSemana,
         fechaFinSemana,
     );
 
-    const segundaSeccionVM = useSolicitudRecSegundaSeccionViewModel(
-        idCliente,
+    const segundaSeccionVM = useSecondPageViewModel(
+        idClient,
         currentStep === 2,
     )
 
@@ -99,7 +99,7 @@ function useSolicitudViewModel() {
         }
 
         if (currentStep === 2) {
-            const result = await segundaSeccionVM.guardarSegundaSeccion();
+            const result = await segundaSeccionVM.saveSecondSection();
 
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
@@ -125,7 +125,7 @@ function useSolicitudViewModel() {
         primaryButtonText,
         secondaryButtonText,
         primeraSeccionVM,
-        segundaSeccionVM,
+        useSecondPageViewModel,
     };
 }
 

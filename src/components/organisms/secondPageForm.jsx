@@ -8,7 +8,7 @@ import '../../css/organisms/extraProductsPageForm.css';
 import Loading from '../Template/loading';
 import Error from '../Template/error';
 
-function SecondPageForm({ segundaSeccionVM, currentStep }) {
+function SecondPageForm({ segundaSeccionVM }) {
     const {
         products,
         selectedProducts,
@@ -16,7 +16,6 @@ function SecondPageForm({ segundaSeccionVM, currentStep }) {
         error,
         handleAgregar,
         handleEliminar,
-        guardarSegundaSeccion,
     } = segundaSeccionVM;
 
     if (loading) {
@@ -34,11 +33,11 @@ function SecondPageForm({ segundaSeccionVM, currentStep }) {
             <FormCard className="extra-products-form-card">
                 <h2>Productos Extra</h2>
 
-                {totalSeleccionados >= 3 && (
+                {/* {totalSeleccionados >= 3 && (
                     <p className="limite-mensaje">
                         Has alcanzado el límite de 3 productos adicionales.
                     </p>
-                )}
+                )} */}
 
                 {products.length === 0 ? (
                     <p>No hay productos extra disponibles.</p>
@@ -58,11 +57,11 @@ function SecondPageForm({ segundaSeccionVM, currentStep }) {
                         {products.map((product) => (
                             <SwiperSlide key={product.idProducto}>
                                 <div
-                                    className={`swiper-product-card ${
-                                        totalSeleccionados >= 3 && !selectedProducts[product.idProducto]
-                                            ? 'product-disabled'
-                                            : ''
-                                    }`}
+                                    // className={`swiper-product-card ${
+                                    //     totalSeleccionados >= 3 && !selectedProducts[product.idProducto]
+                                    //         ? 'product-disabled'
+                                    //         : ''
+                                    // }`}
                                 >
                                     <ProductCard
                                         imageUrl={product.imageUrl}

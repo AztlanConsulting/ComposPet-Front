@@ -22,7 +22,7 @@ export class ExtraProduct {
         imageUrl,
         status,
     }) {
-        this.idProducto = idProduct;
+        this.idProduct = idProduct;
         this.name = name;
         this.price = price;
         this.description = description;

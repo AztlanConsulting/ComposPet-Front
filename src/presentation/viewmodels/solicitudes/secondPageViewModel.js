@@ -3,13 +3,12 @@ import { ExtraProductsUseCase } from "../../../domain/useCases/ExtraProducts";
 import { SaveExtraProductsCollection } from "../../../domain/useCases/saveExtraProductsCollection";
 import { SolicitudesRecRepository } from "../../../data/repositories/solicitudesRecRepository";
 import { SolicitudesRecApiClient } from "../../../data/datasources/solicitudesRecApiClient";
-import { ObtenerUltimaSolicitudUseCase } from '../../../domain/useCases/obtenerUltimaSolicitudRec';
-import { ExtraProductRequestCollection } from '../../../domain/useCases/extraProductRequestCollection';
+import { GetLastRequestPerClient } from "../../../domain/useCases/getLastRequestPerClient";
+import { ExtraProductRequestCollection } from "../../../domain/useCases/extraProductRequestCollection";
 
-function useSolicitudRecSegundaSeccionViewModel(idCliente, isActive) {
+function useSecondPageViewModel(idClient, isActive) {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState({});
-
     const [idSolicitud, setIdSolicitud] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -19,34 +18,36 @@ function useSolicitudRecSegundaSeccionViewModel(idCliente, isActive) {
     const repository = new SolicitudesRecRepository(apiClient);
     const extraProductsUseCase = new ExtraProductsUseCase(repository);
     const saveExtraProductsUseCase = new SaveExtraProductsCollection(repository);
-    const obtainLastSolicitudUseCase = new ObtenerUltimaSolicitudUseCase(repository);
-    const getInfoAboutExtraProductsSelected = new ExtraProductRequestCollection(repository);
-
+    const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
+    const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
     useEffect(() => {
-        const cargarDatos = async () => {
-            if (!idCliente || !isActive) return;
+        const loadData = async () => {
+            if (!idClient || !isActive) return;
 
             setLoading(true);
             setError("");
             setSuccessMessage("");
 
             try {
-                const solicitud = await obtainLastSolicitudUseCase.execute(idCliente);
-                setIdSolicitud(solicitud?.idSolicitud || "");
+                const solicitud = await getLastRequestPerClientUseCase.execute(idClient);
+                setIdSolicitud(solicitud?.idRequest || "");
 
-                const result = await extraProductsUseCase.execute();
-                setProducts(result || []);
+                const extraProducts = await extraProductsUseCase.execute();
+                setProducts(extraProducts || []);
 
-                const selectedExtraProducts = await getInfoAboutExtraProductsSelected.execute(solicitud?.idSolicitud || "");
+                const selectedExtraProducts = await getSelectedExtraProductsUseCase.execute(
+                    solicitud?.idRequest || ""
+                );
+
                 console.log("PRODUCTOS EXTRA SELECCIONADOS OBTENIDOS", selectedExtraProducts);
 
-                const mappedProducts = {};
+                const mappedSelectedProducts = {};
                 (selectedExtraProducts || []).forEach((product) => {
-                    mappedProducts[product.idProducto] = product.quantity;
+                    mappedSelectedProducts[product.idProducto] = product.quantity;
                 });
 
-                setSelectedProducts(mappedProducts);
+                setSelectedProducts(mappedSelectedProducts);
             } catch (err) {
                 setError(err.message || "Error al cargar los productos extra.");
             } finally {
@@ -54,35 +55,41 @@ function useSolicitudRecSegundaSeccionViewModel(idCliente, isActive) {
             }
         };
 
-        cargarDatos();
-    }, [idCliente, isActive]);
+        loadData();
+    }, [idClient, isActive]);
 
-    const handleAgregar = (id, stockDisponible) => {
-        setSelectedProducts((prev) => {
-            const totalSeleccionados = Object.keys(prev).length;
-            const cantidadActual = prev[id] || 0;
+    const addProduct = (id, availableStock) => {
+        setSelectedProducts((prevSelectedProducts) => {
+            const totalSelectedProducts = Object.keys(prevSelectedProducts).length;
+            const currentQuantity = prevSelectedProducts[id] || 0;
 
-            if (cantidadActual >= stockDisponible) return prev;
-            if (totalSeleccionados >= 3 && !prev[id]) return prev;
+            if (currentQuantity >= availableStock) return prevSelectedProducts;
+            if (totalSelectedProducts >= 3 && !prevSelectedProducts[id]) return prevSelectedProducts;
 
-            return { ...prev, [id]: cantidadActual + 1 };
+            return {
+                ...prevSelectedProducts,
+                [id]: currentQuantity + 1,
+            };
         });
     };
 
-    const handleEliminar = (id) => {
-        setSelectedProducts((prev) => {
-            const cantidadActual = prev[id] || 0;
+    const removeProduct = (id) => {
+        setSelectedProducts((prevSelectedProducts) => {
+            const currentQuantity = prevSelectedProducts[id] || 0;
 
-            if (cantidadActual <= 1) {
-                const { [id]: _, ...rest } = prev;
-                return rest;
+            if (currentQuantity <= 1) {
+                const { [id]: removedProduct, ...remainingProducts } = prevSelectedProducts;
+                return remainingProducts;
             }
 
-            return { ...prev, [id]: cantidadActual - 1 };
+            return {
+                ...prevSelectedProducts,
+                [id]: currentQuantity - 1,
+            };
         });
     };
 
-    const guardarSegundaSeccion = async () => {
+    const saveSecondSection = async () => {
         setLoading(true);
         setError("");
         setSuccessMessage("");
@@ -92,18 +99,18 @@ function useSolicitudRecSegundaSeccionViewModel(idCliente, isActive) {
                 throw new Error("No hay solicitud activa.");
             }
 
-            const productos_arr = Object.entries(selectedProducts).map(([id, cantidad]) => ({
+            const productsArray = Object.entries(selectedProducts).map(([id, quantity]) => ({
                 id_producto: parseInt(id, 10),
-                cantidad,
+                cantidad: quantity,
             }));
 
-            console.log("PRODUCTOOOOOOOOOOOOOOOOOOOOOOOOS", productos_arr, idSolicitud);
+            console.log("PRODUCTOS A GUARDAR", productsArray, idSolicitud);
 
-            // if (productos_arr.length === 0){
+            // if (productsArray.length === 0) {
             //     throw new Error("Debes seleccionar al menos un producto extra.");
             // }
 
-            const result = await saveExtraProductsUseCase.execute(idSolicitud, productos_arr);
+            const result = await saveExtraProductsUseCase.execute(idSolicitud, productsArray);
 
             console.log("RESULTADO DE GUARDAR PRODUCTOS EXTRA", result);
 
@@ -128,10 +135,10 @@ function useSolicitudRecSegundaSeccionViewModel(idCliente, isActive) {
         loading,
         error,
         successMessage,
-        handleAgregar,
-        handleEliminar,
-        guardarSegundaSeccion,
+        addProduct,
+        removeProduct,
+        saveSecondSection,
     };
 }
 
-export default useSolicitudRecSegundaSeccionViewModel;
+export default useSecondPageViewModel;

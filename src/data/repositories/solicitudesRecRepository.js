@@ -1,7 +1,7 @@
 import { SolicitudesRecIRepository } from '../../domain/repositories/solicitudesRecInterfaceRepository';
 import {SolicitudRec} from '../../domain/entities/solicitudRec';
 import {ExtraProduct} from '../../domain/entities/extraProduct';
-import { IdentificadorSolicitud } from '../../domain/entities/identificadorSolicitud';
+import { RequestIdentifier } from '../../domain/entities/requestIdentifier';
 import { ExtraProductRequest } from '../../domain/entities/extraProductRequestCollection';
 
 /**
@@ -110,14 +110,14 @@ export class SolicitudesRecRepository extends SolicitudesRecIRepository{
         }));
     }
 
-    async guardarExtraProducts(idSolicitud, productos) {
-        console.log("LLEGO AL REPOSITORY DATA SAVE CON", {idSolicitud, productos});
-        return await this.apiClient.guardarProductosExtra(idSolicitud, productos);
+    async saveExtraProducts(requestID,  products,) {
+        console.log("LLEGO AL REPOSITORY DATA SAVE CON", {requestID, products});
+        return await this.apiClient.guardarProductosExtra(requestID, products);
     }
 
-    async obtenerUltimaSolicitudRec(idCliente){
-        const idSolicitud = await this.apiClient.obtenerUltimaSolicitudRec(idCliente);
-        return new IdentificadorSolicitud(idSolicitud);
+    async getLastRequestPerClient(idCliente){
+        const requestID = await this.apiClient.getLastRequestPerClient(idCliente);
+        return new RequestIdentifier(requestID);
     }
 
     async getInfoAboutExtraProductsSelected(requestID) {

@@ -130,7 +130,7 @@ export class SolicitudesRecApiClient {
 
             const token = this.getToken();
 
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/obtener`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/obtener`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -150,27 +150,27 @@ export class SolicitudesRecApiClient {
         }
     }
 
-    async guardarProductosExtra(
-        id_solicitud,
-        productos,
+    async saveExtraProducts(
+        requestIDReceived,
+        products,
     ) {
         try{
             console.log("Llega al SolicitudesRecApiClient Guardar con:", {
-                id_solicitud,
-                productos
+                requestIDReceived,
+                products
             });
 
             const token = this.getToken();
 
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form04/guardar`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/guardar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    id_solicitud,
-                    productos
+                    requestIDReceived,
+                    products
                 })
             });
 
@@ -187,24 +187,24 @@ export class SolicitudesRecApiClient {
         }
     }
 
-    async obtenerUltimaSolicitudRec(
-        idCliente,
+    async getLastRequestPerClient(
+        idClient,
     ) {
         try{
             console.log("Llega al SolicitudesRecApiClient ObtenerUltimaSolicitud con:", {
-                idCliente,
+                idClient,
             });
 
             const token = this.getToken();
 
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/ultimaSolicitud`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/ultimaSolicitud`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    id_cliente : idCliente,
+                    idClient,
                 })
             });
 
@@ -233,7 +233,7 @@ export class SolicitudesRecApiClient {
 
             const token = this.getToken();
 
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form03/obtenerInfo`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form03/obtenerInfo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

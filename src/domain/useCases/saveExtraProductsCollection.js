@@ -20,8 +20,8 @@ export class SaveExtraProductsCollection {
      * @returns {Promise<{message: string}>} Confirmation message.
      * @throws {Error} If an error occurs while saving the products.
      */
-    async execute(idSolicitud, productos) {
+    async execute(requestID, products) {
         console.log("LLEGOOO AL EXECUTE DE SAVE");
-        return await this.solicitudesRecRepository.guardarExtraProducts(idSolicitud, productos);
+        return await this.solicitudesRecRepository.saveExtraProducts(requestID, products);
     }
 }

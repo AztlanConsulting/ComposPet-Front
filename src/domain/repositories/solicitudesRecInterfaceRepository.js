@@ -56,15 +56,15 @@ export class SolicitudesRecIRepository{
     }
 
 
-    async guardarExtraProducts(idSolicitud, productos) {
+    async saveExtraProducts(requestID,  products,) {
         throw new Error("SolicitudesRecIRepository.guardarExtraProducts() no implementado");
     }
 
-    async obtenerUltimaSolicitudRec(idCliente){
-        throw new Error("solicitudesRecIRepository.obtenerUltimaSolicitudRec() no implementado");
+    async getLastRequestPerClient(idClient){
+        throw new Error("solicitudesRecIRepository.getLastRequestPerClient() no implementado");
     }
 
     async getInfoAboutExtraProuctsSelected(requestID){
-        throw new Error("solicitudesRecIRepository.obtenerUltimaSolicitudRec() no implementado");
+        throw new Error("solicitudesRecIRepository.getInfoAboutExtraProuctsSelected() no implementado");
     }
 }
