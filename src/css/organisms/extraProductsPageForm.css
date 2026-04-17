@@ -1,5 +1,9 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .secondPage {
-    background-color: #EFFFF9;
+    background-color: --var(--color-green-tertiary);;
     width: 100%;
 }
 

@@ -18,6 +18,7 @@ function useSecondPageViewModel(idClient) {
 
     const apiClient = new CollectionRequestApiClient();
     const repository = new CollectionRequestRepository(apiClient);
+
     const extraProductsUseCase = new ExtraProductsUseCase(repository);
     const saveExtraProductsUseCase = new SaveExtraProductsCollection(repository);
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
@@ -27,8 +28,6 @@ function useSecondPageViewModel(idClient) {
 
     useEffect(() => {
         const loadData = async () => {
-
-            console.log("idClient:", idClient);
 
             if (!idClient) return;
 
@@ -43,13 +42,9 @@ function useSecondPageViewModel(idClient) {
                 const extraProducts = await extraProductsUseCase.execute();
                 setProducts(extraProducts || []);
 
-                console.log("PRODUCTOS EXTRA OBTENIDOS", extraProducts);
-
                 const selectedExtraProducts = await getSelectedExtraProductsUseCase.execute(
                     solicitud?.idRequest || ""
                 );
-
-                console.log("PRODUCTOS EXTRA SELECCIONADOS OBTENIDOS", selectedExtraProducts);
 
                 const mappedSelectedProducts = {};
                 (selectedExtraProducts || []).forEach((product) => {
@@ -70,12 +65,12 @@ function useSecondPageViewModel(idClient) {
     const addProduct = (id, availableStock, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
-            console.log("Cantidad actual del producto", id, ":", currentQuantity);
+
             if (currentQuantity >= availableStock){
                 return prevSelectedProducts
             };
 
-            if ( (id == 3 && currentQuantity == 0)  || (id == 2 && currentQuantity == 0)){
+            if ( (id === 11 && currentQuantity === 0)  || (id === 2 && currentQuantity === 0)){
                 setMessage(true)
                 setName((prevProductName) =>
                     prevProductName.includes(productName)
@@ -93,12 +88,10 @@ function useSecondPageViewModel(idClient) {
 
     const removeProduct = (id, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
-            console.log("ALOPOOOO")
             const currentQuantity = prevSelectedProducts[id] || 0;
 
-            if ( (id == 3 && currentQuantity > 0)  || (id == 2 && currentQuantity > 0)){
-                console.log("NETROOOOOO")
-                setMessage(name.length == 2);
+            if ( (id === 11 && currentQuantity > 0)  || (id === 2 && currentQuantity > 0)){
+                setMessage(name.length === 2);
                 setName((prevProductName) => {
                     const updated = prevProductName.filter(n => n !== productName);
                     return updated;
@@ -109,7 +102,6 @@ function useSecondPageViewModel(idClient) {
                 const { [id]: removedProduct, ...remainingProducts } = prevSelectedProducts;
                 return remainingProducts;
             }
-            console.log("ALOPOOOO2")
 
             return {
                 ...prevSelectedProducts,
@@ -133,15 +125,7 @@ function useSecondPageViewModel(idClient) {
                 cantidad: quantity,
             }));
 
-            console.log("PRODUCTOS A GUARDAR", productsArray, requestID);
-
-            // if (productsArray.length === 0) {
-            //     throw new Error("Debes seleccionar al menos un producto extra.");
-            // }
-
             const result = await saveExtraProductsUseCase.execute(requestID, productsArray);
-
-            console.log("RESULTADO DE GUARDAR PRODUCTOS EXTRA", result);
 
             setSuccessMessage(result.message || "Productos guardados correctamente.");
 
