@@ -61,6 +61,19 @@
     
 }
 
+.counter-input-error-increment {
+    color: var(--color-red-primary);
+    opacity: 0.2;
+    cursor: not-allowed;
+    
+}
+
+.counter-input-error-decrement {
+    color: var(--color-red-primary);
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
     .counter-input-title {
         font-size: var(--font-size-xl);
