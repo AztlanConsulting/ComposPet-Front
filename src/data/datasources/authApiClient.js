@@ -17,7 +17,7 @@ export class AuthApiClient {
     }
 
     /**
-     * Envía las credenciales al endpoint `/login` mediante POST.
+     * Envía las credenciales al endpoint `/inicio-sesion` mediante POST.
      * Si el servidor responde con un estado no exitoso, lanza un error
      * con el mensaje provisto por la API o uno genérico como fallback.
      *
@@ -29,7 +29,7 @@ export class AuthApiClient {
 
     async login(email, password){
 
-        const response = await fetch(`${this.baseUrl}/login`, {
+        const response = await fetch(`${this.baseUrl}/inicio-sesion`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -39,7 +39,7 @@ export class AuthApiClient {
 
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
-            throw new Error(`Error del servidor: ${response.status}`);
+            throw new Error(`Error del servidor, inténtalo más tarde.`);
         }
 
         const data = await response.json();

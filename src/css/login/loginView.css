@@ -1,27 +1,29 @@
 .signIn-background {
-    min-height: 100vh;
+    min-height: 100dvh;
     min-width: 100vw;  
-    position: fixed;
+    position: relative;
     display: flex;
     align-items: center; 
     justify-content: center;
+    overflow-y: auto;
     background-color: rgba(239, 255, 249, 1);
     background-image: url('../../public/img/Fondo.svg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     padding: 1rem;
+    background-attachment: fixed
 }
 
 .logo-compospet {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .logo-compospet img {
-    width: 340px;
+    width: 320px;
     height: auto;
 }
 
@@ -161,5 +163,37 @@
     .google-button {
         width: 100%;
         font-size: 0.85rem;
+    }
+}
+
+@media (max-height: 768px) {
+    .logo-compospet img {
+        width: 260px;
+    }
+    .logo-compospet {
+        margin-bottom: 8px;
+    }
+    .title {
+        margin-top: 16px;
+    }
+    .title h1 {
+        font-size: var(--font-size-xl);
+        margin-bottom: 8px;
+    }
+    .title p {
+        display: none;
+    }
+    .forms-backgound {
+        padding: 0 1.5rem 1rem 1.5rem;
+    }
+}
+
+
+@media (max-height: 580px) {
+    .logo-compospet {
+        display: none;
+    }
+    .title h1 {
+        font-size: var(--font-size-md);
     }
 }

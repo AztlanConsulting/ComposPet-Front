@@ -22,7 +22,7 @@ export class AuthIRepository{
      */
 
     async login(email, password){
-        throw new Error("AuthIRepository.login()")
+        throw new Error("AuthIRepository.login() no implementado")
     }
 
     /**
