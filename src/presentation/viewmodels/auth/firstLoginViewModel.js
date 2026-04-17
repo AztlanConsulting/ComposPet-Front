@@ -181,7 +181,7 @@ export function useFirstLoginViewModel() {
                 entity?.token 
             );
             
-            navigate("/login"); 
+            navigate("/inicio-sesion"); 
         } catch (err) {
             if (err.message === "Failed to fetch" || !navigator.onLine) {
                 setError("No se pudo establecer conexión con el servidor. Intenta más tarde.");

@@ -152,7 +152,7 @@ function FirstLoginView() {
 
                     {step === 1 && (
                         <div className="mt-3 text-center">
-                            <a href="/login" className="forgot-password">
+                            <a href="/inicio-sesion" className="forgot-password">
                                 Volver al inicio de sesión
                             </a>
                         </div>

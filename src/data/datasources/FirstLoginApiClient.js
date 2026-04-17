@@ -12,7 +12,7 @@ export class FirstLoginApiClient {
      * Centraliza la configuración de headers, la serialización del cuerpo y el manejo de errores.
      * * @private
      * @async
-     * @param {string} endpoint - Ruta relativa al recurso (ej. '/login').
+     * @param {string} endpoint - Ruta relativa al recurso (ej. '/inisio-sesion').
      * @param {Object} body - Objeto con los datos que se enviarán en el cuerpo de la petición.
      * @returns {Promise<Object>} Promesa que resuelve con los datos de la respuesta en formato JSON.
      * @throws {Error} Si la respuesta no es exitosa (status != 2xx), lanza el mensaje del backend o el status code.
