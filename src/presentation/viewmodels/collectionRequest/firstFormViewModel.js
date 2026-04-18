@@ -172,7 +172,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 );
 
 
-                // Guarda los datos para mostrarlos. Si existe la solicitud actual, la usa; en caso contrario se mantienen los valores iniciales.
+                // Guarda los datos que trajo del usecase para mostrarlos. En caso contrario se mantienen los valores iniciales.
                 setRequestId(collectionRequest.id);
                 setWantsCollection(collectionRequest.wantsPickup());
                 setWantsExtraProducts(collectionRequest.wantsAdditionalProducts());
@@ -267,6 +267,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
      */
 
     const saveFirstSection = async () => {
+        // Se valida primero la información a guardar
         const { errors: validationErrors, hasErrors } = validateCollectionRequestFirstSection({
             requestId,
             wantsCollection,
@@ -298,6 +299,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 collectionRequestRepository,
             );
 
+            //Llama al UseCase para guardar la solicitud del cliente
             const collectionRequest = await saveCollectionRequestFirstSectionUseCase.execute(
                 requestId,
                 wantsCollection,

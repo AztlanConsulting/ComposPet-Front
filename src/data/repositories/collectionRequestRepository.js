@@ -36,6 +36,8 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
      * @returns {Promise<CollectionRequest>} Entidad de dominio con la solicitud encontrada.
      */
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate){
+
+        //Llamada de al collectionRequestApiClient
         const response = await this.apiClient.getCurrentCollectionRequest(
             clientId,
             weekStartDate,

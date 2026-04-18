@@ -19,6 +19,7 @@ export class ClientIRepository{
      * @throws {Error} Si el método no ha sido implementado.
      */
 
+    //Llama al repositorio de data
     async getClientByUserId(userId) {
         throw new Error('ClientIRepository.getClientByUserId() not implemented');
     }

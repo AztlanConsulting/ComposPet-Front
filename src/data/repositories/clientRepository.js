@@ -31,12 +31,17 @@ export class ClientRepository extends ClientIRepository{
      * @returns {Promise<Client>} Entidad `Client` con la información recuperada.
      * @throws {Error} Si la respuesta no contiene un cliente válido.
      */
+
+    //
     async getClientByUserId(userId) {
+
+        //Llama al Api client
         const response = await this.apiClient.getClientByUserId(userId);
 
         //Importante para acceder a el cuerpo del backend
         const data = response.data;
 
+        //Nace la entidad y la regresa al Repositorio de Interface con data
         return new Client({
             clientId: data.id_cliente,
             userId: data.id_usuario,

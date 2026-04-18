@@ -45,12 +45,13 @@ export class CollectionRequestApiClient{
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
 
-             // Envía el rango semanal necesario para obtener o crear la solicitud.
+             // Envía el rango semanal necesario para obtener o crear la solicitud, en el back.
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/obtener`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
+                    //Manda el id del cliente, las fecjas de inicio y fin de semana
                 },
                 body: JSON.stringify({
                     clientId,
@@ -59,6 +60,7 @@ export class CollectionRequestApiClient{
                 }),
             });
 
+            // Respuesta del Back
             const data = await response.json();
 
             if (!response.ok) {
@@ -112,6 +114,7 @@ export class CollectionRequestApiClient{
                 })
             });
 
+            //Respuesta del back con la info que se guardo en la BD
             const data = await response.json();
 
             if (!response.ok) {

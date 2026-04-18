@@ -41,7 +41,7 @@ export class ClientApiClient {
             // Recupera el token actual para autenticar la petición al backend
             const token = this.getToken();
 
-            // Envía únicamente los datos capturados en la primera sección.
+            // envia el id del usuario al back y llama a la ruta
             const response = await fetch(`${this.baseUrl}/cliente/obtener-id-cliente`, {
                 method: 'POST',
                 headers: {
@@ -51,6 +51,7 @@ export class ClientApiClient {
                 body: JSON.stringify({userId}),
             });
 
+            // Respuesta del Back
             const data = await response.json();
 
             if (!response.ok) {
