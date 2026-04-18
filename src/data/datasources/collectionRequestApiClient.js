@@ -246,6 +246,7 @@ export class CollectionRequestApiClient{
             });
 
             const token = this.getToken();
+            console.log("TOKEN", token);
 
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/form03/obtenerInfo`, {
                 method: 'POST',

@@ -24,8 +24,6 @@ function useSecondPageViewModel(idClient) {
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
     const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
-    // console.log("ID CLIENT EN EL VIEWMODEL DE LA SEGUNDA PÁGINA", idClient);
-
     const loadData = async () => {
         if (!idClient) return;
 

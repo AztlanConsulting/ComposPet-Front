@@ -14,6 +14,20 @@
     box-sizing: border-box;
 }
 
+.collection-request-buttons-left {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
+
+.collection-request-cancel-page2-button{
+    background-color: var( --color-red-secondary);
+    border-color: var(--color-red-primary);
+    color: var(--color-red-primary);
+}
+
 .collection-request-content {
     width: 100%;
     max-width: 76rem;
@@ -50,13 +64,20 @@
     box-sizing: border-box;
 }
 
-.collection-request-cancel-button {
+
+.collection-request-cancel-button,
+.collection-request-back-button,
+.collection-request-next-button {
+    align-self: auto;
+}
+
+/* .collection-request-cancel-button {
     align-self: flex-start;
 }
 
 .collection-request-next-button {
     align-self: flex-end;
-}
+} */
 
 /* Tablet */
 @media (max-width: 768px) {

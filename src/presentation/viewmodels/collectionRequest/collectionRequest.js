@@ -1,7 +1,8 @@
 import { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 import useSecondPageViewModel from './secondPageViewModel';
+import ConfirmAlert from "../../../components/Template/confirmationAlert";
 // import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
 // import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
 // import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
@@ -43,6 +44,7 @@ function calculateCurrentWeekRange() {
 function useCollectionRequestViewModel() {
     const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
+    const navigate = useNavigate();
 
     const { clientId } = useAuthenticatedClient();
 
@@ -66,9 +68,17 @@ function useCollectionRequestViewModel() {
         }
     };
 
-    const cancelForm = () => {
-        // Aquí puedes agregar la lógica para cancelar el formulario,
-        // como limpiar estados y redirigir a Home.
+    const cancelForm = async () => {
+        const result = await ConfirmAlert({
+            title: "¿Estas seguro que deseas salir del formulario?",
+            text: "Se perderán los cambios no guardados.",
+            confirmText: "Sí, cancelar",
+            cancelText: "Seguir editando",
+        });
+
+        if (result.isConfirmed) {
+            navigate("/");
+        }
     };
 
     const onSecondaryAction = () => {
@@ -99,11 +109,26 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 2) {
+            const products = secondSectionViewModel.selectedProducts || {};
+            const isEmpty = Object.keys(products).length === 0;
+
+            if (isEmpty) {
+                const result = await ConfirmAlert({
+                    title: "¿Continuar sin productos?",
+                    text: "No has seleccionado algún productos. ¿Deseas continuar?",
+                    confirmText: "Sí, continuar",
+                    cancelText: "Seleccionar productos",
+                });
+
+                if (!result.isConfirmed) return;
+            }
+
             const result = await secondSectionViewModel.saveSecondSection();
 
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
             }
+
             return;
         }
 
@@ -120,6 +145,7 @@ function useCollectionRequestViewModel() {
         totalSteps,
         onPrimaryAction,
         onSecondaryAction,
+        cancelForm,
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,

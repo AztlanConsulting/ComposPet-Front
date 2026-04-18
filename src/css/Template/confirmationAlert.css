@@ -1,0 +1,36 @@
+.custom-swal-popup {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+}
+
+.custom-swal-title {
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+}
+
+.custom-swal-text {
+    color: var(--color-black);
+}
+
+.custom-swal-confirm,
+.custom-swal-cancel {
+    border-radius: 0.3rem;
+    padding: 0.6rem 1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+}
+
+.custom-swal-confirm {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}
+
+.custom-swal-cancel {
+    background-color: var(--color-green-tertiary);
+    color: var(--color-red-black);
+    border-color: var(--color-green-secondary);
+}

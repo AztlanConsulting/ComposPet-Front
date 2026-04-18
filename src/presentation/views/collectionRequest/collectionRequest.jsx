@@ -26,6 +26,7 @@ export default function CollectionRequestView() {
         totalSteps,
         onPrimaryAction,
         onSecondaryAction,
+        cancelForm,
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
@@ -79,15 +80,31 @@ export default function CollectionRequestView() {
                 )}
 
                 <div className="collection-request-actions">
-                    <Button
-                        type="button"
-                        size="medium"
-                        csstype="cancel"
-                        className="collection-request-cancel-button"
-                        onClick={onSecondaryAction}
-                    >
-                        {secondaryButtonText}
-                    </Button>
+                    <div className="collection-request-buttons-left">
+                        <Button
+                            type="button"
+                            size="medium"
+                            csstype="cancel"
+                            className="collection-request-cancel-button"
+                            onClick={onSecondaryAction}
+                        >
+                            {secondaryButtonText}
+                        </Button>
+
+                        {currentStep > 1 && (
+                            <Button
+                                type="button"
+                                size="medium"
+                                csstype="cancel"
+                                className="collection-request-cancel-page2-button"
+                                onClick={cancelForm}
+                            >
+                                Cancelar
+                            </Button>
+
+                        )}
+
+                    </div>
 
                     <Button
                         type="button"
