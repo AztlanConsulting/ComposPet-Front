@@ -28,12 +28,11 @@
 
 .collection-request-title {
     margin: 0;
-    /* Se mantiene un tamaño específico por jerarquía visual principal de la vista */
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: var(--font-weight-bold);
     text-align: center;
     color: var(--color-black);
-    line-height: var(--line-height-tight);
+    line-height: 1.1;
 }
 
 .collection-request-progress {

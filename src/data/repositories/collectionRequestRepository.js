@@ -138,8 +138,6 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
     async getInfoAboutExtraProductsSelected(requestID) {
         const response = await this.apiClient.getInfoAboutExtraProductsSelected(requestID);
 
-        console.log('Respuesta cruda del apiClient getInfoAboutExtraProductsSelected:', response);
-
         const data = response?.data || response || [];
 
         return data.map(productData => new ExtraProductRequest({

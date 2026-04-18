@@ -24,51 +24,51 @@ function useSecondPageViewModel(idClient) {
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
     const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
-    console.log("ID CLIENT EN EL VIEWMODEL DE LA SEGUNDA PÁGINA", idClient);
+    // console.log("ID CLIENT EN EL VIEWMODEL DE LA SEGUNDA PÁGINA", idClient);
+
+    const loadData = async () => {
+        if (!idClient) return;
+
+        setLoading(true);
+        setError("");
+        setSuccessMessage("");
+
+        try {
+            const result = await getLastRequestPerClientUseCase.execute(idClient);
+            setIdSolicitud(result?.idRequest || "");
+
+            const extraProducts = await extraProductsUseCase.execute();
+            setProducts(extraProducts || []);
+
+            const selectedExtraProducts = await getSelectedExtraProductsUseCase.execute(
+                result?.idRequest || ""
+            );
+
+            console.log(selectedExtraProducts);
+
+            const mappedSelectedProducts = {};
+            (selectedExtraProducts || []).forEach((product) => {
+                console.log("PRODUCT", product.idProduct, " ", product.quantity);
+                mappedSelectedProducts[product.idProduct] = product.quantity;
+            });
+
+            console.log("MAPPED", mappedSelectedProducts);
+
+            setSelectedProducts(mappedSelectedProducts);
+        } catch (err) {
+            setError(err.message || "Error al cargar los productos extra.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const loadData = async () => {
-
-            if (!idClient) return;
-
-            setLoading(true);
-            setError("");
-            setSuccessMessage("");
-
-            try {
-                const solicitud = await getLastRequestPerClientUseCase.execute(idClient);
-                setIdSolicitud(solicitud?.idRequest || "");
-
-                const extraProducts = await extraProductsUseCase.execute();
-                setProducts(extraProducts || []);
-
-                const selectedExtraProducts = await getSelectedExtraProductsUseCase.execute(
-                    solicitud?.idRequest || ""
-                );
-
-                const mappedSelectedProducts = {};
-                (selectedExtraProducts || []).forEach((product) => {
-                    mappedSelectedProducts[product.idProduct] = product.quantity;
-                });
-
-                setSelectedProducts(mappedSelectedProducts);
-            } catch (err) {
-                setError(err.message || "Error al cargar los productos extra.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         loadData();
     }, [idClient]);
 
-    const addProduct = (id, availableStock, productName) => {
+    const addProduct = (id, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
-
-            if (currentQuantity >= availableStock){
-                return prevSelectedProducts
-            };
 
             if ( (id === 11 && currentQuantity === 0)  || (id === 2 && currentQuantity === 0)){
                 setMessage(true)
@@ -99,8 +99,9 @@ function useSecondPageViewModel(idClient) {
             }
 
             if (currentQuantity <= 1) {
-                const { [id]: removedProduct, ...remainingProducts } = prevSelectedProducts;
-                return remainingProducts;
+                const updatedProducts = { ...prevSelectedProducts };
+                delete updatedProducts[id];
+                return updatedProducts;
             }
 
             return {
@@ -153,6 +154,7 @@ function useSecondPageViewModel(idClient) {
         addProduct,
         removeProduct,
         saveSecondSection,
+        loadData,
     };
 }
 

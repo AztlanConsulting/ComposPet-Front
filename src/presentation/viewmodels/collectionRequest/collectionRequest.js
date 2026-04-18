@@ -46,7 +46,7 @@ function useCollectionRequestViewModel() {
 
     const { clientId } = useAuthenticatedClient();
 
-    console.log("CLIENTE ID EN EL VIEWMODEL PRINCIPAL", clientId);
+    // console.log("CLIENTE ID EN EL VIEWMODEL PRINCIPAL", clientId);
 
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
@@ -75,6 +75,14 @@ function useCollectionRequestViewModel() {
         if (currentStep === 1) {
             cancelForm();
             return;
+        }
+
+        if (currentStep === 2){
+            firstSectionViewModel.loadCurrentCollectionRequest();
+        }
+
+        if (currentStep === 3){
+            secondSectionViewModel.loadData();
         }
 
         goBackStep();

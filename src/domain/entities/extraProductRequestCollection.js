@@ -12,7 +12,7 @@ export class ExtraProductRequest {
         idProduct,
         quantity,
     }) {
-        this.idProducto = idProduct;
+        this.idProduct = idProduct;
         this.quantity = quantity;
     }
 }

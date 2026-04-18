@@ -165,12 +165,13 @@ export class CollectionRequestApiClient{
         products,
     ) {
         try{
-            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
-                requestIDReceived,
+            console.log("Llega al saveProducts Guardar con:", {
+                // requestIDReceived,
                 products
             });
 
             const token = this.getToken();
+            console.log("Token", token)
 
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/guardar`, {
                 method: 'POST',

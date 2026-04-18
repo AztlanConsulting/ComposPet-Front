@@ -2,15 +2,15 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-.error-container{
-    background-color: --var(--color-green-tertiary);
-    width: 100vw;
-    height: 100vh;
+.error-container {
+    width: 100%;
+    min-height: 300px;
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    box-sizing: border-box;
 }
 
 .error-logo{
