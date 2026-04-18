@@ -22,6 +22,9 @@ import '../../css/organisms/firstFormRecolectionRequest.css';
  * @param {Object} props.errors - Objeto de errores del formulario.
  * @returns {JSX.Element} Primera sección del formulario de recolección.
  */
+
+const MAX_LIMIT = 20;
+
 export default function FirstFormCollectionRequest({
     wantsCollection,
     setWantsCollection,
@@ -34,6 +37,7 @@ export default function FirstFormCollectionRequest({
     errors,
 }) {
     return (
+        
         <FormCard>
             <div className="first-form-collection-request-grid">
                 <div className="first-form-collection-request-collection">
@@ -50,11 +54,16 @@ export default function FirstFormCollectionRequest({
                     <CounterInput
                         question="¿Cuántas cubetas necesitas?"
                         value={deliveredBuckets}
-                        onIncrement={() => setDeliveredBuckets((previousValue) => previousValue + 1)}
+                        onIncrement={() => setDeliveredBuckets((previousValue) => Math.min(MAX_LIMIT,previousValue + 1))}
                         onDecrement={() => setDeliveredBuckets((previousValue) => Math.max(0, previousValue - 1))}
                         error={errors.deliveredBuckets}
+
                         // Deshabilitar si no desea recolección
                         disabled={wantsCollection === false} 
+
+                        // Deshabilitar si piden mas de 20 cubetas
+                        disabledIncrement = {deliveredBuckets >= MAX_LIMIT }
+                        disabledDecrement = {deliveredBuckets <=0}
                     />
                 </div>
 
@@ -72,11 +81,13 @@ export default function FirstFormCollectionRequest({
                     <CounterInput
                         question="¿Cuántas cubetas vas a entregar?"
                         value={collectedBuckets}
-                        onIncrement={() => setCollectedBuckets((previousValue) => previousValue + 1)}
+                        onIncrement={() => setCollectedBuckets((previousValue) => Math.min(MAX_LIMIT,previousValue + 1))}
                         onDecrement={() => setCollectedBuckets((previousValue) => Math.max(0, previousValue - 1))}
                         error={errors.collectedBuckets}
                         // Deshabilitar si no desea recolección
                         disabled={wantsCollection === false}
+                        disabledIncrement = {collectedBuckets >= MAX_LIMIT }
+                        disabledDecrement = {collectedBuckets <=0}
                     />
                 </div>
             </div>

@@ -61,10 +61,23 @@ function validateCollectionRequestFirstSection({
         hasErrors = true;
     }
 
-    // Si el cliente desea recolección, la cantidad de cubetas recolectadas debe ser mayor a 0.
-    if (wantsCollection && collectedBuckets <= 0) {
-        errors.collectedBuckets = 'La cantidad de cubetas no puede ser 0.';
+    // Si el desea recolección, la cantidad de cubetas no pueden ser 0 al mismo tiempo.
+    if (wantsCollection && (collectedBuckets <= 0 && deliveredBuckets <= 0)) {
+        errors.collectedBuckets = 'Las dos cantidades no pueden ser 0.';
+        errors.deliveredBuckets = 'Las dos cantidades no pueden ser 0.';
         hasErrors = true;
+    }
+
+    // Si el cliente desea recolección, la cantidad de cubetas recolectadas debe ser menor a 20.
+    if (wantsCollection && (collectedBuckets >20)) {
+        errors.collectedBuckets = 'La cantidad de las cubetas no pueden ser mayor a 20.'; 
+        hasErrors =true
+    }
+
+    // Si el cliente desea recolección, la cantidad de cubetas entregadas debe ser manor a 20.
+    if (wantsCollection && (deliveredBuckets >20)) {
+        errors.deliveredBuckets = 'La cantidad de las cubetas no pueden ser mayor a 20.'; 
+        hasErrors =true
     }
 
 
@@ -231,18 +244,20 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [wantsCollection, collectedBuckets]);
 
-    // Limpia el error de cubetas necesarias cuando el valor ya es válido
+    // Limpia el error de las dos cubetas cuando el valor ya es válido
     useEffect(() => {
         const deliveredBucketsIsValid =
+            (wantsCollection === true && ((deliveredBuckets > 0) || (collectedBuckets > 0) )) ||
             (wantsCollection === false && deliveredBuckets === 0);
 
         if (deliveredBucketsIsValid) {
             setErrors((previousErrors) => ({
                 ...previousErrors,
                 deliveredBuckets: '',
+                collectedBuckets: '',
             }));
         }
-    }, [wantsCollection, wantsExtraProducts, deliveredBuckets]);
+    }, [wantsCollection, collectedBuckets, deliveredBuckets]);
 
     /**
      * Valida y guarda la primera sección del formulario.
