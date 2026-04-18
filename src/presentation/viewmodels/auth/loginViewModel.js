@@ -6,6 +6,7 @@ import { AuthRepository } from "../../../data/repositories/authRepository";
 import { AuthApiClient } from "../../../data/datasources/authApiClient";
 
 import { useGoogleLogin } from '@react-oauth/google';
+import { setAccessToken } from "../../../api/axiosConfig";
 
 /**
  * Valida los campos del formulario de inicio de sesión antes de enviarlo.
@@ -79,6 +80,7 @@ function useLoginViewModel(){
     const[password, setPassword] = useState("");
     const[errors, setErrors] = useState({ email: "", password: "", general: "" });
     const[loading, setLoading] = useState(false);
+    const [loadingAction, setLoadingAction] = useState(null);
 
 
     /**
@@ -89,6 +91,11 @@ function useLoginViewModel(){
      * @returns redirect a la ruta correspondiente
      */
     const handleRedirect = (user) => {
+        if (user.isFirstLogin()) {
+            navigate("/first-login"); 
+            return;
+        }
+        
         const redirect = searchParams.get("redirect");
 
         // Solo se acepta el redirect a estas rutas
@@ -146,8 +153,13 @@ function useLoginViewModel(){
 
             const user = await loginUseCase.execute(email, password);
 
-            sessionStorage.setItem("token", user.token);
-    
+            setAccessToken(user.token)
+            const publicUser = { 
+                id: user.id, 
+                email: user.email, 
+                rol: user.rol 
+            };
+            sessionStorage.setItem('user', JSON.stringify(publicUser));
 
             handleRedirect(user);
         } catch (err) {
@@ -177,10 +189,9 @@ function useLoginViewModel(){
      */
     const onGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
-            setLoading(true);
             setErrors({});
+            setLoadingAction('google');
             try {
-                sessionStorage.setItem('googleAccessToken', tokenResponse.access_token);
                 
                 const apiClient = new AuthApiClient();
                 const authRepo = new AuthRepository(apiClient);
@@ -188,15 +199,20 @@ function useLoginViewModel(){
 
                 const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
                 
-                sessionStorage.setItem('token', userEntity.token);
-                sessionStorage.setItem('user', JSON.stringify(userEntity));
+                setAccessToken(userEntity.token);
+                const publicUser = { 
+                    id: userEntity.id, 
+                    email: userEntity.email, 
+                    rol: userEntity.rol 
+                };
+                sessionStorage.setItem('user', JSON.stringify(publicUser));
                 
                 handleRedirect(userEntity);
             } catch (error) {
                 console.error("CLIC 3: Error en el bloque try/catch del VM", error);
                 setErrors({ general: "Este correo no está registrado en ComposPet" });
             } finally {
-                setLoading(false);
+                setLoadingAction(null);
             }
         },
         onError: (error) => {
@@ -211,7 +227,7 @@ function useLoginViewModel(){
         password,
         errors,
         loading,
-
+        loadingAction,
         setEmail,
         setPassword,
         onGoogleLogin, 

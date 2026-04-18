@@ -1,21 +1,26 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { isAuthenticated } from "../api/axiosConfig";
 
 /**
- * Componente de ruta protegida que restringe el acceso a usuarios autenticados.
- * Verifica la existencia del token en `sessionStorage` antes de renderizar
- * el contenido. Si no hay token, redirige al login sin agregar la ruta
- * actual al historial de navegación.
- *
- * @param {object} props - Propiedades del componente.
- * @param {React.ReactNode} props.children - Componente o vista a renderizar si el usuario está autenticado.
- * @returns {JSX.Element} El contenido protegido o una redirección a `/login`.
+ * Componente de Ruta Protegida (Guarda de Navegación).
+ * Restringe el acceso a sub-rutas basándose en el estado de autenticación.
+ * * El componente verifica dos niveles de persistencia:
+ * 1. El estado en memoria (vía `isAuthenticated()`).
+ * 2. La existencia del objeto de usuario en `sessionStorage` (para persistencia en recargas).
+ * * @returns {JSX.Element} Renderiza las rutas hijas mediante `<Outlet />` si el usuario es válido,
+ * de lo contrario, redirige a la página de inicio de sesión.
  */
-export default function ProtectedRoute({ children }) {
-    const token = sessionStorage.getItem("token");
+export default function ProtectedRoute() {
+    /**
+     * Recuperamos la información del usuario de sessionStorage.
+     * Se usa como respaldo en caso de que el estado en memoria de axiosConfig
+     * se haya limpiado tras un refresco de página (F5).
+     */
+    const user = sessionStorage.getItem("user");
 
-    if (!token) {
-        return <Navigate to="/login" replace />;
+    if (isAuthenticated() || user) {
+        return <Outlet />;
     }
 
-    return children;
+    return <Navigate to="/login" replace />;
 }
