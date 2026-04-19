@@ -1,66 +1,56 @@
+import api from '../../api/axiosConfig'; 
+import { handleHttpError } from '../infrastructure/httpErrorHandler';
+
 export class FirstLoginApiClient {
     /**
-     * @param {string} [baseUrl=process.env.REACT_APP_API_URL] - URL base del servidor.
-     * Debe configurarse en el archivo `.env` del proyecto.
-     */
-    constructor(baseUrl = process.env.REACT_APP_API_URL) {
-        this.baseUrl = baseUrl;
-    }   
-
-    /**
-     * Realiza una petición HTTP POST de forma privada al endpoint especificado.
-     * Centraliza la configuración de headers, la serialización del cuerpo y el manejo de errores.
-     * * @private
-     * @async
-     * @param {string} endpoint - Ruta relativa al recurso (ej. '/login').
-     * @param {Object} body - Objeto con los datos que se enviarán en el cuerpo de la petición.
-     * @returns {Promise<Object>} Promesa que resuelve con los datos de la respuesta en formato JSON.
-     * @throws {Error} Si la respuesta no es exitosa (status != 2xx), lanza el mensaje del backend o el status code.
-     */
-    async #post(endpoint, body) {
-        const response = await fetch(`${this.baseUrl}${endpoint}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || `Error en la petición: ${response.status}`);
-        }
-
-        return data;
-    }
-
-    /**
-     * Solicitar código OTP.
-     * @param {string} email 
-     * @returns {Promise<{success: boolean, seedToken: string}>}
+     * Solicita un código OTP al correo electrónico proporcionado.
+     * * @async
+     * @param {string} email - Correo del usuario a validar.
+     * @returns {Promise<{success: boolean, seedToken: string}>} SeedToken necesario para la verificación.
+     * @throws {Error} Si el correo no existe o hay error de red.
      */
     async requestOTP(email) {
-        return await this.#post('/api/request-otp', { email });
+        try {
+            const response = await api.post('/api/request-otp', { email });
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
     }
 
     /**
-     * Verificar código OTP con el seedToken.
-     * @param {string} email 
-     * @param {string} code 
-     * @param {string} seedToken 
-     * @returns {Promise<{success: boolean, flowToken: string}>}
+     * Verifica el código OTP ingresado por el usuario utilizando el seedToken previo.
+     * * @async
+     * @param {string} email - Correo del usuario.
+     * @param {string} code - Código OTP de 6 dígitos (normalmente).
+     * @param {string} seedToken - Token de seguimiento obtenido en la solicitud.
+     * @returns {Promise<{success: boolean, flowToken: string}>} FlowToken necesario para actualizar la contraseña.
+     * @throws {Error} Si el código es incorrecto o ha expirado.
      */
     async verifyOTP(email, code, seedToken) {
-        return await this.#post('/api/verify-otp', { email, code, seedToken });
+        try {
+            const response = await api.post('/api/verify-otp', { email, code, seedToken });
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
     }
 
     /**
-     * Establecer contraseña definitiva usando el flowToken.
-     * @param {string} email 
-     * @param {string} password 
-     * @param {string} flowToken 
-     * @returns {Promise<{success: boolean, message: string}>}
+     * Establece la contraseña definitiva del usuario usando el flowToken de validación.
+     * * @async
+     * @param {string} email - Correo del usuario.
+     * @param {string} password - Nueva contraseña.
+     * @param {string} flowToken - Token que garantiza que el OTP fue validado con éxito.
+     * @returns {Promise<{success: boolean, message: string}>} Confirmación de la operación.
+     * @throws {Error} Si el token es inválido o la contraseña no cumple requisitos.
      */
     async updatePassword(email, password, flowToken) {
-        return await this.#post('/api/update-password', { email, password, flowToken });
+        try {
+            const response = await api.post('/api/update-password', { email, password, flowToken });
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
     }
 }

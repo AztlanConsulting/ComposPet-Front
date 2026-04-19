@@ -171,7 +171,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                     weekEndDate,
                 );
 
-
+                
                 // Guarda los datos para mostrarlos. Si existe la solicitud actual, la usa; en caso contrario se mantienen los valores iniciales.
                 setRequestId(collectionRequest.id);
                 setWantsCollection(collectionRequest.wantsPickup());

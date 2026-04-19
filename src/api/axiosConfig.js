@@ -53,11 +53,18 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
+        if (originalRequest.url.includes('/refresh')) {
+            accessToken = null;
+            sessionStorage.removeItem('user');
+            window.location.href = '/login';
+            return Promise.reject(error);
+        }
+
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
-                const { data } = await api.post('/api/refresh');
+                const { data } = await api.post('/refresh');
 
                 accessToken = data.accessToken;
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;

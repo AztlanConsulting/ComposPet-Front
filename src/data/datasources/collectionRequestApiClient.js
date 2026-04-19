@@ -1,89 +1,46 @@
+import api from '../../api/axiosConfig'; 
+import { handleHttpError } from '../infrastructure/httpErrorHandler';
+
 /**
- * Cliente HTTP para el modulo de las solicitudes de recolección.
- * Realiza las peticiones directamente a la API REST y maneja
- * los errores de respuesta antes de retornar los datos al repositorio.
- *
- * La URL base se obtiene de la variable de entorno `REACT_APP_API_URL`.
+ * Cliente HTTP para el módulo de las solicitudes de recolección de ComposPet.
+ * Gestiona la obtención y actualización de formularios semanales.
  */
-
-export class CollectionRequestApiClient{
-
-     /**
-     * Crea una instancia del cliente HTTP para solicitudes de recolección.
-     *
-     * @param {string} [baseUrl=process.env.REACT_APP_API_URL] - URL base del servidor.
-     */
-    constructor(baseUrl = process.env.REACT_APP_API_URL) {
-        this.baseUrl = baseUrl;
-    }
-
-    /**
-     * Obtiene el token de autenticación almacenado en el navegador.
-     *
-     * @returns {string|null} Token JWT almacenado o `null` si no existe.
-     */
-    getToken() {
-        return sessionStorage.getItem('token');
-    }
-
+export class CollectionRequestApiClient {
     /**
      * Obtiene la solicitud de recolección actual del cliente para el rango semanal indicado.
-     * Si no existe una solicitud en ese rango, el backend crea una nueva y la retorna.
-     *
-     * @async
-     * @param {string} clientId - Id del cliente.
-     * @param {string} weekStartDate - Fecha inicial del rango semanal.
-     * @param {string} weekEndDate - Fecha final del rango semanal.
-     * @returns {Promise<Object>} Respuesta de la API con la solicitud encontrada o creada.
-     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     * Si no existe, el servidor genera una nueva automáticamente.
+     * * @async
+     * @param {string} clientId - Id único del cliente.
+     * @param {string} weekStartDate - Fecha inicial (ISO) del rango semanal.
+     * @param {string} weekEndDate - Fecha final (ISO) del rango semanal.
+     * @returns {Promise<Object>} Datos de la solicitud de recolección.
+     * @throws {Error} Si el token es inválido o hay errores de red.
      */
-
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate) {
-
         try {
-
-            // Recupera el token actual para autenticar la petición al backend
-            const token = this.getToken();
-
-             // Envía el rango semanal necesario para obtener o crear la solicitud.
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/obtener`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    clientId,
-                    weekStartDate,
-                    weekEndDate,
-                }),
+            const response = await api.post('/solicitudes-rec/form02/obtener', {
+                clientId,
+                weekStartDate,
+                weekEndDate,
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al obtener la solicitud de recolección.');
-            }
-
-            return data;
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 
     /**
-     * Guarda la información de la primera sección del formulario de recolección.
-     *
-     * @async
-     * @param {string} requestId - Id de la solicitud.
-     * @param {boolean} wantsCollection - Indica si el cliente desea recolección.
-     * @param {boolean} wantsExtraProducts - Indica si el cliente desea productos extra.
-     * @param {number} collectedBuckets - Cantidad de cubetas que el cliente entregará.
-     * @param {number} deliveredBuckets - Cantidad de cubetas vacías solicitadas.
-     * @returns {Promise<Object>} Respuesta de la API con la solicitud actualizada.
-     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     * Actualiza la información de la primera sección del formulario de recolección.
+     * * @async
+     * @param {string} requestId - Id de la solicitud a actualizar.
+     * @param {boolean} wantsCollection - Si el cliente entregará residuos.
+     * @param {boolean} wantsExtraProducts - Si el cliente solicitó productos adicionales.
+     * @param {number} collectedBuckets - Cantidad de cubetas llenas entregadas.
+     * @param {number} deliveredBuckets - Cantidad de cubetas vacías recibidas.
+     * @returns {Promise<Object>} Objeto de la solicitud actualizado.
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
      */
-
     async saveCollectionRequestFirstSection(
         requestId, 
         wantsCollection, 
@@ -91,37 +48,18 @@ export class CollectionRequestApiClient{
         collectedBuckets, 
         deliveredBuckets
     ) {
-        try{
-            
-            // Recupera el token actual para autenticar la petición al backend
-            const token = this.getToken();
-
-            // Envía únicamente los datos capturados en la primera sección.
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/guardar`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    requestId,
-                    wantsCollection,
-                    wantsExtraProducts,
-                    collectedBuckets,
-                    deliveredBuckets,
-                })
+        try {
+            const response = await api.post('/solicitudes-rec/form02/guardar', {
+                requestId,
+                wantsCollection,
+                wantsExtraProducts,
+                collectedBuckets,
+                deliveredBuckets,
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al guardar la primera sección de la solicitud de recolección.');
-            }
-
-            return data;
-
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 }
