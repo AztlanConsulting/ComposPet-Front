@@ -16,12 +16,13 @@ export class FirstLoginUseCase{
      * Inicia el proceso de recuperación/activación solicitando un OTP.
      * @async
      * @param {string} email - Correo del usuario a validar.
+     * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
      * @throws {Error} Si el formato del correo es incorrecto.
      * @returns {Promise<FirstLogin>} Entidad con el estado inicial del flujo.
      */
-    async executeRequest(email) {
+    async executeRequest(email, isFirstLogin = false) {
         if (!email.includes('@')) throw new Error("Email inválido");
-        return await this.repository.requestOTP(email);
+        return await this.repository.requestOTP(email, isFirstLogin);
     }
 
     /**

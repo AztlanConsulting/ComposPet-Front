@@ -154,7 +154,8 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<LoginForm />} />
-                    <Route path="/first-login" element={<FirstLoginView />} />
+                    <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
+                    <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />

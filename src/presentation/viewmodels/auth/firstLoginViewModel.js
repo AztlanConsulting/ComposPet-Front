@@ -42,9 +42,11 @@ function validatePasswordForm(p1, p2) {
 /**
  * ViewModel para el flujo de Primer Inicio de Sesión.
  * Gestiona el estado de la UI y coordina las llamadas a los Casos de Uso.
- * * @returns {Object} Estados y manejadores de eventos para la Vista.
+ * @param UseCase
+ * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
+ * @returns {Object} Estados y manejadores de eventos para la Vista.
  */
-export function useFirstLoginViewModel() {
+export function useFirstLoginViewModel(useCase, isFirstLogin = false) {
     const navigate = useNavigate();
 
     const [step, setStep] = useState(1);
@@ -111,8 +113,7 @@ export function useFirstLoginViewModel() {
         setError(null);
 
         try {
-            const useCase = getUseCase();
-            const resultEntity = await useCase.executeRequest(email);
+            const resultEntity = await useCase.executeRequest(email, isFirstLogin);
             
             setEntity(resultEntity);
             setStep(2); 
