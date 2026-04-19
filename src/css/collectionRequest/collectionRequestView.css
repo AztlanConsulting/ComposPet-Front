@@ -20,21 +20,21 @@
     gap: 2rem;
 }
 
-.collection-request-title  {
+.collection-request-title {
     margin: 0;
+    /* Se mantiene un tamaño específico por jerarquía visual principal de la vista */
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     text-align: center;
-    color: #000000;
+    color: var(--color-black);
+    line-height: var(--line-height-tight);
 }
 
-/* La barra usa el mismo ancho visual que la card */
 .collection-request-progress {
     width: 100%;
     max-width: 71rem;
 }
 
-/* Los botones usan el mismo ancho visual que la card */
 .collection-request-actions {
     width: 100%;
     max-width: 71rem;
@@ -51,8 +51,7 @@
     align-self: flex-end;
 }
 
-/*Tablet*/
-
+/* Tablet */
 @media (max-width: 768px) {
     .collection-request-view-background {
         padding: 2rem 1rem;
@@ -62,16 +61,14 @@
         gap: 1.75rem;
     }
 
-
     .collection-request-title {
+        /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 2.2rem;
     }
-
 }
 
 /* Mobile */
 @media (max-width: 480px) {
-    
     .collection-request-view-background {
         padding: 2rem 0.9rem 2rem;
     }
@@ -79,20 +76,18 @@
     .collection-request-content {
         gap: 1.5rem;
     }
-    
 
     .collection-request-title {
+        /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 1.8rem;
         line-height: 1.2;
     }
 
-    /* Mantener mismo ancho que la card en móvil */
     .collection-request-progress,
     .collection-request-actions {
         max-width: 100%;
     }
 
-    /*En esquinas opuestas */
     .collection-request-actions {
         display: flex;
         flex-direction: row;

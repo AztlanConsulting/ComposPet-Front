@@ -61,15 +61,42 @@ function validateCollectionRequestFirstSection({
         hasErrors = true;
     }
 
-    // Si el cliente desea recolección, la cantidad de cubetas recolectadas debe ser mayor a 0.
-    if (wantsCollection && collectedBuckets <= 0) {
-        errors.collectedBuckets = 'La cantidad de cubetas que vas a entregar no puede ser igual o menor a 0.';
+    // Si el desea recolección, la cantidad de cubetas no pueden ser 0 al mismo tiempo.
+    if (wantsCollection && (collectedBuckets <= 0 && deliveredBuckets <= 0)) {
+        errors.collectedBuckets = 'Las dos cantidades no pueden ser 0.';
+        errors.deliveredBuckets = 'Las dos cantidades no pueden ser 0.';
         hasErrors = true;
     }
 
-    //Si el cliente no desea recolección, la cantidad de cubetas recolectadas debe ser 0
-    if (wantsCollection === false && collectedBuckets !== 0) {
-        errors.collectedBuckets = 'Si no deseas recolección, la cantidad de cubetas que vas a entregar debe ser 0.';
+    // Si el cliente desea recolección, la cantidad de cubetas recolectadas debe ser menor a 20.
+    if (wantsCollection && (collectedBuckets >20)) {
+        errors.collectedBuckets = 'La cantidad de las cubetas no pueden ser mayor a 20.'; 
+        hasErrors =true
+    }
+
+    // Si el cliente desea recolección, la cantidad de cubetas entregadas debe ser manor a 20.
+    if (wantsCollection && (deliveredBuckets >20)) {
+        errors.deliveredBuckets = 'La cantidad de las cubetas no pueden ser mayor a 20.'; 
+        hasErrors =true
+    }
+
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas entregadas debe ser 0
+    if (wantsCollection === false  &&collectedBuckets === 0 && deliveredBuckets !== 0) {
+        errors.deliveredBuckets = 'La cantidad debe ser 0.';
+        hasErrors = true;
+    }
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
+    if (wantsCollection === false  &&collectedBuckets !== 0 && deliveredBuckets === 0) {
+        errors.collectedBuckets = 'La cantidad debe ser 0.';
+        hasErrors = true;
+    }
+
+    //Si el cliente no desea recolección ni productos extra, la cantidad de cubetas recolectadas debe ser 0
+    if (wantsCollection === false &&collectedBuckets !== 0 && deliveredBuckets !== 0) {
+        errors.collectedBuckets = 'La cantidad debe ser 0.';
+        errors.deliveredBuckets = 'La cantidad debe ser 0.';
         hasErrors = true;
     }
 
@@ -109,6 +136,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Saber si se está cargando la solicitud actual o guardando los datos, para mostrar en la UI
     const [loading, setLoading] = useState(false);
+
+    //Empiezan los efectos
 
     //Carga la solicitud de recolección actual del cliente al montar el componente
     useEffect(() => {
@@ -173,6 +202,63 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [clientId, weekStartDate, weekEndDate]);
 
+    // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
+    useEffect(() => {
+        if (wantsCollection === false) {
+            setCollectedBuckets(0);
+            setDeliveredBuckets(0);
+        }
+    }, [wantsCollection, wantsExtraProducts]);
+
+    // Limpia el error de recolección cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsCollection !== undefined && wantsCollection !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsCollection: '',
+            }));
+        }
+    }, [wantsCollection]);
+
+    // Limpia el error de productos extra cuando ya existe una respuesta válida
+    useEffect(() => {
+        if (wantsExtraProducts !== undefined && wantsExtraProducts !== null) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                wantsExtraProducts: '',
+            }));
+        }
+    }, [wantsExtraProducts]);
+
+    // Limpia el error de cubetas a entregar cuando el valor ya es válido
+    useEffect(() => {
+        const collectedBucketsIsValid =
+            (wantsCollection === true && collectedBuckets > 0) ||
+            (wantsCollection === false && collectedBuckets === 0);
+
+        if (collectedBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                collectedBuckets: '',
+            }));
+        }
+    }, [wantsCollection, collectedBuckets]);
+
+    // Limpia el error de las dos cubetas cuando el valor ya es válido
+    useEffect(() => {
+        const deliveredBucketsIsValid =
+            (wantsCollection === true && ((deliveredBuckets > 0) || (collectedBuckets > 0) )) ||
+            (wantsCollection === false && deliveredBuckets === 0);
+
+        if (deliveredBucketsIsValid) {
+            setErrors((previousErrors) => ({
+                ...previousErrors,
+                deliveredBuckets: '',
+                collectedBuckets: '',
+            }));
+        }
+    }, [wantsCollection, collectedBuckets, deliveredBuckets]);
+
     /**
      * Valida y guarda la primera sección del formulario.
      * Retorna al ViewModel padre el siguiente step sugerido.
@@ -220,10 +306,20 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 Number(deliveredBuckets),
             );
 
+            let nextStep = 2; // Si el cliente desea productos extra, va al step 2 
+
+            // Si el cliente no desea productos extra, pero sí recolección, va al step 3
+            if (!collectionRequest.wantsAdditionalProducts() && collectionRequest.wantsPickup()) {
+                nextStep = 3;
+
+            // Si el cliente no desea recolección ni productos extra va directo al resumen sin agendar
+            }else if (!collectionRequest.wantsPickup() && !collectionRequest.wantsAdditionalProducts()) {
+                nextStep = 4; 
+            }
             
             return { 
                 success: true, 
-                nextStep: collectionRequest.wantsAdditionalProducts() ? 2 : 3,
+                nextStep,
             };
         } catch (error) {
             const msg = error.message || '';

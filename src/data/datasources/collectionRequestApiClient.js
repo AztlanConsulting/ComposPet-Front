@@ -46,7 +46,7 @@ export class CollectionRequestApiClient{
             const token = this.getToken();
 
              // Envía el rango semanal necesario para obtener o crear la solicitud.
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/obtener`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/obtener`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export class CollectionRequestApiClient{
             const token = this.getToken();
 
             // Envía únicamente los datos capturados en la primera sección.
-            const response = await fetch(`${this.baseUrl}/solicitudes_rec/form02/guardar`, {
+            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form02/guardar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

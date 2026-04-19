@@ -12,6 +12,7 @@ import '../../css/molecules/counterInput.css';
  * @param {number} value - Valor actual del contador.
  * @param {Function} onIncrement - Función para incrementar el valor.
  * @param {Function} onDecrement - Función para decrementar el valor.
+ * @param {boolean} [disabled=false] - Indica si el contador está deshabilitado.
  * @param {string} [error=""] - Mensaje de error asociado al campo.
  * @returns {JSX.Element} Contador visual con controles y mensaje de error.
  */
@@ -20,10 +21,13 @@ export default function CounterInput({
     value,
     onIncrement,
     onDecrement,
+    disabled = false,
+    disabledIncrement = false,
+    disabledDecrement = false,
     error = '',
 }) {
     return (
-        <div className="counter-input">
+        <div className={`counter-input ${disabled ? 'counter-input-disabled' : ''}`}>
             <p className="counter-input-title">
                 {question}
             </p>
@@ -33,7 +37,9 @@ export default function CounterInput({
                     type="button"
                     size="mini"
                     csstype="plus-min"
+                    className = {disabledDecrement  ? 'counter-input-error-decrement' : ''}
                     onClick={onDecrement}
+                    disabled={disabled || disabledDecrement}
                 >
                     <Icon name="minus" size="small" color="primary" />
                 </Button>
@@ -46,7 +52,9 @@ export default function CounterInput({
                     type="button"
                     size="mini"
                     csstype="plus-min"
+                    className = {disabledIncrement  ? 'counter-input-error-increment' : ''}
                     onClick={onIncrement}
+                    disabled={disabled || disabledIncrement}
                 >
                     <Icon name="plus" size="small" color="primary" />
                 </Button>
