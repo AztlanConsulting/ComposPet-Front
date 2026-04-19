@@ -52,7 +52,7 @@ export class FirstLoginUseCase{
      */
     async executeFinalize(email, password, confirmPassword,  flowToken) {
         if (password !== confirmPassword) throw new Error("MATCH_ERROR");
-        if (password.length < 8) throw new Error("La contraseña es muy corta");
+        if (password.length < 12) throw new Error("La contraseña es muy corta");
         return await this.repository.updatePassword(email, password, flowToken);
     }
 }
