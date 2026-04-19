@@ -19,7 +19,7 @@ import Dashboard from './components/Dashboard';
 import ProductCard from './components/molecules/ProductCard';
 import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './utilities/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import YesNoQuestion from './components/molecules/YesNoQuestion';
 import CounterInput from '../src/components/molecules/counterInput';
@@ -142,8 +142,6 @@ function Home() {
 
             </div>
 
-
-
         </div>
     );
 }
@@ -153,7 +151,7 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
-                    <Route path="/login" element={<LoginForm />} />
+                    <<Route path="/inicio-sesion" element={<LoginForm />} />
                     <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
                     <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
