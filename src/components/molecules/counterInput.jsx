@@ -22,6 +22,8 @@ export default function CounterInput({
     onIncrement,
     onDecrement,
     disabled = false,
+    disabledIncrement = false,
+    disabledDecrement = false,
     error = '',
 }) {
     return (
@@ -35,8 +37,9 @@ export default function CounterInput({
                     type="button"
                     size="mini"
                     csstype="plus-min"
+                    className = {disabledDecrement  ? 'counter-input-error-decrement' : ''}
                     onClick={onDecrement}
-                    disabled={disabled}
+                    disabled={disabled || disabledDecrement}
                 >
                     <Icon name="minus" size="small" color="primary" />
                 </Button>
@@ -49,8 +52,9 @@ export default function CounterInput({
                     type="button"
                     size="mini"
                     csstype="plus-min"
+                    className = {disabledIncrement  ? 'counter-input-error-increment' : ''}
                     onClick={onIncrement}
-                    disabled={disabled}
+                    disabled={disabled || disabledIncrement}
                 >
                     <Icon name="plus" size="small" color="primary" />
                 </Button>
