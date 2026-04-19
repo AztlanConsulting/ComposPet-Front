@@ -1,12 +1,21 @@
 import { renderHook, act } from "@testing-library/react";
 import useLoginViewModel from "../../presentation/viewmodels/auth/loginViewModel";
+import { LoginUseCase } from "../../domain/useCases/loginUseCase";
 
 /**
  * Mocks de dependencias externas del ViewModel.
  * Se sustituyen para aislar el hook de navegación, autenticación
  * con Google, parámetros de URL y el caso de uso de login.
  */
-jest.mock("axios");
+
+jest.mock("axios", () => ({
+    create: jest.fn(() => ({
+        interceptors: {
+            request: { use: jest.fn() },
+            response: { use: jest.fn() }
+        }
+    }))
+}));
 
 jest.mock("@react-oauth/google", () => ({
     useGoogleLogin: () => jest.fn()
@@ -23,10 +32,11 @@ jest.mock("react-router-dom", () => {
     };
 });
 
-jest.mock("../../domain/useCases/loginUseCase", () => ({
-    LoginUseCase: jest.fn().mockImplementation(() => ({
-        execute: jest.fn()
-    }))
+jest.mock("../../data/datasources/authApiClient");
+jest.mock("../../data/repositories/authRepository");
+jest.mock("../../domain/useCases/loginUseCase");
+jest.mock("../../api/axiosConfig", () => ({
+    setAccessToken: jest.fn()
 }));
 
 /**
@@ -36,6 +46,7 @@ jest.mock("../../domain/useCases/loginUseCase", () => ({
  * el flujo de login exitoso y el mapeo de errores del servidor al estado del hook.
  */
 describe("useLoginViewModel", () => {
+    let mockExecute;
 
     /**
      * Limpia todos los mocks entre pruebas para evitar que el estado
@@ -43,6 +54,12 @@ describe("useLoginViewModel", () => {
      */
     beforeEach(() => {
         jest.clearAllMocks();
+        sessionStorage.clear();
+
+        mockExecute = jest.fn();
+        LoginUseCase.mockImplementation(() => ({
+            execute: mockExecute
+        }));
     });
 
     test("debe validar campos vacíos", async () => {
@@ -58,23 +75,21 @@ describe("useLoginViewModel", () => {
     });
 
     test("debe hacer login correctamente", async () => {
-        const mockExecute = jest.fn().mockResolvedValue({
+        mockExecute.mockResolvedValue({
             token: "123",
+            id: 1,
+            email: "test@test.com",
+            rol: "cliente",
             isAdmin: () => false,
             isFirstLogin: () => false,
             isClient: () => true
         });
 
-        const { LoginUseCase } = require("../../domain/useCases/loginUseCase");
-        LoginUseCase.mockImplementation(() => ({
-            execute: mockExecute
-        }));
-
         const { result } = renderHook(() => useLoginViewModel());
 
         act(() => {
             result.current.setEmail("test@test.com");
-            result.current.setPassword("1234");
+            result.current.setPassword("Password123!");
         });
 
         await act(async () => {
@@ -83,18 +98,15 @@ describe("useLoginViewModel", () => {
 
         // El token debe persistirse en sessionStorage tras un login exitoso
         expect(mockExecute).toHaveBeenCalled();
-        expect(sessionStorage.getItem("token")).toBe("123");
+        const storedUser = JSON.parse(sessionStorage.getItem("user"));
+        expect(storedUser.email).toBe("test@test.com");
+        expect(storedUser.rol).toBe("cliente");
     });
 
     test("debe manejar error de credenciales", async () => {
-        const mockExecute = jest.fn().mockRejectedValue(
+        mockExecute.mockRejectedValue(
             new Error("Credenciales incorrectas")
         );
-
-        const { LoginUseCase } = require("../../domain/useCases/loginUseCase");
-        LoginUseCase.mockImplementation(() => ({
-            execute: mockExecute
-        }));
 
         const { result } = renderHook(() => useLoginViewModel());
 
