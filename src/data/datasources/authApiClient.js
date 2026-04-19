@@ -15,7 +15,7 @@ export class AuthApiClient {
      */
     async login(email, password) {
         try {
-            const response = await api.post('/login', { email, password });
+            const response = await api.post('/inicio-sesion', { email, password });
             return response.data;
 
         } catch (error) {
