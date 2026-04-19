@@ -3,6 +3,7 @@
 @import "../tokens/typography.css";
 
 .product-card {
+    /* Se usa !important para sobreescribir los estilos base del componente Card de la librería */
     width: 10.875rem !important;
     height: 17.313rem !important;
     border: 0 !important;
@@ -13,26 +14,36 @@
     height: 10.5rem;
     min-height: 10.5rem;
     flex-shrink: 0;
-    background-color: rgb(196, 235, 233, 64);
+    background-color: var(--color-green-quaternary);
     border: 1px solid var(--color-green-primary);
     border-radius: var(--border-radius-lg);
 }
 
-.product-card-body{
-    padding: 0.4rem 0.2rem  !important;
+.product-card-body {
+    /* Se usa !important para sobrescribir el padding por defecto del body del Card */
+    padding: 0.4rem 0.2rem !important;
 }
 
-.product-name{
+.product-name {
+    /* Se usa !important para asegurar que la tipografía tenga prioridad sobre estilos heredados */
     font-size: var(--font-size-sm) !important;
     font-weight: var(--font-weight-bold) !important;
+    color: var(--color-black);
+    line-height: var(--line-height-normal);
 }
 
-.product-description{
+.product-description {
+    /* Se usa !important para mantener el tamaño de fuente definido en el diseño */
     font-size: var(--font-size-sm) !important;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-black);
+    line-height: var(--line-height-normal);
 }
 
-.product-price{
+.product-price {
+    /* Se usa !important para asegurar jerarquía visual en el precio del producto */
     font-size: var(--font-size-sm) !important;
     font-weight: var(--font-weight-bold) !important;
-
+    color: var(--color-black);
+    line-height: var(--line-height-normal);
 }
