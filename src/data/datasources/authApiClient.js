@@ -1,19 +1,26 @@
+import api from '../../api/axiosConfig'; 
+import { handleHttpError } from '../infrastructure/httpErrorHandler';
+
 /**
- * Cliente HTTP para el servicio de autenticación.
- * Realiza las peticiones directamente a la API REST y maneja
- * los errores de respuesta antes de retornar los datos al repositorio.
- *
- * La URL base se obtiene de la variable de entorno `REACT_APP_API_URL`.
+ * Cliente para autenticación. 
+ * Su única responsabilidad es la comunicación técnica con el servidor.
  */
 export class AuthApiClient {
-
+    
     /**
-     * @param {string} [baseUrl=process.env.REACT_APP_API_URL] - URL base del servidor.
-     * Debe configurarse en el archivo `.env` del proyecto.
+     * Intenta iniciar sesión con credenciales tradicionales.
+     * @param {string} email 
+     * @param {string} password 
+     * @returns {Promise<object>} Datos del usuario y token.
      */
+    async login(email, password) {
+        try {
+            const response = await api.post('/login', { email, password });
+            return response.data;
 
-    constructor(baseUrl = process.env.REACT_APP_API_URL) {
-        this.baseUrl = baseUrl;
+        } catch (error) {
+            handleHttpError(error);
+        }
     }
 
     /**
@@ -54,26 +61,18 @@ export class AuthApiClient {
      * Envía el token de acceso de Google al backend de ComposPet.
      * @param {string} googleToken - El token obtenido del SDK de Google.
      * @returns {Promise<object>} Respuesta cruda del backend (id_usuario, token, etc.)
+     * Autentica al usuario mediante un token de Google.
+     * * @async
+     * @param {string} googleToken - Credencial (JWT) obtenida desde el SDK de Google Identity.
+     * @returns {Promise<object>} Datos del usuario y token de acceso generado por el backend de ComposPet.
+     * @throws {Error} Si el token es inválido o el servidor no puede procesar la solicitud.
      */
     async loginGoogle(googleToken) {
         try {
-            const response = await fetch(`${this.baseUrl}/auth/google`, {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json" 
-                },
-                body: JSON.stringify({ token: googleToken }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "Error en la autenticación con el servidor.");
-            }
-
-            return data; 
+            const response = await api.post('/auth/google', { token: googleToken });
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 }

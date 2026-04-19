@@ -13,12 +13,13 @@ import { GetClientUseCase } from '../../../domain/useCases/getClientUseCase';
 function useAuthenticatedClient() {
     const [client, setClient] = useState(null);
 
-    const token = sessionStorage.getItem("token");
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const userId = payload.id;
+    const userString = sessionStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+    const userId = user?.id;
 
     useEffect(() => {
         const getAuthenticatedClient= async () => {
+            if (!userId) return;
             try {
                 const apiClient = new ClientApiClient();
                 const clientRepository = new ClientRepository(apiClient);
