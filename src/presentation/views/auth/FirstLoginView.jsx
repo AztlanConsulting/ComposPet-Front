@@ -150,13 +150,13 @@ function FirstLoginView() {
 
                     </form>
 
-                    {step === 1 && (
-                        <div className="mt-3 text-center">
-                            <a href="/login" className="forgot-password">
-                                Volver al inicio de sesión
-                            </a>
-                        </div>
-                    )}
+                
+                    <div className="mt-3 text-center">
+                        <a href="/login" className="return">
+                            Volver al inicio de sesión
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
         </main>
