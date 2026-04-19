@@ -1,6 +1,10 @@
 import Swal from "sweetalert2";
 import "../../css/Template/confirmationAlert.css";
 
+/**
+ * Muestra un modal de confirmación utilizando SweetAlert2.
+ * Permite personalizar el contenido y devuelve la respuesta del usuario.
+ */
 const ConfirmAlert = async ({
     title = "¿Estás seguro?",
     text = "Se perderán los cambios no guardados.",

@@ -127,13 +127,15 @@ export class CollectionRequestApiClient{
         }
     }
 
-     /**
+    /**
      * Obtiene los productos extra disponibles para la solicitud de recolección actual.
+     *
+     * @async
+     * @returns {Promise<Object>} Respuesta de la API con la lista de productos extra.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
-
     async getExtraProducts() {
         try {
-
             const token = this.getToken();
 
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/obtener`, {
@@ -160,16 +162,21 @@ export class CollectionRequestApiClient{
         }
     }
 
+    /**
+     * Guarda los productos extra seleccionados en la segunda sección
+     * del formulario de recolección.
+     *
+     * @async
+     * @param {string} requestIDReceived - Id de la solicitud.
+     * @param {Array<Object>} products - Lista de productos extra seleccionados.
+     * @returns {Promise<Object>} Respuesta de la API con el resultado del guardado.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
     async saveExtraProducts(
         requestIDReceived,
         products,
     ) {
         try{
-            console.log("Llega al saveProducts Guardar con:", {
-                // requestIDReceived,
-                products
-            });
-
             const token = this.getToken();
             console.log("Token", token)
 
@@ -198,16 +205,21 @@ export class CollectionRequestApiClient{
         }
     }
 
+    /**
+     * Obtiene el id de la última solicitud de recolección
+     * asociada al cliente.
+     *
+     * @async
+     * @param {string} idClient - Id del cliente.
+     * @returns {Promise<string>} Id de la última solicitud registrada.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
     async getLastRequestPerClient(
         idClient,
     ) {
         try{
-            // console.log("Llega al SolicitudesRecApiClient ObtenerUltimaSolicitud con:", {
-            //     idClient,
-            // });
 
             const token = this.getToken();
-            // console.log("Token en getLastRequestPerClient del API Client:", token);
 
             const response = await fetch(`${this.baseUrl}/solicitudes-rec/ultimaSolicitud`, {
                 method: 'POST',
@@ -237,6 +249,15 @@ export class CollectionRequestApiClient{
         }
     }
 
+    /**
+     * Obtiene la información de los productos extra previamente
+     * seleccionados para una solicitud de recolección.
+     *
+     * @async
+     * @param {string} requestID - Id de la solicitud.
+     * @returns {Promise<Object>} Respuesta de la API con los productos seleccionados.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
     async getInfoAboutExtraProductsSelected(
         requestID,
     ) {
@@ -262,7 +283,7 @@ export class CollectionRequestApiClient{
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Error al guardar los productos extra de la solicitud de recolección.');
+                throw new Error(data.message || 'Error al obtener los productos extra seleccionados de la solicitud de recolección.');
             }
 
             return data;

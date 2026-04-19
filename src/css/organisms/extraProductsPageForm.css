@@ -8,7 +8,7 @@
 }
 
 .swiper {
-    padding: 0 60px !important;
+    padding: 0 3.75rem !important;
     margin-top: 0.3rem;
     box-sizing: border-box;
 }
@@ -20,7 +20,7 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-    color: #2A9D7C;
+    color: var(--color-green-primary);
     top: 40%;
 }
 
@@ -37,7 +37,7 @@
     height: auto !important;
     display: flex;
     justify-content: center;
-    background-color: #EFFFF9;
+    background-color: var(--color-bg);
 }
 
 .swiper-product-card .image-back {
@@ -60,19 +60,28 @@
 }
 
 .limite-mensaje {
-    color: #D14242;
+    color: var(--color-red-primary);
     text-align: center;
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
 }
 
 h1 {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     text-align: center;
     padding-bottom: 1.5%;
+    color: var(--color-black);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-tight);
 }
 
 h2 {
     text-align: center;
+    color: var(--color-black);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
 }
 
 /* OJO: mejor no sobrescribir fuerte solicitud-actions aquí */

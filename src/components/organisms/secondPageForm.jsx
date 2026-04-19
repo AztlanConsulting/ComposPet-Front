@@ -8,6 +8,10 @@ import '../../css/organisms/extraProductsPageForm.css';
 import Loading from '../Template/loading';
 import Error from '../Template/error';
 
+/**
+ * Componente de la segunda sección del formulario de recolección.
+ * Muestra los productos extra disponibles y permite agregarlos o eliminarlos.
+ */
 function SecondPageForm({ secondSectionViewModel }) {
     const {
         products,
@@ -20,33 +24,29 @@ function SecondPageForm({ secondSectionViewModel }) {
         name
     } = secondSectionViewModel;
 
+    // Muestra pantalla de carga mientras se obtienen los productos
     if (loading) {
         return <Loading />;
     }
 
+    // Muestra plantilla de error si ocurrió un problema al cargar
     if (error) {
         return <Error message={error} />;
     }
-
-    // const totalSeleccionados = Object.keys(selectedProducts).length;
 
     return (
         <div className="secondPage">
             <FormCard className="extra-products-form-card">
                 <h2 className="adaptive">Productos Extra</h2>
 
+                {/* Muestra mensaje cuando se alcanza el límite de productos especiales */}
                 {
                     message && (
                         <p className="limite-mensaje">Haz alcanzado el maximo de {name.join(", ")}</p>
                     )
                 }
 
-                {/* {totalSeleccionados >= 3 && (
-                    <p className="limite-mensaje">
-                        Has alcanzado el límite de 3 productos adicionales.
-                    </p>
-                )} */}
-
+                {/* Muestra mensaje si no hay productos extra disponibles */}
                 {products.length === 0 ? (
                     <p>No hay productos extra disponibles.</p>
                 ) : (
@@ -62,21 +62,10 @@ function SecondPageForm({ secondSectionViewModel }) {
                             1200: { slidesPerView: 4 },
                         }}
                     >
+                        {/* Renderiza cada producto extra dentro del carrusel */}
                         {products.map((product) => (
                             <SwiperSlide key={product.idProduct}>
-                                {/* {(product.name == "Composta (en cubeta)" || product.name === "Composta (en costal)") && selectedProducts[product.idProduct] == 1 && (
-                                    <p className="product-agotado">Haz alcanzado el maximo de {product.name}</p>
-                                )} */}
-                                <div
-                                    className="swiper-product-card"
-                                //     {`swiper-product-card"
-                                //          ${
-                                //         (product.name == "Composta (en cubeta)" || product.name === "Composta (en costal)") && selectedProducts[product.idProduct] == 1
-                                //             ? 'product-disabled'
-                                //             : ''
-                                //     }`
-                                // }
-                                >
+                                <div  className="swiper-product-card" >
                                     <ProductCard
                                         imageUrl={product.imageUrl}
                                         name={product.name}

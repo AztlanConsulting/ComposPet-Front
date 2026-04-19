@@ -24,7 +24,7 @@
 
 .error-text {
     font-size: 1.2rem;
-    color: #d9534f; /* rojo suave */
-    font-weight: 500;
+    color: var(--color-red-primary); /* rojo suave */
+    font-weight: var(--font-weight-medium);
     text-align: center;
 }

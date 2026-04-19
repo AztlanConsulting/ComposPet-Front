@@ -110,6 +110,13 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
         });
     }
 
+
+    /**
+     * Obtiene los productos extra disponibles y los transforma
+     * en entidades de dominio `ExtraProduct`.
+     *
+     * @returns {Promise<Array<ExtraProduct>>} Lista de productos extra disponibles.
+     * */
     async getExtraProducts(){
         const response = await this.apiClient.getExtraProducts();
         console.log('Respuesta cruda del apiClient getExtraProducts:', response);
@@ -125,16 +132,38 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
         }));
     }
 
-    async saveExtraProducts(requestID,  products,) {
+    /**
+     * Guarda los productos extra seleccionados en la solicitud actual.
+     * Envía al apiClient el id de la solicitud y la lista de productos elegidos.
+     *
+     * @param {string} requestID - Id de la solicitud en formato UUID.
+     * @param {Array<Object>} products - Lista de productos extra seleccionados.
+     * @returns {Promise<Object>} Respuesta del servidor con el resultado del guardado.
+     */
+    async saveExtraProducts(requestID,  products) {
         console.log("LLEGO AL REPOSITORY DATA SAVE CON", {requestID, products});
         return await this.apiClient.saveExtraProducts(requestID, products);
     }
 
+    /**
+     * Obtiene el identificador de la última solicitud registrada por el cliente
+     * y lo envuelve en la entidad de dominio `RequestIdentifier`.
+     *
+     * @param {string} idClient - Id del cliente.
+     * @returns {Promise<RequestIdentifier>} Identificador de la última solicitud del cliente.
+     */
     async getLastRequestPerClient(idClient){
         const requestID = await this.apiClient.getLastRequestPerClient(idClient);
         return new RequestIdentifier(requestID);
     }
 
+    /**
+     * Obtiene los productos extra previamente seleccionados en una solicitud
+     * y los transforma en entidades de dominio `ExtraProductRequest`.
+     *
+     * @param {string} requestID - Id de la solicitud en formato UUID.
+     * @returns {Promise<Array<ExtraProductRequest>>} Lista de productos extra seleccionados.
+     */
     async getInfoAboutExtraProductsSelected(requestID) {
         const response = await this.apiClient.getInfoAboutExtraProductsSelected(requestID);
 

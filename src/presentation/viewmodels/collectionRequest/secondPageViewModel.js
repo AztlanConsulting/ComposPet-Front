@@ -6,6 +6,11 @@ import { CollectionRequestApiClient } from "../../../data/datasources/collection
 import { GetLastRequestPerClient } from "../../../domain/useCases/getLastRequestPerClient";
 import { ExtraProductRequestCollection } from "../../../domain/useCases/extraProductRequestCollection";
 
+
+/**
+ * ViewModel de la segunda sección del formulario de recolección.
+ * Gestiona la carga, selección y guardado de productos extra.
+ */
 function useSecondPageViewModel(idClient) {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState({});
@@ -24,6 +29,12 @@ function useSecondPageViewModel(idClient) {
     const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
     const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
+    /**
+     * Carga la información necesaria de la segunda sección:
+     * - última solicitud del cliente
+     * - productos extra disponibles
+     * - productos previamente seleccionados
+     */
     const loadData = async () => {
         if (!idClient) return;
 
@@ -64,6 +75,10 @@ function useSecondPageViewModel(idClient) {
         loadData();
     }, [idClient]);
 
+    /**
+     * Agrega una unidad de un producto extra seleccionado.
+     * También actualiza el mensaje para productos específicos.
+     */
     const addProduct = (id, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
@@ -84,6 +99,10 @@ function useSecondPageViewModel(idClient) {
         });
     };
 
+    /**
+     * Elimina una unidad de un producto extra seleccionado.
+     * Si la cantidad llega a cero, elimina el producto del objeto.
+     */
     const removeProduct = (id, productName) => {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
@@ -109,6 +128,9 @@ function useSecondPageViewModel(idClient) {
         });
     };
 
+    /**
+     * Guarda los productos extra seleccionados en la solicitud actual.
+     */
     const saveSecondSection = async () => {
         setLoading(true);
         setError("");

@@ -13,27 +13,28 @@
 /* Contenedor principal del navbar */
 .navbar {
     width: 100%;
-    background-color: #EFFFF9;
+    background-color: var(--color-bg);
     display: flex;
     align-items: center;
     padding: 20px 30px;
     box-sizing: border-box;
     position: relative;
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-primary);
 }
 
 /* Imagen del navbar */
 .navbarLogo {
-    width: 161px;
+    width: 10.0625rem;
     height: auto;
-    margin-left: 120px;
+    margin-left: 7.5rem;
 }
 
 /* Ajusta la imagen */
 .navbarLeft {
     display: flex;
     align-items: center;
-    color: black;
+    color: var(--color-black);
 }
 
 /* Ajusta los texto */
@@ -43,8 +44,8 @@
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 50px;
-    color: black;
+    gap: 3.125rem;
+    color: var(--color-black);
 }
 
 /* Ajusta el botón (logín / logout) */
@@ -52,51 +53,53 @@
     display: flex;
     align-items: center;
     margin-left: auto;
-    margin-right: 100px;
+    margin-right: 6.25rem;
 }
 
 /* Da estilo a los links del navbar */
 .navbarItem {
     text-decoration: none;
-    color: black;
+    color: var(--color-black);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-normal);
 }
 
 /* Da formato al boton de logout */
 .logout {
-    color: #D14242;
+    color: var(--color-red-primary);
     text-decoration: none;
-    background-color: #E9D9D4;
-    padding: 4px 15px;
-    border-radius: 10px;
-    font-weight: bold;
+    background-color: var(--color-red-secondary);
+    padding: 0.25rem 0.9375rem; /* 4px 15px */
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-bold);
 }
 
 /* Da formato al boton de logout cuando tiene hover */
 .logout:hover {
-    color: #D14242;
-    border: 1px solid #D14242;
-    font-weight: bold;
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
     text-decoration: none;
-    background-color: #E9D9D4;
+    background-color: var(--color-red-secondary);
 }
 
 /* Da estilo al botóm de login */
 .login .navbarItem{
-    color: #15A19B;
+    color: var(--color-green-primary);
     text-decoration: none;
-    background-color: #DBFFF2;
-    padding: 4px 15px;
-    border-radius: 10px;
-    font-weight: bold;
+    background-color: var(--color-green-quaternary);
+    padding: 0.25rem 0.9375rem;
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-bold);
 }
 
 /* Da estilo al botón de login cuando tiene hover */
 .login .navbarItem:hover {
-    color: #15A19B;
-    border: 1px solid #15A19B;
+    color: var(--color-green-primary);
+    border: 1px solid  var(--color-green-primary);
     font-weight: bold;
     text-decoration: none;
-    background-color: #DBFFF2;
+    background-color: var(--color-green-quaternary);
 }
 
 /* Ocultar elementos mobile en desktop */
@@ -121,12 +124,12 @@
 
     .navbar {
         flex-wrap: wrap;
-        padding: 16px 20px !important;
+        padding: 1rem 1.25rem;
     }
 
     .navbarLogo {
         margin-left: 0;
-        width: 130px;
+        width: 8.125rem;
     }
 
     /* Ocultar links y cerrar sesión de desktop */
@@ -144,23 +147,23 @@
         background: none;
         border: none;
         cursor: pointer;
-        padding: 4px;
+        padding: 0.25rem;
     }
 
     /* Ícono de 3 líneas */
     .hamburgerIcon {
         display: flex;
         flex-direction: column;
-        gap: 5px;
-        width: 24px;
+        gap: 0.3125rem;
+        width: 1.5rem;
     }
 
     .hamburgerIcon span {
         display: block;
-        height: 2px;
+        height: 0.125rem;
         width: 100%;
-        background-color: #333;
-        border-radius: 2px;
+        background-color: var(--color-black);
+        border-radius: var(--border-radius-sm);
         transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
@@ -181,9 +184,9 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 16px;
-        padding: 16px 4px 8px;
-        border-top: 1px solid #d5f0e8;
-        margin-top: 8px;
+        gap: 1rem;
+        padding: 1rem 0.25rem 0.5rem;
+        border-top: 0.0625rem solid var(--color-green-tertiary);
+        margin-top: 0.5rem;
     }
 }

@@ -1,5 +1,5 @@
 .custom-swal-popup {
-    border-radius: 1rem;
+    border-radius: var(--border-radius-2xl);
     padding: 1.5rem;
     background-color: var(--color-bg);
     border: 2px solid var(--color-green-secondary);
@@ -9,18 +9,24 @@
 .custom-swal-title {
     color: var(--color-green-secondary);
     font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
 }
 
 .custom-swal-text {
     color: var(--color-black);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
 }
 
 .custom-swal-confirm,
 .custom-swal-cancel {
-    border-radius: 0.3rem;
+    border-radius:  var(--border-radius-md);
     padding: 0.6rem 1rem;
     margin: 0 0.2rem;
     cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
 }
 
 .custom-swal-confirm {
