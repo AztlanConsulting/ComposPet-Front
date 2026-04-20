@@ -4,7 +4,7 @@
  * su información sin exponer la lógica de manipulación al exterior.
  */
 export class Client {
-     /**
+    /**
      * @param {Object} params - Datos del cliente provenientes del repositorio.
      * @param {string} params.clientId - Identificador único del cliente.
      * @param {string} params.userId - Identificador único del usuario asociado.
