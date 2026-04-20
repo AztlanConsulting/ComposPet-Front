@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from 'react';
 
 /**
  * Mock de axios para evitar peticiones HTTP reales durante las pruebas.
@@ -25,19 +25,32 @@ jest.mock('axios', () => ({
  * que la suite requiera un `clientId` real configurado en variables de entorno.
  */
 jest.mock('@react-oauth/google', () => ({
-    GoogleOAuthProvider: ({ children }) => <div>{children}</div>,
-    useGoogleLogin: () => jest.fn()
+    GoogleOAuthProvider: ({ children }) => children,
+    useGoogleLogin: () => jest.fn(),
 }));
 
 /**
- * Verifica que el componente raíz `App` se monta sin errores.
- * Es una prueba de humo que garantiza que la configuración inicial
- * de rutas, proveedores y contextos no produce un fallo en el render.
+ * Mocks de componentes de enrutamiento y vistas.
+ * `ProtectedRoute` y `LoginView` se neutralizan para aislar el árbol de componentes
+ * de dependencias de autenticación y navegación que no son relevantes en esta prueba.
+ * Los componentes de `react-router-dom` se reemplazan por wrappers transparentes
+ * que renderizan sus hijos directamente, evitando la necesidad de un contexto de Router real.
  */
-test('renders learn react link', () => {
-    const { container } = render(<App />);
-    expect(container).toBeInTheDocument();
+jest.mock('./utilities/ProtectedRoute', () => () => null);
+jest.mock('./presentation/views/auth/LoginView', () => () => null);
+
+jest.mock('react-router-dom', () => {
+    const actual = jest.requireActual('react-router-dom');
+    return {
+        ...actual,
+        BrowserRouter: ({ children }) => children,
+        Routes: ({ children }) => children,
+        Route: ({ element }) => element,
+        useNavigate: () => jest.fn(),
+    };
 });
+
+import App from './App';
 
 const originalWarn = console.warn;
 
@@ -67,4 +80,14 @@ beforeAll(() => {
  */
 afterAll(() => {
     console.warn = originalWarn;
+});
+
+/**
+ * Verifica que el componente raíz `App` se monta sin errores.
+ * Es una prueba de humo que garantiza que la configuración de rutas,
+ * proveedores y contextos no produce un fallo en el render inicial.
+ */
+test('App se renderiza sin errores', () => {
+    const { container } = render(<App />);
+    expect(container).toBeInTheDocument();
 });

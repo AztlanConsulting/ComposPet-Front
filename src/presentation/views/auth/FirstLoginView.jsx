@@ -18,7 +18,7 @@ import SetPasswordForm from "../../../components/organisms/SetPasswordForm";
  * * @returns {JSX.Element} Flujo secuencial de primer inicio de sesión.
  * @see useFirstLoginViewModel
  */
-function FirstLoginView() {
+function FirstLoginView({ isRecovery = false}) {
     const {
         step,
         loading,
@@ -35,13 +35,25 @@ function FirstLoginView() {
         onRequestOTP,
         onVerifyOTP,
         onFinalize
-    } = useFirstLoginViewModel();
+    } = useFirstLoginViewModel(!isRecovery);
 
     const stepInfo = {
-        1: { title: "Activa tu cuenta", sub: "Para asegurar tu cuenta, necesitamos confirmar que tu correo es correcto" },
-        2: { title: "Verifica tu código", sub: `Hemos enviado un código a ${email}. Por favor, ingrésalo abajo` },
-        3: { title: "Crea tu nueva contraseña", sub: "Para proteger tu información en ComposPet, elige una contraseña fuerte" }
+        1: { 
+            title: isRecovery ? "Recupera tu acceso" : "Activa tu cuenta", 
+            sub: isRecovery 
+                ? "Ingresa tu correo para recibir un código de restablecimiento"
+                : "Confirmemos tu correo para activar tu cuenta en ComposPet" 
+        },
+        2: { 
+            title: "Verifica tu código", 
+            sub: `Hemos enviado un código a ${email}. Por favor, ingrésalo abajo` 
+        },
+        3: { 
+            title: isRecovery ? "Nueva contraseña" : "Crea tu contraseña", 
+            sub: "Elige una contraseña fuerte para proteger tu información" 
+        }
     };
+
     const [seconds, setSeconds] = useState(30);
     const [canResend, setCanResend] = useState(false);
 
@@ -152,7 +164,7 @@ function FirstLoginView() {
 
                 
                     <div className="mt-3 text-center">
-                        <a href="/login" className="return">
+                        <a href="/inicio-sesion" className="return">
                             Volver al inicio de sesión
                         </a>
                     </div>

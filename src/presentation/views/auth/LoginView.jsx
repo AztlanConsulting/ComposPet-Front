@@ -93,12 +93,11 @@ function SignInForm(){
                     </form>
 
                     
-
-                    <a className="forgot-password">
+                    <Link to="/recuperar-contraseña" className="forgot-password">
                         ¿Olvidaste tu contraseña?
-                    </a>
+                    </Link>
 
-                    <Link to="/first-login" className="first-login">
+                    <Link to="/activar-cuenta" className="first-login">
                         Activa tu cuenta aquí
                     </Link>
                     

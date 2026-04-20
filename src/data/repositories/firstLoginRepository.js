@@ -1,6 +1,7 @@
 import { firstLoginIRepository } from "../../domain/repositories/firstLoginInterfaceRepository";
 import { FirstLogin } from "../../domain/entities/firstLogin";
 import axios from 'axios';
+import { FirstLoginApiClient } from "../datasources/FirstLoginApiClient";
 
 /**
  * FirstLoginRepository extiende la interfaz definida en el dominio para 
@@ -11,9 +12,9 @@ export class FirstLoginRepository extends firstLoginIRepository {
     /**
      * @param {Object} apiClient - Instancia del cliente HTTP configurado para realizar las peticiones.
      */
-    constructor(apiClient){
+    constructor(){
         super();
-        this.apiClient = apiClient;
+        this.apiClient = new FirstLoginApiClient();
     }
 
     /**
@@ -21,15 +22,16 @@ export class FirstLoginRepository extends firstLoginIRepository {
      * Mapea la respuesta a una entidad FirstLogin con el estado 'CAN_VERIFY'.
      * @async
      * @param {string} email - Correo electrónico del usuario.
+     * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
      * @returns {Promise<FirstLogin>} Instancia de la entidad con el seedToken necesario.
      * @throws {Error} Propaga errores de red o validación del servidor.
      */
-    async requestOTP(email) {
+    async requestOTP(email, isFirstLogin) {
         try {
-            const data = await this.apiClient.requestOTP(email);
+            const data = await this.apiClient.requestOTP(email, isFirstLogin);
 
             return new FirstLogin({
-                email: data.correo, 
+                email: email, 
                 token: data.seedToken,
                 step: 'CAN_VERIFY', 
             })
