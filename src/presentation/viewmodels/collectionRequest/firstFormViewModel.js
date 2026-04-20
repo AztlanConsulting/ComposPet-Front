@@ -140,66 +140,57 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     //Empiezan los efectos
 
     //Carga la solicitud de recolección actual del cliente al montar el componente
-    useEffect(() => {
-        
-        const loadCurrentCollectionRequest = async () => {
+    const loadCurrentCollectionRequest = async () => {
 
-            setLoading(true);
+        if (!clientId || !weekStartDate || !weekEndDate) return;
 
-            //Limpiar errores antes de cargar
+        setLoading(true);
+
+        // Limpiar errores
+        setErrors({
+            requestId: '',
+            wantsCollection: '',
+            wantsExtraProducts: '',
+            collectedBuckets: '',
+            deliveredBuckets: '',
+            general: '',
+        });
+
+        try {
+            const apiClient = new CollectionRequestApiClient();
+            const collectionRequestRepository = new CollectionRequestRepository(apiClient);
+            const getCurrentCollectionRequestUseCase = new GetCurrentCollectionRequestUseCase(
+                collectionRequestRepository,
+            );
+
+            const collectionRequest = await getCurrentCollectionRequestUseCase.execute(
+                clientId,
+                weekStartDate,
+                weekEndDate,
+            );
+
+            setRequestId(collectionRequest.id);
+            setWantsCollection(collectionRequest.wantsPickup());
+            setWantsExtraProducts(collectionRequest.wantsAdditionalProducts());
+            setCollectedBuckets(collectionRequest.collectedBuckets || 0);
+            setDeliveredBuckets(collectionRequest.deliveredBuckets || 0);
+
+        } catch (error) {
             setErrors({
                 requestId: '',
                 wantsCollection: '',
                 wantsExtraProducts: '',
                 collectedBuckets: '',
                 deliveredBuckets: '',
-                general: '',
+                general: error.message || 'Error al cargar la solicitud de recolección actual.',
             });
-
-            try {
-                //Construye capa de dominio para obtener la solicitud de recolección actual
-                const apiClient = new CollectionRequestApiClient();
-                const collectionRequestRepository = new CollectionRequestRepository(apiClient);
-                const getCurrentCollectionRequestUseCase = new GetCurrentCollectionRequestUseCase(
-                    collectionRequestRepository,
-                );
-
-                // Ejecuta el caso de uso para obtener la solicitud de recolección actual del cliente.
-                const collectionRequest = await getCurrentCollectionRequestUseCase.execute(
-                    clientId,
-                    weekStartDate,
-                    weekEndDate,
-                );
-
-                
-                // Guarda los datos para mostrarlos. Si existe la solicitud actual, la usa; en caso contrario se mantienen los valores iniciales.
-                setRequestId(collectionRequest.id);
-                setWantsCollection(collectionRequest.wantsPickup());
-                setWantsExtraProducts(collectionRequest.wantsAdditionalProducts());
-                setCollectedBuckets(collectionRequest.collectedBuckets || 0);
-                setDeliveredBuckets(collectionRequest.deliveredBuckets || 0);
-            
-            //Manejo de errores de la solicitud de recolección actual
-            } catch (error) {
-                
-                setErrors({
-                    requestId: '',
-                    wantsCollection: '',
-                    wantsExtraProducts: '',
-                    collectedBuckets: '',
-                    deliveredBuckets: '',
-                    general: error.message || 'Error al cargar la solicitud de recolección actual.',
-                });
-
-            //Apaga el loading sin importar si la carga fue exitosa o si hubo un error
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (clientId && weekStartDate && weekEndDate) {
-            loadCurrentCollectionRequest();
+        } finally {
+            setLoading(false);
         }
+    };
+
+    useEffect(() => {
+        loadCurrentCollectionRequest();
     }, [clientId, weekStartDate, weekEndDate]);
 
     // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
@@ -399,6 +390,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         setDeliveredBuckets,
 
         saveFirstSection,
+        loadCurrentCollectionRequest,
     };
 }
 

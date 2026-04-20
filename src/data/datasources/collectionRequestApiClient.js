@@ -72,29 +72,10 @@ export class CollectionRequestApiClient {
      */
     async getExtraProducts() {
         try {
-            const token = this.getToken();
-
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/obtener`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            console.log("Response cruda del API Client getExtraProducts:", response);
-
-            const data = await response.json();
-
-            console.log("Response cruda del API Client getExtraProducts:", data);
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al obtener los productos extra de la solicitud de recolección.');
-            }
-
-            return data;
+            const response = await api.get('/solicitudes-rec/form04/obtener');
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 
@@ -108,36 +89,16 @@ export class CollectionRequestApiClient {
      * @returns {Promise<Object>} Respuesta de la API con el resultado del guardado.
      * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
-    async saveExtraProducts(
-        requestIDReceived,
-        products,
-    ) {
-        try{
-            const token = this.getToken();
-            console.log("Token", token)
-
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form04/guardar`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    requestIDReceived,
-                    products
-                })
+    async saveExtraProducts(requestIDReceived, products) {
+        try {
+            const response = await api.post('/solicitudes-rec/form04/guardar', {
+                requestIDReceived,
+                products
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al guardar los productos extra de la solicitud de recolección.');
-            }
-
-            return data;
-
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 
@@ -150,38 +111,15 @@ export class CollectionRequestApiClient {
      * @returns {Promise<string>} Id de la última solicitud registrada.
      * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
-    async getLastRequestPerClient(
-        idClient,
-    ) {
-        try{
-
-            const token = this.getToken();
-
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/ultimaSolicitud`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    idClient,
-                })
+    async getLastRequestPerClient(idClient) {
+        try {
+            const response = await api.post('/solicitudes-rec/ultimaSolicitud', {
+                idClient
             });
 
-            // console.log("Respuesta cruda del API Client getLastRequestPerClient:", response);
-
-            const data = await response.json();
-            // console.log("RESPUESTA DE OBTENER ULTIMA SOLICITUD EN EL API CLIENT:", data);
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al obtener la última solicitud de recolección.');
-            }
-
-            return data.data.id_solicitud;
-
+            return response.data.data.id_solicitud;
         } catch (error) {
-            console.log("ERRRRRRROR", error)
-            throw error;
+            handleHttpError(error);
         }
     }
 
@@ -194,38 +132,15 @@ export class CollectionRequestApiClient {
      * @returns {Promise<Object>} Respuesta de la API con los productos seleccionados.
      * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
      */
-    async getInfoAboutExtraProductsSelected(
-        requestID,
-    ) {
-        try{
-            console.log("Llega al SolicitudesRecApiClient Guardar con:", {
-                requestID,
+    async getInfoAboutExtraProductsSelected(requestID) {
+        try {
+            const response = await api.post('/solicitudes-rec/form03/obtenerInfo', {
+                requestID
             });
 
-            const token = this.getToken();
-            console.log("TOKEN", token);
-
-            const response = await fetch(`${this.baseUrl}/solicitudes-rec/form03/obtenerInfo`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    requestID,
-                })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al obtener los productos extra seleccionados de la solicitud de recolección.');
-            }
-
-            return data;
-
+            return response.data;
         } catch (error) {
-            throw error;
+            handleHttpError(error);
         }
     }
 }
