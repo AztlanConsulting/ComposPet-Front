@@ -56,7 +56,7 @@ api.interceptors.response.use(
         if (originalRequest.url.includes('/refresh')) {
             accessToken = null;
             sessionStorage.removeItem('user');
-            window.location.href = '/login';
+            window.location.href = '/inicio-sesion';
             return Promise.reject(error);
         }
 
@@ -73,7 +73,7 @@ api.interceptors.response.use(
             } catch (err) {
                 accessToken = null;
                 sessionStorage.removeItem('user'); 
-                window.location.href = '/login';
+                window.location.href = '/inicio-sesion';
                 return Promise.reject(err);
             }
         }

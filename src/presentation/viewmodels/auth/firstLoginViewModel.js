@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FirstLoginUseCase } from '../../../domain/useCases/firstLoginUseCase';
-import { FirstLoginRepository } from '../../../data/repositories/firstLoginRepository';
-import { FirstLoginApiClient } from '../../../data/datasources/FirstLoginApiClient';
 
 /**
  * Valida los criterios de seguridad de la nueva contraseña en el Frontend.
@@ -42,9 +40,10 @@ function validatePasswordForm(p1, p2) {
 /**
  * ViewModel para el flujo de Primer Inicio de Sesión.
  * Gestiona el estado de la UI y coordina las llamadas a los Casos de Uso.
- * * @returns {Object} Estados y manejadores de eventos para la Vista.
+ * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
+ * @returns {Object} Estados y manejadores de eventos para la Vista.
  */
-export function useFirstLoginViewModel() {
+export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = null) {
     const navigate = useNavigate();
 
     const [step, setStep] = useState(1);
@@ -58,15 +57,7 @@ export function useFirstLoginViewModel() {
     const [p2, setP2] = useState("");
     const [passwordErrors, setPasswordErrors] = useState({ password: "", confirmPassword: "" });
 
-    /**
-     * Factory local para instanciar el caso de uso con sus dependencias.
-     * @private
-     */
-    const getUseCase = () => {
-        const apiClient = new FirstLoginApiClient();
-        const repository = new FirstLoginRepository(apiClient);
-        return new FirstLoginUseCase(repository);
-    };
+    const useCase = injectedUseCase ?? new FirstLoginUseCase();
 
     /**
      * Maneja el cambio del código OTP limitándolo a 6 caracteres.
@@ -111,8 +102,7 @@ export function useFirstLoginViewModel() {
         setError(null);
 
         try {
-            const useCase = getUseCase();
-            const resultEntity = await useCase.executeRequest(email);
+            const resultEntity = await useCase.executeRequest(email, isFirstLogin);
             
             setEntity(resultEntity);
             setStep(2); 
@@ -140,7 +130,6 @@ export function useFirstLoginViewModel() {
         setError(null);
 
         try {
-            const useCase = getUseCase();
             const token = entity?.token || "";
             const updatedEntity = await useCase.executeVerify(email, otpCode, token);
             
@@ -172,7 +161,6 @@ export function useFirstLoginViewModel() {
         setError(null);
 
         try {
-            const useCase = getUseCase();
 
             await useCase.executeFinalize(
                 entity?.email || email, 
@@ -181,7 +169,7 @@ export function useFirstLoginViewModel() {
                 entity?.token 
             );
             
-            navigate("/login"); 
+            navigate("/inicio-sesion"); 
         } catch (err) {
             if (err.message === "Failed to fetch" || !navigator.onLine) {
                 setError("No se pudo establecer conexión con el servidor. Intenta más tarde.");
