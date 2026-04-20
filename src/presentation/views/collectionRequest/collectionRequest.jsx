@@ -87,7 +87,8 @@ export default function CollectionRequestView() {
                         setNotes={thirdSectionViewModel.setNotes}
                         balance={thirdSectionViewModel.balance}
                         total={thirdSectionViewModel.collectionTotal}
-
+                        removeProduct={thirdSectionViewModel.removeProduct}
+                        collection={thirdSectionViewModel.collection}
                     />
                 )}
 

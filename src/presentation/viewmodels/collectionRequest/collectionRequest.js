@@ -116,7 +116,6 @@ function useCollectionRequestViewModel(){
 
         if (currentStep === 3) {
             const result = await thirdSectionViewModel.saveThirdSection();
-
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
             }

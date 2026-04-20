@@ -91,4 +91,36 @@ export class CollectionRequestApiClient {
         }
 
     }
+
+    /**
+     * Elimina un pedido de producto de la lista asociada a la solicitud de recolección.
+     * * @async
+     * @param {string} idProduct - Id del producto a eliminar.
+     * @param {string} idRequest -- Id de la solicitud de recolección asociada al producto.
+     * @returns {Promise<Object>} 
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async deleteProduct(idProduct, idRequest){
+        try {
+            const response = await api.delete(`/solicitudes-rec/collection-summary/product/${idProduct}/request/${idRequest}`);
+
+            return response;
+        }
+        catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment){
+        try {
+            const response = await api.put('/solicitudes-rec/collection-summary/payment', {
+                idRequest,
+                collectionTotal,
+                idPayment,
+            })
+        }
+        catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

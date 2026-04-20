@@ -13,8 +13,16 @@ import { CollectionSummary } from "../../domain/entities/collectionSummary";
 export class CollectionSummaryRepositoryImpl {
     constructor(datasource) {
         this.datasource = datasource;
-    }
 
+    }
+    /**
+     * Obtiene la información del resumen del formulario de recolección.
+     *
+     * @param {string} clientId - Id del cliente en formato UUID.
+     * @param {string} weekStartDate - Fecha inicial del rango semanal.
+     * @param {string} weekEndDate - Fecha final del rango semanal.
+     * @returns {Promise<CollectionSummaryt>} Entidad de dominio con la solicitud encontrada.
+     */
     async getSummary(idClient, weekStartDate, weekEndDate) {
         const response = await this.datasource.getSummary(
             idClient,
@@ -29,5 +37,28 @@ export class CollectionSummaryRepositoryImpl {
             response.data.collectionTotal,
             response.data.payMethods
         );
+    }
+
+    /**
+     * Manda a eliminar un producto por su id
+     *
+     * @param {string} idProduct - Id del producto a eliminar.
+     * @param {string} idRequest - Id de la recolección asociada al producto.
+     * @returns {Promise}
+     */
+    async deleteProduct(idProduct, idRequest) {
+        return await this.datasource.deleteProduct(idProduct, idRequest);
+    }
+
+    /**
+     * Actualiza el total a pagar y la información de pago de la solicitud.
+     *
+     * @param {string} idRequest - Id de la solicitud a modificar.
+     * @param {Int} collectionTotal - total a pagar por la recolección.
+     * @param {Int} idPayment - Id del método de pago seleccionado.
+     * @returns {Promise}
+     */
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment) {
+        return await this.datasource.updateCollectionTotal(idRequest, collectionTotal, idPayment);
     }
 }

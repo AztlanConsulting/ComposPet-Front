@@ -1,5 +1,7 @@
 import {useEffect, useState, useMemo} from "react";
 import {GetCollectionSummaryUseCase} from "../../../domain/useCases/getCollectionSummaryUseCase";
+import {DeleteProductSummaryUseCase} from "../../../domain/useCases/deleteProductSummaryUseCase";
+import { UpdateCollectionTotalUseCase } from "../../../domain/useCases/updateCollectionTotalUseCase";
 import { CollectionSummaryRepositoryImpl } from "../../../data/repositories/collectionSummaryRepository";
 import { CollectionRequestApiClient } from "../../../data/datasources/collectionRequestApiClient";
 
@@ -31,6 +33,18 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         const repository = new CollectionSummaryRepositoryImpl(datasource);
         return new GetCollectionSummaryUseCase(repository);
     }, []);
+
+    const deleteUseCase = useMemo(() => {
+        const datasource = new CollectionRequestApiClient();
+        const repository = new CollectionSummaryRepositoryImpl(datasource);
+        return new DeleteProductSummaryUseCase(repository);
+    }, []);
+
+    const updateCollectionTotalUseCase = useMemo(() => {
+        const datasource = new CollectionRequestApiClient();
+        const repository = new CollectionSummaryRepositoryImpl(datasource);
+        return new UpdateCollectionTotalUseCase(repository);
+    })
 
     useEffect(() => {
         if(idClient) {
@@ -76,6 +90,44 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         }
     };
 
+    const removeProduct = async(idProduct, idRequest) => {
+        try {
+            setLoading(true);
+
+            await deleteUseCase.execute(idProduct, idRequest);
+
+            await loadSummary();
+        }
+        catch (error) {
+            console.log("Error deleting product", error);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
+    const saveThirdSection = async () => {
+        try {
+            setLoading(true);
+
+            await updateCollectionTotalUseCase.execute(
+                collection.id_solicitud,
+                collectionTotal,
+                paymentMethods[selectedPaymentIndex].id_pago,
+            );
+
+            return {
+                success: true,
+                nextStep: 4,
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
 
     return {
         collection,
@@ -91,12 +143,13 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
 
         notes,
         setNotes,
+
+        removeProduct,
+        saveThirdSection,
     };
 
 }
 
-const saveThirdSection = async () => {
 
-}
 
 export default useCollectionRequestThirdSectionViewModel;
