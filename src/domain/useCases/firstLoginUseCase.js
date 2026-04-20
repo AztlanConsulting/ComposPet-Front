@@ -1,3 +1,5 @@
+import { FirstLoginRepository } from "../../data/repositories/firstLoginRepository";
+
 /**
  * @class FirstLoginUseCase
  * @description Orquestador de la lógica de aplicación para el flujo de activación.
@@ -8,20 +10,21 @@ export class FirstLoginUseCase{
     /**
      * @param {firstLoginIRepository} firstLoginRepository - Implementación del repositorio de activación.
      */
-    constructor(firstLoginRepository) {
-        this.repository = firstLoginRepository;
+    constructor(repository = null) {
+        this.repository = repository ?? new FirstLoginRepository() ;
     }
 
     /**
      * Inicia el proceso de recuperación/activación solicitando un OTP.
      * @async
      * @param {string} email - Correo del usuario a validar.
+     * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
      * @throws {Error} Si el formato del correo es incorrecto.
      * @returns {Promise<FirstLogin>} Entidad con el estado inicial del flujo.
      */
-    async executeRequest(email) {
+    async executeRequest(email, isFirstLogin = false) {
         if (!email.includes('@')) throw new Error("Email inválido");
-        return await this.repository.requestOTP(email);
+        return await this.repository.requestOTP(email, isFirstLogin);
     }
 
     /**
@@ -51,7 +54,7 @@ export class FirstLoginUseCase{
      */
     async executeFinalize(email, password, confirmPassword,  flowToken) {
         if (password !== confirmPassword) throw new Error("MATCH_ERROR");
-        if (password.length < 8) throw new Error("La contraseña es muy corta");
+        if (password.length < 12) throw new Error("La contraseña es muy corta");
         return await this.repository.updatePassword(email, password, flowToken);
     }
 }

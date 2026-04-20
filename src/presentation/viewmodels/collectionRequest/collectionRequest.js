@@ -50,6 +50,7 @@ function useCollectionRequestViewModel() {
 
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
+    //Aqui se llama a el firsrtFormViewModel, recibe la info de la request
     const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(
         clientId,
         weekStartDate,
@@ -98,9 +99,13 @@ function useCollectionRequestViewModel() {
 
     const onPrimaryAction = async () => {
         if (currentStep === 1) {
+            // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
 
+            //Resultado de guardar la solicitud
             if (result.success && result.nextStep) {
+                
+                //Ir al siguiente paso
                 setCurrentStep(result.nextStep);
             }
             return;

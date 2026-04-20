@@ -30,6 +30,7 @@ export class GetClientUseCase {
             throw new Error("Falta el id del usuario");
         }
 
+        //Llama a el Repositorio de Interface
         const client = await this.clientRepository.getClientByUserId(userId);
         return client;
     }

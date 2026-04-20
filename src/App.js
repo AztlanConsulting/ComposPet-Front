@@ -241,8 +241,9 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/first-login" element={<FirstLoginView />} />
+                    <Route path="/inicio-sesion" element={<LoginForm />} />
+                    <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
+                    <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />

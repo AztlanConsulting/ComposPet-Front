@@ -6,12 +6,13 @@ export class FirstLoginApiClient {
      * Solicita un código OTP al correo electrónico proporcionado.
      * * @async
      * @param {string} email - Correo del usuario a validar.
+     * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
      * @returns {Promise<{success: boolean, seedToken: string}>} SeedToken necesario para la verificación.
      * @throws {Error} Si el correo no existe o hay error de red.
      */
-    async requestOTP(email) {
+    async requestOTP(email, isFirstLogin) {
         try {
-            const response = await api.post('/api/request-otp', { email });
+            const response = await api.post('/request-otp', { email, isFirstLogin });
             return response.data;
         } catch (error) {
             handleHttpError(error);
@@ -29,7 +30,7 @@ export class FirstLoginApiClient {
      */
     async verifyOTP(email, code, seedToken) {
         try {
-            const response = await api.post('/api/verify-otp', { email, code, seedToken });
+            const response = await api.post('/verify-otp', { email, code, seedToken });
             return response.data;
         } catch (error) {
             handleHttpError(error);
@@ -47,7 +48,7 @@ export class FirstLoginApiClient {
      */
     async updatePassword(email, password, flowToken) {
         try {
-            const response = await api.post('/api/update-password', { email, password, flowToken });
+            const response = await api.post('/update-password', { email, password, flowToken });
             return response.data;
         } catch (error) {
             handleHttpError(error);

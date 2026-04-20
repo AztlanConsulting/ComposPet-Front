@@ -46,6 +46,8 @@ export default function CollectionRequestView() {
                 </div>
 
                 {currentStep === 1 && (
+
+                    //Llama la vista del a primera parte de la sección
                     <FirstFormRecolectionRequest
                         wantsCollection={firstSectionViewModel.wantsCollection}
                         setWantsCollection={firstSectionViewModel.setWantsCollection}

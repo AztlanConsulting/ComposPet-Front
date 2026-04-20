@@ -32,6 +32,7 @@ export class GetCurrentCollectionRequestUseCase {
             throw new Error("Faltan parámetros requeridos")
         }
 
+        //Llamada a el Repositorio de interface 
         const collectionRequest = await this.collectionRequestRepository.getCurrentCollectionRequest(
             clientId,
             weekStartDate,
