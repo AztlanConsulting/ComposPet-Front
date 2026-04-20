@@ -6,6 +6,14 @@ import { handleHttpError } from '../infrastructure/httpErrorHandler';
  * Su única responsabilidad es la comunicación técnica con el servidor.
  */
 export class AuthApiClient {
+    /**
+     * @param {string} [baseUrl=process.env.REACT_APP_API_URL] - URL base del servidor.
+     * Debe configurarse en el archivo `.env` del proyecto.
+     */
+
+    constructor(baseUrl = process.env.REACT_APP_API_URL) {
+        this.baseUrl = baseUrl;
+    }
     
     /**
      * Intenta iniciar sesión con credenciales tradicionales.
@@ -36,7 +44,7 @@ export class AuthApiClient {
 
     async login(email, password){
 
-        const response = await fetch(`${this.baseUrl}/login`, {
+        const response = await fetch(`${this.baseUrl}/inicio-sesion`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
