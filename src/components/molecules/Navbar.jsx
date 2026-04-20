@@ -78,7 +78,7 @@ export default function Navbar() {
                     </NavbarItem>
                 ) : (
                     <div className="login">
-                        <NavbarItem route="/login">
+                        <NavbarItem route="/inicio-sesion">
                             Iniciar sesión
                         </NavbarItem>
                     </div>
