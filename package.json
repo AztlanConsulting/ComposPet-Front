@@ -15,7 +15,7 @@
     "react": "^19.2.4",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.14.1",
+    "react-router-dom": "^6.30.3",
     "react-scripts": "^5.0.1",
     "serialize-javascript": "^7.0.5",
     "set-cookie-parser": "^3.1.0",
