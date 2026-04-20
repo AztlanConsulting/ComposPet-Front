@@ -35,7 +35,8 @@ import NavbarItem from '../atoms/Navbaritem';
  */
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const isLoggedIn = !!sessionStorage.getItem('token');
+    const user = sessionStorage.getItem('user');
+
     // variable para probar el menú con el botón de iniciar sesión
     //const isLoggedIn = false;
 
@@ -63,7 +64,7 @@ export default function Navbar() {
             {/* Links centro — solo desktop */}
             <div className="navbarCenter">
                 <Dropdown title={title} options={homeOptions} />
-                {isLoggedIn && (
+                {user != null && (
                     <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
                 )}
                 <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem>
@@ -71,7 +72,7 @@ export default function Navbar() {
 
             {/* Cerrar sesión — solo desktop */}
             <div className="navbarRight">
-                {isLoggedIn ? (
+                {user != null ? (
                     <NavbarItem route="/" logout={true}>
                         Cerrar sesión
                     </NavbarItem>
@@ -101,11 +102,11 @@ export default function Navbar() {
             {menuOpen && (
                 <div className="navbarMobileMenu">
                     <Dropdown title={title} options={homeOptions} />
-                    {isLoggedIn && (
+                    {user != null && (
                         <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
                     )}
                     <NavbarItem route="/faq">FAQ</NavbarItem>
-                    {isLoggedIn ? (
+                    {user != null ? (
                         <NavbarItem route="/logout" logout={true}>
                             Cerrar sesión
                         </NavbarItem>
