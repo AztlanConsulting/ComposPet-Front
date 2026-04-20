@@ -25,7 +25,7 @@ export default function SummaryProductCard({
             {/* Imagen Producto */}
             <div className="summary-product-card-image">
                 <img
-                    src={product.imagen || Producto}
+                    src={product.imagen_url || Producto}
                     alt={product.nombre}
                     className="summary-product-card-img"
                 />

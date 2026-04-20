@@ -115,7 +115,7 @@ function useCollectionRequestViewModel() {
 
             //Resultado de guardar la solicitud
             if (result.success && result.nextStep) {
-                
+                thirdSectionViewModel.loadSummary();
                 //Ir al siguiente paso
                 setCurrentStep(result.nextStep);
             }
@@ -140,6 +140,7 @@ function useCollectionRequestViewModel() {
             const result = await secondSectionViewModel.saveSecondSection();
 
             if (result.success && result.nextStep) {
+                thirdSectionViewModel.loadSummary();
                 setCurrentStep(result.nextStep);
             }
 

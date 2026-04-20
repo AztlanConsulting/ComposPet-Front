@@ -146,6 +146,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
 
         removeProduct,
         saveThirdSection,
+        loadSummary,
     };
 
 }
