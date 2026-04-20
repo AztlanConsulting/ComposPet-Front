@@ -1,5 +1,22 @@
 import { FirstLoginUseCase } from "../../domain/useCases/firstLoginUseCase";
 
+jest.mock("axios", () => ({
+    create: jest.fn(() => ({
+        interceptors: {
+            request: { use: jest.fn(), eject: jest.fn() },
+            response: { use: jest.fn(), eject: jest.fn() }
+        },
+        post: jest.fn(),
+        get: jest.fn(),
+    }))
+}));
+
+jest.mock("../../api/axiosConfig", () => ({
+    __esModule: true,
+    default: { post: jest.fn(), get: jest.fn() },
+    setAccessToken: jest.fn()
+}));
+
 /**
  * @group UseCase
  * Suite de pruebas unitarias para `FirstLoginUseCase`.

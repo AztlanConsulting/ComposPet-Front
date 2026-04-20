@@ -1,11 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
-import { useFirstLoginViewModel } from "../../presentation/viewmodels/auth/firstLoginViewModel"
-import { FirstLoginUseCase } from "../../domain/useCases/firstLoginUseCase";
+import { useFirstLoginViewModel } from "../../presentation/viewmodels/auth/firstLoginViewModel";
 
-/**
- * Mocks de dependencias externas.
- * Se sustituyen las librerías de navegación y comunicación para aislar el ViewModel.
- */
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     useNavigate: () => mockNavigate,
@@ -19,36 +14,22 @@ jest.mock("axios", () => ({
         },
         post: jest.fn(),
         get: jest.fn(),
-        put: jest.fn(),
-        delete: jest.fn()
     }))
 }));
 
 jest.mock("../../api/axiosConfig", () => ({
     __esModule: true,
-    default: {
-        post: jest.fn(),
-        get: jest.fn(),
-        create: jest.fn()
-    },
+    default: { post: jest.fn(), get: jest.fn() },
     setAccessToken: jest.fn()
 }));
 
 jest.mock("../../domain/useCases/firstLoginUseCase");
-jest.mock("../../data/datasources/FirstLoginApiClient");
-jest.mock("../../data/repositories/firstLoginRepository");
 
-/**
- * @group ViewModel
- * Suite de pruebas para `useFirstLoginViewModel`.
- * Evalúa la transición de estados (pasos 1, 2 y 3) y la lógica de validación de UI.
- */
 describe("useFirstLoginViewModel", () => {
     let mockUseCase;
 
     beforeEach(() => {
         jest.clearAllMocks();
-        // Setup del mock del UseCase
         mockUseCase = {
             executeRequest: jest.fn(),
             executeVerify: jest.fn(),
@@ -56,72 +37,53 @@ describe("useFirstLoginViewModel", () => {
         };
     });
 
-    test("Fase 1: debe avanzar al paso 2 tras solicitar OTP exitosamente", async () => {
+    test("Flujo completo: debe recorrer los 3 pasos en orden", async () => {
         mockUseCase.executeRequest.mockResolvedValue({ email: "test@test.com", token: "seed-token" });
-        
-        const { result } = renderHook(() => useFirstLoginViewModel(mockUseCase, true));
+        mockUseCase.executeVerify.mockResolvedValue({ email: "test@test.com", token: "flow-token" });
+        mockUseCase.executeFinalize.mockResolvedValue({ success: true });
 
-        act(() => {
-            result.current.setEmail("test@test.com");
-        });
+        const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
 
-        await act(async () => {
-            await result.current.onRequestOTP({ preventDefault: () => {} });
-        });
-
+        // Paso 1
+        act(() => { result.current.setEmail("test@test.com"); });
+        await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
         expect(result.current.step).toBe(2);
         expect(result.current.entity.token).toBe("seed-token");
-    });
 
-    test("Fase 2: debe avanzar al paso 3 si el código OTP es válido", async () => {
-        // Simulamos que ya estamos en el paso 2 con un entity previo
-        mockUseCase.executeVerify.mockResolvedValue({ email: "test@test.com", token: "flow-token" });
-        
-        const { result } = renderHook(() => useFirstLoginViewModel(mockUseCase, true));
-
-        // Forzamos estado inicial del paso 2
-        act(() => {
-            result.current.setEmail("test@test.com");
-            result.current.handleOtpChange({ target: { value: "123456" } });
-        });
-
-        await act(async () => {
-            await result.current.onVerifyOTP();
-        });
-
+        // Paso 2
+        act(() => { result.current.handleOtpChange({ target: { value: "123456" } }); });
+        await act(async () => { await result.current.onVerifyOTP(); });
         expect(result.current.step).toBe(3);
-        expect(result.current.error).toBeNull();
-    });
+        expect(result.current.entity.token).toBe("flow-token");
 
-    test("Fase 3: debe validar contraseñas y navegar al login al finalizar", async () => {
-        mockUseCase.executeFinalize.mockResolvedValue({ success: true });
-        
-        const { result } = renderHook(() => useFirstLoginViewModel(mockUseCase, true));
-
+        // Paso 3
         act(() => {
             result.current.setP1("Password123!");
             result.current.setP2("Password123!");
         });
-
-        await act(async () => {
-            await result.current.onFinalize();
-        });
-
-        // Verificamos que se llamó a la navegación
+        await act(async () => { await result.current.onFinalize(); });
         expect(mockNavigate).toHaveBeenCalledWith("/inicio-sesion");
     });
 
-    test("debe mostrar error si las contraseñas no cumplen el criterio de 12 caracteres", async () => {
-        const { result } = renderHook(() => useFirstLoginViewModel(mockUseCase, true));
+    test("Fase 1: debe mostrar error si el servidor falla", async () => {
+        mockUseCase.executeRequest.mockRejectedValue(new Error("Correo no encontrado"));
+        const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
+
+        act(() => { result.current.setEmail("noexiste@test.com"); });
+        await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
+
+        expect(result.current.step).toBe(1);
+        expect(result.current.error).toBe("Correo no encontrado");
+    });
+
+    test("Fase 3: debe mostrar error si la contraseña no cumple criterios", async () => {
+        const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
 
         act(() => {
             result.current.setP1("corta");
             result.current.setP2("corta");
         });
-
-        await act(async () => {
-            await result.current.onFinalize();
-        });
+        await act(async () => { await result.current.onFinalize(); });
 
         expect(result.current.passwordErrors.password).toContain("12 caracteres");
         expect(mockUseCase.executeFinalize).not.toHaveBeenCalled();

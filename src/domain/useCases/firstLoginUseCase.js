@@ -1,3 +1,5 @@
+import { FirstLoginRepository } from "../../data/repositories/firstLoginRepository";
+
 /**
  * @class FirstLoginUseCase
  * @description Orquestador de la lógica de aplicación para el flujo de activación.
@@ -8,8 +10,8 @@ export class FirstLoginUseCase{
     /**
      * @param {firstLoginIRepository} firstLoginRepository - Implementación del repositorio de activación.
      */
-    constructor(firstLoginRepository) {
-        this.repository = firstLoginRepository;
+    constructor(repository = null) {
+        this.repository = repository ?? new FirstLoginRepository() ;
     }
 
     /**

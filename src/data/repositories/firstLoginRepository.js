@@ -1,6 +1,7 @@
 import { firstLoginIRepository } from "../../domain/repositories/firstLoginInterfaceRepository";
 import { FirstLogin } from "../../domain/entities/firstLogin";
 import axios from 'axios';
+import { FirstLoginApiClient } from "../datasources/FirstLoginApiClient";
 
 /**
  * FirstLoginRepository extiende la interfaz definida en el dominio para 
@@ -11,9 +12,9 @@ export class FirstLoginRepository extends firstLoginIRepository {
     /**
      * @param {Object} apiClient - Instancia del cliente HTTP configurado para realizar las peticiones.
      */
-    constructor(apiClient){
+    constructor(){
         super();
-        this.apiClient = apiClient;
+        this.apiClient = new FirstLoginApiClient();
     }
 
     /**

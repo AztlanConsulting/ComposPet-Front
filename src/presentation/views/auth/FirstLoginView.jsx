@@ -9,13 +9,6 @@ import useFirstLoginViewModel from "../../viewmodels/auth/firstLoginViewModel";
 import RequestOtpForm from "../../../components/organisms/RequestOtpForm";
 import VerifyOtpForm from "../../../components/organisms/VerifyOtpForm";
 import SetPasswordForm from "../../../components/organisms/SetPasswordForm";
-import { FirstLoginUseCase } from '../../../domain/useCases/firstLoginUseCase';
-import { FirstLoginApiClient } from '../../../data/datasources/FirstLoginApiClient';
-import { FirstLoginRepository } from '../../../data/repositories/firstLoginRepository';
-
-const apiClient = new FirstLoginApiClient();
-const repository = new FirstLoginRepository(apiClient);
-const useCase = new FirstLoginUseCase(repository);
 
 /**
  * Vista de activación de cuenta vinculada a `useFirstLoginViewModel`.
@@ -42,7 +35,7 @@ function FirstLoginView({ isRecovery = false}) {
         onRequestOTP,
         onVerifyOTP,
         onFinalize
-    } = useFirstLoginViewModel(useCase, !isRecovery);
+    } = useFirstLoginViewModel(!isRecovery);
 
     const stepInfo = {
         1: { 
@@ -171,7 +164,7 @@ function FirstLoginView({ isRecovery = false}) {
 
                 
                     <div className="mt-3 text-center">
-                        <a href="/login" className="return">
+                        <a href="/inicio-sesion" className="return">
                             Volver al inicio de sesión
                         </a>
                     </div>
