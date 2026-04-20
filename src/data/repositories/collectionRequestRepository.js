@@ -119,7 +119,6 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
      * */
     async getExtraProducts(){
         const response = await this.apiClient.getExtraProducts();
-        console.log('Respuesta cruda del apiClient getExtraProducts:', response);
 
         return response.data.map(productData => new ExtraProduct({
             idProduct: productData.id_producto,
@@ -141,7 +140,6 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
      * @returns {Promise<Object>} Respuesta del servidor con el resultado del guardado.
      */
     async saveExtraProducts(requestID,  products) {
-        console.log("LLEGO AL REPOSITORY DATA SAVE CON", {requestID, products});
         return await this.apiClient.saveExtraProducts(requestID, products);
     }
 

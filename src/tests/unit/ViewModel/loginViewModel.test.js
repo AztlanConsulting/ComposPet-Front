@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
-import useLoginViewModel from "../../presentation/viewmodels/auth/loginViewModel";
-import { LoginUseCase } from "../../domain/useCases/loginUseCase";
+import useLoginViewModel from "../../../presentation/viewmodels/auth/loginViewModel";
+import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 
 /**
  * Mocks de dependencias externas del ViewModel.

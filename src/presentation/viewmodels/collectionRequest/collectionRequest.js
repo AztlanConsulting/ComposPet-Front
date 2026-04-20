@@ -48,8 +48,6 @@ function useCollectionRequestViewModel() {
 
     const { clientId } = useAuthenticatedClient();
 
-    // console.log("CLIENTE ID EN EL VIEWMODEL PRINCIPAL", clientId);
-
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
     const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(

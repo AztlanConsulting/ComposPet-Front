@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { ExtraProductsUseCase } from "../../../domain/useCases/ExtraProducts";
-import { SaveExtraProductsCollection } from "../../../domain/useCases/saveExtraProductsCollection";
-import { CollectionRequestRepository } from "../../../data/repositories/collectionRequestRepository";
-import { CollectionRequestApiClient } from "../../../data/datasources/collectionRequestApiClient";
-import { GetLastRequestPerClient } from "../../../domain/useCases/getLastRequestPerClient";
-import { ExtraProductRequestCollection } from "../../../domain/useCases/extraProductRequestCollection";
-
+import {
+    extraProductsUseCase,
+    saveExtraProductsUseCase,
+    getLastRequestPerClientUseCase,
+    getSelectedExtraProductsUseCase
+} from '../../../di/collectionRequest/collectionRequestProductsDependencies';
 
 /**
  * ViewModel de la segunda sección del formulario de recolección.
@@ -20,14 +19,6 @@ function useSecondPageViewModel(idClient) {
     const [successMessage, setSuccessMessage] = useState("");
     const [message, setMessage] = useState(false);
     const [name, setName] = useState([]);
-
-    const apiClient = new CollectionRequestApiClient();
-    const repository = new CollectionRequestRepository(apiClient);
-
-    const extraProductsUseCase = new ExtraProductsUseCase(repository);
-    const saveExtraProductsUseCase = new SaveExtraProductsCollection(repository);
-    const getLastRequestPerClientUseCase = new GetLastRequestPerClient(repository);
-    const getSelectedExtraProductsUseCase = new ExtraProductRequestCollection(repository);
 
     /**
      * Carga la información necesaria de la segunda sección:
@@ -53,15 +44,11 @@ function useSecondPageViewModel(idClient) {
                 result?.idRequest || ""
             );
 
-            console.log(selectedExtraProducts);
 
             const mappedSelectedProducts = {};
             (selectedExtraProducts || []).forEach((product) => {
-                console.log("PRODUCT", product.idProduct, " ", product.quantity);
                 mappedSelectedProducts[product.idProduct] = product.quantity;
             });
-
-            console.log("MAPPED", mappedSelectedProducts);
 
             setSelectedProducts(mappedSelectedProducts);
         } catch (err) {

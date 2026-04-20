@@ -241,7 +241,7 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
-                    <Route path="/inicio-sesion" element={<LoginForm />} />
+                    <Route path="/login" element={<LoginForm />} />
                     <Route path="/first-login" element={<FirstLoginView />} />
 
                     <Route element={<ProtectedRoute />}>
