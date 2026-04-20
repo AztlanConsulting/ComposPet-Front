@@ -62,4 +62,33 @@ export class CollectionRequestApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Actualiza la información de la primera sección del formulario de recolección.
+     * * @async
+     * @param {string} idClient - Id del cliente.
+     * @param {Date} weekStartDate - Fecha de inicio de la semana.
+     * @param {Date} weekEndDate - Fecha de fin de la semana
+     * @returns {Promise<Object>} Entidad del resumen de la solicitud.
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async getSummary(idClient, weekStartDate, weekEndDate) {
+        try {
+
+            const response = await api.post('/solicitudes-rec/collection-summary',
+                {
+                    idClient,
+                    weekStartDate,
+                    weekEndDate
+                }
+            );
+
+            return response.data;
+        }
+
+        catch (error) {
+            handleHttpError(error);
+        }
+
+    }
 }

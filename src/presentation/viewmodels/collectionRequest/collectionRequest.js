@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 //import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
-//import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
+import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
 //import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
 //import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
 
@@ -64,6 +64,12 @@ function useCollectionRequestViewModel(){
         weekEndDate,
     ); */
 
+    const thirdSectionViewModel = useCollectionRequestThirdSectionViewModel(
+        clientId,
+        weekStartDate,
+        weekEndDate,
+    );
+
     const goBackStep= () => {
         if (currentStep > 1) {
             setCurrentStep((prev) => prev - 1);
@@ -107,6 +113,17 @@ function useCollectionRequestViewModel(){
             }
             return;
         } */
+
+        if (currentStep === 3) {
+            const result = await thirdSectionViewModel.saveThirdSection();
+
+            if (result.success && result.nextStep) {
+                setCurrentStep(result.nextStep);
+            }
+            return;
+
+        }
+
     };
 
     const secondaryButtonText = currentStep === 1 ? 'Cancelar' : 'Regresar';
@@ -122,6 +139,7 @@ function useCollectionRequestViewModel(){
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
+        thirdSectionViewModel,
         //secondSectionViewModel, // Reemplazar con secondSectionViewModel cuando esté implementada
     };
 }

@@ -5,6 +5,7 @@ import React from 'react';
 import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
+import ThirdFormCollectionRequest from '../../../components/organisms/thirdFormRecolectionRequest';
 
 import useCollectionRequestViewModel from '../../viewmodels/collectionRequest/collectionRequest';
 
@@ -36,6 +37,7 @@ export default function CollectionRequestView() {
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
+        thirdSectionViewModel,
     } = useCollectionRequestViewModel();
 
     return (
@@ -75,10 +77,18 @@ export default function CollectionRequestView() {
                 )}
 
                 {currentStep === 3 && (
-                    <div>
-                        {/* Aquí irá la lógica del step 2, 3, 4... */}
-                        <p>Contenido del Step 3</p>
-                    </div>
+                    <ThirdFormCollectionRequest
+                        paymentMethods={thirdSectionViewModel.paymentMethods}
+                        paymentAviable={thirdSectionViewModel.paymentAviable}
+                        selectedPaymentIndex={thirdSectionViewModel.selectedPaymentIndex}
+                        setSelectedPaymentIndex={thirdSectionViewModel.setSelectedPaymentIndex}
+                        products={thirdSectionViewModel.products}
+                        notes={thirdSectionViewModel.notes}
+                        setNotes={thirdSectionViewModel.setNotes}
+                        balance={thirdSectionViewModel.balance}
+                        total={thirdSectionViewModel.collectionTotal}
+
+                    />
                 )}
 
                 {currentStep === 4 && (
