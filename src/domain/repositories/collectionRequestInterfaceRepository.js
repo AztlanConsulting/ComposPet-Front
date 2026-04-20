@@ -20,6 +20,7 @@ export class CollectionRequestIRepository {
      * @throws {Error} Cuando el método no es implementado por la clase hija.
      */
 
+    //Llamada a la función de getCurrentCollectionRequest del repositorio de data
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate){
         throw new Error("collectionRequestIRepositoryo no implementado");
     }

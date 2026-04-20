@@ -18,12 +18,15 @@ export class CollectionRequestApiClient {
      */
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate) {
         try {
+            // Interceptor de rutas api.post, para token
+            // Envía el id del usuario al back y llama a la ruta
             const response = await api.post('/solicitudes-rec/form02/obtener', {
                 clientId,
                 weekStartDate,
                 weekEndDate,
             });
 
+            //respuesta del back
             return response.data;
         } catch (error) {
             handleHttpError(error);
@@ -57,6 +60,7 @@ export class CollectionRequestApiClient {
                 deliveredBuckets,
             });
 
+            // Carpeta para manejo de errores de tipo api
             return response.data;
         } catch (error) {
             handleHttpError(error);
