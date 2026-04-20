@@ -6,6 +6,7 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import { Link } from 'react-router-dom';
 
+import { loginUseCase } from "../../../di/auth/authProvider";
 import useLoginViewModel from "../../viewmodels/auth/loginViewModel";
 
 /**
@@ -34,7 +35,7 @@ function SignInForm(){
         setPassword,
         onGoogleLogin,
         onSubmit,
-    } = useLoginViewModel();
+    } = useLoginViewModel(loginUseCase);
 
     return(
         <main className="signIn-background">
