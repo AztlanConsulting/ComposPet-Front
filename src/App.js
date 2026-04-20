@@ -20,7 +20,7 @@ import ProductCard from './components/molecules/ProductCard';
 import SecondPage from './components/organisms/secondPageForm';
 import Login from './components/organisms/Login';
 import LoginForm from '../src/presentation/views/auth/LoginView';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './utilities/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import YesNoQuestion from './components/molecules/YesNoQuestion';
 import CounterInput from '../src/components/molecules/counterInput';
@@ -241,7 +241,7 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
-                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/inicio-sesion" element={<LoginForm />} />
                     <Route path="/first-login" element={<FirstLoginView />} />
 
                     <Route element={<ProtectedRoute />}>
