@@ -6,14 +6,14 @@
  * @see ClientIRepository
  */
 
-export class GetCardBalnceUseCase {
+export class GetCardBalanceUseCase {
     /**
      * Crea una instancia del caso de uso para obtener el saldo de un cliente.
      *
      * @param {import('../repositories/cardInterfaceRepository').CardIRepository} cardRepository - Implementación del repositorio de tarjetas.
      */
-    constructor(clientRepository) {
-        this.clientRepository = clientRepository;
+    constructor(cardRepository) {
+        this.cardRepository = cardRepository;
     }
 
     /**
@@ -29,8 +29,8 @@ export class GetCardBalnceUseCase {
             throw new Error("Falta el id del usuario");
         }
 
-        const balance = await this.card.getCardBalnce(clientId);
-        return balance;
+        const card = await this.cardRepository.getCardBalance(clientId);
+        return card;
     }
 }
 

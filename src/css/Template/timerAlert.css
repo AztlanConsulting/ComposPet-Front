@@ -1,0 +1,92 @@
+.custom-swal-popup {
+    border-radius: var(--border-radius-2xl);
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+}
+
+.custom-swal-title {
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+}
+
+.custom-swal-text {
+    color: var(--color-black);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+}
+
+.custom-swal-confirm,
+.custom-swal-cancel,
+.custom-swal-confirm-timer {
+    border-radius: var(--border-radius-md);
+    padding: 0.6rem 1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.custom-swal-confirm {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}
+
+.custom-swal-confirm-timer {
+    background-color: var(--color-green-tertiary);
+    color: var(--color-red-black);
+    border-color: var(--color-green-secondary);
+}
+
+
+.custom-swal-confirm:hover {
+    filter: brightness(0.98);
+}
+
+.custom-swal-cancel {
+    background-color: var(--color-green-tertiary);
+    color: var(--color-red-black);
+    border-color: var(--color-green-secondary);
+}
+
+.custom-swal-cancel:hover {
+    filter: brightness(0.98);
+}
+
+/* Contenedor del mensaje con timer */
+.custom-swal-text p {
+    margin: 0;
+}
+
+/* Texto del contador */
+.custom-swal-timer {
+    display: block;
+    margin-top: 0.8rem;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+    text-align: center;
+}
+
+/* Barra de progreso del timer */
+.swal2-timer-progress-bar {
+    background: var(--color-green-secondary) !important;
+    height: 0.35rem !important;
+    border-radius: 999px;
+}
+
+/* Ajuste del contenedor de acciones */
+.swal2-actions {
+    margin-top: 1rem !important;
+}
+
+/* Cuando solo exista botón confirmar */
+.swal2-actions .custom-swal-confirm:only-child {
+    min-width: 8rem;
+}

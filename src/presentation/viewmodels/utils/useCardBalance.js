@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 import { CardApiClient } from "../../../data/datasources/cardApiClient";
 import { CardRepository } from "../../../data/repositories/cardRepository";
-import { GetCardBalnceUseCase } from "../../../domain/useCases/getCardBalanceUseCase";
-import { ClientRepository } from "../../../data/repositories/clientRepository";
+import { GetCardBalanceUseCase } from "../../../domain/useCases/getCardBalanceUseCase";
 
 /**
  * Hook reutilizable para obtener el saldo de un cliente
@@ -11,7 +10,7 @@ import { ClientRepository } from "../../../data/repositories/clientRepository";
  * @returns {{ card: object|null, balance: num|null }} tarjeta y saldo del cliente.
  */
 function useCardBalance(clientId){
-    const {card, setCard} = useState(null);
+    const [card, setCard] = useState(null);
    
 
     useEffect(() => {
@@ -20,10 +19,12 @@ function useCardBalance(clientId){
             try {
                 const apiClient = new CardApiClient();
                 const cardRepository = new CardRepository(apiClient);
-                const getCardBalanceUseCase = new GetCardBalnceUseCase(cardRepository);
+                const getCardBalanceUseCase = new GetCardBalanceUseCase(cardRepository);
 
+                // Ejecuta el caso de uso 
                 const cardEntity = await getCardBalanceUseCase.execute(clientId);
 
+                //Guarda la entidad en el estado
                 setCard(cardEntity);
             } catch (error) {
                 console.error('Error al obtener el saldo del cliente')
@@ -35,7 +36,8 @@ function useCardBalance(clientId){
         }
     }, [clientId]);
 
-    const balance = balance?.getCardBalance()|| null;
+    //Usa el método de la entidad para sacar el saldo; 
+    const balance = card?.getCardBalance()|| null;
 
     return{
         card,
