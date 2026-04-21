@@ -62,7 +62,7 @@ describe("useFirstLoginViewModel", () => {
             result.current.setP2("Password123!");
         });
         await act(async () => { await result.current.onFinalize(); });
-        expect(mockNavigate).toHaveBeenCalledWith("/inicio-sesion");
+        expect(mockNavigate).toHaveBeenCalledWith("/activar-cuenta");
     });
 
     test("Fase 1: debe mostrar error si el servidor falla", async () => {
