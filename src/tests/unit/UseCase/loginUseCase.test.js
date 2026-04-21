@@ -1,4 +1,4 @@
-import { LoginUseCase } from "../../domain/useCases/loginUseCase";
+import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 
 /**
  * @group UseCase

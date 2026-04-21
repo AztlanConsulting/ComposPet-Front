@@ -25,8 +25,11 @@ function useAuthenticatedClient() {
                 const clientRepository = new ClientRepository(apiClient);
                 const getClientUseCase = new GetClientUseCase(clientRepository);
 
+                //Ejecuta el getClientUsecase
                 const clientEntity = await getClientUseCase.execute(userId);
+                console.log("CLIENTE OBTENIDO EN EL HOOK", clientEntity);
 
+                //Llega la entidad desde el repositorio y la guarda en el estado
                 setClient(clientEntity);
             } catch (error) {
                 console.error('Error al obtener el cliente autenticado:', error);
@@ -38,8 +41,10 @@ function useAuthenticatedClient() {
         }
     }, [userId]);
 
+    // Usa el metodo de la entidad para sacar el clientId, si no existe pone null
     const clientId = client?.getClientId() || null;
 
+    // Le regresa el clientId a
     return {
         client,
         clientId,

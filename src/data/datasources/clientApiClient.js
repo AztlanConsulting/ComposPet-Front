@@ -12,6 +12,8 @@ export class ClientApiClient {
      */
     async getClientByUserId(userId) {
         try {
+            // Ya no es necesario mandar el token por que hay un interceptor de rutas, es el api.post
+            // Envía el id del usuario al back y llama a la ruta
             const response = await api.post('/cliente/obtener-id-cliente', { userId });
             return response.data;
 

@@ -20,6 +20,7 @@ export class CollectionRequestIRepository {
      * @throws {Error} Cuando el método no es implementado por la clase hija.
      */
 
+    //Llamada a la función de getCurrentCollectionRequest del repositorio de data
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate){
         throw new Error("collectionRequestIRepositoryo no implementado");
     }
@@ -44,5 +45,50 @@ export class CollectionRequestIRepository {
     ) {
         throw new Error("solicitudesRecIRepository no implementado");
     }
+
+    /**
+     * Obtiene los productos extra disponibles para la solicitud de recolección.
+     *
+     * @abstract
+     * @throws {Error} Cuando el método no es implementado por la clase hija.
+     */
+    async getExtraProducts() {
+        throw new Error("CollectionRequestRepositoryInterface.getExtraProducts() not implemented");
+    }
+
+    /**
+     * Guarda los productos extra seleccionados en la solicitud.
+     *
+     * @abstract
+     * @param {string} requestID - Id de la solicitud.
+     * @param {Array<Object>} products - Lista de productos seleccionados.
+     * @throws {Error} Cuando el método no es implementado por la clase hija.
+     */
+    async saveExtraProducts(requestID,  products,) {
+        throw new Error("SolicitudesRecIRepository.guardarExtraProducts() no implementado");
+    }
+
+    /**
+     * Obtiene el id de la última solicitud de recolección del cliente.
+     *
+     * @abstract
+     * @param {string} idClient - Id del cliente.
+     * @throws {Error} Cuando el método no es implementado por la clase hija.
+     */
+    async getLastRequestPerClient(idClient){
+        throw new Error("solicitudesRecIRepository.getLastRequestPerClient() no implementado");
+    }
+
+    /**
+     * Obtiene los productos extra previamente seleccionados en una solicitud.
+     *
+     * @abstract
+     * @param {string} requestID - Id de la solicitud.
+     * @throws {Error} Cuando el método no es implementado por la clase hija.
+     */
+    async getInfoAboutExtraProductsSelected(requestID){
+        throw new Error("solicitudesRecIRepository.getInfoAboutExtraProductsSelected() no implementado");
+    }
+
 
 }
