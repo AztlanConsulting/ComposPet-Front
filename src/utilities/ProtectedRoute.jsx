@@ -22,5 +22,5 @@ export default function ProtectedRoute() {
         return <Outlet />;
     }
 
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/inicio-sesion" replace />;
 }

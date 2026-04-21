@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
-import useLoginViewModel from "../../presentation/viewmodels/auth/loginViewModel";
-import { LoginUseCase } from "../../domain/useCases/loginUseCase";
+import useLoginViewModel from "../../../presentation/viewmodels/auth/loginViewModel";
+import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
 
 /**
  * Mocks de dependencias externas del ViewModel.
@@ -32,10 +32,10 @@ jest.mock("react-router-dom", () => {
     };
 });
 
-jest.mock("../../data/datasources/authApiClient");
-jest.mock("../../data/repositories/authRepository");
-jest.mock("../../domain/useCases/loginUseCase");
-jest.mock("../../api/axiosConfig", () => ({
+jest.mock("../../../data/datasources/authApiClient");
+jest.mock("../../../data/repositories/authRepository");
+jest.mock("../../../domain/useCases/loginUseCase");
+jest.mock("../../../api/axiosConfig", () => ({
     setAccessToken: jest.fn()
 }));
 
@@ -47,7 +47,6 @@ jest.mock("../../api/axiosConfig", () => ({
  */
 describe("useLoginViewModel", () => {
     let mockExecute;
-
     /**
      * Limpia todos los mocks entre pruebas para evitar que el estado
      * de una prueba afecte a las siguientes.

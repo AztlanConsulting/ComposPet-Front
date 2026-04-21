@@ -1,9 +1,10 @@
 export class firstLoginIRepository {
     /**
      * @param {string} email
+     * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.
      * @returns {Promise<FirstLogin>} Entidad con el seedToken.
      */
-    async requestOTP(email) {
+    async requestOTP(email, isFirstLogin) {
         throw new Error("Método requestOTP no implementado");
     }
 

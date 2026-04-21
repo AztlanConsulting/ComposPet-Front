@@ -18,12 +18,15 @@ export class CollectionRequestApiClient {
      */
     async getCurrentCollectionRequest(clientId, weekStartDate, weekEndDate) {
         try {
+            // Interceptor de rutas api.post, para token
+            // Envía el id del usuario al back y llama a la ruta
             const response = await api.post('/solicitudes-rec/form02/obtener', {
                 clientId,
                 weekStartDate,
                 weekEndDate,
             });
 
+            //respuesta del back
             return response.data;
         } catch (error) {
             handleHttpError(error);
@@ -55,6 +58,88 @@ export class CollectionRequestApiClient {
                 wantsExtraProducts,
                 collectedBuckets,
                 deliveredBuckets,
+            });
+
+            // Carpeta para manejo de errores de tipo api
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Obtiene los productos extra disponibles para la solicitud de recolección actual.
+     *
+     * @async
+     * @returns {Promise<Object>} Respuesta de la API con la lista de productos extra.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async getExtraProducts() {
+        try {
+            const response = await api.get('/solicitudes-rec/form04/obtener');
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Guarda los productos extra seleccionados en la segunda sección
+     * del formulario de recolección.
+     *
+     * @async
+     * @param {string} requestIDReceived - Id de la solicitud.
+     * @param {Array<Object>} products - Lista de productos extra seleccionados.
+     * @returns {Promise<Object>} Respuesta de la API con el resultado del guardado.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async saveExtraProducts(requestIDReceived, products) {
+        try {
+            const response = await api.post('/solicitudes-rec/form04/guardar', {
+                requestIDReceived,
+                products
+            });
+
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Obtiene el id de la última solicitud de recolección
+     * asociada al cliente.
+     *
+     * @async
+     * @param {string} idClient - Id del cliente.
+     * @returns {Promise<string>} Id de la última solicitud registrada.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async getLastRequestPerClient(idClient) {
+        try {
+            const response = await api.post('/solicitudes-rec/ultimaSolicitud', {
+                idClient
+            });
+
+            return response.data.data.id_solicitud;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Obtiene la información de los productos extra previamente
+     * seleccionados para una solicitud de recolección.
+     *
+     * @async
+     * @param {string} requestID - Id de la solicitud.
+     * @returns {Promise<Object>} Respuesta de la API con los productos seleccionados.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async getInfoAboutExtraProductsSelected(requestID) {
+        try {
+            const response = await api.post('/solicitudes-rec/form03/obtenerInfo', {
+                requestID
             });
 
             return response.data;

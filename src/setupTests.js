@@ -8,3 +8,15 @@ jest.mock("axios", () => ({
     post: jest.fn(),
     get: jest.fn(),
 }));
+
+jest.mock('swiper/react', () => ({
+  Swiper: ({ children }) => children,
+  SwiperSlide: ({ children }) => children,
+}), { virtual: true });
+
+jest.mock('swiper/modules', () => ({
+  Navigation: jest.fn(),
+}), { virtual: true });
+
+jest.mock('swiper/css', () => ({}), { virtual: true });
+jest.mock('swiper/css/navigation', () => ({}), { virtual: true });

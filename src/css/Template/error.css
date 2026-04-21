@@ -1,0 +1,30 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.error-container {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    box-sizing: border-box;
+}
+
+.error-logo{
+    width: 150px;
+    height: auto;
+}
+
+.error-icon {
+    font-size: 3rem;
+}
+
+.error-text {
+    font-size: 1.2rem;
+    color: var(--color-red-primary); /* rojo suave */
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+}

@@ -1,20 +1,19 @@
 import { useState } from 'react';
-
-
+import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
-//import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
-//import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
-//import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
-//import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
-
+import useSecondPageViewModel from './secondPageViewModel';
+import ConfirmAlert from "../../../components/Template/confirmationAlert";
+// import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
+// import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
+// import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
 
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 
 /**
- * Calcula el rango de la semana actual 
- * Considera domingo como inicio de semana y sabado como fin.
+ * Calcula el rango de la semana actual
+ * Considera domingo como inicio de semana y sábado como fin.
  *
- * @returns {{ fechaInicioSemana: string, fechaFinSemana: string }}
+ * @returns {{ weekStartDate: string, weekEndDate: string }}
  */
 function calculateCurrentWeekRange() {
     const today = new Date();
@@ -30,51 +29,56 @@ function calculateCurrentWeekRange() {
     // Ajusta la fecha de fin al sábado.
     weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
     weekEndDate.setHours(23, 59, 59, 999);
-    
-    return { 
+
+    return {
         weekStartDate: weekStartDate.toISOString(),
         weekEndDate: weekEndDate.toISOString(),
     };
-};  
-
+}
 
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
  *
  * @returns {object} Estado general del formulario y acciones de navegación.
  */
-function useCollectionRequestViewModel(){
+function useCollectionRequestViewModel() {
     const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
-    
-    const { clientId } = useAuthenticatedClient();
+    const navigate = useNavigate();
 
+    const { clientId } = useAuthenticatedClient();
 
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
+    //Aqui se llama a el firsrtFormViewModel, recibe la info de la request
     const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(
         clientId,
         weekStartDate,
         weekEndDate,
     );
 
-    /* const secondSectionViewModel = useCollectionRequestSecondSectionViewModel(
-        clientId,
-        weekStartDate,
-        weekEndDate,
-    ); */
+    const secondSectionViewModel = useSecondPageViewModel(
+        clientId
+    );
 
-    const goBackStep= () => {
+    const goBackStep = () => {
         if (currentStep > 1) {
             setCurrentStep((prev) => prev - 1);
         }
     };
 
-    const cancelForm= () => {
-        // Aquí puedes agregar la lógica para cancelar el formulario, como limpiar estados y redirigir a Home 
-        // Mandas a llamar a la función ya sea que la separes en utils o este en un viewmodel específico.
-    };
+    const cancelForm = async () => {
+        const result = await ConfirmAlert({
+            title: "¿Estas seguro que deseas salir del formulario?",
+            text: "Se perderán los cambios no guardados.",
+            confirmText: "Sí, cancelar",
+            cancelText: "Seguir editando",
+        });
 
+        if (result.isConfirmed) {
+            navigate("/");
+        }
+    };
 
     const onSecondaryAction = () => {
         if (currentStep === 1) {
@@ -82,47 +86,73 @@ function useCollectionRequestViewModel(){
             return;
         }
 
+        if (currentStep === 2){
+            firstSectionViewModel.loadCurrentCollectionRequest();
+        }
+
+        if (currentStep === 3){
+            secondSectionViewModel.loadData();
+        }
+
         goBackStep();
     };
 
     const onPrimaryAction = async () => {
         if (currentStep === 1) {
+            // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
+
+            //Resultado de guardar la solicitud
+            if (result.success && result.nextStep) {
+                
+                //Ir al siguiente paso
+                setCurrentStep(result.nextStep);
+            }
+            return;
+        }
+
+        if (currentStep === 2) {
+            const products = secondSectionViewModel.selectedProducts || {};
+            const isEmpty = Object.keys(products).length === 0;
+
+            if (isEmpty) {
+                const result = await ConfirmAlert({
+                    title: "¿Continuar sin productos?",
+                    text: "No has seleccionado algún productos. ¿Deseas continuar?",
+                    confirmText: "Sí, continuar",
+                    cancelText: "Seleccionar productos",
+                });
+
+                if (!result.isConfirmed) return;
+            }
+
+            const result = await secondSectionViewModel.saveSecondSection();
 
             if (result.success && result.nextStep) {
                 setCurrentStep(result.nextStep);
             }
+
             return;
         }
 
         if (currentStep < totalSteps) {
             setCurrentStep((prev) => prev + 1);
         }
-        // Aquí después irá la lógica del step 2, 3, 4...
-        /* if (currentStep === 2) {
-            const result = await secondSectionViewModel.saveSecondSection();
-
-            if (result.success && result.nextStep) {
-                setCurrentStep(result.nextStep);
-            }
-            return;
-        } */
     };
 
     const secondaryButtonText = currentStep === 1 ? 'Cancelar' : 'Regresar';
     const primaryButtonText = currentStep === totalSteps ? 'Enviar' : 'Siguiente';
-
-
 
     return {
         currentStep,
         totalSteps,
         onPrimaryAction,
         onSecondaryAction,
+        cancelForm,
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
-        //secondSectionViewModel, // Reemplazar con secondSectionViewModel cuando esté implementada
+        secondSectionViewModel,
     };
 }
 
