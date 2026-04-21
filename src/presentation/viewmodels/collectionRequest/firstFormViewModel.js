@@ -141,9 +141,9 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Carga la solicitud de recolección actual del cliente al montar el componente
     const loadCurrentCollectionRequest = async () => {
-
+        console.log("FIRST VIEW MODEL");
         if (!clientId || !weekStartDate || !weekEndDate) return;
-
+        console.log(clientId, " ", weekStartDate);
         setLoading(true);
 
         // Limpiar errores

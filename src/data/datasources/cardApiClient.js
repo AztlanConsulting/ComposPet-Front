@@ -18,7 +18,7 @@ export class CardApiClient {
 
     async getCardBalance(clientId){
         try {
-            const response = await api.post('/card/obtener-id-cliente', {
+            const response = await api.post('/card/consultar-saldo', {
                 clientId
             });
 

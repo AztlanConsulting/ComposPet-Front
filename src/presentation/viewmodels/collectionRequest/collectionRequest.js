@@ -57,12 +57,12 @@ function useCollectionRequestViewModel() {
 
         if (balance === null || balance === undefined) return;
         
-        if (balance >= -500){
+        if (balance > -500){
             setDebtAccess(true);
             return;
         }
 
-        if (balance < -500 && balance > -1500){
+        if (balance <= -500 && balance > -1500){
             const result = await TimerAlert({
                 title: "Adeudo Pendiente",
                 text: "Tienes un adeudo mayor a $500, te recordamos pagarlo lo antes posible." ,
@@ -102,9 +102,11 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
+    console.log("CLIENTE ID", clientId)
     const secondSectionViewModel = useSecondPageViewModel(clientId);
 
     const goBackStep = () => {
+        
         if (currentStep > 1) {
             setCurrentStep((prev) => prev - 1);
         }
@@ -141,9 +143,10 @@ function useCollectionRequestViewModel() {
     };
 
     const onPrimaryAction = async () => {
-        if(!debtAccess) return;
+        //if(debtAccess) return;
 
         if (currentStep === 1) {
+            console.log("ENtro al step 1")
             // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
 
@@ -157,6 +160,7 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 2) {
+            // console.log("ENtro al step 2    ")
             const products = secondSectionViewModel.selectedProducts || {};
             const isEmpty = Object.keys(products).length === 0;
 
