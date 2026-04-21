@@ -1,0 +1,72 @@
+.third-form-payment-list{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.third-form-left{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.third-form-grid{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.third-form-total{
+    display: flex;
+    flex-direction: row;
+}
+
+.third-form-right{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+    background-color: var(--color-green-quaternary);
+    flex: 1;
+}
+
+.third-form-title{
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    padding-bottom: 1.5%;
+    color: var(--color-black);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-tight);
+}
+
+.notes-card input,
+.notes-card textarea {
+    width: 100%;
+    min-height: 130px;
+
+    border: none;
+    outline: none;
+    resize: none;
+
+    background-color: white;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+
+    text-align: center;
+    padding: 1rem;
+}
+.notes-card input::placeholder,
+.notes-card textarea::placeholder {
+    color: var(--color-green-secondary);
+    opacity: .8;
+    text-align: center;
+    white-space: pre-wrap;
+}

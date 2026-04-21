@@ -16,7 +16,7 @@ export class DeleteProductSummaryUseCase {
      *
      * @param {CollectionSummaryIRepository} collectionSummaryRepository - Implementación del repositorio del resumen de la solicitud de recolección.
      */
-    async execute(idProduct, idRequest) {
-        return await this.repository.deleteProduct(idProduct, idRequest);
+    async execute(idProduct, idRequest, quantity) {
+        return await this.repository.deleteProduct(idProduct, idRequest, quantity);
     }
 }

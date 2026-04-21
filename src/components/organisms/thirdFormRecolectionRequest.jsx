@@ -1,9 +1,9 @@
 import React from 'react';
 
 import FormCard from '../Template/formCard';
-import SummaryProductCard from '../molecules/SummaryProductCard';
-
-
+import "../../css/organisms/thirdFormRecolectionRequest.css"
+import PaymentElement from '../molecules/PaymentElement';
+import CollectionResume from '../molecules/CollectionResume';
 /**
  * Organismo de la tercera sección:
  * - Formas de pago
@@ -24,6 +24,8 @@ import SummaryProductCard from '../molecules/SummaryProductCard';
  * @param {number} balance
 
  * @param {number} total
+ * 
+ * @param {function} removeProduct
  */
 
 export default function ThirdFormCollectionRequest({
@@ -49,77 +51,29 @@ export default function ThirdFormCollectionRequest({
             : null;
 
     return (
-        <FormCard>
-            <div className="third-form-grid">
+        <div className="third-form-total">
+            <PaymentElement
+                paymentMethods={paymentMethods}
+                selectedMethod={selectedMethod}
+                selectedPaymentIndex={selectedPaymentIndex}
+                setSelectedPaymentIndex={setSelectedPaymentIndex}
+                notes={notes}
+                setNotes={setNotes}
+            />
 
-                {/* DIV IZQUIERDA */}
-                <section className="third-form-left">
+            {/* DIV DERECHA (Resumen de compra) */}
+            <FormCard className="third-form-right">
 
-                    <h2 className="third-form-title">
-                        Formas de pago
-                    </h2>
+                <CollectionResume
+                    products={products}
+                    removeProduct={removeProduct}
+                    balance={balance}
+                    total={total}
+                    collection={collection}
+                />
 
-                    {/* MÉTODOS DE PAGO */}
-                    <div className="third-form-payment-list">
-                        {paymentMethods.map((method, index) => (
-                            <p>{method.tipo}</p>
-                        ))}
-                    </div>
-
-                    {/* INFO PAGO */}
-                    <div className="third-form-info-box">
-
-                        <div className="third-form-payment-info">
-                            <h3>
-                                No olvides realizar tu pago.
-                            </h3>
-
-                            {selectedMethod ? (
-                                <>
-                                    <p>
-                                        {selectedMethod.texto}
-                                    </p>
-
-                                    <p>
-                                        {selectedMethod.notas}
-                                    </p>
-                                </>
-                            ) : (
-                                <p>
-                                    Selecciona una forma de pago
-                                </p>
-                            )}
-                        </div>
-
-
-                    </div>
-
-                </section>
-
-                {/* DIV DERECHA */}
-                <section className="third-form-right">
-
-                    <h2 className="third-form-title">
-                        Resumen de compra
-                    </h2>
-
-                    <div className="third-form-products">
-                        {products.map((product, index) => (
-                            <SummaryProductCard
-                            product={product.productos_extra}
-                            cuantity={product.cantidad}
-                            productTotal={product.cantidad * product.productos_extra.precio}
-                            onDelete={() => removeProduct(product.id_producto, collection.id_solicitud)}
-                            />
-                        ))}
-                    </div>
-
-                    <p>Balance: {balance}</p>
-                    <p>Total: {total}</p>
-
-                </section>
-
-            </div>
-        </FormCard>
+                    <span>{balance < total ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
+            </FormCard>
+        </div>
     );
 }

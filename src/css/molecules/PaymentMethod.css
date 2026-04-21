@@ -1,0 +1,19 @@
+.payment-method{
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-green-secondary);
+    margin: 0;
+}
+
+.payment-card-selected{
+    border: 2px solid var(--color-green-primary);
+    background-color: var(--color-green-primary);
+    
+}
+
+.payment-card-selected p {
+    color: white;
+}

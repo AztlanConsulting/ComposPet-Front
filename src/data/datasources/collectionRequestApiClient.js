@@ -185,9 +185,9 @@ export class CollectionRequestApiClient {
      * @returns {Promise<Object>} 
      * @throws {Error} Mensaje descriptivo del error ocurrido.
      */
-    async deleteProduct(idProduct, idRequest){
+    async deleteProduct(idProduct, idRequest, quantity){
         try {
-            const response = await api.delete(`/solicitudes-rec/collection-summary/product/${idProduct}/request/${idRequest}`);
+            const response = await api.delete(`/solicitudes-rec/collection-summary/product/${idProduct}/request/${idRequest}/${quantity}`);
 
             return response;
         }
@@ -196,12 +196,23 @@ export class CollectionRequestApiClient {
         }
     }
 
-    async updateCollectionTotal(idRequest, collectionTotal, idPayment){
+    /**
+     * Actualiza la información de la recolección.
+     * * @async
+     * @param {string} idRequest -- Id de la solicitud de recolección asociada al producto.
+     * @param {Int} collectionTotal - Costo total de la recolección.
+     * @param {Int} idPayment - Id del método de pago seleccionado.
+     * @param {string} notes - Notas adicionales a la recolección.
+     * @returns {Promise<Object>} 
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment, notes){
         try {
             const response = await api.put('/solicitudes-rec/collection-summary/payment', {
                 idRequest,
                 collectionTotal,
                 idPayment,
+                notes,
             })
         }
         catch (error) {

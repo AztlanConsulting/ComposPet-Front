@@ -11,6 +11,7 @@
     border: 0.12rem solid var(--color-green-primary);
     border-radius: var(--border-radius-xl);
     overflow: hidden;
+    margin-bottom: 1rem;
 }
 
 /* Imagen izquierda */

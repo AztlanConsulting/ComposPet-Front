@@ -1,0 +1,8 @@
+.notes-card{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+    background-color: var(--color-green-quaternary);
+}

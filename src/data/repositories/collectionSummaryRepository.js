@@ -46,8 +46,8 @@ export class CollectionSummaryRepositoryImpl {
      * @param {string} idRequest - Id de la recolección asociada al producto.
      * @returns {Promise}
      */
-    async deleteProduct(idProduct, idRequest) {
-        return await this.datasource.deleteProduct(idProduct, idRequest);
+    async deleteProduct(idProduct, idRequest, quantity) {
+        return await this.datasource.deleteProduct(idProduct, idRequest, quantity);
     }
 
     /**
@@ -56,9 +56,10 @@ export class CollectionSummaryRepositoryImpl {
      * @param {string} idRequest - Id de la solicitud a modificar.
      * @param {Int} collectionTotal - total a pagar por la recolección.
      * @param {Int} idPayment - Id del método de pago seleccionado.
+     * @param {string} notes - Notas adicionales a la recolección.
      * @returns {Promise}
      */
-    async updateCollectionTotal(idRequest, collectionTotal, idPayment) {
-        return await this.datasource.updateCollectionTotal(idRequest, collectionTotal, idPayment);
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment, notes) {
+        return await this.datasource.updateCollectionTotal(idRequest, collectionTotal, idPayment, notes);
     }
 }

@@ -28,7 +28,7 @@ export class CollectionSummaryIRepository {
      * @param {string} idRequest - Id de la solicitud asociada con el producto.
      * @throws {Error} Cuando el método no es implementado por la clase hija.
      */
-    async deleteProduct(idProduct, idRequest){
+    async deleteProduct(idProduct, idRequest, quantity){
         throw new Error("collectionSummaryIRepository no implementado");
     }
 
@@ -39,9 +39,10 @@ export class CollectionSummaryIRepository {
      * @param {string} idRequest - Id de la solicitud de recolección.
      * @param {Int} collectionTotal - Cantidad a pagar por la solicitud.
      * @param {Int} idPayment - Id del método de pago seleccionado por el cliente.
+     * @param {string} notes - Notas adicionales a la recolección.
      * @throws {Error} Cuando el método no es implementado por la clase hija.
      */
-    async updateCollectionTotal(idRequest, collectionTotal, idPayment){
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment, notes){
         throw new Error("collectionSummaryIRepository no implementado");
     }
 

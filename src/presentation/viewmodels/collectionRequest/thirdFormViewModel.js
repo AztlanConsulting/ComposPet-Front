@@ -90,11 +90,11 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         }
     };
 
-    const removeProduct = async(idProduct, idRequest) => {
+    const removeProduct = async(idProduct, idRequest, quantity) => {
         try {
             setLoading(true);
 
-            await deleteUseCase.execute(idProduct, idRequest);
+            await deleteUseCase.execute(idProduct, idRequest, quantity);
 
             await loadSummary();
         }
@@ -114,6 +114,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
                 collection.id_solicitud,
                 collectionTotal,
                 paymentMethods[selectedPaymentIndex].id_pago,
+                notes,
             );
 
             return {

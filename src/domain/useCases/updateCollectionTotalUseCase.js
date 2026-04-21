@@ -16,7 +16,7 @@ export class UpdateCollectionTotalUseCase {
      *
      * @param {CollectionSummaryIRepository} collectionSummaryRepository - Implementación del repositorio del resumen de la solicitud de recolección.
      */
-    async execute(idRequest, collectionTotal, idPayment) {
-        return await this.repository.updateCollectionTotal(idRequest, collectionTotal, idPayment);
+    async execute(idRequest, collectionTotal, idPayment, notes) {
+        return await this.repository.updateCollectionTotal(idRequest, collectionTotal, idPayment, notes);
     }
 }
