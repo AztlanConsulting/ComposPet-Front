@@ -47,6 +47,8 @@ jest.mock("../../../api/axiosConfig", () => ({
  */
 describe("useLoginViewModel", () => {
     let mockExecute;
+    let mockLoginUseCase;
+
     /**
      * Limpia todos los mocks entre pruebas para evitar que el estado
      * de una prueba afecte a las siguientes.
@@ -56,13 +58,14 @@ describe("useLoginViewModel", () => {
         sessionStorage.clear();
 
         mockExecute = jest.fn();
-        LoginUseCase.mockImplementation(() => ({
-            execute: mockExecute
-        }));
+
+        mockLoginUseCase = { execute: mockExecute };
+
+        LoginUseCase.mockImplementation(() => mockLoginUseCase);
     });
 
     test("debe validar campos vacíos", async () => {
-        const { result } = renderHook(() => useLoginViewModel());
+        const { result } = renderHook(() => useLoginViewModel(mockLoginUseCase));
 
         // Se invoca onSubmit sin haber seteado email ni password
         await act(async () => {
@@ -84,7 +87,7 @@ describe("useLoginViewModel", () => {
             isClient: () => true
         });
 
-        const { result } = renderHook(() => useLoginViewModel());
+        const { result } = renderHook(() => useLoginViewModel(mockLoginUseCase));
 
         act(() => {
             result.current.setEmail("test@test.com");
@@ -107,7 +110,7 @@ describe("useLoginViewModel", () => {
             new Error("Credenciales incorrectas")
         );
 
-        const { result } = renderHook(() => useLoginViewModel());
+        const { result } = renderHook(() => useLoginViewModel(mockLoginUseCase));
 
         act(() => {
             result.current.setEmail("test@test.com");
