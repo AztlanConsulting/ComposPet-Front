@@ -1,5 +1,5 @@
 import {CardIRepository} from '../../domain/repositories/cardInterfaceRepository'
-import {Card} from '../..domain/entities/client';
+import {Card} from '../../domain/entities/card';
 
 /**
  * Implementación concreta del repositorio de tarjetas.
