@@ -6,7 +6,7 @@
  * @see ClientIRepository
  */
 
-export class GetCardBalnce {
+export class GetCardBalnceUseCase {
     /**
      * Crea una instancia del caso de uso para obtener el saldo de un cliente.
      *

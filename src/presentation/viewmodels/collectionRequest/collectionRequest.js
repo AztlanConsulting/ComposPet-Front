@@ -8,9 +8,10 @@ import ConfirmAlert from "../../../components/Template/confirmationAlert";
 // import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
 
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
+import useCardBalance from '../utils/useCardBalance';
 
 /**
- * Calcula el rango de la semana actual
+ * Calcula el rango de la semana actual 
  * Considera domingo como inicio de semana y sábado como fin.
  *
  * @returns {{ weekStartDate: string, weekEndDate: string }}
@@ -29,12 +30,15 @@ function calculateCurrentWeekRange() {
     // Ajusta la fecha de fin al sábado.
     weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
     weekEndDate.setHours(23, 59, 59, 999);
-
-    return {
+    
+    return { 
         weekStartDate: weekStartDate.toISOString(),
         weekEndDate: weekEndDate.toISOString(),
     };
-}
+};  
+
+function clientHasAcces(balance){};
+
 
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
@@ -45,8 +49,12 @@ function useCollectionRequestViewModel() {
     const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
     const navigate = useNavigate();
-
+    
     const { clientId } = useAuthenticatedClient();
+
+    const { balance } = useCardBalance(clientId);
+
+    const clientAcces = clientHasAcces(balance);
 
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
