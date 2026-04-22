@@ -24,14 +24,14 @@ export default function PaymentMethod({
                     flex-column
                     justify-content-center
                     align-items-center
-                    image-back
+                    payment-card
                     ${selectedPaymentIndex === index ? "payment-card-selected" : ""}
                 `}
             >       
+                    <Icon name={icon} size="icon-large" className={selectedPaymentIndex == index ? "icon-selected" : ""} />
+                    
+                    <p className='payment-method'>{method.tipo}</p>
 
-                <Icon name={icon} size="icon-large" color="primary" />
-                <br />
-                <p className='payment-method'>{method.tipo}</p>
             </div>
     );
 }   

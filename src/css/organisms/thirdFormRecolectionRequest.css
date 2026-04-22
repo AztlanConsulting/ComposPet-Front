@@ -4,6 +4,7 @@
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 0 0 2rem 0;
 }
 
 .third-form-left{
@@ -23,6 +24,22 @@
 .third-form-total{
     display: flex;
     flex-direction: row;
+    width: 100%;
+}
+
+.payment-wrapper{
+    flex:2;
+    min-width:0;
+}
+
+.notes-wrapper{
+    flex:1;
+    min-width:0;
+}
+
+.payment-wrapper,
+.notes-wrapper{
+    width:100%;
 }
 
 .third-form-right{

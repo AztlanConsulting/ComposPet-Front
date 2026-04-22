@@ -51,7 +51,7 @@ export default function SummaryProductCard({
 
                     <Button
                         type="button"
-                        size="small"
+                        size="mini"
                         csstype="warning"
                         onClick={onDelete}
                     >

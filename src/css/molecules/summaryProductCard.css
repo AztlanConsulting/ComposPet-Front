@@ -64,7 +64,7 @@
     margin: 0;
 
     font-family: var(--font-family-primary);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     color: var(--color-black);
     line-height: var(--line-height-tight);
@@ -74,14 +74,14 @@
     margin: 0;
 
     font-family: var(--font-family-primary);
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-normal);
     color: var(--color-black);
 }
 
 .summary-product-card-price {
     font-family: var(--font-family-primary);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     color: var(--color-black);
 }

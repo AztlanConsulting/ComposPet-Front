@@ -16,6 +16,7 @@ export default function PaymentElement({
     setSelectedPaymentIndex,
     notes,
     setNotes,
+    className="",
 }) {
     const getPaymentIcon = (tipo) => {
         if (tipo === "Saldo") return "piggy";
@@ -51,10 +52,12 @@ export default function PaymentElement({
                         
                         <div className="third-form-total">
                             <PaymentInfoCard
+                            className='payment-wrapper'
                                 text={selectedMethod.texto}
                                 notes={selectedMethod.notas}
                             />
                             <AdditionalNotes
+                            className='notes-wrapper'
                                 notes={notes}
                                 setNotes={setNotes}
                             />

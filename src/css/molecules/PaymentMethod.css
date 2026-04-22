@@ -1,19 +1,37 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .payment-method{
     font-family: var(--font-family-primary);
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
     letter-spacing: var(--letter-spacing-wide);
     color: var(--color-green-secondary);
-    margin: 0;
+    margin: 0.5rem 0 0 0;
 }
 
 .payment-card-selected{
-    border: 2px solid var(--color-green-primary);
-    background-color: var(--color-green-primary);
+
+    background-color: rgba(21, 161, 155, 0.67) !important;
     
 }
 
 .payment-card-selected p {
+    color: white;
+}
+
+.payment-card {
+        width: 9.5rem !important;
+        height: 5.5rem !important;
+        flex-shrink: 0;
+        background-color: rgb(196, 235, 233, 64);
+        border: 1px solid var(--color-green-primary);
+        border-radius: var(--border-radius-lg);
+        margin-left: 0.2rem !important;
+
+}
+
+.icon-selected {
     color: white;
 }

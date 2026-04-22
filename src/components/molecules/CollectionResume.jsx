@@ -13,6 +13,7 @@ export default function CollectionResume({
     balance,
     total,
     collection,
+    className="",
 }) {
     const getPaymentIcon = (tipo) => {
         if (tipo === "Saldo") return "piggy";

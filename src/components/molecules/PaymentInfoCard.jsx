@@ -10,21 +10,27 @@ import FormCard from "../Template/formCard";
 export default function PaymentInfoCard({
     text = "",
     notes = "",
+    className = "",
 }) {
     return (
-            <FormCard className="payment-info-card">
+            <FormCard className={`
+                align-items-center
+                payment-info-card
+                ${className}
+            `}
+            >
                 <strong>
                     No olvides realizar tu pago.
                 </strong>
-
+                <br />
                     <>
-                        <p>
+                        <strong>
                             {text}
-                        </p>
+                        </strong>
 
-                        <p>
+                        <strong>
                             {notes}
-                        </p>
+                        </strong>
                     </>
             
             </FormCard>

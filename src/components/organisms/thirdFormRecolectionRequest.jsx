@@ -59,6 +59,7 @@ export default function ThirdFormCollectionRequest({
                 setSelectedPaymentIndex={setSelectedPaymentIndex}
                 notes={notes}
                 setNotes={setNotes}
+                className='payment-wrapper'
             />
 
             {/* DIV DERECHA (Resumen de compra) */}

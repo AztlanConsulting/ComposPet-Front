@@ -10,9 +10,15 @@ import InputComponent from "./InputComponent";
 export default function AdditionalNotes({
     notes,
     setNotes,
+    className = "",
 }) {
     return (
-            <FormCard className="notes-card">
+            <FormCard className={`
+                notes-card
+                paddings
+                ${className}
+            `}
+            >
                 <strong>
                     Notas adicionales.
                 </strong>
@@ -23,11 +29,12 @@ export default function AdditionalNotes({
                 size="md"
                 placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
                 classNameLabel="label"
-                classNameInput="input"
+                classNameInput="input-notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             >
             </InputComponent>
+
 
             </FormCard>
     );
