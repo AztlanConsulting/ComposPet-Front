@@ -167,7 +167,7 @@ function useCollectionRequestViewModel() {
             if (isEmpty) {
                 const result = await ConfirmAlert({
                     title: "¿Continuar sin productos?",
-                    text: "No has seleccionado algún productos. ¿Deseas continuar?",
+                    text: "No has seleccionado ningún producto. ¿Deseas continuar?",
                     confirmText: "Sí, continuar",
                     cancelText: "Seleccionar productos",
                 });

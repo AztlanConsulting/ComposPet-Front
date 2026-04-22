@@ -69,7 +69,6 @@ function SecondPageForm({ secondSectionViewModel }) {
                                     <ProductCard
                                         imageUrl={product.imageUrl}
                                         name={product.name}
-                                        description={product.description}
                                         price={product.name === "Composta (en costal)" || product.name === "Composta (en cubeta)" || product.name === "Aserrín" ? "Sin costo" : product.price}
                                         cantidad={selectedProducts[product.idProduct] || 0}
                                         onClickAgregar={() => addProduct(product.idProduct, product.name)}
