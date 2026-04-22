@@ -1,21 +1,21 @@
-import {CardIRepository} from '../../domain/repositories/cardInterfaceRepository'
-import {Card} from '../../domain/entities/card';
+import {CreditIRepository} from '../../domain/repositories/creditInterfaceRepository'
+import {Credit} from '../../domain/entities/credit';
 
 /**
  * Implementación concreta del repositorio de tarjetas.
  * Actúa como adaptador entre el caso de uso y el cliente HTTP,
- * transformando la respuesta de la API en una entidad `Card` del dominio.
+ * transformando la respuesta de la API en una entidad `Credit` del dominio.
  *
- * @extends CardIRepository
- * @see CardApiClient
- * @see Card
+ * @extends CreditIRepository
+ * @see CreditApiClient
+ * @see Credit
  */
 
-export class CardRepository extends CardIRepository {
+export class CreditRepository extends CreditIRepository {
     /**
      * Crea una instancia del repositorio de tarjetas.
      *
-     * @param {import('../datasources/cardApiClient').CardApiClient} apiClient - Cliente HTTP que realiza las peticiones al servidor del módulo de tarjetas.
+     * @param {import('../datasources/creditApiClient').CreditApiClient} apiClient - Cliente HTTP que realiza las peticiones al servidor del módulo de tarjetas.
      */
 
     constructor(apiClient){
@@ -31,16 +31,15 @@ export class CardRepository extends CardIRepository {
      * @returns {Promise<Client>} Entidad `Client` con la información recuperada.
      * @throws {Error} Si la respuesta no contiene un cliente válido.
      */
-    async getCardBalance(clientId) {
-        const response = await this.apiClient.getCardBalance(clientId);
+    async getCreditBalance(clientId) {
+        const response = await this.apiClient.getCreditBalance(clientId);
 
         //Para acceder al body
         const data = response.data;
 
-        return new Card({
-            cardId: data.id_tarjeta,
+        return new Credit({
+            creditId: data.id_saldo,
             clientId: data.id_cliente,
-            levelId: data.id_nivel,
             balance: data.saldo,
         });
     }

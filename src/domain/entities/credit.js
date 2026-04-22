@@ -4,23 +4,20 @@
  * su información sin exponer la lógica de manipulación al exterior.
  */
 
-export class Card{
+export class Credit{
     /**
      * @param {Object} params - Datos del cliente provenientes del repositorio.
-     * @param {string} params.cardId - Identificador único de la tarjeta de cliente.
+     * @param {string} params.creditId - Identificador único de la tarjeta de cliente.
      * @param {string} params.clientId - Identificador único del cliente.
-     * @param {string|null} params.levelId - Identificador único del nivel de tarjeta.
      * @param {number|null} params.balance - Identificador de la ruta asignada.
      */
     constructor({
-        cardId,
+        creditId,
         clientId,
-        levelId,
         balance,
     }){
-        this.cardId = cardId;
+        this.creditId = creditId;
         this.clientId = clientId;
-        this.levelId = levelId;
         this.balance = balance;
     }
 
@@ -29,7 +26,7 @@ export class Card{
      *
      * @returns {num} saldo de un cliente.
      */
-    getCardBalance(){
+    getCreditBalance(){
         return this.balance;
     }
 }

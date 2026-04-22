@@ -7,7 +7,7 @@ import TimerAlert from '../../../components/Template/timerAlert';
 
 
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
-import useCardBalance from '../utils/useCardBalance';
+import useCreditBalance from '../utils/useCreditBalance';
 
 /**
  * Calcula el rango de la semana actual 
@@ -50,7 +50,7 @@ function useCollectionRequestViewModel() {
     const navigate = useNavigate();
     
     const { clientId } = useAuthenticatedClient();
-    const { balance } = useCardBalance(clientId);
+    const { balance } = useCreditBalance(clientId);
 
     useEffect(() => {
         const validateDebtAccess = async () => {

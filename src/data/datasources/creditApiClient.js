@@ -6,7 +6,7 @@ import { handleHttpError } from '../infrastructure/httpErrorHandler';
  * Gestiona la obtención y actualización de formularios semanales.
  */
 
-export class CardApiClient {
+export class CreditApiClient {
     /**
      * Obtiene la solicitud de recolección actual del cliente para el rango semanal indicado.
      * Si no existe, el servidor genera una nueva automáticamente.
@@ -16,9 +16,9 @@ export class CardApiClient {
      * @throws {Error} Si el token es inválido o hay errores de red.
      */
 
-    async getCardBalance(clientId){
+    async getCreditBalance(clientId){
         try {
-            const response = await api.post('/card/consultar-saldo', {
+            const response = await api.post('/saldo/consultar-saldo', {
                 clientId
             });
 

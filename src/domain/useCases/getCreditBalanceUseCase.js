@@ -6,14 +6,14 @@
  * @see ClientIRepository
  */
 
-export class GetCardBalanceUseCase {
+export class GetCreditBalanceUseCase {
     /**
      * Crea una instancia del caso de uso para obtener el saldo de un cliente.
      *
-     * @param {import('../repositories/cardInterfaceRepository').CardIRepository} cardRepository - Implementación del repositorio de tarjetas.
+     * @param {import('../repositories/creditInterfaceRepository').CreditIRepository} creditRepository - Implementación del repositorio de tarjetas.
      */
-    constructor(cardRepository) {
-        this.cardRepository = cardRepository;
+    constructor(creditRepository) {
+        this.creditRepository = creditRepository;
     }
 
     /**
@@ -21,7 +21,7 @@ export class GetCardBalanceUseCase {
      *
      * @async
      * @param {string} clientId - Id del cliente.
-     * @returns {Promise<import('../entities/card').Card>} Entidad `Card` encontrada.
+     * @returns {Promise<import('../entities/credit').Credit>} Entidad `Credit` encontrada.
      * @throws {Error} Si falta el id del usuario o si el repositorio falla.
      */
     async execute(clientId){
@@ -29,8 +29,8 @@ export class GetCardBalanceUseCase {
             throw new Error("Falta el id del usuario");
         }
 
-        const card = await this.cardRepository.getCardBalance(clientId);
-        return card;
+        const credit = await this.creditRepository.getCreditBalance(clientId);
+        return credit;
     }
 }
 

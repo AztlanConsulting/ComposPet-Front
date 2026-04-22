@@ -9,7 +9,7 @@
  * @abstract
  */
 
-export class CardIRepository{
+export class CreditIRepository{
     /**
      * Obtiene el saldo de un cliente con su id.
      *
@@ -18,8 +18,8 @@ export class CardIRepository{
      * @returns {Promise<Client|null>} Objeto con el cliente o `null` si no existe.
      * @throws {Error} Si el método no ha sido implementado.
      */
-    async getCardBalance(clientId){
-        throw new Error('ClientIRepository.getCardBalance() not implemented')
+    async getCreditBalance(clientId){
+        throw new Error('CreditIRepository.getCreditBalance() not implemented')
     }
 
 }
