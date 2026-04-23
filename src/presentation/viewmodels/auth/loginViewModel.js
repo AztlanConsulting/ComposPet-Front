@@ -88,7 +88,7 @@ function useLoginViewModel(loginUseCase){
      */
     const handleRedirect = (user) => {
         if (user.isFirstLogin()) {
-            navigate("/first-login"); 
+            navigate("/activar-cuenta"); 
             return;
         }
         
