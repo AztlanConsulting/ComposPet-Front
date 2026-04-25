@@ -51,8 +51,9 @@ export default function ThirdFormCollectionRequest({
             : null;
 
     return (
-        <div className="third-form-total">
-            <PaymentElement
+        <div className="third-form-wrapper">
+            <FormCard className='payment-container'>
+                <PaymentElement
                 paymentMethods={paymentMethods}
                 selectedMethod={selectedMethod}
                 selectedPaymentIndex={selectedPaymentIndex}
@@ -60,7 +61,8 @@ export default function ThirdFormCollectionRequest({
                 notes={notes}
                 setNotes={setNotes}
                 className='payment-wrapper'
-            />
+                />
+            </FormCard>
 
             {/* DIV DERECHA (Resumen de compra) */}
             <FormCard className="third-form-right">
@@ -73,7 +75,9 @@ export default function ThirdFormCollectionRequest({
                     collection={collection}
                 />
 
-                    <span>{balance < total ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
+                    <span
+                    className='balance-check'>
+                        {balance < total ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
             </FormCard>
         </div>
     );

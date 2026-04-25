@@ -1,89 +1,93 @@
-.third-form-payment-list{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 0 2rem 0;
-}
-
-.third-form-left{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-
-.third-form-grid{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-}
-
-.third-form-total{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
 
 .payment-wrapper{
     flex:2;
     min-width:0;
-}
-
-.notes-wrapper{
-    flex:1;
-    min-width:0;
-}
-
-.payment-wrapper,
-.notes-wrapper{
-    width:100%;
+    width: 100%;
 }
 
 .third-form-right{
     display: flex;
     flex-direction: column;
+
     gap: 1rem;
     flex-wrap: wrap;
     align-items: stretch;
     background-color: var(--color-green-quaternary);
-    flex: 1;
+    flex: 2;
+    min-width: 25rem;
+    background-color: var(--color-green-quaternary);
+    border-radius: 0 0.5rem 0.5rem 0;
+    border: 0.2rem solid var(--color-green-secondary);
+    border-left: 0.1rem solid var(--color-green-secondary);
 }
 
-.third-form-title{
-    font-weight: var(--font-weight-bold);
-    text-align: center;
-    padding-bottom: 1.5%;
-    color: var(--color-black);
-    font-size: var(--font-size-xl);
-    line-height: var(--line-height-tight);
-}
-
-.notes-card input,
-.notes-card textarea {
+.payment-container { 
+    border-radius: 0.5rem 0 0 0.5rem;
+    border: 0.2rem solid var(--color-green-secondary);
+    border-right: 0.1rem solid var(--color-green-secondary);
+    box-shadow: 0 0.2rem 3rem #03504D87;
     width: 100%;
-    min-height: 130px;
-
-    border: none;
-    outline: none;
-    resize: none;
-
-    background-color: white;
-
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
-
-    text-align: center;
-    padding: 1rem;
+    align-items: stretch;
 }
-.notes-card input::placeholder,
-.notes-card textarea::placeholder {
-    color: var(--color-green-secondary);
-    opacity: .8;
+
+.balance-check {
+    color: var(--color-red-primary);
     text-align: center;
-    white-space: pre-wrap;
+}
+
+.third-form-wrapper {
+    display: flex;
+    flex-direction: row;    
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .third-form-wrapper{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .payment-container{
+        flex: 2;
+        min-width: 0;
+    }
+
+    .third-form-right{
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .payment-container{
+        border-radius: 0.5rem;
+        border-right: 0.2rem solid var(--color-green-secondary);
+    }
+}   
+
+/* Mobile */
+@media (max-width: 480px) {
+    .third-form-wrapper {
+        flex-direction: column;
+    }
+
+    .third-form-right {
+        min-width: 100%;
+        border-radius: 0.5rem;
+    }
+
+    .payment-wrapper {
+        width: 100%;
+    }
+
+    .payment-container{
+        border-radius: 0.5rem;
+        border-right: 0.2rem solid var(--color-green-secondary);
+        box-shadow: 0 0.1rem 1rem #03504D50;
+    }
 }

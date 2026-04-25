@@ -1,4 +1,4 @@
-import "../../css/organisms/thirdFormRecolectionRequest.css"
+import "../../css/molecules/paymentElement.css"
 import FormCard from "../Template/formCard";
 import PaymentMethod from "./PaymentMethod";
 import PaymentInfoCard from "./PaymentInfoCard";
@@ -25,18 +25,16 @@ export default function PaymentElement({
 
     };
     return (
-            <FormCard>
-                <div className="third-form-grid">
-
+                <>
                     {/* DIV IZQUIERDA (PAGO) */}
-                    <section className="third-form-left">
+                    <section className="left-pay-section">
 
-                        <h2 className="third-form-title">
+                        <h2 className="pay-title">
                             Formas de pago
                         </h2>
 
                         {/* MÉTODOS DE PAGO */}
-                        <div className="third-form-payment-list">
+                        <div className="payment-list">
                             {paymentMethods.map((method, index) => (
                             <PaymentMethod
                                 method={method}
@@ -50,7 +48,7 @@ export default function PaymentElement({
                             ))}
                         </div>
                         
-                        <div className="third-form-total">
+                        <div className="bottom-info">
                             <PaymentInfoCard
                             className='payment-wrapper'
                                 text={selectedMethod.texto}
@@ -63,11 +61,7 @@ export default function PaymentElement({
                             />
                         </div>
                         
-
-
                     </section>
-
-                </div>
-            </FormCard>
+                </>
     );
 }   

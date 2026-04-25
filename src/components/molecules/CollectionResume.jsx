@@ -1,4 +1,4 @@
-import "../../css/organisms/thirdFormRecolectionRequest.css"
+import "../../css/molecules/collectionResume.css"
 import FormCard from "../Template/formCard";
 import SummaryProductCard from "./SummaryProductCard";
 
@@ -23,7 +23,7 @@ export default function CollectionResume({
     };
     return (
         <>
-            <h2 className="third-form-title">
+            <h2 className="resume-title">
                 Resumen de compra
             </h2>
 
@@ -39,10 +39,13 @@ export default function CollectionResume({
                 ))}
             </div>
 
-            {/* Totales de compra e info adicional */}
-            <p>Balance: {balance}</p>
-            <hr></hr>
-            <p>Total: {total}</p>
+            <div>
+                {/* Totales de compra e info adicional */}
+                <p className="balance-text">Balance: ${balance}</p>
+                <hr></hr>
+                <p className="total-text">Total: ${total}</p>  
+            </div>
+
         </>
     );
 }   

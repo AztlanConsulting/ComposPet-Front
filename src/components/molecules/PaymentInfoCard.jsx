@@ -14,7 +14,6 @@ export default function PaymentInfoCard({
 }) {
     return (
             <FormCard className={`
-                align-items-center
                 payment-info-card
                 ${className}
             `}

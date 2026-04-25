@@ -22,16 +22,27 @@
 }
 
 .payment-card {
-        width: 9.5rem !important;
-        height: 5.5rem !important;
-        flex-shrink: 0;
-        background-color: rgb(196, 235, 233, 64);
-        border: 1px solid var(--color-green-primary);
-        border-radius: var(--border-radius-lg);
-        margin-left: 0.2rem !important;
-
+    flex: 1 1 0;
+    min-width: 0;
+    height: 5.5rem;
+    background-color: rgb(196, 235, 233, 64);
+    border: 1px solid var(--color-green-primary);
+    border-radius: var(--border-radius-lg);
+    margin-left: 0.2rem !important;
 }
 
 .icon-selected {
     color: white;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    .payment-card {
+        flex-shrink: 0 !important;
+    }
+
+    .payment-method {
+            font-size: var(--font-size-xs);
+    }
+
 }

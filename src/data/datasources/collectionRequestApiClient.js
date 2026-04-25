@@ -160,7 +160,7 @@ export class CollectionRequestApiClient {
     async getSummary(idClient, weekStartDate, weekEndDate) {
         try {
 
-            const response = await api.post('/solicitudes-rec/collection-summary',
+            const response = await api.post('/solicitudes-rec/resumen-recoleccion',
                 {
                     idClient,
                     weekStartDate,
@@ -187,7 +187,7 @@ export class CollectionRequestApiClient {
      */
     async deleteProduct(idProduct, idRequest, quantity){
         try {
-            const response = await api.delete(`/solicitudes-rec/collection-summary/product/${idProduct}/request/${idRequest}/${quantity}`);
+            const response = await api.delete(`/solicitudes-rec/resumen-recoleccion/producto/${idProduct}/solicitud/${idRequest}/${quantity}`);
 
             return response;
         }
@@ -208,7 +208,7 @@ export class CollectionRequestApiClient {
      */
     async updateCollectionTotal(idRequest, collectionTotal, idPayment, notes){
         try {
-            const response = await api.put('/solicitudes-rec/collection-summary/payment', {
+            const response = await api.put('/solicitudes-rec/resumen-recoleccion/pago', {
                 idRequest,
                 collectionTotal,
                 idPayment,

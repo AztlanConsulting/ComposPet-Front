@@ -1,3 +1,7 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
 .notes-card{
     display: flex;
     flex-direction: column;
@@ -14,4 +18,40 @@
 
 .input-notes{
     height: 13rem;
+    width: 15rem !important;
+}
+
+.notes-card input,
+.notes-card textarea {
+    width: 100%;
+    min-height: 130px;
+
+    border: none;
+    outline: none;
+    resize: none;
+
+    background-color: white;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+
+    text-align: center;
+    padding: 1rem;
+}
+
+.notes-card input::placeholder,
+.notes-card textarea::placeholder {
+    color: var(--color-green-secondary);
+    opacity: .8;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .notes-card {
+        border-radius: 0.5rem;
+    }
 }
