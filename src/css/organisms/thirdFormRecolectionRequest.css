@@ -28,7 +28,7 @@
     border-radius: 0.5rem 0 0 0.5rem;
     border: 0.2rem solid var(--color-green-secondary);
     border-right: 0.1rem solid var(--color-green-secondary);
-    box-shadow: 0 0.2rem 3rem #03504D87;
+    box-shadow: 0 0.1rem 1rem #03504D50;
     width: 100%;
     align-items: stretch;
 }
@@ -46,11 +46,10 @@
 }
 
 /* Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .third-form-wrapper{
         display: flex;
         flex-direction: row;
-        gap: 1rem;
         align-items: stretch;
     }
 
@@ -60,12 +59,11 @@
     }
 
     .third-form-right{
-        flex: 1;
-        min-width: 0;
+        flex: 1.5;
+        min-width: 45%;
     }
     
     .payment-container{
-        border-radius: 0.5rem;
         border-right: 0.2rem solid var(--color-green-secondary);
     }
 }   

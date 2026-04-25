@@ -14,8 +14,8 @@
     box-shadow: none;
 }
 
-/* Mobile */
-@media (max-width: 480px) {
+
+@media (max-width: 768px) {
     .payment-info-card {
         border-radius: 0.5rem;
     }

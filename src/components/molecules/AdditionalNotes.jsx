@@ -25,12 +25,12 @@ export default function AdditionalNotes({
                     Notas adicionales.
                 </strong>
 
-        <br />
-        <Form.Control
-            as="textarea"
-            placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
-            className="input-notes"
-        />
+                <br />
+                <Form.Control
+                    as="textarea"
+                    placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
+                    className="input-notes"
+                />
 
 
             </FormCard>

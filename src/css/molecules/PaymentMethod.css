@@ -35,6 +35,18 @@
     color: white;
 }
 
+/* TABLET */
+@media (max-width: 768px) {
+    .payment-card {
+        flex-shrink: 0 !important;
+    }
+
+    .payment-method {
+        font-size: var(--font-size-xs);
+    }
+
+}
+
 /* MOBILE */
 @media (max-width: 480px) {
     .payment-card {
@@ -42,7 +54,7 @@
     }
 
     .payment-method {
-            font-size: var(--font-size-xs);
+        font-size: var(--font-size-xs);
     }
 
 }
