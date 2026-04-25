@@ -102,7 +102,6 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-    console.log("CLIENTE ID", clientId)
     const secondSectionViewModel = useSecondPageViewModel(clientId);
 
     const goBackStep = () => {
@@ -146,7 +145,6 @@ function useCollectionRequestViewModel() {
         //if(debtAccess) return;
 
         if (currentStep === 1) {
-            console.log("ENtro al step 1")
             // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
 
@@ -160,7 +158,6 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 2) {
-            // console.log("ENtro al step 2    ")
             const products = secondSectionViewModel.selectedProducts || {};
             const isEmpty = Object.keys(products).length === 0;
 

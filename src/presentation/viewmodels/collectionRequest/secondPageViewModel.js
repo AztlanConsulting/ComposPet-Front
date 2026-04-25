@@ -34,7 +34,6 @@ function useSecondPageViewModel(idClient) {
         setSuccessMessage("");
 
         try {
-            console.log("SECOND VIEW MODEL");
             const result = await getLastRequestPerClientUseCase.execute(idClient);
             setIdSolicitud(result?.idRequest || "");
 
