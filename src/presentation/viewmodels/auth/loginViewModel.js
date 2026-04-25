@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { LoginUseCase } from "../../../domain/useCases/loginUseCase";
-import { AuthRepository } from "../../../data/repositories/authRepository";
-import { AuthApiClient } from "../../../data/datasources/authApiClient";
-
 import { useGoogleLogin } from '@react-oauth/google';
 import { setAccessToken } from "../../../api/axiosConfig";
 
@@ -71,7 +67,7 @@ function validateLoginForm(email, password){
  * @see validateLoginForm
  */
 
-function useLoginViewModel(){
+function useLoginViewModel(loginUseCase){
 
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -92,7 +88,7 @@ function useLoginViewModel(){
      */
     const handleRedirect = (user) => {
         if (user.isFirstLogin()) {
-            navigate("/first-login"); 
+            navigate("/activar-cuenta"); 
             return;
         }
         
@@ -134,7 +130,6 @@ function useLoginViewModel(){
     const onSubmit = async (e) =>{
         e.preventDefault();
 
-
         const { errors: validationErrors, hasErrors } = validateLoginForm(email, password); 
 
         if (hasErrors){
@@ -146,10 +141,6 @@ function useLoginViewModel(){
         setLoading(true);
 
         try{
-
-            const apiClient = new AuthApiClient();
-            const authRepo = new AuthRepository(apiClient);
-            const loginUseCase = new LoginUseCase(authRepo);
 
             const user = await loginUseCase.execute(email, password);
 
@@ -192,10 +183,6 @@ function useLoginViewModel(){
             setErrors({});
             setLoadingAction('google');
             try {
-                
-                const apiClient = new AuthApiClient();
-                const authRepo = new AuthRepository(apiClient);
-                const loginUseCase = new LoginUseCase(authRepo); 
 
                 const userEntity = await loginUseCase.executeGoogle(tokenResponse.access_token);
                 
