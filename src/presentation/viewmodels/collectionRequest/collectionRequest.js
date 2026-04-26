@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
-// import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
-// import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
-// import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
+import TimerAlert from '../../../components/Template/timerAlert';
+
 
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
+import useCreditBalance from '../utils/useCreditBalance';
 
 /**
- * Calcula el rango de la semana actual
+ * Calcula el rango de la semana actual 
  * Considera domingo como inicio de semana y sábado como fin.
  *
  * @returns {{ weekStartDate: string, weekEndDate: string }}
@@ -29,12 +29,13 @@ function calculateCurrentWeekRange() {
     // Ajusta la fecha de fin al sábado.
     weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
     weekEndDate.setHours(23, 59, 59, 999);
-
-    return {
+    
+    return { 
         weekStartDate: weekStartDate.toISOString(),
         weekEndDate: weekEndDate.toISOString(),
     };
-}
+};  
+
 
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
@@ -44,10 +45,54 @@ function calculateCurrentWeekRange() {
 function useCollectionRequestViewModel() {
     const totalSteps = 4;
     const [currentStep, setCurrentStep] = useState(1);
+    const [debtAccess, setDebtAccess] = useState(false)
+
     const navigate = useNavigate();
-
+    
     const { clientId } = useAuthenticatedClient();
+    const { balance } = useCreditBalance(clientId);
 
+    useEffect(() => {
+        const validateDebtAccess = async () => {
+
+        if (balance === null || balance === undefined) return;
+        
+        if (balance > -500){
+            setDebtAccess(true);
+            return;
+        }
+
+        if (balance <= -500 && balance > -1500){
+            const result = await TimerAlert({
+                title: "Adeudo Pendiente",
+                text: "Tienes un adeudo mayor a $500, te recordamos pagarlo lo antes posible." ,
+                confirmText: "Continuar",
+                timer:10000,
+            });
+
+            if (result.isConfirmed || result.dismiss){
+                setDebtAccess(true);
+            }
+
+            return;
+        }
+        if (balance <= -1500){
+            const result = await TimerAlert({
+                title: "Solicitud no disponible",
+                text: "Tienes un adeudo mayor a $1500, por lo que no es posible generar una solicitud." ,
+                confirmText: "Continuar",
+                timer:10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+        }
+    };
+
+    validateDebtAccess();
+    }, [balance, navigate]);
+    
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
 
     //Aqui se llama a el firsrtFormViewModel, recibe la info de la request
@@ -57,11 +102,10 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-    const secondSectionViewModel = useSecondPageViewModel(
-        clientId
-    );
+    const secondSectionViewModel = useSecondPageViewModel(clientId);
 
     const goBackStep = () => {
+        
         if (currentStep > 1) {
             setCurrentStep((prev) => prev - 1);
         }
@@ -98,6 +142,8 @@ function useCollectionRequestViewModel() {
     };
 
     const onPrimaryAction = async () => {
+        //if(debtAccess) return;
+
         if (currentStep === 1) {
             // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
@@ -153,6 +199,8 @@ function useCollectionRequestViewModel() {
         secondaryButtonText,
         firstSectionViewModel,
         secondSectionViewModel,
+        debtAccess,
+        balance,
     };
 }
 

@@ -23,7 +23,6 @@ export class AuthApiClient {
         }
     }
 
-
     /**
      * Envía el token de acceso de Google al backend de ComposPet.
      * @param {string} googleToken - El token obtenido del SDK de Google.

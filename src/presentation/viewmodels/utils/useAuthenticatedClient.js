@@ -27,7 +27,6 @@ function useAuthenticatedClient() {
 
                 //Ejecuta el getClientUsecase
                 const clientEntity = await getClientUseCase.execute(userId);
-                console.log("CLIENTE OBTENIDO EN EL HOOK", clientEntity);
 
                 //Llega la entidad desde el repositorio y la guarda en el estado
                 setClient(clientEntity);
