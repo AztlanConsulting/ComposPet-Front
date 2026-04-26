@@ -30,6 +30,8 @@ export default function AdditionalNotes({
                     as="textarea"
                     placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
                     className="input-notes"
+                    value={notes}
+                    onChange={(e) => {setNotes(e.target.value)}}
                 />
 
 
