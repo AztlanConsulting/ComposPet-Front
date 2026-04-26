@@ -27,8 +27,8 @@ export default function PaymentInfoCard({
                             {text}
                         </strong>
 
-                        <strong>
-                            {notes}
+                        <strong className="notes-info">
+                            {notes.replace(/\\n/g, '\n')}
                         </strong>
                     </>
             
