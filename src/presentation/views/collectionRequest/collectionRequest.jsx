@@ -2,6 +2,7 @@ import '../../../css/collectionRequest/collectionRequestView.css';
 import Button from '../../../components/atoms/Button';
 import ProgressBarLogic from '../../../components/molecules/ProgressBarLogic';
 import FirstFormRecolectionRequest from '../../../components/organisms/firstFormRecolectionRequest';
+import ThirdFormCollectionRequest from '../../../components/organisms/thirdFormRecolectionRequest';
 import SecondPageForm from '../../../components/organisms/secondPageForm';
 import useCollectionRequestViewModel from '../../viewmodels/collectionRequest/collectionRequest';
 import Navbar from '../../../components/molecules/Navbar';
@@ -30,6 +31,7 @@ export default function CollectionRequestView() {
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
+        thirdSectionViewModel,
         secondSectionViewModel,
     } = useCollectionRequestViewModel();
 
@@ -70,9 +72,19 @@ export default function CollectionRequestView() {
                 )}
 
                 {currentStep === 3 && (
-                    <div>
-                        <p>Contenido del Step 3</p>
-                    </div>
+                    <ThirdFormCollectionRequest
+                        paymentMethods={thirdSectionViewModel.paymentMethods}
+                        paymentAviable={thirdSectionViewModel.paymentAviable}
+                        selectedPaymentIndex={thirdSectionViewModel.selectedPaymentIndex}
+                        setSelectedPaymentIndex={thirdSectionViewModel.setSelectedPaymentIndex}
+                        products={thirdSectionViewModel.products}
+                        notes={thirdSectionViewModel.notes}
+                        setNotes={thirdSectionViewModel.setNotes}
+                        balance={thirdSectionViewModel.balance}
+                        total={thirdSectionViewModel.collectionTotal}
+                        removeProduct={thirdSectionViewModel.removeProduct}
+                        collection={thirdSectionViewModel.collection}
+                    />
                 )}
 
                 {currentStep === 4 && (

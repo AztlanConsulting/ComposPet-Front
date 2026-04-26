@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
+//import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
+import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
+//import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
+//import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
+
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
 import TimerAlert from '../../../components/Template/timerAlert';
@@ -104,6 +109,12 @@ function useCollectionRequestViewModel() {
 
     const secondSectionViewModel = useSecondPageViewModel(clientId);
 
+    const thirdSectionViewModel = useCollectionRequestThirdSectionViewModel(
+        clientId,
+        weekStartDate,
+        weekEndDate,
+    );
+
     const goBackStep = () => {
         
         if (currentStep > 1) {
@@ -150,7 +161,7 @@ function useCollectionRequestViewModel() {
 
             //Resultado de guardar la solicitud
             if (result.success && result.nextStep) {
-                
+                thirdSectionViewModel.loadSummary();
                 //Ir al siguiente paso
                 setCurrentStep(result.nextStep);
             }
@@ -175,6 +186,7 @@ function useCollectionRequestViewModel() {
             const result = await secondSectionViewModel.saveSecondSection();
 
             if (result.success && result.nextStep) {
+                thirdSectionViewModel.loadSummary();
                 setCurrentStep(result.nextStep);
             }
 
@@ -184,6 +196,16 @@ function useCollectionRequestViewModel() {
         if (currentStep < totalSteps) {
             setCurrentStep((prev) => prev + 1);
         }
+
+        if (currentStep === 3) {
+            const result = await thirdSectionViewModel.saveThirdSection();
+            if (result.success && result.nextStep) {
+                setCurrentStep(result.nextStep);
+            }
+            return;
+
+        }
+
     };
 
     const secondaryButtonText = currentStep === 1 ? 'Cancelar' : 'Regresar';
@@ -198,6 +220,7 @@ function useCollectionRequestViewModel() {
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,
+        thirdSectionViewModel,
         secondSectionViewModel,
         debtAccess,
         balance,

@@ -1,0 +1,58 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.notes-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-green-quaternary);
+    border-radius: 0 0.5rem 0.5rem 0;
+    border: 1px solid var(--color-green-primary);
+    box-shadow: none;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    min-width: 10rem;
+}
+
+.paddings {
+    padding: 2rem 3.7rem;
+}
+
+.input-notes{
+    height: 13rem;
+}
+
+.notes-card input,
+.notes-card textarea {
+    min-height: 130px;
+
+    border: none;
+    outline: none;
+    resize: none;
+
+    background-color: white;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+
+    text-align: center;
+    padding: 1rem;
+}
+
+.notes-card input::placeholder,
+.notes-card textarea::placeholder {
+    color: var(--color-green-secondary);
+    opacity: .8;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .notes-card {
+        border-radius: 0.5rem;
+    }
+}

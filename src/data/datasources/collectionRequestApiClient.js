@@ -147,4 +147,76 @@ export class CollectionRequestApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Actualiza la información de la primera sección del formulario de recolección.
+     * * @async
+     * @param {string} idClient - Id del cliente.
+     * @param {Date} weekStartDate - Fecha de inicio de la semana.
+     * @param {Date} weekEndDate - Fecha de fin de la semana
+     * @returns {Promise<Object>} Entidad del resumen de la solicitud.
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async getSummary(idClient, weekStartDate, weekEndDate) {
+        try {
+
+            const response = await api.post('/solicitudes-rec/resumen-recoleccion',
+                {
+                    idClient,
+                    weekStartDate,
+                    weekEndDate
+                }
+            );
+
+            return response.data;
+        }
+
+        catch (error) {
+            handleHttpError(error);
+        }
+
+    }
+
+    /**
+     * Elimina un pedido de producto de la lista asociada a la solicitud de recolección.
+     * * @async
+     * @param {string} idProduct - Id del producto a eliminar.
+     * @param {string} idRequest -- Id de la solicitud de recolección asociada al producto.
+     * @returns {Promise<Object>} 
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async deleteProduct(idProduct, idRequest, quantity){
+        try {
+            const response = await api.delete(`/solicitudes-rec/resumen-recoleccion/producto/${idProduct}/solicitud/${idRequest}/${quantity}`);
+
+            return response;
+        }
+        catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Actualiza la información de la recolección.
+     * * @async
+     * @param {string} idRequest -- Id de la solicitud de recolección asociada al producto.
+     * @param {Int} collectionTotal - Costo total de la recolección.
+     * @param {Int} idPayment - Id del método de pago seleccionado.
+     * @param {string} notes - Notas adicionales a la recolección.
+     * @returns {Promise<Object>} 
+     * @throws {Error} Mensaje descriptivo del error ocurrido.
+     */
+    async updateCollectionTotal(idRequest, collectionTotal, idPayment, notes){
+        try {
+            const response = await api.put('/solicitudes-rec/resumen-recoleccion/pago', {
+                idRequest,
+                collectionTotal,
+                idPayment,
+                notes,
+            })
+        }
+        catch (error) {
+            handleHttpError(error);
+        }
+    }
 }
