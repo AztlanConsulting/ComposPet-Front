@@ -10,8 +10,6 @@ import Button from './components/atoms/Button';
 import InputComponent from './components/molecules/InputComponent';
 import Image from './components/atoms/Image';
 
-
-
 import PersonImg from './public/img/person.png';
 import AniluImg from './public/img/Anilu.png';
 
@@ -27,6 +25,8 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
+
+import RegisterClient from './presentation/views/admin/RegisterClient';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 
@@ -249,6 +249,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
                 </Routes>
             </Router>
