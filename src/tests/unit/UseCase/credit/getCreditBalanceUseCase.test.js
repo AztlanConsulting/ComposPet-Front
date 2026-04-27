@@ -2,7 +2,7 @@ import { GetCreditBalanceUseCase } from "../../../../domain/useCases/getCreditBa
 
 describe("GetCreditBalanceUseCase", () => {
     test("debe obtener el saldo del cliente", async () => {
-    // Arrange
+        // Arrange
         //Respuesta moqueada del repositorio
         const mockCreditBalance = { saldo: 500 };
 
