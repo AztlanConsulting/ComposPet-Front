@@ -1,0 +1,106 @@
+
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.register-client-background{
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.register-client-title{
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-top: 1.5rem;
+}
+
+.register-client-form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+
+}
+
+.section-title{
+    text-align: left;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-top: 1rem;
+}
+
+.register-input{
+    width: 62.5rem;
+    height: 2.5rem;
+}
+
+.register-input-mid{
+    width: 30.625rem;
+    height: 2.5rem;
+}
+
+.lastname-container{
+    display: flex;
+    gap: 20px;
+}
+
+.register-input-notes{
+    width: 30.625rem;
+    height: 10rem;
+    border-radius: var(--border-radius-lg) !important;
+    background-color: var(--color-bg) !important;
+    border: 1px solid var(--color-green-secondary) !important;
+    color: var(--color-green-secondary) !important;
+    caret-color: var(--color-green-secondary) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.register-input-notes::placeholder{
+    color: var(--color-green-secondary) !important;
+    opacity: .8 !important;
+    white-space: pre-wrap;
+}
+
+.register-input-notes:focus{
+    outline-style: solid !important;
+    outline-width: 1px !important;
+    outline-color: var(--color-green-primary) !important;
+    background-color: var(--color-bg) !important; 
+    font-size: 16px;
+    caret-color: var(--color-green-primary) !important;
+    box-shadow: none !important;
+}
+
+.register-input-notes:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 1000px 
+    var(--color-bg) inset !important;
+    -webkit-text-fill-color: var(--color-green-secondary) !important;
+    transition: background-color 9999s ease-in-out 0s;
+    caret-color: var(--color-green-secondary) !important;
+}
+
+.zone-dropdowns-containers{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 40px 0;
+}
+
+.route-dropdowns-containers{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 40px 0;
+}
+
+.buttons-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    margin-bottom: 3rem;
+}

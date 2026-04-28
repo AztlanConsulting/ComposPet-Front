@@ -13,6 +13,8 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
 
 import useRegisterClientViewModel from '../../viewmodels/admin/registerClientViewModel';
 
+import '../../../css/registerClient/registerClient.css';
+
 function RegisterClient(){
 
     const {
@@ -53,41 +55,39 @@ function RegisterClient(){
     if(error) return <p>{error}</p>;
 
     return(
-        <main className="">
+        <main className="register-client-background">
             <Navbar /> 
 
             <div>
-                <h1 className="">
-                    Rgistrar nuevo cliente
+                <h1 className="register-client-title">
+                    Registrar nuevo cliente
                 </h1>
             </div>
 
-            <form onSubmit={handleSubmit} className='col d-flex flex-column align-items-center flex-wrap'>
+            <form onSubmit={handleSubmit} className='register-client-form'>
                 
                 <section>
-                    <h5 className="text-center">Información personal</h5>
+                    <h5 className="section-title">Información personal</h5>
                     <hr />
 
                     <InputComponent
                         id="name"
                         type="text"
-                        size="md"
                         value={name}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setName(e.target.value)}
                     >
                         Nombre
                     </InputComponent>
 
-                    <div>
+                    <div className='lastname-container'> 
                         <InputComponent
                             id="lastname_1"
                             type="text"
-                            size="md"
                             value={lastname1}
                             classNameLabel="label"
-                            classNameInput="input"
+                            classNameInput="register-input-mid"
                             onChange={(e) => setLastName1(e.target.value)}
                         >
                             Apellido Paterno
@@ -96,10 +96,9 @@ function RegisterClient(){
                         <InputComponent
                             id="lastname_2"
                             type="text"
-                            size="md"
                             value={lastname2}
                             classNameLabel="label"
-                            classNameInput="input"
+                            classNameInput="register-input-mid"
                             onChange={(e) => setLastName2(e.target.value)}
                         >
                             Apellido Materno
@@ -109,10 +108,9 @@ function RegisterClient(){
                     <InputComponent
                         id="email"
                         type="text"
-                        size="md"
                         value={email}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setEmail(e.target.value)}
                     >
                         Correo
@@ -121,10 +119,9 @@ function RegisterClient(){
                     <InputComponent
                         id="phone"
                         type="text"
-                        size="md"
                         value={phone}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setPhone(e.target.value)}
                     >
                         Número de teléfono
@@ -132,16 +129,15 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="text-center">Datos familiares</h5>
+                    <h5 class="section-title">Datos familiares</h5>
                     <hr />
 
                     <InputComponent
                         id="pets"
                         type="text"
-                        size="md"
                         value={pets}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setPets(e.target.value)}
                     >
                         Mascotas
@@ -150,10 +146,9 @@ function RegisterClient(){
                     <InputComponent
                         id="family"
                         type="text"
-                        size="md"
                         value={family}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setFamily(e.target.value)}
                     >
                         Familia
@@ -162,37 +157,36 @@ function RegisterClient(){
                     <Label
                         id="notas-adicionales"
                         size="lg"
-                        className=""
+                        className="label"
                     >
                         Notas adicionales
                     </Label>
 
                     <Form.Control
                         as="textarea"
-                        placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
-                        className=""
+                        placeholder="Escribe cualquier nota adicional sobre el cliente."
+                        className="register-input-notes"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
                 </section>
 
                 <section>
-                    <h5 class="text-center">Ubicación</h5>
+                    <h5 class="section-title">Ubicación</h5>
                     <hr />
 
                     <InputComponent
                         id="address"
                         type="text"
-                        size="md"
                         value={address}
                         classNameLabel="label"
-                        classNameInput="input"
+                        classNameInput="register-input"
                         onChange={(e) => setAddress(e.target.value)}
                     >
                         Dirección
                     </InputComponent>
                     
-                    <div>
+                    <div className='zone-dropdowns-containers'>
                         <DropdownInput
                             id="state"
                             size="md"
@@ -239,25 +233,27 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="text-center">Asignación de ruta</h5>
+                    <h5 class="section-title">Asignación de ruta</h5>
                     <hr />
+                    <div className='route-dropdowns-containers'>
+                        <DropdownInput
+                            id="daysOfRoutes"
+                            size="md"
+                            value={selectedDay}
+                            onChange={(e) => handleDayOfRouteChange(Number(e.target.value))}
+                            options={
+                                daysOfRoutes.map(s => ({
+                                    value: s.id_ruta,
+                                    label: s.dia_ruta,
+                                }))}
+                        >
+                            Dia de ruta
+                        </DropdownInput>
+                    </div>
 
-                    <DropdownInput
-                        id="daysOfRoutes"
-                        size="md"
-                        value={selectedDay}
-                        onChange={(e) => handleDayOfRouteChange(Number(e.target.value))}
-                        options={
-                            daysOfRoutes.map(s => ({
-                                value: s.id_ruta,
-                                label: s.dia_ruta,
-                            }))}
-                    >
-                        Dia de ruta
-                    </DropdownInput>
                 </section>
 
-                <div>
+                <div className='buttons-container'>
                     <Button
                         size="medium" 
                         type="button" 
