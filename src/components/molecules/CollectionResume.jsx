@@ -43,7 +43,7 @@ export default function CollectionResume({
                 {/* Totales de compra e info adicional */}
                 <p className="balance-text">Saldo: ${balance}</p>
                 <hr></hr>
-                <p className="total-text">Total: ${total}</p>  
+                <p className="total-text">Total: ${total}</p>
             </div>
 
         </>

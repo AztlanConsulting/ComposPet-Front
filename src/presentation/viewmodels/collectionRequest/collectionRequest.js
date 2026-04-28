@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 //import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
@@ -48,7 +48,7 @@ function calculateCurrentWeekRange() {
  * @returns {object} Estado general del formulario y acciones de navegación.
  */
 function useCollectionRequestViewModel() {
-    const totalSteps = 4;
+    const totalSteps = 3;
     const [currentStep, setCurrentStep] = useState(1);
     const [debtAccess, setDebtAccess] = useState(false)
 
@@ -200,7 +200,14 @@ function useCollectionRequestViewModel() {
         if (currentStep === 3) {
             const result = await thirdSectionViewModel.saveThirdSection();
             if (result.success && result.nextStep) {
-                setCurrentStep(result.nextStep);
+                const result = await TimerAlert({
+                    title: "¡Completaste tu registro de recolección!",
+                    text: "" ,
+                    confirmText: "Continuar",
+                    icon: "success",
+                    timer:10000,
+                });
+                navigate("/")
             }
             return;
 
