@@ -25,6 +25,7 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
+import DropdownInput from './components/molecules/DropdownInput';
 
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
@@ -47,6 +48,7 @@ function Home() {
         cubetasEntregadas: '',
     };
 
+    const [municipio, setMunicipio] = useState('');
 
     return (
         <div>
@@ -224,6 +226,23 @@ function Home() {
                         <FormCard>
                             <p style={{ margin: 0 }}>Preview de FormCard</p>
                         </FormCard>
+                    </div>
+                    
+                    <div className='col-12 d-flex justify-content-center mt-4'>
+
+                        <DropdownInput
+                            id="municipio"
+                            size="md"
+                            value={municipio}
+                            onChange={(e) => setMunicipio(e.target.value)}
+                            options={[
+                                { value: "corregidora", label: "Corregidora" },
+                                { value: "queretaro", label: "Querétaro" },
+                                { value: "marques", label: "El Marqués" },
+                            ]}
+                        >
+                            Municipio
+                        </DropdownInput>
                     </div>
 
                 </div>

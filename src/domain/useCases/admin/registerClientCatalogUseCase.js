@@ -1,4 +1,4 @@
-export class registerClientCatalog {
+export class RegisterClientCatalog {
     constructor(registerClientRepository){
         this.registerClientRepository = registerClientRepository;
     }

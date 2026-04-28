@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useRegisterClientViewModel(registerClientCatalogUseCase){
+function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
 
     const [states, setStates] = useState([]);
     const [towns, setTowns] = useState([]);
@@ -71,8 +71,8 @@ function useRegisterClientViewModel(registerClientCatalogUseCase){
         setSelectedDay(null);
     };
 
-    const handleDayOfRouteChange = (day) => {
-        setSelectedDay(day);
+    const handleDayOfRouteChange = (dia_ruta) => {
+        setSelectedDay(dia_ruta);
     };
 
     return {
@@ -99,4 +99,4 @@ function useRegisterClientViewModel(registerClientCatalogUseCase){
 
 };
 
-export default useRegisterClientViewModel;
+export default useRegisterClientCatalogViewModel;

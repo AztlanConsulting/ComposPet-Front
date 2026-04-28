@@ -1,5 +1,5 @@
-import { RegisterClientCatalog } from "../../../../domain/entities/admin/registerClient/registerClientCatalog";
-import { RegisterClientIRepository } from "./registerClientRepository";
+import { RegisterClientCatalog } from "../../../domain/entities/admin/registerClientCatalog";
+import { RegisterClientIRepository } from "../../../domain/repositories/admin/registerClientInterfaceRepository";
 
 export class RegisterClientRepository extends RegisterClientIRepository{
 
