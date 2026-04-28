@@ -11,4 +11,13 @@ export class RegisterClientApi {
             handleHttpError(error)
         }
     }
+
+    async postRegisterClient(clientData){
+        try {
+            const response = await api.post('/admin/registrar-cliente', clientData);
+            return response.data;
+        } catch (error){
+            handleHttpError(error)
+        }
+    }
 }

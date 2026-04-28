@@ -9,15 +9,45 @@ import Form from 'react-bootstrap/Form';
 
 import useRegisterClientCatalogViewModel from '../../viewmodels/admin/registerClientCatalogViewModel';
 import { registerClientCatalogUseCase } from '../../../di/admin/registerClientDependencies';
+import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
+
+import useRegisterClientViewModel from '../../viewmodels/admin/registerClientViewModel';
 
 function RegisterClient(){
 
     const {
         states, towns, zones, daysOfRoutes,
         selectedState, selectedTown, selectedZone, selectedDay,
-        handleStateChange, handleTownChange, handleZoneChange, handleDayOfRouteChange,
-        loading, error,onSubmit,
+        handleStateChange, handleTownChange, handleZoneChange, 
+        handleDayOfRouteChange, loading, error,
     } = useRegisterClientCatalogViewModel(registerClientCatalogUseCase);
+
+    const {
+        name, setName, lastname1, setLastName1,
+        lastname2, setLastName2, email, setEmail,
+        phone, setPhone, pets, setPets, family, setFamily,
+        notes, setNotes, address, setAddress,
+    } = useRegisterClientViewModel();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = {
+            name, lastname1, lastname2, email, phone,
+            pets, family, notes,
+            address, selectedDay, selectedZone,
+        };
+
+        console.log('Datos a enviar:', data);
+
+        try {
+            const response = await registerClientUseCase.execute(data);
+            console.log("Cliente registrado con exito;", response);
+        } catch (error) {
+            console.error("Error al registrar cliente:", error);
+        }
+        
+    };
 
     if(loading) return <p>Cargando...</p>;
     if(error) return <p>{error}</p>;
@@ -32,20 +62,20 @@ function RegisterClient(){
                 </h1>
             </div>
 
-            <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
+            <form onSubmit={handleSubmit} className='col d-flex flex-column align-items-center flex-wrap'>
                 
                 <section>
-                    <h5 class="text-center">Información personal</h5>
+                    <h5 className="text-center">Información personal</h5>
                     <hr />
 
                     <InputComponent
                         id="name"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={name}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                     >
                         Nombre
                     </InputComponent>
@@ -55,10 +85,10 @@ function RegisterClient(){
                             id="lastname_1"
                             type="text"
                             size="md"
-                            placeholder=""
+                            value={lastname1}
                             classNameLabel="label"
                             classNameInput="input"
-                            onChange={(e) => console.log(e.target.value)}
+                            onChange={(e) => setLastName1(e.target.value)}
                         >
                             Apellido Paterno
                         </InputComponent>
@@ -67,10 +97,10 @@ function RegisterClient(){
                             id="lastname_2"
                             type="text"
                             size="md"
-                            placeholder=""
+                            value={lastname2}
                             classNameLabel="label"
                             classNameInput="input"
-                            onChange={(e) => console.log(e.target.value)}
+                            onChange={(e) => setLastName2(e.target.value)}
                         >
                             Apellido Materno
                         </InputComponent>
@@ -80,10 +110,10 @@ function RegisterClient(){
                         id="email"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={email}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     >
                         Correo
                     </InputComponent>
@@ -92,10 +122,10 @@ function RegisterClient(){
                         id="phone"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={phone}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setPhone(e.target.value)}
                     >
                         Número de teléfono
                     </InputComponent>
@@ -109,10 +139,10 @@ function RegisterClient(){
                         id="pets"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={pets}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setPets(e.target.value)}
                     >
                         Mascotas
                     </InputComponent>
@@ -121,10 +151,10 @@ function RegisterClient(){
                         id="family"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={family}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setFamily(e.target.value)}
                     >
                         Familia
                     </InputComponent>
@@ -141,8 +171,8 @@ function RegisterClient(){
                         as="textarea"
                         placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
                         className=""
-                        value={""}
-                        onChange={(e) => console.log(e.target.value)}
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
                     />
                 </section>
 
@@ -154,10 +184,10 @@ function RegisterClient(){
                         id="address"
                         type="text"
                         size="md"
-                        placeholder=""
+                        value={address}
                         classNameLabel="label"
                         classNameInput="input"
-                        onChange={(e) => console.log(e.target.value)}
+                        onChange={(e) => setAddress(e.target.value)}
                     >
                         Dirección
                     </InputComponent>
@@ -230,7 +260,7 @@ function RegisterClient(){
                 <div>
                     <Button
                         size="medium" 
-                        type="submit" 
+                        type="button" 
                         csstype="cancel" 
                         className='button' 
                         disabled={loading}
