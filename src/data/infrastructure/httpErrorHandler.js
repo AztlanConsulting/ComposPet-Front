@@ -5,8 +5,7 @@
  */
 export const handleHttpError = (error) => {
     if (error.response) {
-        const message = error.response.data?.message || `Error: ${error.response.status}`;
-        throw new Error(message);
+        throw error;
     } else if (error.request) {
         throw new Error("No se pudo conectar con el servidor. Revisa tu conexión.");
     } else {

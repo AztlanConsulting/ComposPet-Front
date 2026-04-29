@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useBlocker } from 'react-router-dom';
 
 import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
+import ProblemAlert from '../../../components/Template/ProblemAlert';
 
 import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
 
@@ -72,6 +73,21 @@ function useRegisterClientViewModel(){
 
     const navigate = useNavigate();
 
+    const hasUnsavedChanges = name || lastname1 || lastname2 || 
+                        email || phone || address || 
+                        pets || family || notes;
+
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [hasUnsavedChanges]);
+
     const handleSubmit = async (e, { selectedDay, selectedZone, validateDropdowns, setDropdownErrors }) => {
         
         e.preventDefault();
@@ -114,7 +130,22 @@ function useRegisterClientViewModel(){
             const response = await registerClientUseCase.execute(data);
             await confirmForm();
         } catch (error) {
-            console.error("Error al registrar cliente:", error);
+            const status = error?.response?.status;
+            const message = error?.response?.data?.message
+
+            if (status === 409) {
+                await ProblemAlert({
+                    title: "Correo ya registrado",
+                    text: "Ya existe un cliente registrado con este correo electrónico.",
+                    confirmText: "Entendido",
+                });
+            } else {
+                await ProblemAlert({
+                    title: "Error del servidor",
+                    text: "Ocurrió un error inesperado. Intenta de nuevo más tarde.",
+                    confirmText: "Entendido",
+                });
+            }
         }
         
     };

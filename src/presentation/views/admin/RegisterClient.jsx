@@ -12,6 +12,8 @@ import useRegisterClientCatalogViewModel from '../../viewmodels/admin/registerCl
 import { registerClientCatalogUseCase } from '../../../di/admin/registerClientDependencies';
 import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
 
+import { sanitizeText, sanitizeEmail, sanitizePhone } from '../../../utilities/sanitize';
+
 import useRegisterClientViewModel from '../../viewmodels/admin/registerClientViewModel';
 
 import '../../../css/registerClient/registerClient.css';
@@ -68,7 +70,7 @@ function RegisterClient(){
                         classNameInput={
                             `register-input ${errors.name ? "input-error" : ""}`
                         }
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(sanitizeText(e.target.value))}
                         error={errors.name}
                         required
                     >
@@ -86,7 +88,7 @@ function RegisterClient(){
                                 `register-input-mid 
                                 ${errors.lastname1 ? "input-error" : ""}`
                             }
-                            onChange={(e) => setLastName1(e.target.value)}
+                            onChange={(e) => setLastName1(sanitizeText(e.target.value))}
                             error={errors.lastname1}
                             required
                         >
@@ -99,7 +101,7 @@ function RegisterClient(){
                             value={lastname2}
                             classNameLabel="label"
                             classNameInput="register-input-mid"
-                            onChange={(e) => setLastName2(e.target.value)}
+                            onChange={(e) => setLastName2(sanitizeText(e.target.value))}
                         >
                             Apellido Materno
                         </InputComponent>
@@ -115,7 +117,7 @@ function RegisterClient(){
                             `register-input ${errors.email ? "input-error" : ""}`
                         }
                         error={errors.email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(sanitizeEmail(e.target.value))}
                     >
                         Correo
                     </InputComponent>
@@ -130,7 +132,7 @@ function RegisterClient(){
                             `register-input ${errors.phone ? "input-error" : ""}`
                         }
                         error={errors.phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => setPhone(sanitizePhone(e.target.value))}
                     >
                         Número de teléfono
                     </InputComponent>
@@ -146,7 +148,7 @@ function RegisterClient(){
                         value={pets}
                         classNameLabel="label"
                         classNameInput="register-input"
-                        onChange={(e) => setPets(e.target.value)}
+                        onChange={(e) => setPets(sanitizeText(e.target.value))}
                     >
                         Mascotas
                     </InputComponent>
@@ -157,7 +159,7 @@ function RegisterClient(){
                         value={family}
                         classNameLabel="label"
                         classNameInput="register-input"
-                        onChange={(e) => setFamily(e.target.value)}
+                        onChange={(e) => setFamily(sanitizeText(e.target.value))}
                     >
                         Familia
                     </InputComponent>
@@ -193,7 +195,7 @@ function RegisterClient(){
                             `register-input ${errors.address ? "input-error" : ""}`
                         }
                         error={errors.address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        onChange={(e) => setAddress(sanitizeText(e.target.value))}
                     >
                         Dirección
                     </InputComponent>

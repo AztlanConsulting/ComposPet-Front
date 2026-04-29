@@ -47,7 +47,6 @@
 }
 
 .register-input-notes{
-    width: 30.625rem;
     height: 10rem;
     border-radius: var(--border-radius-lg) !important;
     background-color: var(--color-bg) !important;
