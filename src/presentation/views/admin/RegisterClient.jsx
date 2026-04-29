@@ -258,7 +258,7 @@ function RegisterClient(){
                         size="medium" 
                         type="button" 
                         csstype="cancel" 
-                        className='button' 
+                        className='cancel-button' 
                         disabled={loading}
                     >
                             {loading ? "Cancelando..." : "Cancelar"}

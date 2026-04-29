@@ -122,77 +122,7 @@ function Home() {
                     />
                 </div>
 
-                <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <CounterInput
-                        question="¿Cuántas cubetas vacías quieres?"
-                        value={cubetasEntregadas}
-                        onIncrement={() => setCubetasEntregadas((prev) => prev + 1)}
-                        onDecrement={() => setCubetasEntregadas((prev) => Math.max(0, prev - 1))}
-                        error={errors.cubetasEntregadas}
-                    />
-                </div>
-
                 <div className='col-12 d-flex flex-column align-items-center flex-wrap mt-4'>
-                    <h4>Preview ProgressSection</h4>
-
-                    <div style={{ width: '100%', maxWidth: '40rem' }}>
-                        <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
-                    </div>
-
-                    <div className='col d-flex flex-column align-items-center flex-wrap'>
-                        <Button size='extra-lg' csstype='info' className='button'>Extra grande</Button>
-                        <Button size='large' csstype='accept' className='button'>Grande</Button>
-                        <Button size='medium' csstype='login' className='button'>Mediano</Button>
-                        <Button size='small' csstype='cancel' className='button'>Pequeño</Button>
-                        <Button size='mini' csstype='warning' className='button'>Eliminar</Button>
-                        <Button size='mini' csstype='plus-min' className='button'>
-                            <Icon name="plus" csssize="small" color="primary" />
-                        </Button>
-                        <Button size='mini' csstype='plus-min' className='button'>
-                            <Icon name="minus" csssize="icon-small" color="primary" />
-                        </Button>
-                    </div>
-
-                    <div className='col d-flex flex-column align-items-center flex-wrap'>
-                        <Icon name="plus" size="icon-large" color="primary" />
-                        <Icon name="minus" size="icon-large" color="primary" />
-                        <Icon name="arrow" size="icon-large" color="primary" />
-                        <Icon name="bills" size="icon-large" color="primary" />
-                        <Icon name="card" size="icon-large" color="primary" />
-                        <Icon name="copy" size="icon-large" color="primary" />
-                        <Icon name="facebook" size="icon-large" color="primary" />
-                        <Icon name="google" size="icon-large" color="primary" />
-                        <Icon name="instagram" size="icon-large" color="primary" />
-                        <Icon name="logo" size="icon-large" color="primary" />
-                        <Icon name="piggy" size="icon-large" color="primary" />
-                        <Icon name="search" size="icon-large" color="primary" />
-                        <Icon name="tiktok" size="icon-large" color="primary" />
-                    </div>
-
-                    <div className='col d-flex flex-column align-items-center flex-wrap'>
-                        <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
-                        <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
-                    </div>
-
-                    <div className='col d-flex flex-column align-items-center flex-wrap'>
-                        <InputComponent
-                            id="nombre"
-                            type="text"
-                            size="md"
-                            placeholder=""
-                            classNameLabel="label"
-                            classNameInput="input"
-                            onChange={(e) => console.log(e.target.value)}
-                        >
-                            Usuario
-                        </InputComponent>
-                    </div>
-
-                    <div className='col d-flex flex-column align-items-center flex-wrap'>
-                        <ProductCard></ProductCard>
-
-                        <Login></Login>
-                    </div>
 
                     <div>
                         <YesNoQuestion
