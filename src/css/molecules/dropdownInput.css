@@ -96,3 +96,7 @@
     color: var(--color-green-secondary);
     opacity: 0.5;
 }
+
+.dropdown-error {
+    border-color: red !important;
+}

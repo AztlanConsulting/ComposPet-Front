@@ -3,7 +3,15 @@ import Label from '../atoms/Label';
 import arrowIcon from '../../public/icons/arrow.svg'
 import "../../css/molecules/dropdownInput.css";
 
-export default function DropdownInput({ id, size, children, value, onChange, options }) {
+export default function DropdownInput({ 
+    id, 
+    size, 
+    children, 
+    value, 
+    onChange, 
+    options,
+    error 
+}) {
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
 
@@ -32,7 +40,10 @@ export default function DropdownInput({ id, size, children, value, onChange, opt
 
             {/* Trigger */}
             <div
-                className={`formSelect ${open ? 'open' : ''}`}
+                className={`
+                    formSelect ${open ? 'open' : ''} 
+                    ${error ? 'dropdown-error' : ''}
+                `}
                 onClick={() => setOpen(!open)}
             >
                 <span className='selectedLabel'>
@@ -59,6 +70,8 @@ export default function DropdownInput({ id, size, children, value, onChange, opt
                     ))}
                 </ul>
             )}
+
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }

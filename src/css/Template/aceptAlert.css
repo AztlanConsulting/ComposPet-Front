@@ -1,0 +1,36 @@
+.custom-swal-popup {
+    border-radius: var(--border-radius-2xl);
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+}
+
+.custom-swal-title {
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+}
+
+
+.custom-swal-acept {
+    border-radius:  var(--border-radius-md);
+    padding: 0.6rem 1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.custom-swal-acept {
+    background-color: #DBFFF2;
+    color: var(--color-green-secondary);
+    border: 2px solid var(--color-green-primary);
+}
+
+.custom-swal-acept:hover{
+    background-color: #cef0e4;
+    color: var(--color-green-secondary);
+    border: 2px solid var(--color-green-primary);
+}

@@ -18,6 +18,43 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
     const [successMessage, setSuccessMessage] = useState("");
     const [message, setMessage] = useState(false);
 
+    const [dropdownErrors, setDropdownErrors] = useState({
+        selectedState: "",
+        selectedTown: "",
+        selectedZone: "",
+        selectedDay: "",
+    });
+
+    const validateDropdowns = () => {
+        const errors = { 
+            selectedState: "", 
+            selectedTown: "", 
+            selectedZone: "", 
+            selectedDay: "" 
+        };
+
+        let hasErrors = false;
+
+        if (!selectedState) {
+            errors.selectedState = "El estado es requerido.";
+            hasErrors = true;
+        }
+        if (!selectedTown) {
+            errors.selectedTown = "El municipio es requerido.";
+            hasErrors = true;
+        }
+        if (!selectedZone) {
+            errors.selectedZone = "La zona es requerida.";
+            hasErrors = true;
+        }
+        if (!selectedDay) {
+            errors.selectedDay = "El día de ruta es requerido.";
+            hasErrors = true;
+        }
+
+        return { errors, hasErrors };
+    };
+
     useEffect(() => {
         const fetchCatalogs = async () => {
 
@@ -95,6 +132,10 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
         error,
         successMessage,
         message,
+
+        dropdownErrors,
+        setDropdownErrors,
+        validateDropdowns,
     };
 
 };

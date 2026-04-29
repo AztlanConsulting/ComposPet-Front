@@ -6,6 +6,7 @@ import Button from '../../../components/atoms/Button';
 import DropdownInput from '../../../components/molecules/DropdownInput';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import Loading from '../../../components/Template/loading';
 
 import useRegisterClientCatalogViewModel from '../../viewmodels/admin/registerClientCatalogViewModel';
 import { registerClientCatalogUseCase } from '../../../di/admin/registerClientDependencies';
@@ -14,6 +15,7 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
 import useRegisterClientViewModel from '../../viewmodels/admin/registerClientViewModel';
 
 import '../../../css/registerClient/registerClient.css';
+import '../../../css/molecules/inputComponent.css';
 
 function RegisterClient(){
 
@@ -21,37 +23,22 @@ function RegisterClient(){
         states, towns, zones, daysOfRoutes,
         selectedState, selectedTown, selectedZone, selectedDay,
         handleStateChange, handleTownChange, handleZoneChange, 
-        handleDayOfRouteChange, loading, error,
+        handleDayOfRouteChange, loading, error, dropdownErrors,
+        setDropdownErrors, validateDropdowns,
     } = useRegisterClientCatalogViewModel(registerClientCatalogUseCase);
 
     const {
+        errors, 
         name, setName, lastname1, setLastName1,
         lastname2, setLastName2, email, setEmail,
         phone, setPhone, pets, setPets, family, setFamily,
-        notes, setNotes, address, setAddress,
+        notes, setNotes, address, setAddress, cancelForm, confirmForm,
+        handleSubmit, nameRef, lastname1Ref, emailRef, phoneRef, addressRef,
     } = useRegisterClientViewModel();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const data = {
-            name, lastname1, lastname2, email, phone,
-            pets, family, notes,
-            address, selectedDay, selectedZone,
-        };
-
-        console.log('Datos a enviar:', data);
-
-        try {
-            const response = await registerClientUseCase.execute(data);
-            console.log("Cliente registrado con exito;", response);
-        } catch (error) {
-            console.error("Error al registrar cliente:", error);
-        }
-        
-    };
-
-    if(loading) return <p>Cargando...</p>;
+    if (loading) {
+        return <Loading />;
+    }
     if(error) return <p>{error}</p>;
 
     return(
@@ -64,7 +51,9 @@ function RegisterClient(){
                 </h1>
             </div>
 
-            <form onSubmit={handleSubmit} className='register-client-form'>
+            <form onSubmit={(e) => handleSubmit(e, 
+                { selectedDay, selectedZone, validateDropdowns, setDropdownErrors }
+                )} className='register-client-form'>
                 
                 <section>
                     <h5 className="section-title">Información personal</h5>
@@ -73,10 +62,15 @@ function RegisterClient(){
                     <InputComponent
                         id="name"
                         type="text"
+                        ref={nameRef}
                         value={name}
                         classNameLabel="label"
-                        classNameInput="register-input"
+                        classNameInput={
+                            `register-input ${errors.name ? "input-error" : ""}`
+                        }
                         onChange={(e) => setName(e.target.value)}
+                        error={errors.name}
+                        required
                     >
                         Nombre
                     </InputComponent>
@@ -85,10 +79,16 @@ function RegisterClient(){
                         <InputComponent
                             id="lastname_1"
                             type="text"
+                            ref={lastname1Ref}
                             value={lastname1}
                             classNameLabel="label"
-                            classNameInput="register-input-mid"
+                            classNameInput={
+                                `register-input-mid 
+                                ${errors.lastname1 ? "input-error" : ""}`
+                            }
                             onChange={(e) => setLastName1(e.target.value)}
+                            error={errors.lastname1}
+                            required
                         >
                             Apellido Paterno
                         </InputComponent>
@@ -108,9 +108,13 @@ function RegisterClient(){
                     <InputComponent
                         id="email"
                         type="text"
+                        ref={emailRef}
                         value={email}
                         classNameLabel="label"
-                        classNameInput="register-input"
+                        classNameInput={
+                            `register-input ${errors.email ? "input-error" : ""}`
+                        }
+                        error={errors.email}
                         onChange={(e) => setEmail(e.target.value)}
                     >
                         Correo
@@ -119,9 +123,13 @@ function RegisterClient(){
                     <InputComponent
                         id="phone"
                         type="text"
+                        ref={phoneRef}
                         value={phone}
                         classNameLabel="label"
-                        classNameInput="register-input"
+                        classNameInput={
+                            `register-input ${errors.phone ? "input-error" : ""}`
+                        }
+                        error={errors.phone}
                         onChange={(e) => setPhone(e.target.value)}
                     >
                         Número de teléfono
@@ -178,9 +186,13 @@ function RegisterClient(){
                     <InputComponent
                         id="address"
                         type="text"
+                        ref={addressRef}
                         value={address}
                         classNameLabel="label"
-                        classNameInput="register-input"
+                        classNameInput={
+                            `register-input ${errors.address ? "input-error" : ""}`
+                        }
+                        error={errors.address}
                         onChange={(e) => setAddress(e.target.value)}
                     >
                         Dirección
@@ -197,6 +209,7 @@ function RegisterClient(){
                                     value: s.id_estado,
                                     label: s.estado,
                                 }))}
+                            error={dropdownErrors.selectedState}
                         >
                             Estado
                         </DropdownInput>
@@ -211,6 +224,7 @@ function RegisterClient(){
                                     value: s.id_municipio,
                                     label: s.municipio,
                                 }))}
+                            error={dropdownErrors.selectedTown}
                         >
                             Municipio
                         </DropdownInput>
@@ -225,6 +239,7 @@ function RegisterClient(){
                                     value: s.id_zona,
                                     label: s.descripcion,
                                 }))}
+                            error={dropdownErrors.selectedZone}
                         >
                             Zona
                         </DropdownInput>
@@ -246,6 +261,7 @@ function RegisterClient(){
                                     value: s.id_ruta,
                                     label: s.dia_ruta,
                                 }))}
+                            error={dropdownErrors.selectedDay}
                         >
                             Dia de ruta
                         </DropdownInput>
@@ -259,6 +275,7 @@ function RegisterClient(){
                         type="button" 
                         csstype="cancel" 
                         className='cancel-button' 
+                        onClick={cancelForm}
                         disabled={loading}
                     >
                             {loading ? "Cancelando..." : "Cancelar"}
@@ -268,7 +285,7 @@ function RegisterClient(){
                         size="medium" 
                         type="submit" 
                         csstype="accept" 
-                        className='button' 
+                        className='button'
                         disabled={loading}
                     >
                             {loading ? "Guardando..." : "Guardar"}

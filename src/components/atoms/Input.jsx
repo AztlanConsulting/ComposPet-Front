@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react';
 import "../../css/atoms/input.css";
 
 /**
@@ -15,7 +15,7 @@ import "../../css/atoms/input.css";
  * @returns {JSX.Element} Elemento `<input>` estilizado.
  */
 
-export default function Input({
+const Input = forwardRef(({
     placeholder = "",
     size = "lg",
     className = "",
@@ -23,7 +23,7 @@ export default function Input({
     type = "text",
     onChange = () => {},
     value = "",
-}) {
+}, ref) => {
     return (
         <input
         type={type}
@@ -32,7 +32,10 @@ export default function Input({
         className={`input ${size} ${className}`}
         onChange={onChange}
         value={value} 
-        maxLength={50}
+        maxLength={80}
+        ref={ref}
         />
     );
-}
+});
+
+export default Input;
