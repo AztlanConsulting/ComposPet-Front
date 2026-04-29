@@ -130,8 +130,8 @@ function useRegisterClientViewModel(){
             const response = await registerClientUseCase.execute(data);
             await confirmForm();
         } catch (error) {
-            const status = error?.response?.status;
-            const message = error?.response?.data?.message
+            const status = error?.status;
+            const message = error?.message;
 
             if (status === 409) {
                 await ProblemAlert({
