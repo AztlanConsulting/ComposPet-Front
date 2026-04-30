@@ -14,7 +14,6 @@ export class RegisterClient {
             notes: data.notes,
             address: data.address,
             id_ruta: data.selectedDay,
-            id_zona: data.selectedZone,
         };
 
         const registerClient = await this.registerClientRepository.postRegisterClient(clientData);

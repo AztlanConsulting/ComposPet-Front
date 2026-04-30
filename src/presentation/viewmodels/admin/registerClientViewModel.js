@@ -88,7 +88,7 @@ function useRegisterClientViewModel(){
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [hasUnsavedChanges]);
 
-    const handleSubmit = async (e, { selectedDay, selectedZone, validateDropdowns, setDropdownErrors }) => {
+    const handleSubmit = async (e, { selectedDay, validateDropdowns, setDropdownErrors }) => {
         
         e.preventDefault();
 
@@ -123,7 +123,7 @@ function useRegisterClientViewModel(){
         const data = {
             name, lastname1, lastname2, email, phone,
             pets, family, notes,
-            address, selectedDay, selectedZone,
+            address, selectedDay,
         };
 
         try {

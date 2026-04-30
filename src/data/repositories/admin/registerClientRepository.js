@@ -15,10 +15,7 @@ export class RegisterClientRepository extends RegisterClientIRepository{
         const data = response.data;
 
         return new RegisterClientCatalog({
-            states: data.states,
-            towns: data.towns,
             daysOfRoutes: data.daysOfRoutes,
-            zones: data.zones,
         });
     }
 
@@ -31,7 +28,7 @@ export class RegisterClientRepository extends RegisterClientIRepository{
             userId: data.id_usuario,
             clientId: data.id_cliente,
             email: data.correo,
-            credit: data.saldo,
+            credit: data.credit,
         });
     }
 

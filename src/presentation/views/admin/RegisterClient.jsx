@@ -22,11 +22,14 @@ import '../../../css/molecules/inputComponent.css';
 function RegisterClient(){
 
     const {
-        states, towns, zones, daysOfRoutes,
-        selectedState, selectedTown, selectedZone, selectedDay,
-        handleStateChange, handleTownChange, handleZoneChange, 
-        handleDayOfRouteChange, loading, error, dropdownErrors,
-        setDropdownErrors, validateDropdowns,
+        daysOfRoutes,
+        selectedDay,
+        handleDayOfRouteChange, 
+        loading, 
+        error, 
+        dropdownErrors,
+        setDropdownErrors, 
+        validateDropdowns,
     } = useRegisterClientCatalogViewModel(registerClientCatalogUseCase);
 
     const {
@@ -54,7 +57,7 @@ function RegisterClient(){
             </div>
 
             <form onSubmit={(e) => handleSubmit(e, 
-                { selectedDay, selectedZone, validateDropdowns, setDropdownErrors }
+                { selectedDay, validateDropdowns, setDropdownErrors }
                 )} className='register-client-form'>
                 
                 <section>
@@ -199,53 +202,6 @@ function RegisterClient(){
                     >
                         Dirección
                     </InputComponent>
-                    
-                    <div className='zone-dropdowns-containers'>
-                        <DropdownInput
-                            id="state"
-                            size="md"
-                            value={selectedState}
-                            onChange={(e) => handleStateChange(Number(e.target.value))}
-                            options={
-                                states.map(s => ({
-                                    value: s.id_estado,
-                                    label: s.estado,
-                                }))}
-                            error={dropdownErrors.selectedState}
-                        >
-                            Estado
-                        </DropdownInput>
-
-                        <DropdownInput
-                            id="town"
-                            size="md"
-                            value={selectedTown}
-                            onChange={(e) => handleTownChange(Number(e.target.value))}
-                            options={
-                                towns.map(s => ({
-                                    value: s.id_municipio,
-                                    label: s.municipio,
-                                }))}
-                            error={dropdownErrors.selectedTown}
-                        >
-                            Municipio
-                        </DropdownInput>
-
-                        <DropdownInput
-                            id="zone"
-                            size="md"
-                            value={selectedZone}
-                            onChange={(e) => handleZoneChange(Number(e.target.value))}
-                            options={
-                                zones.map(s => ({
-                                    value: s.id_zona,
-                                    label: s.descripcion,
-                                }))}
-                            error={dropdownErrors.selectedZone}
-                        >
-                            Zona
-                        </DropdownInput>
-                    </div>
 
                 </section>
 
