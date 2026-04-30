@@ -19,6 +19,26 @@ import useRegisterClientViewModel from '../../viewmodels/admin/registerClientVie
 import '../../../css/registerClient/registerClient.css';
 import '../../../css/molecules/inputComponent.css';
 
+/**
+ * Vista principal del formulario de registro de un nuevo cliente.
+ * Orquesta dos ViewModels: uno para los catálogos del formulario
+ * y otro para el estado y envío de los datos del cliente.
+ *
+ * El formulario se divide en cuatro secciones:
+ * - Información personal (nombre, apellidos, correo, teléfono).
+ * - Datos familiares (mascotas, familia, notas adicionales).
+ * - Ubicación (dirección de entrega).
+ * - Asignación de ruta (día de ruta mediante dropdown).
+ *
+ * Muestra un indicador de carga mientras se obtienen los catálogos,
+ * y un mensaje de error si la carga falla.
+ * Los campos de texto aplican sanitización en tiempo real al cambio de valor.
+ * Los botones quedan deshabilitados mientras hay una operación en curso.
+ *
+ * @returns {JSX.Element} Formulario de registro de cliente o indicador de carga/error.
+ * @see useRegisterClientCatalogViewModel
+ * @see useRegisterClientViewModel
+ */
 function RegisterClient(){
 
     const {

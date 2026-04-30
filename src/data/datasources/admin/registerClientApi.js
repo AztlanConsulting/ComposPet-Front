@@ -1,6 +1,14 @@
 import api from '../../../api/axiosConfig'; 
 import { handleHttpError } from '../../infrastructure/httpErrorHandler';
 
+/**
+ * Cliente HTTP para el módulo de registro de clientes.
+ * Implementa las llamadas al backend mediante la instancia de Axios configurada.
+ * Los errores de red o de respuesta son procesados por {@link handleHttpError}
+ * antes de propagarse a las capas superiores.
+ *
+ * @see handleHttpError
+ */
 export class RegisterClientApi {
 
     async getRegisterClient(){

@@ -7,6 +7,21 @@ import ProblemAlert from '../../../components/Template/ProblemAlert';
 
 import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
 
+/**
+ * Valida los campos de texto obligatorios del formulario de registro de clientes.
+ * No valida los campos de tipo dropdown; éstos son validados por `validateDropdowns`
+ * en el ViewModel del catálogo.
+ * Los campos opcionales (segundo apellido, mascotas, familia, notas)
+ * quedan excluidos de esta validación.
+ *
+ * @param {string} name - Nombre del cliente.
+ * @param {string} lastname1 - Primer apellido del cliente.
+ * @param {string} email - Correo electrónico del cliente.
+ * @param {string} phone - Teléfono de contacto. Acepta formato mexicano con o sin prefijo +52.
+ * @param {string} address - Dirección de entrega del cliente.
+ * @returns {{ errors: Object, hasErrors: boolean }} Objeto con los mensajes de error por campo
+ * y una bandera que indica si existe al menos un error.
+ */
 function validateForm(name, lastname1, email, phone, address){
     const errors = { name: "", lastname1: "", email: "", phone: "", address: "" };
     let hasErrors = false;
@@ -51,6 +66,15 @@ function validateForm(name, lastname1, email, phone, address){
     return { errors, hasErrors };
 }
 
+/**
+ * ViewModel para el formulario de registro de un nuevo cliente.
+ * Gestiona el estado de todos los campos del formulario, la validación,
+ * el envío de datos y la navegación al cancelar o confirmar el registro.
+ * Incluye protección contra pérdida de datos no guardados al cerrar o recargar la página,
+ * disparada cuando cualquier campo del formulario contiene información.
+ *
+ */
+
 function useRegisterClientViewModel(){
 
     const[errors, setErrors] = useState({ name: "", lastname1: "", email: "", phone: "", address: "" });
@@ -88,6 +112,21 @@ function useRegisterClientViewModel(){
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [hasUnsavedChanges]);
 
+    /**
+     * Maneja el envío del formulario de registro.
+     * Ejecuta la validación de campos de texto y de dropdowns en paralelo.
+     * Si existen errores, aplica scroll y foco automático al primer campo inválido.
+     * Si la validación es exitosa, ejecuta el caso de uso de registro.
+     * Maneja de forma diferenciada el error 409 (correo duplicado)
+     * del resto de errores de servidor.
+     *
+     * @param {React.FormEvent} e - Evento de envío del formulario.
+     * @param {Object} dropdownContext - Contexto de validación de los dropdowns del catálogo.
+     * @param {string} dropdownContext.selectedDay - Día de ruta seleccionado en el formulario.
+     * @param {Function} dropdownContext.validateDropdowns - Función que valida los campos dropdown.
+     * @param {Function} dropdownContext.setDropdownErrors - Setter de errores de los dropdowns.
+     * @returns {Promise<void>}
+     */
     const handleSubmit = async (e, { selectedDay, validateDropdowns, setDropdownErrors }) => {
         
         e.preventDefault();
@@ -150,6 +189,13 @@ function useRegisterClientViewModel(){
         
     };
 
+    /**
+     * Muestra una alerta de confirmación antes de cancelar el formulario.
+     * Si el usuario confirma, navega a la vista de información de clientes
+     * descartando todos los cambios no guardados.
+     *
+     * @returns {Promise<void>}
+     */
     const cancelForm = async () => {
         const result = await ConfirmAlert({
             title: "¿Estas seguro que deseas salir del formulario?",
@@ -163,6 +209,12 @@ function useRegisterClientViewModel(){
         }
     };
 
+    /**
+     * Muestra una alerta de éxito tras completar el registro del cliente.
+     * Si el usuario confirma, navega a la vista de información de clientes.
+     *
+     * @returns {Promise<void>}
+     */
     const confirmForm = async () => {
         const result = await AceptAlert({
             title: "¡Cliente registrado con éxito!",

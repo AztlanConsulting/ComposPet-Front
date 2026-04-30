@@ -2,8 +2,19 @@ import { RegisterClientCatalog } from "../../../domain/entities/admin/registerCl
 import { NewClient } from "../../../domain/entities/admin/newClient";
 import { RegisterClientIRepository } from "../../../domain/repositories/admin/registerClientInterfaceRepository";
 
+/**
+ * Implementación concreta del repositorio de registro de clientes.
+ * Extiende {@link RegisterClientIRepository} y delega las llamadas
+ * a la fuente de datos mediante el cliente de API inyectado.
+ * Transforma las respuestas crudas de la API en entidades del dominio.
+ *
+ * @extends RegisterClientIRepository
+ */
 export class RegisterClientRepository extends RegisterClientIRepository{
-
+    /**
+     * @param {Object} apiClient - Cliente de API que provee los métodos de comunicación
+     * con el backend. Debe implementar `getRegisterClient` y `postRegisterClient`.
+     */
     constructor(apiClient){
         super();
         this.apiClient = apiClient
