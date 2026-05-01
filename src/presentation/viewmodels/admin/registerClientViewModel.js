@@ -61,6 +61,9 @@ function validateForm(name, lastname1, email, phone, address){
     if (!address) {
         errors.address = "La dirección es requerida.";
         hasErrors = true;
+    } else if (!/^[a-zA-ZÀ-ÿ0-9\s.,#-]{5,150}$/.test(address)) {
+        errors.address = "Ingresa una dirección válida.";
+        hasErrors = true;
     }
 
     return { errors, hasErrors };
