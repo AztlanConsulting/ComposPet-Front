@@ -181,6 +181,7 @@ function RegisterClient(){
                     <InputComponent
                         id="pets"
                         type="text"
+                        placeholder="Ej. 3 perros, 2 gatos."
                         value={pets}
                         classNameLabel="label"
                         classNameInput="register-input"
@@ -192,6 +193,7 @@ function RegisterClient(){
                     <InputComponent
                         id="family"
                         type="text"
+                        placeholder="Ej. 2 adultos, 1 niño."
                         value={family}
                         classNameLabel="label"
                         classNameInput="register-input"
