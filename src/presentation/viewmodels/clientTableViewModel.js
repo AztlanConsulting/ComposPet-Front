@@ -18,9 +18,9 @@ function useClientTableViewModel() {
         {field: "notes", headerName: "Notas"},
         {field: "cellphone", headerName: "Teléfono"},
         {field: "address", headerName: "Dirección"},
-        {field: "zone", headerName: "Zona"},
+        {field: "route", headerName: "Ruta"},
         {field: "pets", headerName: "Mascotas"},
-        {field: "familySize", headerName: "Familia"},
+        {field: "family", headerName: "Familia"},
         {field: "status", headerName: "Estatus"},
     ])
 

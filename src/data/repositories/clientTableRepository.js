@@ -43,14 +43,14 @@ export class ClientTableRepository extends ClientTableIRepository{
             const  clientObject = new ClientInfo({
                 clientId: client.clientId,
                 pets: client.pets,
-                familySize: client.familySize,
+                family: client.family,
                 address: client.address,
                 notes: client.notes,
                 name: client.name,
                 cellphone: client.cellphone,
                 balance: client.balance,
                 lastRequest: client.lastRequest,
-                zone: client.zone,
+                route: client.route,
                 status: client.status,
             });
 
