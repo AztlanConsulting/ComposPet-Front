@@ -101,6 +101,30 @@ function useRegisterClientViewModel(){
                         email || phone || address || 
                         pets || family || notes;
 
+    const validateField = (field, value) => {
+        const updatedValues = {
+            name,
+            lastname1,
+            email,
+            phone,
+            address,
+            [field]: value
+        };
+
+        const { errors: newErrors } = validateForm(
+            updatedValues.name,
+            updatedValues.lastname1,
+            updatedValues.email,
+            updatedValues.phone,
+            updatedValues.address
+        );
+
+        setErrors(prev => ({
+            ...prev,
+            [field]: newErrors[field]
+        }));
+    };
+
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (hasUnsavedChanges) {
@@ -239,6 +263,7 @@ function useRegisterClientViewModel(){
         address, setAddress,
         cancelForm, confirmForm,
         handleSubmit,
+        validateField,
         nameRef, lastname1Ref, 
         emailRef, phoneRef, addressRef,
     };

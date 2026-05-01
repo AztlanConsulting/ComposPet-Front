@@ -58,7 +58,8 @@ function RegisterClient(){
         lastname2, setLastName2, email, setEmail,
         phone, setPhone, pets, setPets, family, setFamily,
         notes, setNotes, address, setAddress, cancelForm, confirmForm,
-        handleSubmit, nameRef, lastname1Ref, emailRef, phoneRef, addressRef,
+        handleSubmit, validateField,
+        nameRef, lastname1Ref, emailRef, phoneRef, addressRef,
     } = useRegisterClientViewModel();
 
     if (loading) {
@@ -93,7 +94,10 @@ function RegisterClient(){
                         classNameInput={
                             `register-input ${errors.name ? "input-error" : ""}`
                         }
-                        onChange={(e) => setName(sanitizeText(e.target.value))}
+                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                            setName(value);
+                            validateField("name", value);
+                        }}
                         error={errors.name}
                         required
                     >
@@ -111,7 +115,10 @@ function RegisterClient(){
                                 `register-input-mid 
                                 ${errors.lastname1 ? "input-error" : ""}`
                             }
-                            onChange={(e) => setLastName1(sanitizeText(e.target.value))}
+                            onChange={(e) => {const value =sanitizeText(e.target.value);
+                            setLastName1(value);
+                            validateField("lastname1", value);
+                            }}
                             error={errors.lastname1}
                             required
                         >
@@ -140,7 +147,10 @@ function RegisterClient(){
                             `register-input ${errors.email ? "input-error" : ""}`
                         }
                         error={errors.email}
-                        onChange={(e) => setEmail(sanitizeEmail(e.target.value))}
+                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                            setEmail(value);
+                            validateField("email", value);
+                        }}
                     >
                         Correo
                     </InputComponent>
@@ -155,7 +165,10 @@ function RegisterClient(){
                             `register-input ${errors.phone ? "input-error" : ""}`
                         }
                         error={errors.phone}
-                        onChange={(e) => setPhone(sanitizePhone(e.target.value))}
+                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                            setPhone(value);
+                            validateField("phone", value);
+                        }}
                     >
                         Número de teléfono
                     </InputComponent>
@@ -218,7 +231,10 @@ function RegisterClient(){
                             `register-input ${errors.address ? "input-error" : ""}`
                         }
                         error={errors.address}
-                        onChange={(e) => setAddress(sanitizeText(e.target.value))}
+                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                            setAddress(value);
+                            validateField("address", value);
+                        }}
                     >
                         Dirección
                     </InputComponent>

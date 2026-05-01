@@ -76,6 +76,11 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
      */
     const handleDayOfRouteChange = (dia_ruta) => {
         setSelectedDay(dia_ruta);
+
+        setDropdownErrors(prev => ({
+        ...prev,
+        selectedDay: dia_ruta ? "" : "El día de ruta es requerido."
+    }));
     };
 
     return {
