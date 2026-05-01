@@ -29,6 +29,7 @@ import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
+import ClientTable from './presentation/views/clientTableView';
 
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 
@@ -249,6 +250,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/tabla-clientes" element={<ClientTable />} />
                     </Route>
                 </Routes>
             </Router>
