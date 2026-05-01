@@ -1,5 +1,7 @@
 import React from 'react';
 import { AgGridReact } from "ag-grid-react";
+import { AG_GRID_LOCALE_ES } from '@ag-grid-community/locale';
+
 import '../../css/organisms/ClientTable.css';
 
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
@@ -29,6 +31,7 @@ export default function ClientTable({
                 loading={loading}
                 pagination={true}
                 enableBrowserTooltips={true}
+                localeText={AG_GRID_LOCALE_ES}
             />
         </div>
     );
