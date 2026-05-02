@@ -215,6 +215,7 @@ function RegisterClient(){
                         placeholder="Escribe cualquier nota adicional sobre el cliente."
                         className="register-input-notes"
                         value={notes}
+                        maxLength={1000}
                         onChange={(e) => setNotes(e.target.value)}
                     />
                 </section>
