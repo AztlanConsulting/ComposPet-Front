@@ -273,3 +273,4 @@ function useRegisterClientViewModel(){
 }
 
 export default useRegisterClientViewModel;
+export { validateForm };
