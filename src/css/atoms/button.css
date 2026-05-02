@@ -52,11 +52,19 @@
     color: var(--color-white);
 }
 
+.info:hover{
+    box-shadow: 0px 4px 10px rgba(247, 148, 29, .50);
+}
+
 .warning {
     background-color: var(--color-red-secondary);
     color: var(--color-red-primary);
     border-width: 0.12rem;
     border-color: var(--color-red-primary);
+}
+
+.warning:hover{
+    box-shadow: 0px 4px 10px rgba(209, 66, 66, .50);
 }
 
 .cancel {
@@ -66,17 +74,28 @@
     border-color: var(--color-green-secondary);
 }
 
+.cancel:hover{
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
+}
+
 .accept {
     background-color: var(--color-green-secondary);
     color: var(--color-white);
 }
 
+.accept:hover{
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
+}
 
 .login {
     background-color: #DBFFF2;
     color: var(--color-green-primary);
     border-width: 0.12rem;
     border-color: var(--color-green-primary);
+}
+
+.login:hover{
+    box-shadow: 0px 4px 10px rgba(21, 161, 155, .50);
 }
 
 .plus-min{

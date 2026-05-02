@@ -1,0 +1,102 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.formField {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
+    position: relative;
+}
+
+.label-dropdown {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-secondary);
+}
+
+/* Trigger del dropdown */
+.formSelect {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-md);
+    justify-content: space-between;
+    padding: 10px 14px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-green-secondary);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-bg);
+    cursor: pointer;
+    user-select: none;
+}
+
+.formSelect.open {
+    border-color: var(--color-green-secondary);
+}
+
+.placeholder {
+    color: var(--color-bg);
+    opacity: 0.5;
+}
+
+/* Flecha */
+.selectArrow {
+    width: 20px;
+    height: 24px;
+    transform: rotate(90deg);
+    transition: transform 0.2s ease;
+    filter: invert(22%) sepia(49%) saturate(600%) hue-rotate(140deg) brightness(85%);
+}
+
+.selectArrow.rotated {
+    transform: rotate(-90deg);
+}
+
+/* Lista de opciones */
+.selectOptions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    font-size: var(--font-size-md);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-green-secondary);
+    border-radius: var(--border-radius-lg);
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Cada opción */
+.selectOption {
+    padding: 10px 14px;
+    border-radius: calc(var(--border-radius-lg) - 2px);
+    color: var(--color-green-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.selectOption:hover {
+    background-color: #D9F4F3; 
+}
+
+.selectOption.selected {
+    background-color: rgba(21, 161, 155, .25); ;
+}
+
+.selectedLabel {
+    color: var(--color-green-secondary);
+    font-weight: 500;
+}
+
+.placeholder {
+    color: var(--color-green-secondary);
+    opacity: 0.5;
+}
+
+.dropdown-error {
+    border-color: red !important;
+}
