@@ -81,14 +81,14 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         });
     });
 
-    it("Iniciar en el paso 1 y tener 4 pasos totales", () => {
+    it("Iniciar en el paso 1 y tener 3 pasos totales", () => {
 
         //Actuar (Preparar)
         const { result } = renderHook(() => useCollectionRequestViewModel());
 
         //Afirmar
         expect(result.current.currentStep).toBe(1);
-        expect(result.current.totalSteps).toBe(4);
+        expect(result.current.totalSteps).toBe(3);
         expect(result.current.primaryButtonText).toBe("Siguiente");
         expect(result.current.secondaryButtonText).toBe("Cancelar");
     });
