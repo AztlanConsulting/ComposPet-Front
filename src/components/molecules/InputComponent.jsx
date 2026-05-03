@@ -1,8 +1,9 @@
-import React from 'react'
 import Input from "../atoms/Input";
 import Label from "../atoms/Label";
+import React, { forwardRef } from 'react'; 
 
 import "../../css/molecules/inputComponent.css"
+
 
 /**
  * Componente de input con label asociado.
@@ -19,7 +20,7 @@ import "../../css/molecules/inputComponent.css"
  * @param {React.ReactNode} children - Contenido de texto de la etiqueta.
  * @returns {JSX.Element} Contenedor con Label e Input vinculados.
  */
-export default function InputComponent({
+const InputComponent = forwardRef(({
     placeholder = "",
     size = "md",
     id = "",
@@ -30,8 +31,7 @@ export default function InputComponent({
     value = "",
     error = "",
     children,
-    ref = "", 
-})  {
+}, ref) => { 
     return (
         <div className="ml-4">
             <Label size={size} id={id} className={classNameLabel}>
@@ -54,4 +54,6 @@ export default function InputComponent({
             )}
         </div>
     );
-}
+});
+
+export default InputComponent;

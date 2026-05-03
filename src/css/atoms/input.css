@@ -24,6 +24,12 @@
     caret-color: var(--color-green-primary);
 }
 
+.input::placeholder{
+    color: var(--color-green-secondary) !important;
+    opacity: .8 !important;
+    white-space: pre-wrap;
+}
+
 .input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px 
     var(--color-bg) inset !important;
