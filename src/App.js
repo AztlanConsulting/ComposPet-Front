@@ -30,6 +30,7 @@ import DropdownInput from './components/molecules/DropdownInput';
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
+import ClientTable from './presentation/views/clientTableView';
 
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 
@@ -196,6 +197,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/tabla-clientes" element={<ClientTable />} />
                         <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
                 </Routes>

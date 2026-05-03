@@ -21,4 +21,21 @@ export class ClientApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Obtiene la lista de clientes de Compospet
+     * * @async
+     * @returns {Promise<List<Object>>} Lista de clientes
+     * @throws {Error}
+     */
+    async getClientTable(){
+        try{
+
+            const response = await api.get('cliente/informacion');
+            return response.data.clientList;
+
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }
