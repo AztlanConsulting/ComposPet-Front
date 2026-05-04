@@ -27,6 +27,7 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
+import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 
@@ -249,6 +250,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/ruta" element={<RoutesInfo />} />
                     </Route>
                 </Routes>
             </Router>
