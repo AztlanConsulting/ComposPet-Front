@@ -8,6 +8,7 @@ export function getClientTableColumns({
     handleSave,
     handleCancel,
     isCellChanged,
+    routeList,
 }) {
 
     const modifiedClassRule = {
@@ -105,7 +106,7 @@ export function getClientTableColumns({
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
             cellEditorParams: {
-                values: ["Ruta 1", "Ruta 2"],
+                values: routeList,
             },
         },
 

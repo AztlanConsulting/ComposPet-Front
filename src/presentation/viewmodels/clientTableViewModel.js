@@ -20,6 +20,8 @@ function useClientTableViewModel() {
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [routeList, setRouteList] = useState([]);
+
     const getTableUseCase = useMemo(() => {
         const datasource = new ClientApiClient();
         const repository = new ClientTableRepository(datasource);
@@ -101,6 +103,7 @@ function useClientTableViewModel() {
             handleSave,
             handleCancel,
             isCellChanged,
+            routeList,
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 

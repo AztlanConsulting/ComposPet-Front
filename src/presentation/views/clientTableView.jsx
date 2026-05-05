@@ -16,6 +16,7 @@ export default function ClientTableView() {
         columnDefinitions,
         defaultColDef,
         editingRowId,
+        routeList,
     } = useClientTableViewModel();
 
 return (
