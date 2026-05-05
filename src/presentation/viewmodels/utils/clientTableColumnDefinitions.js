@@ -8,7 +8,8 @@ export function getClientTableColumns({
     handleSave,
     handleCancel,
     isCellChanged,
-    routeList,
+    routeMap,
+    routeOptions,
 }) {
 
     const modifiedClassRule = {
@@ -100,14 +101,21 @@ export function getClientTableColumns({
         },
 
         {
-            field: "route",
+            field: "routeId",
             headerName: "Ruta",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
             cellEditorParams: {
-                values: routeList,
+                values: routeOptions,
             },
+            valueFormatter: (params) => {
+                return routeMap[params.value] || params.value;
+            },
+            valueParser: (params) => {
+                return params.newValue;
+            },
+
         },
 
         {

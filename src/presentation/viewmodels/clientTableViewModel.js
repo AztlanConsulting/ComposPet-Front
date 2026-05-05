@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
+
+// CLI-03
 import { GetClientTableUseCase } from "../../domain/useCases/getClientTableUseCase";
 import { ClientTableRepository } from "../../data/repositories/clientTableRepository";
 import { ClientApiClient } from "../../data/datasources/clientApiClient";
+
+// CLI-07
+import { GetRoutesUseCase } from "../../domain/useCases/getRoutesUseCase";
+import { UpdateClientRepository } from "../../data/repositories/updateClientRepository";
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
 
@@ -22,11 +28,38 @@ function useClientTableViewModel() {
 
     const [routeList, setRouteList] = useState([]);
 
+    const routeOptions = routeList.map(r => r.id_ruta);
+    const routeMap = Object.fromEntries(
+        routeList.map(r => [r.id_ruta, r.dia_ruta])
+    );
+
     const getTableUseCase = useMemo(() => {
         const datasource = new ClientApiClient();
         const repository = new ClientTableRepository(datasource);
         return new GetClientTableUseCase(repository);
     }, []);
+
+    const getRoutesUseCase = useMemo(() => {
+        const datasource = new ClientApiClient();
+        const repository = new UpdateClientRepository(datasource);
+        return new GetRoutesUseCase(repository);
+    }, []);
+
+    const getRoutes = useCallback( async () => {
+        if (loading) return;
+
+        try{
+            setLoading(true);
+
+            const response = await getRoutesUseCase.execute();
+            setRouteList(response);
+
+        } catch (error) {
+            console.log("Error loading routes list: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [getRoutesUseCase]);
 
     const getInfo = useCallback( async () => {
 
@@ -48,6 +81,7 @@ function useClientTableViewModel() {
 
     useEffect(() => {
         getInfo();
+        getRoutes();
     }, []);
 
     const isCellChanged = useCallback((params) => {
@@ -103,7 +137,8 @@ function useClientTableViewModel() {
             handleSave,
             handleCancel,
             isCellChanged,
-            routeList,
+            routeMap,
+            routeOptions,
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
