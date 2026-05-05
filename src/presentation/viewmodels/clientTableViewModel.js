@@ -124,9 +124,17 @@ function useClientTableViewModel() {
     }, [originalClientList]);
 
     const handleSave = useCallback((params) => {
-        const updatedData = params.data;
-        console.log("Guardar:", updatedData);
-        setEditingRowId(null);
+        try {
+            setLoading(true);
+            const updatedData = params.data;
+            console.log("Guardar: ", updatedData);
+            
+            setEditingRowId(null);
+        } catch (error) {
+            console.log("Error updating client data: ", error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
     // AG Table columns config

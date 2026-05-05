@@ -2,6 +2,8 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
+import { validateField } from "./clientFieldsValidations";
+
 export function getClientTableColumns({
     editingRowId,
     handleEdit,
@@ -77,6 +79,18 @@ export function getClientTableColumns({
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("balance", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.balance = Number(params.newValue);
+                return true;
+            },
         },
 
         {
@@ -84,6 +98,18 @@ export function getClientTableColumns({
             headerName: "Notas",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("notes", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.notes = params.newValue;
+                return true;
+            },
         },
 
         {
@@ -91,6 +117,18 @@ export function getClientTableColumns({
             headerName: "Teléfono",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("cellphone", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.phone = Number(params.newValue);
+                return true;
+            },
         },
 
         {
@@ -98,6 +136,18 @@ export function getClientTableColumns({
             headerName: "Dirección",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("address", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.address = params.newValue;
+                return true;
+            },
         },
 
         {
@@ -123,6 +173,18 @@ export function getClientTableColumns({
             headerName: "Mascotas",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("pets", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.pets = params.newValue;
+                return true;
+            },
         },
 
         {
@@ -130,6 +192,18 @@ export function getClientTableColumns({
             headerName: "Familia",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("family", params.newValue);
+
+                if (validation !== true){
+                    alert(validation);
+                    return false;
+                }
+
+                params.data.family = params.newValue;
+                return true;
+            },
         },
 
         {

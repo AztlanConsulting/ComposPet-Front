@@ -32,7 +32,6 @@ export class ClientApiClient {
         try{
 
             const response = await api.get('cliente/informacion');
-            console.log(response.data.clientList);
             return response.data.clientList;
 
         } catch (error) {
