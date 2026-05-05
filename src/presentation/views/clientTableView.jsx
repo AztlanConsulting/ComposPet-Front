@@ -1,5 +1,7 @@
 import useClientTableViewModel from "../viewmodels/clientTableViewModel";
 import ClientTable from "../../components/organisms/ClientTable";
+import '../../css/atoms/clientTableColumnsDef.css';
+import Navbar from "../../components/molecules/Navbar";
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -17,8 +19,9 @@ export default function ClientTableView() {
     } = useClientTableViewModel();
 
 return (
-    <div>
+    <main className="background">
 
+        <Navbar />
     
         <div>
             Parte de arriba
@@ -35,7 +38,7 @@ return (
             </ClientTable>
         </div>
 
-    </div>
+    </main>
 
 
     );
