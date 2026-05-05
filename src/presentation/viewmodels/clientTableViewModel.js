@@ -3,6 +3,8 @@ import { GetClientTableUseCase } from "../../domain/useCases/getClientTableUseCa
 import { ClientTableRepository } from "../../data/repositories/clientTableRepository";
 import { ClientApiClient } from "../../data/datasources/clientApiClient";
 
+import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
+
 /**
  * ViewModel para la tabla de información de clientes de Compospet
  *
@@ -10,27 +12,10 @@ import { ClientApiClient } from "../../data/datasources/clientApiClient";
  */
 function useClientTableViewModel() {
 
-    // AG Table config
-    const columnDefinitions = useMemo(() => [
-        {field: "name", headerName: "Nombre"},
-        {field: "lastRequest", headerName: "Última recolección"},
-        {field: "balance", headerName: "Saldo"},
-        {field: "notes", headerName: "Notas"},
-        {field: "cellphone", headerName: "Teléfono"},
-        {field: "address", headerName: "Dirección"},
-        {field: "route", headerName: "Ruta"},
-        {field: "pets", headerName: "Mascotas"},
-        {field: "family", headerName: "Familia"},
-        {field: "status", headerName: "Estatus"},
-    ])
+    // Estados para manejar la edición 
+    const [editingRowId, setEditingRowId] = useState(null);
+    const [originalClientList, setOriginalClientList] = useState([]);
 
-    const defaultColDef = useMemo(() => ({
-        filter: true,
-        sortable: true,
-        resizable: true,
-        floatingFilter: true,
-        tooltipValueGetter: (params) => params.value,
-    }), []);
 
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -50,6 +35,7 @@ function useClientTableViewModel() {
 
             const response = await getTableUseCase.execute();
             setClientList(response);
+            setOriginalClientList(JSON.parse(JSON.stringify(response)));
 
         } catch (error) {
             console.log("Error loading client data: ", error);
@@ -62,11 +48,76 @@ function useClientTableViewModel() {
         getInfo();
     }, []);
 
+    const isCellChanged = useCallback((params) => {
+        const rowId = params.data.clientId;
+        const field = params.colDef.field;
+
+        const originalRow = originalClientList.find(c => c.clientId === rowId);
+
+        if (!originalRow) return false;
+
+        return originalRow[field] !== params.value;
+    }, [originalClientList]);
+
+    const handleEdit = useCallback((params) => {
+
+        if (editingRowId !== null) return;
+
+        setEditingRowId(params.data.clientId);
+
+        setTimeout(() => {
+            params.api.startEditingCell({
+                rowIndex: params.node.rowIndex,
+                colKey: 'balance', 
+            });
+        });
+    }, []);
+
+    const handleCancel = useCallback((params) => {
+        const rowId = params.data.clientId;
+
+        const originalRow = originalClientList.find(r => r.clientId === rowId);
+
+        if(!originalRow) return;
+
+        params.node.setData({...originalRow});
+
+        setEditingRowId(null);
+
+        params.api.refreshCells({force: true});
+    }, [originalClientList]);
+
+    const handleSave = useCallback((params) => {
+        const updatedData = params.data;
+        console.log("Guardar:", updatedData);
+        setEditingRowId(null);
+    }, []);
+
+    // AG Table columns config
+    const columnDefinitions = useMemo(() => 
+        getClientTableColumns({
+            editingRowId,
+            handleEdit,
+            handleSave,
+            handleCancel,
+            isCellChanged,
+        }),
+    [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
+
+    const defaultColDef = useMemo(() => ({
+        filter: true,
+        sortable: true,
+        resizable: true,
+        floatingFilter: true,
+        tooltipValueGetter: (params) => params.value,
+    }), []);
+
     return {
         clientList,
         loading,
         columnDefinitions,
         defaultColDef,
+        editingRowId,
     };
 }
 

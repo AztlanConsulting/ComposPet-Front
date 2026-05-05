@@ -13,6 +13,7 @@ export default function ClientTableView() {
         clientList,
         columnDefinitions,
         defaultColDef,
+        editingRowId,
     } = useClientTableViewModel();
 
 return (
@@ -29,6 +30,7 @@ return (
                 clientList={clientList}
                 columnDefinitions={columnDefinitions}
                 defaultColDef={defaultColDef}
+                editingRowId={editingRowId}
             >
             </ClientTable>
         </div>
