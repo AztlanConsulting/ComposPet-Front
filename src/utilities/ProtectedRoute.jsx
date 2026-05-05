@@ -2,25 +2,35 @@ import { Navigate, Outlet } from "react-router-dom";
 import { isAuthenticated } from "../api/axiosConfig";
 
 /**
- * Componente de Ruta Protegida (Guarda de Navegación).
- * Restringe el acceso a sub-rutas basándose en el estado de autenticación.
- * * El componente verifica dos niveles de persistencia:
- * 1. El estado en memoria (vía `isAuthenticated()`).
- * 2. La existencia del objeto de usuario en `sessionStorage` (para persistencia en recargas).
- * * @returns {JSX.Element} Renderiza las rutas hijas mediante `<Outlet />` si el usuario es válido,
- * de lo contrario, redirige a la página de inicio de sesión.
+ * Componente de ruta protegida que actúa como guardia de navegación.
+ * Restringe el acceso a rutas basándose en el estado de autenticación
+ * y en el rol del usuario autenticado.
+ *
+ * Si el usuario no está autenticado, redirige a `/inicio-sesion`.
+ * Si el usuario está autenticado pero su rol no está incluido en los roles
+ * permitidos, redirige a `/error`.
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {string[]} [props.roles] - Lista de roles con acceso permitido a las sub-rutas.
+ * Si no se proporciona, cualquier usuario autenticado puede acceder.
+ * @returns {JSX.Element} Renderiza las rutas hijas mediante `<Outlet />` si el usuario
+ * es válido y tiene el rol requerido; de lo contrario, redirige según el caso.
+ * @see isAuthenticated
  */
-export default function ProtectedRoute() {
-    /**
-     * Recuperamos la información del usuario de sessionStorage.
-     * Se usa como respaldo en caso de que el estado en memoria de axiosConfig
-     * se haya limpiado tras un refresco de página (F5).
-     */
-    const user = sessionStorage.getItem("user");
+export default function ProtectedRoute({roles}) {
 
-    if (isAuthenticated() || user) {
-        return <Outlet />;
+    const userRaw = sessionStorage.getItem("user");
+    const user = userRaw ? JSON.parse(userRaw) : null;
+    const userRole = user?.rol;
+
+    if (!isAuthenticated() && !user) {
+        return <Navigate to="/inicio-sesion" replace />;
     }
 
-    return <Navigate to="/inicio-sesion" replace />;
+    if (roles && !roles.includes(userRole)){
+        return <Navigate to="/error" replace />;
+    }
+
+    return <Outlet />;
 }
+
