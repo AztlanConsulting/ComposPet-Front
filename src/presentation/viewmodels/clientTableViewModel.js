@@ -116,7 +116,7 @@ function useClientTableViewModel() {
                 colKey: 'balance', 
             });
         });
-    }, []);
+    }, [editingRowId]);
 
     const handleCancel = useCallback((params) => {
         const rowId = params.data.clientId;
