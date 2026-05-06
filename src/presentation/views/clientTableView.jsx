@@ -2,6 +2,7 @@ import useClientTableViewModel from "../viewmodels/clientTableViewModel";
 import ClientTable from "../../components/organisms/ClientTable";
 import '../../css/atoms/clientTableColumnsDef.css';
 import Navbar from "../../components/molecules/Navbar";
+import ProblemAlert from "../../components/Template/ProblemAlert";
 
 /**
  * Vista de la información de los clientes de Compospet

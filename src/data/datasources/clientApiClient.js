@@ -55,4 +55,13 @@ export class ClientApiClient {
             handleHttpError(error);
         }
     }
+
+    async updateClient(updatedClient){
+        try{
+            const response = await api.post('/admin/actualizar-cliente', {clientObject: updatedClient});
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

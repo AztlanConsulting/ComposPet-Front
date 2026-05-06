@@ -12,13 +12,19 @@ export function getClientTableColumns({
     isCellChanged,
     routeMap,
     routeOptions,
+    showProblemAlert,
+    setAlertInfo,
+    loading,
 }) {
 
     const modifiedClassRule = {
         'cell-modified': (params) => isCellChanged(params)
     };
 
-
+    function blockInvalidNumberKeys(params) {
+        const forbiddenKeys = ["e", "E", "+"];
+        return forbiddenKeys.includes(params.event.key);
+    }
 
     return [
         {
@@ -38,17 +44,18 @@ export function getClientTableColumns({
                             size='mini' 
                             csstype='cancel' 
                             onClick={() => handleSave(params)}
+                            disabled={loading}
                             >
-                                <Icon name="plus" size="icon-medium" color="primary" />
+                                <Icon name="save" size="icon-medium" color="primary"/>
                             </Button>
-
                             <Button 
                             className='action-button'
                             size='mini' 
                             csstype='warning' 
                             onClick={() => handleCancel(params)}
+                            disabled={loading}
                             >
-                                <Icon name="minus" size="icon-medium" color="primary" />
+                                <Icon name="cancel" size="icon-medium" color="primary"/>
                             </Button>
                         </div>
                     );
@@ -59,11 +66,11 @@ export function getClientTableColumns({
                         <Button 
                         className='action-button'
                         disabled={isAnotherRowEditing}
-                        size='small' 
+                        size='mini' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
                         >
-                            <Icon name="piggy" size="icon-medium" color="primary" />
+                            <Icon name="edit" size="icon-medium" color="primary" />
                         </Button>
                     </div>
 
@@ -78,13 +85,28 @@ export function getClientTableColumns({
             headerName: "Saldo",
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
+
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
 
-                if (validation !== true){
-                    alert(validation);
+                if (validation !== true) {
+                    params.data.balance = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "balance",
+                        });
+                    }, 0);
+
                     return false;
                 }
 
@@ -102,8 +124,18 @@ export function getClientTableColumns({
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
 
-                if (validation !== true){
-                    alert(validation);
+                if (validation !== true) {
+                    params.data.notes = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "notes",
+                        });
+                    }, 0);
+
                     return false;
                 }
 
@@ -117,16 +149,31 @@ export function getClientTableColumns({
             headerName: "Teléfono",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            cellDataType: false,
+            cellEditor: "agNumberCellEditor",
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
 
             valueSetter: (params) => {
                 const validation = validateField("cellphone", params.newValue);
 
-                if (validation !== true){
-                    alert(validation);
+                if (validation !== true) {
+                    params.data.cellphone = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "cellphone",
+                        });
+                    }, 0);
+
                     return false;
                 }
 
-                params.data.phone = Number(params.newValue);
+                params.data.cellphone = String(params.newValue);
                 return true;
             },
         },
@@ -140,8 +187,18 @@ export function getClientTableColumns({
             valueSetter: (params) => {
                 const validation = validateField("address", params.newValue);
 
-                if (validation !== true){
-                    alert(validation);
+                if (validation !== true) {
+                    params.data.address = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "address",
+                        });
+                    }, 0);
+
                     return false;
                 }
 
@@ -196,8 +253,18 @@ export function getClientTableColumns({
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
 
-                if (validation !== true){
-                    alert(validation);
+                if (validation !== true) {
+                    params.data.family = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "family",
+                        });
+                    }, 0);
+
                     return false;
                 }
 

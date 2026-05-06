@@ -31,4 +31,17 @@ export class UpdateClientRepository extends UpdateClientIRepository {
         const response = await this.apiClient.getRoutes();
         return response;
     }
+
+    /**
+     * Obtiene las rutas disponibles
+     *
+     * @async
+     * @param {updatedClient} - Objeto con la información del cliente actualizada.
+     * @returns {Promise} - success
+     * @throws {Error}
+     */
+    async updateClient(updatedClient) {
+        const response = await this.apiClient.updateClient(updatedClient);
+        return response;
+    }
 }

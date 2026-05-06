@@ -7,9 +7,12 @@ import { ClientApiClient } from "../../data/datasources/clientApiClient";
 
 // CLI-07
 import { GetRoutesUseCase } from "../../domain/useCases/getRoutesUseCase";
+import { UpdateClientUseCase } from "../../domain/useCases/updateClientUseCase";
 import { UpdateClientRepository } from "../../data/repositories/updateClientRepository";
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
+import ProblemAlert from "../../components/Template/ProblemAlert";
+import AceptAlert from "../../components/Template/AceptAlert";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -43,6 +46,12 @@ function useClientTableViewModel() {
         const datasource = new ClientApiClient();
         const repository = new UpdateClientRepository(datasource);
         return new GetRoutesUseCase(repository);
+    }, []);
+
+    const updateClientUseCase = useMemo(() => {
+        const datasource = new ClientApiClient();
+        const repository = new UpdateClientRepository(datasource);
+        return new UpdateClientUseCase(repository);
     }, []);
 
     const getRoutes = useCallback( async () => {
@@ -123,19 +132,23 @@ function useClientTableViewModel() {
         params.api.refreshCells({force: true});
     }, [originalClientList]);
 
-    const handleSave = useCallback((params) => {
+    const handleSave = useCallback( async (params) => {
         try {
             setLoading(true);
+            params.api.stopEditing(false);
             const updatedData = params.data;
-            console.log("Guardar: ", updatedData);
+            const response = await updateClientUseCase.execute(updatedData);
+            getInfo();
             
             setEditingRowId(null);
+
+            await AceptAlert({});
         } catch (error) {
             console.log("Error updating client data: ", error);
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [updateClientUseCase]);
 
     // AG Table columns config
     const columnDefinitions = useMemo(() => 
@@ -147,6 +160,13 @@ function useClientTableViewModel() {
             isCellChanged,
             routeMap,
             routeOptions,
+            showProblemAlert: async (title, text) => {
+                await ProblemAlert({
+                    title,
+                    text
+                });
+            },
+            loading,
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 

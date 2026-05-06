@@ -21,4 +21,16 @@ export class UpdateClientIRepository{
         throw new Error('UpdateClientIRepository.getRoutes() not implemented')
     }
 
+    /**
+     * Obtiene las rutas disponibles.
+     *
+     * @abstract
+     * @param {ClientInfo} updatedClient - Objeto del cliente con la información actualizada.
+     * @returns {Promise} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */ 
+    async updateClient(updatedClient){
+        throw new Error('UpdateClientIRepository.updateClient not implemented')
+    }
+
 }
