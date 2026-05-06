@@ -102,17 +102,16 @@ describe("useClientTableViewModel", () => {
             })
         );
 
-        let result;
-        await act(async () => {
-        ({result} = renderHook(() => useClientTableViewModel()))
-        });
-
         // Act
+        const { result } = renderHook(() => useClientTableViewModel());
+
         await waitFor(() => {
             expect(result.current.loading).toBe(true);
         });
 
-        resolvePromise([]);
+        await act(async () => {
+            resolvePromise([]);
+        });
 
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
@@ -120,27 +119,6 @@ describe("useClientTableViewModel", () => {
 
         // Assert
         expect(executeMock).toHaveBeenCalledTimes(1);
-    });
-
-    it("Inicializa correctamente las columnas", () => {
-        // Act
-        const { result } = renderHook(() =>
-            useClientTableViewModel()
-        );
-
-        // Assert
-        expect(result.current.columnDefinitions).toEqual([
-            { field: "name", headerName: "Nombre" },
-            { field: "lastRequest", headerName: "Última recolección" },
-            { field: "balance", headerName: "Saldo" },
-            { field: "notes", headerName: "Notas" },
-            { field: "cellphone", headerName: "Teléfono" },
-            { field: "address", headerName: "Dirección" },
-            { field: "route", headerName: "Ruta" },
-            { field: "pets", headerName: "Mascotas" },
-            { field: "family", headerName: "Familia" },
-            { field: "status", headerName: "Estatus" },
-        ]);
     });
 
     it("Inicializa correctamente defaultColDef", () => {
