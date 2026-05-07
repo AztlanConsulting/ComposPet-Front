@@ -1,5 +1,8 @@
 import useClientTableViewModel from "../viewmodels/clientTableViewModel";
 import ClientTable from "../../components/organisms/ClientTable";
+import '../../css/atoms/clientTableColumnsDef.css';
+import Navbar from "../../components/molecules/Navbar";
+import ProblemAlert from "../../components/Template/ProblemAlert";
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -13,27 +16,36 @@ export default function ClientTableView() {
         clientList,
         columnDefinitions,
         defaultColDef,
+        editingRowId,
+        routeList,
     } = useClientTableViewModel();
 
 return (
-    <div>
+    <main className="background">
 
+        <Navbar />
     
-        <div>
-            Parte de arriba
-        </div>
+        <section className="content-wrapper">
+            <div>
+                Parte de arriba
+            </div>
 
-        <div>
-            <ClientTable
-                loading={loading}
-                clientList={clientList}
-                columnDefinitions={columnDefinitions}
-                defaultColDef={defaultColDef}
-            >
-            </ClientTable>
-        </div>
+            <div className="table-container">
+                <div className="table-scroll">
+                    <ClientTable
+                        loading={loading}
+                        clientList={clientList}
+                        columnDefinitions={columnDefinitions}
+                        defaultColDef={defaultColDef}
+                        editingRowId={editingRowId}
+                    >
+                    </ClientTable>
+                </div>
 
-    </div>
+            </div>            
+        </section>
+
+    </main>
 
 
     );

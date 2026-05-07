@@ -38,4 +38,30 @@ export class ClientApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Obtiene la lista de rutas disponibles
+     * * @async
+     * @returns {Promise<List<Object>>} Lista de rutas
+     * @throws {Error}
+     */
+    async getRoutes(){
+        try{
+
+            const response = await api.get('/admin/actualizar-cliente');
+            return response.data.routes;
+
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    async updateClient(updatedClient){
+        try{
+            const response = await api.post('/admin/actualizar-cliente', {clientObject: updatedClient});
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

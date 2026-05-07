@@ -20,6 +20,7 @@ export default function ClientTable({
     columnDefinitions,
     defaultColDef,
     loading,
+    editingRowId,
 }) {
 
     return (
@@ -32,6 +33,19 @@ export default function ClientTable({
                 pagination={true}
                 enableBrowserTooltips={true}
                 localeText={AG_GRID_LOCALE_ES}
+                editType="fullRow"
+                onCellClicked={(params) => {
+                    if (editingRowId && params.data.clientId === editingRowId) {
+                        setTimeout(() => {
+                            const input = document.querySelector('.ag-cell-edit-input');
+                            if (input) {
+                                const length = input.value.length;
+                                input.setSelectionRange(length, length);
+                            }
+                        });
+                    }
+                }}
+                context={{ editingRowId }}
             />
         </div>
     );
