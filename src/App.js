@@ -34,6 +34,8 @@ import CollectionRequestView from './presentation/views/collectionRequest/collec
 import ClientTable from './presentation/views/clientTableView';
 
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
+import ProblemAlert from './components/Template/ProblemAlert';
+import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 
 function Home() {
     const navigate = useNavigate();
@@ -190,18 +192,33 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
+                    
+                    <Route path="/error" element={<UnauthorizedPage/>} />
                     <Route path="/inicio-sesion" element={<LoginForm />} />
                     <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
                     <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
+                    {/* Rutas para usuarios autenticados */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
-                        <Route path="/ruta" element={<RoutesInfo />} />
                         <Route path="/tabla-clientes" element={<ClientTable />} />
                         <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
+
+                    {/* Rutas de administrador - Protegidas por Rol */}
+                    <Route element={<ProtectedRoute roles={["Administrador"]} />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/tabla-clientes" element={<ClientTable />} />
+                        <Route path="/registrar-cliente" element={<RegisterClient />} />
+                        <Route path="/ruta" element={<RoutesInfo />} />
+                    </Route>
+
+                    {/* Rutas de clientes - Protegidas por Rol */}
+                    <Route element={<ProtectedRoute roles={["Cliente"]} />}>
+                        <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                    </Route>
+
                 </Routes>
             </Router>
         </GoogleOAuthProvider>

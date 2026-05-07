@@ -1,0 +1,10 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.background {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+}
