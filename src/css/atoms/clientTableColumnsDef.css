@@ -31,3 +31,18 @@
     min-height: 100vh;
     background-color: var(--color-bg);
 }
+
+.table-container {
+    width: 100%;
+    max-width: 2500px;
+    margin: 5rem auto 0 auto;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-sizing: border-box;
+}

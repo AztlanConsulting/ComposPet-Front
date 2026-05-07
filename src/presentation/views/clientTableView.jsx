@@ -29,15 +29,18 @@ return (
             Parte de arriba
         </div>
 
-        <div>
-            <ClientTable
-                loading={loading}
-                clientList={clientList}
-                columnDefinitions={columnDefinitions}
-                defaultColDef={defaultColDef}
-                editingRowId={editingRowId}
-            >
-            </ClientTable>
+        <div className="table-container">
+            <div className="table-scroll">
+                <ClientTable
+                    loading={loading}
+                    clientList={clientList}
+                    columnDefinitions={columnDefinitions}
+                    defaultColDef={defaultColDef}
+                    editingRowId={editingRowId}
+                >
+                </ClientTable>
+            </div>
+
         </div>
 
     </main>
