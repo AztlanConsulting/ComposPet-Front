@@ -325,6 +325,7 @@ describe("useClientTableViewModel", () => {
             const mockNode = { setData: jest.fn() };
             const mockApi = {
                 startEditingCell: jest.fn(),
+                stopEditing: jest.fn(),
                 refreshCells: jest.fn(),
             };
 
