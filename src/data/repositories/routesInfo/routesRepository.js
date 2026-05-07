@@ -19,11 +19,9 @@ export class RoutesRepository{
         for (const route of routes) {
             const routeObject = new RouteInfo({
             name: route.nombre,
-            collectedBuckets: route["#Recolección"],
-            deliveredBuckets: route["#Entrega"],
+            collectedBuckets: route.recoleccion,
+            deliveredBuckets: route.entrega,
             extraProducts: route.productos_extra,
-            route: route.ruta,
-            date: route.fecha,
             schedule: route.horario,
             paymentMethod: route.forma_pago,
             totalToPay: route.total_a_pagar,

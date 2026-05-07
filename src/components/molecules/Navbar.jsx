@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import logo from '../../public/img/LogoComposPet.svg';
 import "../../css/molecules/navbar.css";
@@ -35,23 +36,45 @@ import NavbarItem from '../atoms/Navbaritem';
  */
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const user = sessionStorage.getItem('user');
+    const userRaw = sessionStorage.getItem('user');
+    const user = userRaw ? JSON.parse(userRaw) : null;
+    const rol = user?.rol;
+
+    const isAdmin = rol === 'Administrador';
 
     // variable para probar el menú con el botón de iniciar sesión
     //const isLoggedIn = false;
 
-    const title = "Inicio";
     const homeOptions = [
         { label: "¿Quiénes somos?", path: "" },
         { label: "Equipo", path: "" },
         { label: "¿Cómo funciona?", path: "" }
     ];
 
-    const titleMyRecolections = "Mis recolecciones";
+    const clientInfo = [
+        { label: "Info clientes", path: "/" },
+        { label: "Registrar cliente", path: "/admin/registrar-cliente" },
+    ];
+
     const myRecolectionsOptions = [
         { label: "Solicitar recolección", path: "/formulario-recoleccion" },
         { label: "Mi Perfil", path: "" },
     ];
+
+    const adminLinks = [
+        { component: <Dropdown title="Inicio" options={homeOptions} /> },
+        { component: <Dropdown title="Clientes" options={clientInfo} /> },
+        { component: <NavbarItem route="/ruta">Rutas</NavbarItem> },
+        { component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
+    ];
+
+    const clientLinks = [
+        { component: <Dropdown title="Inicio" options={homeOptions} /> },
+        { component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
+        { component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
+    ];
+
+    const centerLinks = isAdmin ? adminLinks : clientLinks;
 
     return (
         <nav className="navbar">
@@ -63,11 +86,9 @@ export default function Navbar() {
 
             {/* Links centro — solo desktop */}
             <div className="navbarCenter">
-                <Dropdown title={title} options={homeOptions} />
-                {user != null && (
-                    <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
-                )}
-                <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem>
+                {centerLinks.map((link, index) => (
+                    <React.Fragment key={index}>{link.component}</React.Fragment>
+                ))}
             </div>
 
             {/* Cerrar sesión — solo desktop */}
@@ -101,18 +122,16 @@ export default function Navbar() {
             {/* Menú desplegable — solo mobile */}
             {menuOpen && (
                 <div className="navbarMobileMenu">
-                    <Dropdown title={title} options={homeOptions} />
-                    {user != null && (
-                        <Dropdown title={titleMyRecolections} options={myRecolectionsOptions} />
-                    )}
-                    <NavbarItem route="/faq">FAQ</NavbarItem>
+                    {centerLinks.map((link, index) => (
+                        <React.Fragment key={index}>{link.component}</React.Fragment>
+                    ))}
                     {user != null ? (
-                        <NavbarItem route="/logout" logout={true}>
+                        <NavbarItem route="/" logout={true}>
                             Cerrar sesión
                         </NavbarItem>
                     ) : (
                         <div className="login">
-                            <NavbarItem route="/login">
+                            <NavbarItem route="/inicio-sesion">
                                 Iniciar sesión
                             </NavbarItem>
                         </div>

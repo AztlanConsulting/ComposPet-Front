@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ClientTable from "../../../components/organisms/clientTable";
+import ClientTable from "../../../components/organisms/ClientTable";
 import { RoutesViewModel } from "../../viewmodels/routesInfo/routesTable";
 import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
@@ -16,23 +16,20 @@ export default function RoutesTablePage() {
     const viewModel = useMemo(() => new RoutesViewModel(), []);
 
     const columnDefinitions = [
-        { headerName: "Nombre", field: "name"},
-        { headerName: "# Recolección", field: "collectedBuckets", editable: true },
-        { headerName: "# Entrega", field: "deliveredBuckets", editable: true },
-        { headerName: "Productos Extra", field: "extraProducts", editable: true },
-        { headerName: "Ruta", field: "route"},
-        { headerName: "Fecha", field: "date", editable: true },
-        { headerName: "Horario", field: "schedule", editable: true },
-        { headerName: "Forma de pago", field: "paymentMethod", editable: true },
-        { headerName: "Total a pagar", field: "totalToPay", editable: true },
-        { headerName: "Total pagado", field: "totalPaid", editable: true },
-        { headerName: "Notas", field: "notes", editable: true },
+        { headerName: "Nombre", field: "name", width: 150},
+        { headerName: "# Recolección", field: "collectedBuckets", width: 150},
+        { headerName: "# Entrega", field: "deliveredBuckets", width: 150},
+        { headerName: "Productos Extra", field: "extraProducts", width: 150},
+        //{ headerName: "Ruta", field: "route", width: 150},
+        { headerName: "Horario", field: "schedule", width: 150},
+        { headerName: "Forma de pago", field: "paymentMethod", width: 150},
+        { headerName: "Total a pagar", field: "totalToPay", width: 150},
+        { headerName: "Total pagado", field: "totalPaid", width: 150},
+        { headerName: "Notas", field: "notes", width: 150},
     ];
 
     const defaultColDef = {
-        flex: 1,
         sortable: true,
-        filter: true,
         resizable: true,
         tooltipField: "notes",
     };
@@ -56,12 +53,12 @@ export default function RoutesTablePage() {
         fetchRoutesInfo();
     }, [viewModel]);
 
-    if (loading){
+    if (loading) {
         return <Loading />
     }
 
-    if (error){
-        return <Error message={"Error al obtener la información"}/>
+    if (error) {
+        return <Error message={"Error al obtener la información"} />
     }
 
     return (

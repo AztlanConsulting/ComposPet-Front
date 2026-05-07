@@ -6,16 +6,13 @@ export class RoutesViewModel{
     }
 
     async loadRoutesInfo(){
-        console.log("Entro al load Routes info")
         try {
             const routes = await this.getRoutesInfoUseCase.execute();
-            console.log("Routes VM============", routes);
 
             return {
                 data: routes,
             };
         } catch (error){
-            console.log("error")
             return{
                 data: [],
                 error: error.message || "Error al cargar la información de rutas",

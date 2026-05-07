@@ -4,8 +4,7 @@ export class RouteInfo {
     collectedBuckets,
     deliveredBuckets,
     extraProducts,
-    route,
-    date,
+    // route,
     schedule,
     paymentMethod,
     totalToPay,
@@ -16,8 +15,7 @@ export class RouteInfo {
     this.collectedBuckets = collectedBuckets;
     this.deliveredBuckets = deliveredBuckets;
     this.extraProducts = extraProducts;
-    this.route = route;
-    this.date = date;
+    // this.route = route;
     this.schedule = schedule;
     this.paymentMethod = paymentMethod;
     this.totalToPay = totalToPay;

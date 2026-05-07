@@ -6,7 +6,6 @@ export class GetRoutesInfoUseCase {
     }
 
     async execute(){
-        console.log("use case :)")
         return await this.routesRepository.getRoutesInfo();
     }
 }
