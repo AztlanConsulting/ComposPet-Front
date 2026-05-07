@@ -53,10 +53,12 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (originalRequest.url.includes('/refresh')) {
+        if (originalRequest.url.includes('/refresh') || originalRequest.url.includes('/cerrar-sesion')) {
             accessToken = null;
             sessionStorage.removeItem('user');
-            window.location.href = '/inicio-sesion';
+            if (window.location.pathname !== '/inicio-sesion') {
+                window.location.href = '/inicio-sesion';
+            }
             return Promise.reject(error);
         }
 

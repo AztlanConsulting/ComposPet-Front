@@ -54,4 +54,12 @@ export class LoginUseCase{
             throw error;
         }
     }
+
+    async logout() {
+        try {
+            await this.authRepository.logout();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
