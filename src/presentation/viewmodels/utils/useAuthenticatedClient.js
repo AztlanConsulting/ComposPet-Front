@@ -13,7 +13,6 @@ import { GetClientUseCase } from '../../../domain/useCases/getClientUseCase';
  *  client: object|null,
  *  clientId: string|null,
  *  routeDay: string|null,
- *  routeTurn: string|null
  * }}
  * 
  */
@@ -50,14 +49,12 @@ function useAuthenticatedClient() {
     // Usa el metodo de la entidad para sacar la info básica del clientId, si no existe pone null
     const clientId = client?.getClientId() || null;
     const routeDay = client?.getRouteDay() || null;
-    const routeTurn = client?.getRouteTurn() || null;
 
     // Le regresa el clientId a
     return {
         client,
         clientId,
         routeDay,
-        routeTurn,
     };
 }
 

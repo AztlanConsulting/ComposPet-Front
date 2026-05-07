@@ -88,7 +88,10 @@ function theClientIsInTime(routeDay) {
     weekStartDate.setDate(today.getDate() - currentDay);
     weekStartDate.setHours(0, 0, 0, 0);
 
+    console.log(today,weekStartDate,limitDate)
     const access = today >= weekStartDate && today <= limitDate
+    console.log(access)
+
     return access;
 }
 
