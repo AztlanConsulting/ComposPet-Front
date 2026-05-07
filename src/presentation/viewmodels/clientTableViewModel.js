@@ -119,17 +119,30 @@ function useClientTableViewModel() {
     }, [editingRowId]);
 
     const handleCancel = useCallback((params) => {
-        const rowId = params.data.clientId;
+        
+        try {
 
-        const originalRow = originalClientList.find(r => r.clientId === rowId);
+            setLoading(true);
 
-        if(!originalRow) return;
+            params.api.stopEditing(false);
 
-        params.node.setData({...originalRow});
+            const rowId = params.data.clientId;
 
-        setEditingRowId(null);
+            const originalRow = originalClientList.find(r => r.clientId === rowId);
 
-        params.api.refreshCells({force: true});
+            if(!originalRow) return;
+
+            params.node.setData({...originalRow});
+
+            setEditingRowId(null);
+
+            params.api.refreshCells({force: true});
+
+        } catch (error) {
+            console.log("Error discarding changes in client data: ", error);
+        } finally {
+            setLoading(false);
+        }
     }, [originalClientList]);
 
     const handleSave = useCallback( async (params) => {
@@ -177,6 +190,26 @@ function useClientTableViewModel() {
         floatingFilter: true,
         tooltipValueGetter: (params) => params.value,
     }), []);
+
+    useEffect(() => {
+
+        const handleBeforeUnload = (event) => {
+
+            if (editingRowId !== null) {
+
+                event.preventDefault();
+
+                event.returnValue = '';
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+
+    }, [editingRowId]);
 
     return {
         clientList,

@@ -22,7 +22,7 @@ export function getClientTableColumns({
     };
 
     function blockInvalidNumberKeys(params) {
-        const forbiddenKeys = ["e", "E", "+"];
+        const forbiddenKeys = ["e", "E"];
         return forbiddenKeys.includes(params.event.key);
     }
 
