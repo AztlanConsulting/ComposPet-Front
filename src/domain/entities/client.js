@@ -9,36 +9,16 @@ export class Client {
      * @param {string} params.clientId - Identificador único del cliente.
      * @param {string} params.userId - Identificador único del usuario asociado.
      * @param {number|null} params.routeId - Identificador de la ruta asignada.
-     * @param {string|null} params.pets - Información de mascotas del cliente.
-     * @param {number|null} params.familySize - Cantidad de integrantes de la familia.
-     * @param {string|null} params.address - Dirección registrada del cliente.
-     * @param {number|null} params.scheduleOrder - Orden del horario asignado.
-     * @param {string|null} params.notes - Notas adicionales del cliente.
-     * @param {string|Date|null} params.entryDate - Fecha de entrada del cliente.
-     * @param {string|Date|null} params.exitDate - Fecha de salida del cliente.
+     * @param {string} params.routeDay - día de ruta del cliente
      */
     constructor({
         clientId,
-        userId,
         routeId,
-        pets,
-        familySize,
-        address,
-        scheduleOrder,
-        notes,
-        entryDate,
-        exitDate,
+        routeDay,
     }) {
         this.clientId = clientId;
-        this.userId = userId;
         this.routeId = routeId;
-        this.pets = pets;
-        this.familySize = familySize;
-        this.address = address;
-        this.scheduleOrder = scheduleOrder;
-        this.notes = notes;
-        this.entryDate = entryDate;
-        this.exitDate = exitDate;
+        this.routeDay = routeDay;
     }
     
     /**
@@ -48,5 +28,14 @@ export class Client {
      */
     getClientId() {
         return this.clientId;
+    }
+
+     /**
+     * Retorna el día de ruta asignado al cliente.
+     *
+     * @returns {string|null} Día de ruta.
+     */
+    getRouteDay() {
+        return this.routeDay;
     }
 }
