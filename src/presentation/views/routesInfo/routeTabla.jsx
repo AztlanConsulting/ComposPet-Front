@@ -7,33 +7,48 @@ import Error from '../../../components/Template/error';
 import TimerAlert from '../../../components/Template/timerAlert';
 import '../../../css/routesInfo/routesInfo.css'
 
+/**
+ * Componente de página que muestra la tabla de información de rutas del día actual.
+ * Gestiona el estado de carga, errores y datos de rutas utilizando el ViewModel correspondiente.
+ * Renderiza una tabla interactiva con AG-Grid mostrando detalles de cada ruta.
+ */
 export default function RoutesTablePage() {
+    // ==================== ESTADO ====================
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+     /**
+     * Instancia memoizada del ViewModel para evitar recreación en cada render.
+     * @type {RoutesViewModel}
+     */
     const viewModel = useMemo(() => new RoutesViewModel(), []);
 
+    // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
-        { headerName: "Nombre", field: "name", width: 150},
-        { headerName: "# Recolección", field: "collectedBuckets", width: 150},
-        { headerName: "# Entrega", field: "deliveredBuckets", width: 150},
-        { headerName: "Productos Extra", field: "extraProducts", width: 150},
-        //{ headerName: "Ruta", field: "route", width: 150},
-        { headerName: "Horario", field: "schedule", width: 150},
-        { headerName: "Forma de pago", field: "paymentMethod", width: 150},
-        { headerName: "Total a pagar", field: "totalToPay", width: 150},
-        { headerName: "Total pagado", field: "totalPaid", width: 150},
-        { headerName: "Notas", field: "notes", width: 150},
+        { headerName: "Nombre", field: "name", width: 200},
+        { headerName: "# Recolección", field: "collectedBuckets", width: 200},
+        { headerName: "# Entrega", field: "deliveredBuckets", width: 200},
+        { headerName: "Productos Extra", field: "extraProducts", width: 200},
+        { headerName: "Horario", field: "schedule", width: 200},
+        { headerName: "Forma de pago", field: "paymentMethod", width: 200},
+        { headerName: "Total a pagar", field: "totalToPay", width: 200},
+        { headerName: "Total pagado", field: "totalPaid", width: 200},
+        { headerName: "Notas", field: "notes", width: 200},
     ];
 
+    /**
+     * Configuración por defecto para todas las columnas de la tabla.
+     * Habilita ordenamiento, redimensionamiento y tooltips.
+     */ 
     const defaultColDef = {
         sortable: true,
         resizable: true,
         tooltipField: "notes",
     };
 
+    // ==================== EFECTOS ====================
     useEffect(() => {
         console.log("Entro al use effect de route table")
         async function fetchRoutesInfo() {
@@ -43,7 +58,7 @@ export default function RoutesTablePage() {
             const result = await viewModel.loadRoutesInfo();
 
             if (result.error) {
-                setError(error);
+                setError(result.error);
             }
 
             setRoutesList(result.data);
@@ -53,6 +68,7 @@ export default function RoutesTablePage() {
         fetchRoutesInfo();
     }, [viewModel]);
 
+    // ==================== RENDERIZADO CONDICIONAL ====================
     if (loading) {
         return <Loading />
     }
@@ -61,6 +77,7 @@ export default function RoutesTablePage() {
         return <Error message={"Error al obtener la información"} />
     }
 
+    // ==================== RENDERIZADO PRINCIPAL ====================
     return (
         <div className="table-container">
             <div className="table-scroll">
