@@ -25,23 +25,25 @@ return (
 
         <Navbar />
     
-        <div>
-            Parte de arriba
-        </div>
-
-        <div className="table-container">
-            <div className="table-scroll">
-                <ClientTable
-                    loading={loading}
-                    clientList={clientList}
-                    columnDefinitions={columnDefinitions}
-                    defaultColDef={defaultColDef}
-                    editingRowId={editingRowId}
-                >
-                </ClientTable>
+        <section className="content-wrapper">
+            <div>
+                Parte de arriba
             </div>
 
-        </div>
+            <div className="table-container">
+                <div className="table-scroll">
+                    <ClientTable
+                        loading={loading}
+                        clientList={clientList}
+                        columnDefinitions={columnDefinitions}
+                        defaultColDef={defaultColDef}
+                        editingRowId={editingRowId}
+                    >
+                    </ClientTable>
+                </div>
+
+            </div>            
+        </section>
 
     </main>
 

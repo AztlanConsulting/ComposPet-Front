@@ -8,6 +8,8 @@ export const validateBalance = (value) => {
 
     if (isNaN(value)) return "El saldo debe ser un número.";
 
+    if(value > 1000000) return "El saldo es mayor al máximo permitido";
+
     return true;
 };
 

@@ -46,3 +46,14 @@
     overflow-y: hidden;
     box-sizing: border-box;
 }
+
+.content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
