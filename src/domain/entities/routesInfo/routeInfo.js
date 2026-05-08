@@ -27,7 +27,6 @@ export class RouteInfo {
     collectedBuckets,
     deliveredBuckets,
     extraProducts,
-    // route,
     schedule,
     paymentMethod,
     totalToPay,

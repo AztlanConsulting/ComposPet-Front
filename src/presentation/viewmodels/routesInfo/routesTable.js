@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 
 /**
@@ -6,35 +7,64 @@ import { GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routes
  * manejando la lógica de presentación y transformando los datos
  * para su consumo en la interfaz de usuario.
  * 
- * @class RoutesViewModel
+ * @function useRoutesViewModel
  */
-export class RoutesViewModel{
-    /**
-     * Crea una instancia de RoutesViewModel.
-     * Inicializa el caso de uso necesario para obtener la información de rutas.
-     */
-    constructor(){
-        this.getRoutesInfoUseCase = new GetRoutesInfoUseCase();
-    }
+function useRoutesViewModel(){
+    const [routesList, setRoutesList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const getRoutesInfo = new GetRoutesInfoUseCase();
+
+    // ==================== CONFIGURACIÓN DE TABLA ====================
+    const columnDefinitions = [
+        { headerName: "Nombre", field: "name", width: 200},
+        { headerName: "# Recolección", field: "collectedBuckets", width: 200},
+        { headerName: "# Entrega", field: "deliveredBuckets", width: 200},
+        { headerName: "Productos Extra", field: "extraProducts", width: 200},
+        { headerName: "Horario", field: "schedule", width: 200},
+        { headerName: "Forma de pago", field: "paymentMethod", width: 200},
+        { headerName: "Total a pagar", field: "totalToPay", width: 200},
+        { headerName: "Total pagado", field: "totalPaid", width: 200},
+        { headerName: "Notas", field: "notes", width: 200},
+    ];
 
     /**
-     * Carga la información de las rutas del día actual.
-     * Ejecuta el caso de uso correspondiente y maneja posibles errores,
-     * retornando un objeto con formato consistente para la vista.
+     * Configuración por defecto para todas las columnas de la tabla.
+     * Habilita ordenamiento, redimensionamiento y tooltips.
      */
-    async loadRoutesInfo(){
-        try {
-            const routes = await this.getRoutesInfoUseCase.execute();
+    const defaultColDef = {
+        sortable: true,
+        resizable: true,
+        tooltipField: "notes",
+    };
 
-            return {
-                data: routes,
-            };
-        } catch (error){
-            return{
-                data: [],
-                error: error.message || "Error al cargar la información de rutas",
-            };
+
+    useEffect(() => {
+        async function fetchRoutes(){
+            setLoading(true);
+
+            try{
+                const routes = await getRoutesInfo.execute();
+                setRoutesList(routes);
+            } catch (error){
+                setError(error.message || "Error al cargar la información");
+            } finally {
+                setLoading(false);
+            }
+
         }
-            
+
+        fetchRoutes();
+    }, []);
+
+    return {
+        routesList,
+        loading,
+        error,
+        columnDefinitions,
+        defaultColDef,
     }
 }
+
+export default useRoutesViewModel;

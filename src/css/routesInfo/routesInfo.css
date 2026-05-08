@@ -6,14 +6,13 @@
     background-color: var(--color-bg);
     width: 100%;
     min-height: 100vh;
-    /* box-sizing: border-box; */
 }
 
 .table-container {
     width: 100%;
     max-width: 1400px;
     margin: 10rem auto 0 auto;
-    padding: 0 2rem;
+    padding: 0 12rem;
     box-sizing: border-box;
 }
 
