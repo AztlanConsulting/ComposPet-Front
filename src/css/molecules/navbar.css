@@ -46,6 +46,7 @@
     align-items: center;
     gap: 3.125rem;
     color: var(--color-black);
+    padding-left: 8rem;
 }
 
 /* Ajusta el botón (logín / logout) */
