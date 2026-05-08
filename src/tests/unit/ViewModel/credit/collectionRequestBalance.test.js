@@ -48,6 +48,13 @@ jest.mock("../../../../presentation/viewmodels/collectionRequest/secondPageViewM
     }));
 });
 
+jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewModel", () => {
+    return jest.fn(() => ({
+        loadSummary: jest.fn(),
+        saveThirdSection: jest.fn(),
+    }));
+});
+
 jest.mock("../../../../components/Template/confirmationAlert", () => jest.fn());
 
 // Agrupa las pruebas relacionadas con el balance del cliente.
@@ -60,6 +67,7 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         // Simula que hay un cliente autenticado clientId".
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
+            routeDay: "Sábado",
         });
     });
 
