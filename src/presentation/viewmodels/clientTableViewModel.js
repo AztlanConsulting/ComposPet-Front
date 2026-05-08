@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 
-// CLI-03
-import { GetClientTableUseCase } from "../../domain/useCases/getClientTableUseCase";
-import { ClientTableRepository } from "../../data/repositories/clientTableRepository";
-import { ClientApiClient } from "../../data/datasources/clientApiClient";
-
-// CLI-07
-import { GetRoutesUseCase } from "../../domain/useCases/getRoutesUseCase";
-import { UpdateClientUseCase } from "../../domain/useCases/updateClientUseCase";
-import { UpdateClientRepository } from "../../data/repositories/updateClientRepository";
+import { 
+    getTableUseCase, 
+    getRoutesUseCase, 
+    updateClientUseCase 
+} from '../../di/admin/clientTableDependencies';
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
 import ProblemAlert from "../../components/Template/ProblemAlert";
@@ -35,24 +31,6 @@ function useClientTableViewModel() {
     const routeMap = Object.fromEntries(
         routeList.map(r => [r.id_ruta, r.dia_ruta])
     );
-
-    const getTableUseCase = useMemo(() => {
-        const datasource = new ClientApiClient();
-        const repository = new ClientTableRepository(datasource);
-        return new GetClientTableUseCase(repository);
-    }, []);
-
-    const getRoutesUseCase = useMemo(() => {
-        const datasource = new ClientApiClient();
-        const repository = new UpdateClientRepository(datasource);
-        return new GetRoutesUseCase(repository);
-    }, []);
-
-    const updateClientUseCase = useMemo(() => {
-        const datasource = new ClientApiClient();
-        const repository = new UpdateClientRepository(datasource);
-        return new UpdateClientUseCase(repository);
-    }, []);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
