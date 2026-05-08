@@ -45,17 +45,29 @@ function calculateCurrentWeekRange() {
 function StandardRouteDay(routeDay) {
     if (!routeDay) return null;
 
-    return routeDay
-        .split("")[0]
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+    console.log("ESTE ES ELL DIA QUE LLEGA PARA NORMALIZAR", routeDay)
 
+    let day = routeDay
+        .split(" ")[0]
+    
+    console.log("PRIMER NORMAL", day)
+    
+    day = day
+        .toLowerCase()
+    console.log("PRIMER NORMAL", day)
+    day = day
+        .normalize("NFD")
+    console.log("PRIMER NORMAL", day)
+    day = day
+        .replace(/[\u0300-\u036f]/g, "");
+    console.log("PRIMER NORMAL", day)
+
+    return day
 }
 
 function getRouteDayNumber(routeDay) {
     const standardDay = StandardRouteDay(routeDay);
-
+    console.log("ESTE ES EL DIA YA NORMALIZADO QUE LLEGO", standardDay)
     const routeDayNumber = {
         domingo: 0,
         lunes: 1,
@@ -72,6 +84,9 @@ function getRouteDayNumber(routeDay) {
 function theClientIsInTime(routeDay) {
     const today = new Date();
     const routeDayNumber = getRouteDayNumber(routeDay);
+
+    console.log("ESTA ES LA FECHA DE HOY", today)
+    console.log("ESTA ES EL NUMERO DEL DIA DE RUTA", routeDayNumber)
 
     if (routeDayNumber === null) return false;
 
@@ -110,17 +125,22 @@ function useCollectionRequestViewModel() {
     const { clientId, routeDay } = useAuthenticatedClient();
     const { balance } = useCreditBalance(clientId);
 
+    console.log("ESTE ES EL DATO DE CLIENTEID Y RUTA QUE LLEGO", clientId, routeDay)
+
     useEffect(() => {
         const validateFormAccess = async () => {
 
         if (balance === null || balance === undefined || !routeDay) return;
 
+        console.log("ENTRA ANTES DE LA FUNCION PARA REVISAR SI TENDRIA ACCESO")
         const isInTimeToRequest = theClientIsInTime(routeDay);
+
+        console.log("ESTE ES EL RESULTADO DE SI TIENE ACCESO POR TIEMPO", isInTimeToRequest)
 
         if (isInTimeToRequest === false){
             const result = await TimerAlert({
                 title: "Solicitud no disponible",
-                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu dia de recolecta" ,
+                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta." ,
                 confirmText: "Continuar",
                 timer:10000,
             });

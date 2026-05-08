@@ -4,6 +4,16 @@ import useFirstFormViewModel from "../../../../presentation/viewmodels/collectio
 import { GetCurrentCollectionRequestUseCase } from "../../../../domain/useCases/getCurrentCollectionRequestUseCase";
 import { SaveCollectionRequestFirstSectionUseCase } from "../../../../domain/useCases/saveCollectionRequestFirstSectionUseCase";
 
+import TimerAlert from "../../../../components/Template/timerAlert";
+
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+    useNavigate: () => mockNavigate,
+}));
+
+jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
+
 jest.mock("../../../../data/datasources/collectionRequestApiClient", () => ({
     CollectionRequestApiClient: jest.fn(),
 }));
@@ -31,6 +41,14 @@ describe("useFirstFormViewModel", () => {
     beforeEach(() => {
         jest.clearAllMocks();
 
+        mockNavigate.mockClear();
+
+        TimerAlert.mockResolvedValue({
+            isConfirmed: true,
+            dismiss: false,
+        });
+
+
         getCurrentExecuteMock = jest.fn();
         saveFirstSectionExecuteMock = jest.fn();
 
@@ -43,6 +61,41 @@ describe("useFirstFormViewModel", () => {
         }));
     });
 
+    it("Redirecciona al inicio si la solicitud semanal ya está completada", async () => {
+        //Arrange
+        getCurrentExecuteMock.mockResolvedValue({
+            id: "requestId",
+            wantsPickup: () => true,
+            wantsAdditionalProducts: () => false,
+            collectedBuckets: 3,
+            deliveredBuckets: 1,
+            getStatus: () => true,
+        });
+
+        //Actuar
+        renderHook(() =>
+            useFirstFormViewModel(
+                clientId,
+                weekStartDate,
+                weekEndDate,
+            ),
+        );
+
+        //Afirmar
+        await waitFor(() => {
+            expect(TimerAlert).toHaveBeenCalledWith({
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+        });
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith("/");
+        });
+    });
+
     it("Carga la solicitud actual correctamente", async () => {
         //Arrange (Preparar)
         getCurrentExecuteMock.mockResolvedValue({
@@ -51,6 +104,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 3,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         //Actuar
@@ -111,6 +165,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 1,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -147,6 +202,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -183,6 +239,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -222,6 +279,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -270,6 +328,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -310,6 +369,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -350,6 +410,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockRejectedValue(
