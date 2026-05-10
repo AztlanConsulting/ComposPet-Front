@@ -45,29 +45,19 @@ function calculateCurrentWeekRange() {
 function StandardRouteDay(routeDay) {
     if (!routeDay) return null;
 
-    console.log("ESTE ES ELL DIA QUE LLEGA PARA NORMALIZAR", routeDay)
 
     let day = routeDay
         .split(" ")[0]
-    
-    console.log("PRIMER NORMAL", day)
-    
-    day = day
         .toLowerCase()
-    console.log("PRIMER NORMAL", day)
-    day = day
         .normalize("NFD")
-    console.log("PRIMER NORMAL", day)
-    day = day
         .replace(/[\u0300-\u036f]/g, "");
-    console.log("PRIMER NORMAL", day)
 
     return day
 }
 
 function getRouteDayNumber(routeDay) {
     const standardDay = StandardRouteDay(routeDay);
-    console.log("ESTE ES EL DIA YA NORMALIZADO QUE LLEGO", standardDay)
+
     const routeDayNumber = {
         domingo: 0,
         lunes: 1,
@@ -85,9 +75,6 @@ function theClientIsInTime(routeDay) {
     const today = new Date();
     const routeDayNumber = getRouteDayNumber(routeDay);
 
-    console.log("ESTA ES LA FECHA DE HOY", today)
-    console.log("ESTA ES EL NUMERO DEL DIA DE RUTA", routeDayNumber)
-
     if (routeDayNumber === null) return false;
 
     const currentDay = today.getDay();
@@ -103,9 +90,7 @@ function theClientIsInTime(routeDay) {
     weekStartDate.setDate(today.getDate() - currentDay);
     weekStartDate.setHours(0, 0, 0, 0);
 
-    console.log(today,weekStartDate,limitDate)
     const access = today >= weekStartDate && today <= limitDate
-    console.log(access)
 
     return access;
 }
@@ -125,17 +110,12 @@ function useCollectionRequestViewModel() {
     const { clientId, routeDay } = useAuthenticatedClient();
     const { balance } = useCreditBalance(clientId);
 
-    console.log("ESTE ES EL DATO DE CLIENTEID Y RUTA QUE LLEGO", clientId, routeDay)
-
     useEffect(() => {
         const validateFormAccess = async () => {
 
         if (balance === null || balance === undefined || !routeDay) return;
 
-        console.log("ENTRA ANTES DE LA FUNCION PARA REVISAR SI TENDRIA ACCESO")
         const isInTimeToRequest = theClientIsInTime(routeDay);
-
-        console.log("ESTE ES EL RESULTADO DE SI TIENE ACCESO POR TIEMPO", isInTimeToRequest)
 
         if (isInTimeToRequest === false){
             const result = await TimerAlert({
