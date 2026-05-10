@@ -25,6 +25,7 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
+import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import DropdownInput from './components/molecules/DropdownInput';
 
 import RegisterClient from './presentation/views/admin/RegisterClient';
@@ -200,6 +201,9 @@ function App() {
                     {/* Rutas para usuarios autenticados */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/tabla-clientes" element={<ClientTable />} />
+                        <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
 
                     {/* Rutas de administrador - Protegidas por Rol */}
@@ -207,6 +211,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/tabla-clientes" element={<ClientTable />} />
                         <Route path="/registrar-cliente" element={<RegisterClient />} />
+                        <Route path="/ruta" element={<RoutesInfo />} />
                     </Route>
 
                     {/* Rutas de clientes - Protegidas por Rol */}

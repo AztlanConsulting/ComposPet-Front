@@ -1,0 +1,63 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.page {
+    background-color: var(--color-bg);
+    width: 100%;
+    min-height: 100vh;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 10rem auto 0 auto;
+    padding: 0 12rem;
+    box-sizing: border-box;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+
+.custom-green-theme {
+    min-width: 1100px;
+    height: 30rem;
+}
+
+.wrapper{
+    overflow-x: hidden !important;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .table-container {
+        margin-top: 2rem;
+        padding: 0 1rem;
+    }
+
+    .custom-green-theme {
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .page {
+        padding: 0.5rem;
+    }
+
+    .table-container {
+        margin-top: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .custom-green-theme {
+        min-width: 1100px;
+        height: 35rem;
+        font-size: var(--font-size-xs);
+    }
+}

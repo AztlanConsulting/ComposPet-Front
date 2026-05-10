@@ -71,7 +71,7 @@ export default function Navbar() {
     const clientLinks = [
         { component: <Dropdown title="Inicio" options={homeOptions} /> },
         { component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
-        { component: <NavbarItem route="/faq">FAQ</NavbarItem> },
+        { component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
     ];
 
     const centerLinks = isAdmin ? adminLinks : clientLinks;
