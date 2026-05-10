@@ -44,15 +44,8 @@ export class ClientRepository extends ClientIRepository{
         //Nace la entidad y la regresa al Repositorio de Interface con data
         return new Client({
             clientId: data.id_cliente,
-            userId: data.id_usuario,
             routeId: data.id_ruta,
-            pets: data.mascotas,
-            familySize: data.cantidad_familia,
-            address: data.direccion,
-            scheduleOrder: data.orden_horario,
-            notes: data.notas,
-            entryDate: data.fecha_entrada,
-            exitDate: data.fecha_salida,
+            routeDay: data.ruta?.dia_ruta,
         });
     }
 }

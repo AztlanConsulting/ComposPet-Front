@@ -36,6 +36,7 @@ export class CollectionRequest {
         wantsCollection,
         wantsExtraProducts,
         paymentId,
+        status,
     }) {
         this.id = id;
         this.clientId = clientId;
@@ -49,6 +50,7 @@ export class CollectionRequest {
         this.wantsCollection = wantsCollection;
         this.wantsExtraProducts = wantsExtraProducts;
         this.paymentId = paymentId;
+        this.status = status;
     }
 
     /**
@@ -85,6 +87,16 @@ export class CollectionRequest {
      */
     getDeliveredBuckets() {
         return this.deliveredBuckets;
+    }
+
+    /**
+     * Retorna el estatus de la solicitud de recolección.
+     *
+     * @returns {boolean} 'true' si ya esta completada la solicitud de recolección
+     */
+    getStatus(){
+        return this.status === true;
+
     }
 
 }

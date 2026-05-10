@@ -11,7 +11,8 @@
 
 export class ClientIRepository{
     /**
-     * Obtiene el cliente asociado al id de usuario.
+     * Obtiene la información básica del cliente asociado al id de usuario,
+     * incluyendo su ruta asignada.
      *
      * @abstract
      * @param {string} userId - Id del usuario.

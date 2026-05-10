@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import TimerAlert from "../../../components/Template/timerAlert";
 
 import { CollectionRequestApiClient } from '../../../data/datasources/collectionRequestApiClient';
 import { CollectionRequestRepository } from '../../../data/repositories/collectionRequestRepository';
@@ -116,12 +119,15 @@ function validateCollectionRequestFirstSection({
  */
 function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, weekEndDate) {
 
+    const navigate = useNavigate();
+
     //Estados iniciales del formulario para valores controlados de las moleculas
     const [requestId, setRequestId] = useState('');
     const [wantsCollection, setWantsCollection] = useState(null);
     const [wantsExtraProducts, setWantsExtraProducts] = useState(null);
     const [collectedBuckets, setCollectedBuckets] = useState(0);
     const [deliveredBuckets, setDeliveredBuckets] = useState(0);
+    const [status, setStatus] = useState(false);
 
     //Estado inicial de los errores
     //Puede que no sea necesario, por que nunca tendria error inicial
@@ -136,6 +142,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Saber si se está cargando la solicitud actual o guardando los datos, para mostrar en la UI
     const [loading, setLoading] = useState(false);
+    
 
     //Empiezan los efectos
 
@@ -172,6 +179,9 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
             setWantsExtraProducts(collectionRequest.wantsAdditionalProducts());
             setCollectedBuckets(collectionRequest.collectedBuckets || 0);
             setDeliveredBuckets(collectionRequest.deliveredBuckets || 0);
+            setStatus(collectionRequest.getStatus());
+
+            //Aqui obtengo el status para ver si saco de una al cliente
 
         } catch (error) {
             setErrors({
@@ -190,6 +200,28 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     useEffect(() => {
         loadCurrentCollectionRequest();
     }, [clientId, weekStartDate, weekEndDate]);
+
+    useEffect(() => {
+
+        const validateCompletedRequest = async () => {
+
+            if (status !== true) return;
+
+            const result = await TimerAlert({
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+        };
+
+        validateCompletedRequest();
+
+    }, [status, navigate]);
 
     // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
     useEffect(() => {

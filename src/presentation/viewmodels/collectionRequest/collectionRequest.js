@@ -42,6 +42,59 @@ function calculateCurrentWeekRange() {
 };  
 
 
+function StandardRouteDay(routeDay) {
+    if (!routeDay) return null;
+
+
+    let day = routeDay
+        .split(" ")[0]
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+    return day
+}
+
+function getRouteDayNumber(routeDay) {
+    const standardDay = StandardRouteDay(routeDay);
+
+    const routeDayNumber = {
+        domingo: 0,
+        lunes: 1,
+        martes: 2,
+        miercoles: 3,
+        jueves: 4,
+        viernes: 5,
+        sabado: 6,
+    };
+
+    return routeDayNumber[standardDay] ?? null;
+}
+
+function theClientIsInTime(routeDay) {
+    const today = new Date();
+    const routeDayNumber = getRouteDayNumber(routeDay);
+
+    if (routeDayNumber === null) return false;
+
+    const currentDay = today.getDay();
+
+    const routeDate = new Date(today);
+    routeDate.setDate(today.getDate() + (routeDayNumber - currentDay));
+    routeDate.setHours(0, 0, 0, 0);
+
+    const limitDate = new Date(routeDate);
+    limitDate.setHours(limitDate.getHours() - 6);
+
+    const weekStartDate = new Date(today);
+    weekStartDate.setDate(today.getDate() - currentDay);
+    weekStartDate.setHours(0, 0, 0, 0);
+
+    const access = today >= weekStartDate && today <= limitDate
+
+    return access;
+}
+
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
  *
@@ -54,13 +107,30 @@ function useCollectionRequestViewModel() {
 
     const navigate = useNavigate();
     
-    const { clientId } = useAuthenticatedClient();
+    const { clientId, routeDay } = useAuthenticatedClient();
     const { balance } = useCreditBalance(clientId);
 
     useEffect(() => {
-        const validateDebtAccess = async () => {
+        const validateFormAccess = async () => {
 
-        if (balance === null || balance === undefined) return;
+        if (balance === null || balance === undefined || !routeDay) return;
+
+        const isInTimeToRequest = theClientIsInTime(routeDay);
+
+        if (isInTimeToRequest === false){
+            const result = await TimerAlert({
+                title: "Solicitud no disponible",
+                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta." ,
+                confirmText: "Continuar",
+                timer:10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+
+            return;
+        }
         
         if (balance > -500){
             setDebtAccess(true);
@@ -95,7 +165,7 @@ function useCollectionRequestViewModel() {
         }
     };
 
-    validateDebtAccess();
+    validateFormAccess();
     }, [balance, navigate]);
     
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();

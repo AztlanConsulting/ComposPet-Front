@@ -48,13 +48,6 @@ jest.mock("../../../../presentation/viewmodels/collectionRequest/secondPageViewM
     }));
 });
 
-jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewModel", () => {
-    return jest.fn(() => ({
-        loadSummary: jest.fn(),
-        saveThirdSection: jest.fn(),
-    }));
-});
-
 jest.mock("../../../../components/Template/confirmationAlert", () => jest.fn());
 
 // Agrupa las pruebas relacionadas con el balance del cliente.
@@ -69,6 +62,59 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
             clientId: "clientId",
             routeDay: "Sábado",
         });
+    });
+
+    // Caso 0: Cliente fuera de rango de tiempo permitido.
+    it("debe mostrar alerta y navegar al inicio si el cliente está fuera del rango permitido por día de ruta", async () => {
+        //Arrange
+        useAuthenticatedClient.mockReturnValue({
+            clientId: "clientId",
+            routeDay: "Domingo",
+        });
+
+        useCreditBalance.mockReturnValue({
+            balance: 0,
+        });
+
+        TimerAlert.mockResolvedValue({
+            isConfirmed: true,
+        });
+
+        renderHook(() => useCollectionRequestViewModel());
+
+        //Actuar
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith("/");
+        });
+
+        //Afirmar
+        expect(TimerAlert).toHaveBeenCalledWith({
+            title: "Solicitud no disponible",
+            text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta.",
+            confirmText: "Continuar",
+            timer: 10000,
+        });
+    });
+
+    // 0.1: Caso para si no llega un dia de ruta
+    it("no debe validar acceso si el día de ruta todavía no está cargado", async () => {
+        //Arrange
+        useAuthenticatedClient.mockReturnValue({
+            clientId: "clientId",
+            routeDay: null,
+        });
+
+        useCreditBalance.mockReturnValue({
+            balance: 0,
+        });
+
+        //Actuar
+        const { result } = renderHook(() => useCollectionRequestViewModel());
+
+        //Afirmar
+        expect(result.current.debtAccess).toBe(false);
+        expect(TimerAlert).not.toHaveBeenCalled();
+        expect(mockNavigate).not.toHaveBeenCalled();
     });
 
     // Caso 1: Saldo permitido.

@@ -5,10 +5,16 @@ import { ClientRepository } from '../../../data/repositories/clientRepository';
 import { GetClientUseCase } from '../../../domain/useCases/getClientUseCase';
 
 /**
- * Hook reutilizable para obtener el cliente asociado
- * al usuario autenticado en sesión.
+ * Hook reutilizable para obtener información básica del cliente asociado a un userId 
+ * Incluyendo el cliente autentificado y su ruta asignada.
+
  *
- * @returns {{ client: object|null, idCliente: string|null }} Cliente autenticado e id del cliente.
+ * @returns {{
+ *  client: object|null,
+ *  clientId: string|null,
+ *  routeDay: string|null,
+ * }}
+ * 
  */
 function useAuthenticatedClient() {
     const [client, setClient] = useState(null);
@@ -40,13 +46,15 @@ function useAuthenticatedClient() {
         }
     }, [userId]);
 
-    // Usa el metodo de la entidad para sacar el clientId, si no existe pone null
+    // Usa el metodo de la entidad para sacar la info básica del clientId, si no existe pone null
     const clientId = client?.getClientId() || null;
+    const routeDay = client?.getRouteDay() || null;
 
     // Le regresa el clientId a
     return {
         client,
         clientId,
+        routeDay,
     };
 }
 
