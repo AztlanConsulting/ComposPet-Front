@@ -6,6 +6,9 @@ import ThirdFormCollectionRequest from '../../../components/organisms/thirdFormR
 import SecondPageForm from '../../../components/organisms/secondPageForm';
 import useCollectionRequestViewModel from '../../viewmodels/collectionRequest/collectionRequest';
 import Navbar from '../../../components/molecules/Navbar';
+import Loading from '../../../components/Template/loading';
+import Error from '../../../components/Template/error';
+
 
 /**
  * Vista de la primera sección del formulario de recolección.
@@ -33,7 +36,18 @@ export default function CollectionRequestView() {
         firstSectionViewModel,
         thirdSectionViewModel,
         secondSectionViewModel,
+        loading,
+        error,
     } = useCollectionRequestViewModel();
+
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <Error message={error} />;
+    }
 
     return (
         <main className="collection-request-view-background">
@@ -64,6 +78,7 @@ export default function CollectionRequestView() {
                         setCollectedBuckets={firstSectionViewModel.setCollectedBuckets}
 
                         errors={firstSectionViewModel.errors}
+                        loadError={firstSectionViewModel.loadError}
                     />
                 )}
 

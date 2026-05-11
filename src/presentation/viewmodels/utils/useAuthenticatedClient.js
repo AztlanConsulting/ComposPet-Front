@@ -13,11 +13,15 @@ import { GetClientUseCase } from '../../../domain/useCases/getClientUseCase';
  *  client: object|null,
  *  clientId: string|null,
  *  routeDay: string|null,
+ *  loading: boolean,
+ *  error: Error|null
  * }}
  * 
  */
 function useAuthenticatedClient() {
     const [client, setClient] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const userString = sessionStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
@@ -25,8 +29,16 @@ function useAuthenticatedClient() {
 
     useEffect(() => {
         const getAuthenticatedClient= async () => {
-            if (!userId) return;
+            if (!userId) {
+                setError("No pudimos identificar tu sesión. Inicia sesión nuevamente.");
+                setLoading(false);
+                return;
+            }
             try {
+
+                setLoading(true);
+                setError(null);
+
                 const apiClient = new ClientApiClient();
                 const clientRepository = new ClientRepository(apiClient);
                 const getClientUseCase = new GetClientUseCase(clientRepository);
@@ -38,12 +50,14 @@ function useAuthenticatedClient() {
                 setClient(clientEntity);
             } catch (error) {
                 console.error('Error al obtener el cliente autenticado:', error);
+
+                setError("No pudimos cargar la información del cliente. Intenta nuevamente más tarde.");
+            } finally {
+                setLoading(false);
             }
         };
 
-        if (userId) {
-            getAuthenticatedClient();
-        }
+        getAuthenticatedClient();
     }, [userId]);
 
     // Usa el metodo de la entidad para sacar la info básica del clientId, si no existe pone null
@@ -55,6 +69,8 @@ function useAuthenticatedClient() {
         client,
         clientId,
         routeDay,
+        loading,
+        error,
     };
 }
 

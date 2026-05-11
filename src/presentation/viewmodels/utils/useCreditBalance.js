@@ -7,16 +7,31 @@ import { GetCreditBalanceUseCase } from "../../../domain/useCases/getCreditBalan
 /**
  * Hook reutilizable para obtener el saldo de un cliente
  *
- * @returns {{ credit: object|null, balance: num|null }} tarjeta y saldo del cliente.
+ * @returns {{ 
+ *  credit: object|null, 
+ *  balance: num|null
+ *  loading: boolean,
+ *  error: Error|null
+ * }}saldo del cliente.
  */
 function useCreditBalance(clientId){
     const [credit, setCredit] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
         const getCreditBalance = async () => {
-            if(!clientId) return;
+            if(!clientId){
+                setError("No pudimos identificar tu sesión. Inicia sesión nuevamente.");
+                setLoading(false);
+                return;
+            } 
             try {
+
+                setLoading(true);
+                setError(null);
+
                 const apiClient = new CreditApiClient();
                 const creditRepository = new CreditRepository(apiClient);
                 const getCreditBalanceUseCase = new GetCreditBalanceUseCase(creditRepository);
@@ -28,12 +43,14 @@ function useCreditBalance(clientId){
                 setCredit(creditEntity);
             } catch (error) {
                 console.error('Error al obtener el saldo del cliente')
+                setError("No pudimos cargar tu saldo. Intenta nuevamente más tarde.");
+            } finally {
+                setLoading(false);
             }
         };
 
-        if (clientId) {
-            getCreditBalance();
-        }
+        getCreditBalance();
+        
     }, [clientId]);
 
     //Usa el método de la entidad para sacar el saldo; 
@@ -42,6 +59,8 @@ function useCreditBalance(clientId){
     return{
         credit,
         balance,
+        loading,
+        error,
     };
 }
 
