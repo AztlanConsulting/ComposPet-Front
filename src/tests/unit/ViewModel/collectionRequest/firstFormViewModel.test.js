@@ -94,6 +94,7 @@ describe("useFirstFormViewModel", () => {
             expect(TimerAlert).toHaveBeenCalledWith({
                 title: "Solicitud ya completada",
                 text: "Ya completaste tu solicitud de recolección de esta semana.",
+                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
                 confirmText: "Continuar",
                 timer: 10000,
             });
