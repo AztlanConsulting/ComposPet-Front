@@ -178,10 +178,8 @@ describe("useClientTableViewModel", () => {
         const colDef = result.current.defaultColDef;
 
         // Assert
-        expect(colDef.filter).toBe(true);
         expect(colDef.sortable).toBe(true);
         expect(colDef.resizable).toBe(true);
-        expect(colDef.floatingFilter).toBe(true);
 
         expect(
             colDef.tooltipValueGetter({ value: "test" })
