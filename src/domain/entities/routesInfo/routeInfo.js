@@ -28,6 +28,7 @@ export class RouteInfo {
     deliveredBuckets,
     extraProducts,
     schedule,
+    order,
     paymentMethod,
     totalToPay,
     totalPaid,
@@ -37,6 +38,7 @@ export class RouteInfo {
     this.collectedBuckets = collectedBuckets;
     this.deliveredBuckets = deliveredBuckets;
     this.extraProducts = extraProducts;
+    this.order = order;
     this.schedule = schedule;
     this.paymentMethod = paymentMethod;
     this.totalToPay = totalToPay;

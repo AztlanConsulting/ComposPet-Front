@@ -45,6 +45,7 @@ export class RoutesRepository{
             collectedBuckets: route.recoleccion,
             deliveredBuckets: route.entrega,
             extraProducts: route.productos_extra,
+            order: route.order,
             schedule: route.horario,
             paymentMethod: route.forma_pago,
             totalToPay: route.total_a_pagar,

@@ -22,6 +22,7 @@ function useRoutesViewModel(){
         { headerName: "# Recolección", field: "collectedBuckets", width: 200},
         { headerName: "# Entrega", field: "deliveredBuckets", width: 200},
         { headerName: "Productos Extra", field: "extraProducts", width: 200},
+        { headerName: "Orden", field: "order", width: 200},
         { headerName: "Horario", field: "schedule", width: 200},
         { headerName: "Forma de pago", field: "paymentMethod", width: 200},
         { headerName: "Total a pagar", field: "totalToPay", width: 200},
