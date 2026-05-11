@@ -224,7 +224,10 @@ export function getClientTableColumns({
             },
 
         },
-
+        {
+            field: "order",
+            headerName: "Orden",
+        },
         {
             field: "pets",
             headerName: "Mascotas",
