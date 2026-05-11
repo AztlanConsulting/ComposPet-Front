@@ -5,6 +5,8 @@ import { GetCurrentCollectionRequestUseCase } from "../../../../domain/useCases/
 import { SaveCollectionRequestFirstSectionUseCase } from "../../../../domain/useCases/saveCollectionRequestFirstSectionUseCase";
 
 import TimerAlert from "../../../../components/Template/timerAlert";
+import ProblemAlert from "../../../../components/Template/ProblemAlert";
+
 
 const mockNavigate = jest.fn();
 
@@ -13,6 +15,8 @@ jest.mock("react-router-dom", () => ({
 }));
 
 jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
+
+jest.mock("../../../../components/Template/ProblemAlert", () => jest.fn());
 
 jest.mock("../../../../data/datasources/collectionRequestApiClient", () => ({
     CollectionRequestApiClient: jest.fn(),
@@ -46,6 +50,10 @@ describe("useFirstFormViewModel", () => {
         TimerAlert.mockResolvedValue({
             isConfirmed: true,
             dismiss: false,
+        });
+
+        ProblemAlert.mockResolvedValue({
+            isConfirmed: true,
         });
 
 
@@ -151,7 +159,9 @@ describe("useFirstFormViewModel", () => {
 
         //Afirmar 
         await waitFor(() => {
-            expect(result.current.errors.general).toBe("Error al cargar solicitud");
+            expect(result.current.loadError).toBe(
+                "No pudimos cargar la información de tu solicitud. Intenta nuevamente más tarde."
+            );
         });
 
         expect(result.current.loading).toBe(false);
@@ -191,6 +201,9 @@ describe("useFirstFormViewModel", () => {
         expect(result.current.errors.requestId).toBe(
             "Id de solicitud no encontrado. Por favor regresa a la pantalla anterior.",
         );
+
+        expect(ProblemAlert).not.toHaveBeenCalled();
+        expect(result.current.loading).toBe(false);
         expect(saveFirstSectionExecuteMock).not.toHaveBeenCalled();
     });
 
@@ -435,9 +448,14 @@ describe("useFirstFormViewModel", () => {
         });
 
         //Afirmar
-        expect(result.current.errors.requestId).toBe(
-            "Error al guardar la solicitud",
-        );
+        expect(ProblemAlert).toHaveBeenCalledWith({
+            title: "No pudimos guardar la información",
+            text: "Ocurrió un problema al guardar tu solicitud. Intenta nuevamente.",
+            icon: "error",
+            confirmText: "Entendido",
+        });
+
+        expect(result.current.errors.requestId).toBe("");
         expect(result.current.loading).toBe(false);
     });
 });

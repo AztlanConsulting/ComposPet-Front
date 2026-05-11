@@ -1,15 +1,18 @@
 .loading-container {
     width: 100%;
-    min-height: 18.75rem;
+    min-height: 100vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
     box-sizing: border-box;
 
     font-family: var(--font-family-primary);
     background-color: var(--color-bg);
+
 }
 
 .loading-logo {

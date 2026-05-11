@@ -107,8 +107,19 @@ function useCollectionRequestViewModel() {
 
     const navigate = useNavigate();
     
-    const { clientId, routeDay } = useAuthenticatedClient();
-    const { balance } = useCreditBalance(clientId);
+    const { clientId, 
+            routeDay,  
+            loading: clientloading, 
+            error: clientError 
+        } = useAuthenticatedClient();
+    
+    const { balance, 
+            loading : creditLoading, 
+            error: creditError 
+        } = useCreditBalance(clientId);
+
+    const loading = clientloading || creditLoading;
+    const error = clientError || creditError;
 
     useEffect(() => {
         const validateFormAccess = async () => {
@@ -301,6 +312,8 @@ function useCollectionRequestViewModel() {
         secondSectionViewModel,
         debtAccess,
         balance,
+        loading,
+        error,
     };
 }
 

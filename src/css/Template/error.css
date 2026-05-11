@@ -4,13 +4,14 @@
 
 .error-container {
     width: 100%;
-    min-height: 300px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     box-sizing: border-box;
+    background-color: var(--color-bg);
 }
 
 .error-logo{
