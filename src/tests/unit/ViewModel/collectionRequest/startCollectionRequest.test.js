@@ -90,7 +90,8 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         //Afirmar
         expect(TimerAlert).toHaveBeenCalledWith({
             title: "Solicitud no disponible",
-            text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta.",
+            text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta." ,
+            secondaryText: "Si es una urgencia, contáctanos a través de WhatsApp.",
             confirmText: "Continuar",
             timer: 10000,
         });

@@ -17,6 +17,7 @@ import "../../css/Template/timerAlert.css";
 const TimerAlert = async ({
     title = "",
     text = "Este mensaje se cerrará automáticamente.",
+    secondaryText = "",
     confirmText = "Continuar",
     icon = "warning",
     timer = 10000,
@@ -26,8 +27,17 @@ const TimerAlert = async ({
     return await Swal.fire({
         title,
         html: `
-            <p>${text}</p>
-            <strong id = "swal-timer-text" class= "custom-swal-timer"></strong>
+            <div class="custom-swal-message">
+                <p>${text}</p>
+
+                ${
+                    secondaryText
+                        ? `<p class="custom-swal-secondary-text">${secondaryText}</p>`
+                        : ""
+                }
+
+                <strong id="swal-timer-text" class="custom-swal-timer"></strong>
+            </div>
         `,
         icon,
         showConfirmButton: true,
