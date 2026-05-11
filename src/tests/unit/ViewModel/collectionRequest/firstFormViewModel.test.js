@@ -5,7 +5,7 @@ import { GetCurrentCollectionRequestUseCase } from "../../../../domain/useCases/
 import { SaveCollectionRequestFirstSectionUseCase } from "../../../../domain/useCases/saveCollectionRequestFirstSectionUseCase";
 
 import TimerAlert from "../../../../components/Template/timerAlert";
-import ProblemAlert from "../../../../components/Template/problemAlert";
+import ProblemAlert from "../../../../components/Template/ProblemAlert";
 
 
 const mockNavigate = jest.fn();
@@ -16,7 +16,7 @@ jest.mock("react-router-dom", () => ({
 
 jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
 
-jest.mock("../../../../components/Template/problemAlert", () => jest.fn());
+jest.mock("../../../../components/Template/ProblemAlert", () => jest.fn());
 
 jest.mock("../../../../data/datasources/collectionRequestApiClient", () => ({
     CollectionRequestApiClient: jest.fn(),
