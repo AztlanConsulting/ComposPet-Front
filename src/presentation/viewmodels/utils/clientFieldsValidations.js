@@ -50,6 +50,18 @@ export const validateText = (value, fieldName) => {
     return true;
 };
 
+export const validateOrder = (value) => {
+    if (!value) return "El orden es requerido.";
+
+    if(value < 0) return "El orden no puede ser negativo.";
+
+    if(value == 0) return "El orden no puede ser 0.";
+
+    if(value >= 100) return "El orden es demasiado grande.";
+
+    return true;
+}
+
 export const validateField = (field, value) => {
 
     switch (field) {
@@ -70,6 +82,9 @@ export const validateField = (field, value) => {
 
         case "family":
             return validateText(value, "Familia");
+
+        case "order":
+            return validateOrder(value);
 
         default:
             return true;
