@@ -118,7 +118,7 @@ function Home() {
                     <CopyLink
                         text="Link del formulario de recolección"
                         link="Texto de prueba para copiar al portapapeles"
-                        copyMessage="¡Copiado!"
+                        bubbleMessage="¡Copiado!"
                     />
 
                     <Login></Login>

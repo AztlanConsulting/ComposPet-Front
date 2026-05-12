@@ -8,7 +8,7 @@ import "../../css/molecules/copyLink.css";
 export default function CopyLink({
     link = '',
     text = '',
-    copyMessage = '',
+    bubbleMessage = '',
 }) {
     const [copied, setCopied] = useState(false);
 
@@ -32,12 +32,12 @@ export default function CopyLink({
             <span className="copy-link-text">{text}</span>
 
             <div className="copy-icon-wrapper">
-                {copied && <CopyBubble copyMessage={copyMessage} />}
+                {copied && <CopyBubble bubbleMessage={bubbleMessage} />}
 
                 <Icon
                     className="icon-primary"
                     name="copy"
-                    size="small"
+                    size="medium"
                     color="secondary"
                     onClick={handleCopy}
                 />
