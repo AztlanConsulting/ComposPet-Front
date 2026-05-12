@@ -20,7 +20,8 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
-
+    const [selectedRoute, setSelectedRoute] = useState('');
+    const [routesDropdown, setRoutesDropdown] = useState([]);
 
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -40,6 +41,19 @@ function useClientTableViewModel() {
 
             const response = await getRoutesUseCase.execute();
             setRouteList(response);
+
+            // Para las rutas del dropdown
+            const mappedRoutes = response
+                .sort((a, b) => a.id_ruta - b.id_ruta)
+                .map(route => ({
+                    value: route.id_ruta,
+                    label: route.dia_ruta
+             }));
+
+            setRoutesDropdown([
+                { value: '', label: 'Sin filtro' },
+                ...mappedRoutes
+            ]);
 
         } catch (error) {
             console.log("Error loading routes list: ", error);
@@ -161,6 +175,10 @@ function useClientTableViewModel() {
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
+    const filteredClientList = selectedRoute
+        ? clientList.filter( client => client.routeId === Number(selectedRoute))
+        : clientList;
+
     const defaultColDef = useMemo(() => ({
         filter: true,
         sortable: true,
@@ -190,11 +208,14 @@ function useClientTableViewModel() {
     }, [editingRowId]);
 
     return {
-        clientList,
+        clientList: filteredClientList,
         loading,
         columnDefinitions,
         defaultColDef,
         editingRowId,
+        routesDropdown,
+        selectedRoute,
+        setSelectedRoute,
     };
 }
 

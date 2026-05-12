@@ -1,0 +1,36 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.filtersRow {
+    width: 100%;
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0 7rem;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .filtersRow {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 3rem;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+    .filtersRow {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        justify-items: center;
+    }
+
+    .filtersRow .formField {
+        width: 100%;
+        max-width: 400px;
+    }
+}
