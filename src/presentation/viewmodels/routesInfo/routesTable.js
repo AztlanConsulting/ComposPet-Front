@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import { GetAvailableWeeksUseCase, GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -10,11 +10,14 @@ import { GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routes
  * @function useRoutesViewModel
  */
 function useRoutesViewModel(){
+    const [weeks, setWeeks] = useState([]);
+    const [selectedWeek, setSelectedWeek] = useState(null);
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
+    const getAvailableWeeks = new GetAvailableWeeksUseCase();
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
@@ -39,6 +42,39 @@ function useRoutesViewModel(){
         tooltipField: "notes",
     };
 
+    const formatWeeks = (weeks) => {
+        const countByMonth = {};
+
+        return weeks.map((week) => {
+            const date = new Date(week.weekStart);
+            const month = date.toLocaleString("es-MX", { month: "long" });
+            console.log(month);
+            const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+            console.log(monthKey);
+
+            countByMonth[monthKey] = (countByMonth[monthKey] || 0) + 1;
+
+            const weekNumber = countByMonth[monthKey];
+            const monthFormat = month.charAt(0).toUpperCase() + month.slice(1);
+
+            return {
+                ...week,
+                label: `Semana ${weekNumber} - ${monthFormat}`,
+            };
+        });
+    }
+
+    useEffect(() => {
+        async function fetchWeeks() {
+            try {
+                const data = await getAvailableWeeks.execute();
+                setWeeks(formatWeeks(data));
+            } catch (error){
+                setError(error.message || "Error al cargar semanas");
+            }
+        }
+        fetchWeeks();
+    }, []);
 
     useEffect(() => {
         async function fetchRoutes(){
@@ -52,14 +88,15 @@ function useRoutesViewModel(){
             } finally {
                 setLoading(false);
             }
-
         }
-
         fetchRoutes();
-    }, []);
+    }, [selectedWeek]);
 
     return {
         routesList,
+        weeks,
+        selectedWeek,
+        setSelectedWeek,
         loading,
         error,
         columnDefinitions,

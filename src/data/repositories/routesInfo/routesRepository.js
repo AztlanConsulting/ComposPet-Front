@@ -58,4 +58,9 @@ export class RoutesRepository{
         return routesList;
     }
 
+    async getAvailableWeeks() {
+        const response = await this.apiClient.getAvailableWeeks();
+        return response.data;
+    }
+
 }

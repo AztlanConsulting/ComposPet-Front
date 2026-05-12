@@ -28,4 +28,15 @@ export class RoutesApiClient {
             throw error;
         }
     }
+
+    async getAvailableWeeks() {
+        try {
+
+            const response = await api.get('/rutas/semanas');
+            return response.data;
+        } catch (error) {
+            console.error("Error en getAvailableWeeks:", error.response?.data || error.message);
+            throw error;
+        }
+    }
 }

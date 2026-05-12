@@ -6,6 +6,7 @@ import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
 import TimerAlert from '../../../components/Template/timerAlert';
 import '../../../css/routesInfo/routesInfo.css'
+import DropdownInput from "../../../components/molecules/DropdownInput";
 
 /**
  * Componente de página que muestra la tabla de información de rutas del día actual.
@@ -28,6 +29,23 @@ export default function RoutesTablePage() {
     // ==================== RENDERIZADO PRINCIPAL ====================
     return (
         <div className="table-container">
+
+            <div className="filters-container">
+                <DropdownInput
+                    id="weeks"
+                    size="md"
+                    value={routesViewModel.selectedWeek}
+                    onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
+                    options={
+                        routesViewModel.weeks.map((w, i) => ({
+                            value: i,
+                            label: w.label,
+                        }))}
+                >
+                    Semana
+                </DropdownInput>
+            </div>
+
             <div className="table-scroll">
                 <div className="ag-theme-alpine custom-green-theme">
                     <ClientTable
