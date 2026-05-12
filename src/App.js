@@ -36,6 +36,7 @@ import ClientTable from './presentation/views/clientTableView';
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import ProblemAlert from './components/Template/ProblemAlert';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
+import CopyLink from './components/molecules/CopyLink';
 
 function Home() {
     const navigate = useNavigate();
@@ -108,10 +109,17 @@ function Home() {
                     >
                         Usuario
                     </InputComponent>
+
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <ProductCard></ProductCard>
+
+                    <CopyLink
+                        text="Link del formulario de recolección"
+                        link="Texto de prueba para copiar al portapapeles"
+                        copyMessage="¡Copiado!"
+                    />
 
                     <Login></Login>
                 </div>
@@ -178,7 +186,7 @@ function Home() {
                             Municipio
                         </DropdownInput>
                     </div>
-
+                    
                 </div>
 
             </div>
