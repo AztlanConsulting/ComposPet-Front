@@ -31,7 +31,7 @@ return (
         <Navbar />
     
         <section className="content-wrapper">
-            <div className='filtersRow'>
+            <div className='filters-Row'>
                 <DropdownInput
                     id="routeFilter"
                     value={selectedRoute}

@@ -2,7 +2,7 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-.filtersRow {
+.filters-Row {
     width: 100%;
     max-width: 1400px;
     display: grid;
@@ -14,9 +14,23 @@
     margin-top: 1rem;
 }
 
+.filters-Row .formSelect{
+    background-color: rgba(196, 222, 221, .64);
+    border: none;
+}
+
+.filters-Row .selectOptions{
+    background-color: rgba(196, 222, 221, 100);
+    border: none;
+}
+
+.filters-Row .selectOption.selected{
+    background-color: #8ECAC8;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
-    .filtersRow {
+    .filters-Row {
         grid-template-columns: 1fr 1fr;
         padding: 0 3rem;
     }
@@ -24,14 +38,9 @@
 
 /* Celular */
 @media (max-width: 768px) {
-    .filtersRow {
+    .filters-Row {
         grid-template-columns: 1fr;
         padding: 0 1rem;
         justify-items: center;
-    }
-
-    .filtersRow .formField {
-        width: 100%;
-        max-width: 400px;
     }
 }
