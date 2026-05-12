@@ -32,6 +32,7 @@ return (
     
         <section className="content-wrapper">
             <div className='filters-Row'>
+                {/* Dropdown para filtro */}
                 <DropdownInput
                     id="routeFilter"
                     value={selectedRoute}

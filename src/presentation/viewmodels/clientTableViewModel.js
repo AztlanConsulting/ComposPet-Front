@@ -20,18 +20,20 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
-    const [selectedRoute, setSelectedRoute] = useState('');
-    const [routesDropdown, setRoutesDropdown] = useState([]);
-
+    
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    
     const [routeList, setRouteList] = useState([]);
-
+    
     const routeOptions = routeList.map(r => r.id_ruta);
     const routeMap = Object.fromEntries(
         routeList.map(r => [r.id_ruta, r.dia_ruta])
     );
+    // establece que ruta se selecciona
+    const [selectedRoute, setSelectedRoute] = useState('');
+    // Lista de las opciones para el dropdown
+    const [routesDropdown, setRoutesDropdown] = useState([]);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -175,6 +177,8 @@ function useClientTableViewModel() {
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
+    // Variable para obtener el filtro de los clientes de acuerdo a la opción seleccionada
+    // del dropdown
     const filteredClientList = selectedRoute
         ? clientList.filter( client => client.routeId === Number(selectedRoute))
         : clientList;
