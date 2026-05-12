@@ -42,3 +42,15 @@
 
     transform: translateX(-50%) rotate(45deg);
 }
+
+.copy-bubble.success {
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+    border-color: var(--color-green-primary);
+}
+
+.copy-bubble.error {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}

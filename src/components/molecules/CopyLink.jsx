@@ -11,10 +11,15 @@ export default function CopyLink({
     bubbleMessage = '',
 }) {
     const [copied, setCopied] = useState(false);
+    const [bubbleType, setBubbleType] = useState("success");
+    const [currentBubbleMessage, setCurrentBubbleMessage] = useState(bubbleMessage);
 
     const handleCopy = async () => {
         try {
             await navigator.clipboard.writeText(link);
+
+            setBubbleType("success");
+            setCurrentBubbleMessage(bubbleMessage);
 
             setCopied(true);
 
@@ -23,6 +28,16 @@ export default function CopyLink({
             }, 2000);
 
         } catch (err) {
+
+            setBubbleType("error");
+            setCurrentBubbleMessage("¡No se pudo copiar!");
+
+            setCopied(true);
+
+            setTimeout(() => {
+                setCopied(false);
+            }, 2000);
+
             console.error('Error al copiar:', err);
         }
     };
@@ -32,7 +47,13 @@ export default function CopyLink({
             <span className="copy-link-text">{text}</span>
 
             <div className="copy-icon-wrapper">
-                {copied && <CopyBubble bubbleMessage={bubbleMessage} />}
+
+                {copied && (
+                    <CopyBubble
+                        bubbleMessage={currentBubbleMessage}
+                        type={bubbleType}
+                    />
+                )}
 
                 <Icon
                     className="icon-primary"
