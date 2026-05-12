@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GetAvailableWeeksUseCase, GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import { GetAvailableWeeksUseCase, GetDaysOfRoutesUseCase, GetFilteredRoutesUseCase, GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -12,12 +12,16 @@ import { GetAvailableWeeksUseCase, GetRoutesInfoUseCase } from "../../../domain/
 function useRoutesViewModel(){
     const [weeks, setWeeks] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState(null);
+    const [daysOfRoutes, setDaysOfRoutes] = useState([]);
+    const [selectedDay, setSelectedDay] = useState(null);
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
+    const getDaysOfRoutes = new GetDaysOfRoutesUseCase();
+    const getFilteredRoutes = new GetFilteredRoutesUseCase();
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
@@ -77,11 +81,31 @@ function useRoutesViewModel(){
     }, []);
 
     useEffect(() => {
+        async function fetchDaysOfRoutes() {
+            try {
+                const data = await getDaysOfRoutes.execute();
+                setDaysOfRoutes(data);
+            } catch (error) {
+                setError(error.message || "Error al cargar días de ruta");
+            }
+        }
+        fetchDaysOfRoutes();
+    }, []);
+
+    useEffect(() => {
+        console.log("=== fetchRoutes disparado ===");
+        console.log("selectedWeek:", selectedWeek, typeof selectedWeek);
+        console.log("selectedDay:", selectedDay, typeof selectedDay);
+
         async function fetchRoutes(){
             setLoading(true);
+            setError(null);
 
             try{
-                const routes = await getRoutesInfo.execute();
+                // const routes = await getRoutesInfo.execute();
+                const routes = selectedWeek !== null
+                    ? await getFilteredRoutes.execute(selectedWeek, selectedDay || undefined)
+                    : await getRoutesInfo.execute();
                 setRoutesList(routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
@@ -90,13 +114,16 @@ function useRoutesViewModel(){
             }
         }
         fetchRoutes();
-    }, [selectedWeek]);
+    }, [selectedWeek, selectedDay]);
 
     return {
         routesList,
         weeks,
         selectedWeek,
         setSelectedWeek,
+        daysOfRoutes,
+        selectedDay,
+        setSelectedDay,
         loading,
         error,
         columnDefinitions,

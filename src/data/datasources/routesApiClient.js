@@ -31,11 +31,35 @@ export class RoutesApiClient {
 
     async getAvailableWeeks() {
         try {
-
             const response = await api.get('/rutas/semanas');
             return response.data;
         } catch (error) {
             console.error("Error en getAvailableWeeks:", error.response?.data || error.message);
+            throw error;
+        }
+    }
+
+    async getDaysOfRoutes() {
+        try {
+            const response = await api.get('/rutas/dias-ruta');
+            return response.data;
+        } catch (error) {
+            console.error("Error en getDaysOfRoutes:", error.response?.data || error.message);
+            throw error;
+        }
+    }
+
+    async getFilteredRoutes(weekIndex, dayName){
+        try {
+            const params = {
+                weekIndex,
+            };
+            if (dayName) params.dayName = dayName;
+
+            const response = await api.get('/rutas/filtrar-informacion', { params });
+            return response.data;
+        } catch (error) {
+            console.error("Error en getFilteredRoutes:", error.response?.data || error.message);
             throw error;
         }
     }

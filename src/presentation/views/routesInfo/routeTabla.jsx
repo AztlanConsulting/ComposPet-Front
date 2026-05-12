@@ -42,7 +42,19 @@ export default function RoutesTablePage() {
                             label: w.label,
                         }))}
                 >
-                    Semana
+                </DropdownInput>
+
+                <DropdownInput
+                    id="days"
+                    size="md"
+                    value={routesViewModel.selectedDay}
+                    onChange={(e) => routesViewModel.setSelectedDay(e.target.value)}
+                    options={
+                        routesViewModel.daysOfRoutes.map(s => ({
+                            value: s.dia_ruta,
+                            label: s.dia_ruta,
+                        }))}
+                >
                 </DropdownInput>
             </div>
 
