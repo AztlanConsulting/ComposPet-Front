@@ -20,17 +20,20 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
-
-
+    
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    
     const [routeList, setRouteList] = useState([]);
-
+    
     const routeOptions = routeList.map(r => r.id_ruta);
     const routeMap = Object.fromEntries(
         routeList.map(r => [r.id_ruta, r.dia_ruta])
     );
+    // establece que ruta se selecciona
+    const [selectedRoute, setSelectedRoute] = useState('');
+    // Lista de las opciones para el dropdown
+    const [routesDropdown, setRoutesDropdown] = useState([]);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -40,6 +43,19 @@ function useClientTableViewModel() {
 
             const response = await getRoutesUseCase.execute();
             setRouteList(response);
+
+            // Para las rutas del dropdown
+            const mappedRoutes = response
+                .sort((a, b) => a.id_ruta - b.id_ruta)
+                .map(route => ({
+                    value: route.id_ruta,
+                    label: route.dia_ruta
+             }));
+
+            setRoutesDropdown([
+                { value: '', label: 'Sin filtro' },
+                ...mappedRoutes
+            ]);
 
         } catch (error) {
             console.log("Error loading routes list: ", error);
@@ -161,6 +177,12 @@ function useClientTableViewModel() {
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
+    // Variable para obtener el filtro de los clientes de acuerdo a la opción seleccionada
+    // del dropdown
+    const filteredClientList = selectedRoute
+        ? clientList.filter( client => client.routeId === Number(selectedRoute))
+        : clientList;
+
     const defaultColDef = useMemo(() => ({
 
         sortable: true,
@@ -190,11 +212,14 @@ function useClientTableViewModel() {
     }, [editingRowId]);
 
     return {
-        clientList,
+        clientList: filteredClientList,
         loading,
         columnDefinitions,
         defaultColDef,
         editingRowId,
+        routesDropdown,
+        selectedRoute,
+        setSelectedRoute,
     };
 }
 
