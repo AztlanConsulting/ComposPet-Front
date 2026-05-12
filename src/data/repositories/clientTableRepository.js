@@ -54,6 +54,7 @@ export class ClientTableRepository extends ClientTableIRepository{
                 routeId: client.routeId,
                 route: client.route,
                 status: client.status,
+                order: client.order,
             });
 
             clientList.push(clientObject);

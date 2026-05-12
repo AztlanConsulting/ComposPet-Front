@@ -224,7 +224,40 @@ export function getClientTableColumns({
             },
 
         },
+        {
+            field: "order",
+            headerName: "Orden",
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agNumberCellEditor",
 
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("order", params.newValue);
+
+                if (validation !== true) {
+                    params.data.order = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "order",
+                        });
+                    }, 0);
+
+                    return false;
+                }
+
+                params.data.order = Number(params.newValue);
+                return true;
+            },
+        },
         {
             field: "pets",
             headerName: "Mascotas",

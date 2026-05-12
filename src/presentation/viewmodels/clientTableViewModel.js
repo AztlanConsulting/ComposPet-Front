@@ -180,10 +180,10 @@ function useClientTableViewModel() {
         : clientList;
 
     const defaultColDef = useMemo(() => ({
-        filter: true,
+
         sortable: true,
         resizable: true,
-        floatingFilter: true,
+
         tooltipValueGetter: (params) => params.value,
     }), []);
 
