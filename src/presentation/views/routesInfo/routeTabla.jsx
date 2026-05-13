@@ -61,7 +61,7 @@ export default function RoutesTablePage() {
 
                 <Icon 
                     name="reload" 
-                    size="icon-large" 
+                    size="large" 
                     className="reload-icon" 
                     onClick={routesViewModel.resetFilters}
                 />

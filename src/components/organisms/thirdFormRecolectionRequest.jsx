@@ -77,7 +77,7 @@ export default function ThirdFormCollectionRequest({
 
                     <span
                     className='balance-check'>
-                        {balance < total ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
+                        {balance < total && selectedMethod.tipo === "Saldo" ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
             </FormCard>
         </div>
     );

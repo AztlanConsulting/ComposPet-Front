@@ -1,0 +1,46 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.filters-Row {
+    width: 100%;
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0 7rem;
+    box-sizing: border-box;
+    align-self: stretch;
+    margin-top: 1rem;
+}
+
+.filters-Row .formSelect{
+    background-color: rgba(196, 222, 221, .64);
+    border: none;
+}
+
+.filters-Row .selectOptions{
+    background-color: rgba(196, 222, 221, 100);
+    border: none;
+}
+
+.filters-Row .selectOption.selected{
+    background-color: #8ECAC8;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .filters-Row {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 3rem;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+    .filters-Row {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        justify-items: center;
+    }
+}

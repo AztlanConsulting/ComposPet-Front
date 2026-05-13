@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { GetAvailableWeeksUseCase, GetDaysOfRoutesUseCase, GetFilteredRoutesUseCase, GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import { 
+    GetAvailableWeeksUseCase, 
+    GetDaysOfRoutesUseCase, 
+    GetFilteredRoutesUseCase, 
+    GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -31,6 +35,19 @@ function useRoutesViewModel(){
         4: "Jueves",
         5: "Viernes",
         6: "Sábado",
+    };
+
+    const formPath = "/formulario-recoleccion";
+    const formUrl = `https://www.compospetmx.org${formPath}`;
+    const formLink = `¡Excelente día!
+
+*¿Te anotamos para recolección mañana?* 🪣🚛
+Apóyanos contestando el formulario de recolección de nuestra página ${formUrl} para registrar tu recolección 🫶🏼`;
+
+    const copyLinkInfo = {
+        text: "Formulario de recolección",
+        link: formLink,
+        bubbleMessage: "¡Copiado!",
     };
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
@@ -155,6 +172,7 @@ function useRoutesViewModel(){
         columnDefinitions,
         defaultColDef,
         resetFilters,
+        copyLinkInfo,
     }
 }
 
