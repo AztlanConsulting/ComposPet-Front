@@ -16,6 +16,19 @@ function useRoutesViewModel(){
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
 
+    const formPath = "/formulario-recoleccion";
+    const formUrl = `https://www.compospetmx.org${formPath}`;
+    const formLink = `¡Excelente día!
+
+*¿Te anotamos para recolección mañana?* 🪣🚛
+Apóyanos contestando el formulario de recolección de nuestra página ${formUrl} para registrar tu recolección 🫶🏼`;
+
+    const copyLinkInfo = {
+        text: "Formulario de recolección",
+        link: formLink,
+        bubbleMessage: "¡Copiado!",
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
         { headerName: "Nombre", field: "name", width: 200},
@@ -64,6 +77,7 @@ function useRoutesViewModel(){
         error,
         columnDefinitions,
         defaultColDef,
+        copyLinkInfo,
     }
 }
 

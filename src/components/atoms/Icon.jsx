@@ -74,7 +74,7 @@ export default function Icon({
 
     const svg = (
         <IconComponent
-            className={`icon ${size} ${color} ${className}`}
+            className={`icon icon-${size} ${color} ${className}`}
             aria-hidden={!label}
         />   
     );
@@ -82,7 +82,7 @@ export default function Icon({
     if (onClick){
         return(
             <button
-                className={`icon-button ${size} ${color} ${className}`}
+                className={`icon-button icon-button-${size} ${color} ${className}`}
                 onClick={onClick}
                 aria-label={label}
                 type="button"

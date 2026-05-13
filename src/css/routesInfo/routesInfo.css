@@ -32,6 +32,13 @@
     overflow-x: hidden !important;
 }
 
+.copy-link-container {
+    position: absolute;
+    top: 6rem;
+    right: 6.8rem;
+    /* z-index: 10; */
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
     .table-container {
@@ -41,6 +48,13 @@
 
     .custom-green-theme {
         font-size: var(--font-size-xs);
+    }
+}
+
+@media (max-width: 1024px) {
+    .copy-link-container {
+        top: 5rem;
+        right: 1rem;
     }
 }
 
@@ -61,3 +75,14 @@
         font-size: var(--font-size-xs);
     }
 }
+
+@media (max-width: 768px) {
+    .copy-link-container {
+        position: static;
+        display: flex;
+        justify-content: flex-end;
+        padding: 1rem 0.5rem 0 0.5rem;
+        box-sizing: border-box;
+    }
+}
+
