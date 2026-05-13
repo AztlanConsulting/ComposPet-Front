@@ -5,6 +5,16 @@ import CopyBubble from "../atoms/CopyBubble";
 import "../../css/atoms/icon.css";
 import "../../css/molecules/copyLink.css";
 
+/**
+ * Componente reutilizable para mostrar un enlace con funcionalidad de copiado.
+ * Permite al usuario copiar un enlace al portapapeles y muestra un mensaje de 
+ * feedback en formato de burbuja.
+ * @param {string} [link=""] - Enlace que se copiará al portapapeles.
+ * @param {string} [text=""] - Texto / titulo que va a un lado de ícono.
+ * @param {string} [bubbleMessage=""] - Mensaje de confirmación a mostrar en la
+ *  burbuja después de copiar.
+ * @return {JSX.Element} Componente de enlace con funcionalidad de copiado.
+ */
 export default function CopyLink({
     link = '',
     text = '',
