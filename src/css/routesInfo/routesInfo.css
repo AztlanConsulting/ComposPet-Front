@@ -22,7 +22,8 @@
     margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
-    gap: 2.5rem;
+    align-items: flex-end;
+    gap: 1rem; 
 }
 
 .filters-container .formSelect{
@@ -37,6 +38,12 @@
 
 .filters-container .selectOption.selected{
     background-color: #8ECAC8;
+}
+
+.reload-icon{
+    margin-bottom: 0.1rem;
+    color: var(--color-green-secondary);
+    cursor: pointer;
 }
 
 .table-scroll {

@@ -17,6 +17,7 @@ import { ReactComponent as TiktokIcon } from '../../public/icons/tiktok.svg';
 import { ReactComponent as EditIcon } from '../../public/icons/edit.svg';
 import { ReactComponent as CancelIcon } from '../../public/icons/cancel.svg';
 import { ReactComponent as SaveIcon } from '../../public/icons/save.svg';
+import { ReactComponent as ReloadIcon } from '../../public/icons/reload.svg';
 
 /**
  * Mapa de nombres de icono a sus componentes SVG correspondientes.
@@ -42,6 +43,7 @@ const icons = {
     edit: EditIcon,
     cancel: CancelIcon,
     save: SaveIcon,
+    reload: ReloadIcon,
 };
 
 /**
