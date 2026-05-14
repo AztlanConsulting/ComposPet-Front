@@ -39,6 +39,23 @@
     /* z-index: 10; */
 }
 
+.ag-cell.cell-zero{
+    color: var(--color-red-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.ag-row.row-inactive {
+    background-color: var(--color-red-primary) !important;
+}
+
+.ag-row.row-neither {
+    background-color: var(--color-gray-bg) !important;
+}
+.ag-cell {
+    white-space: pre-line !important;
+    line-height: 1.4rem;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
     .table-container {
