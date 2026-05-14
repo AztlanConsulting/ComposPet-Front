@@ -35,7 +35,7 @@ export default function RoutesTablePage() {
                 <DropdownInput
                     id="weeks"
                     size="md"
-                    value={routesViewModel.selectedWeek}
+                    value={routesViewModel.selectedWeek ?? ""}
                     onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
                     options={
                         routesViewModel.weeks.map((w, i) => ({

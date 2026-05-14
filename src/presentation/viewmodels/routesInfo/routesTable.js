@@ -109,6 +109,12 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             try {
                 const data = await getAvailableWeeks.execute();
                 setWeeks(formatWeeks(data));
+
+                const currentIndex = data.findIndex(week => {
+                    const now = new Date();
+                    return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
+                });
+                setSelectedWeek(currentIndex >= 0 ? currentIndex : data.length - 1);
             } catch (error){
                 setError(error.message || "Error al cargar semanas");
             }
@@ -135,15 +141,20 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         console.log("selectedWeek:", selectedWeek, typeof selectedWeek);
         console.log("selectedDay:", selectedDay, typeof selectedDay);
 
+        if (selectedWeek === null || isNaN(selectedWeek)) return
+
         async function fetchRoutes(){
             setLoading(true);
             setError(null);
 
             try{
-                // const routes = await getRoutesInfo.execute();
-                const routes = selectedWeek !== null
+                const routes = await getFilteredRoutes.execute(
+                    selectedWeek,
+                    selectedDay || undefined
+                );
+                /*const routes = selectedWeek !== null
                     ? await getFilteredRoutes.execute(selectedWeek, selectedDay || undefined)
-                    : await getRoutesInfo.execute();
+                    : await getRoutesInfo.execute();*/
                 setRoutesList(routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
@@ -155,7 +166,11 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, [selectedWeek, selectedDay]);
 
     const resetFilters = () => {
-        setSelectedWeek(null);
+        const currentIndex = weeks.findIndex(week => {
+            const now = new Date();
+            return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
+        });
+        setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
         setSelectedDay(getDefaultDay(daysOfRoutes));
     };
 
