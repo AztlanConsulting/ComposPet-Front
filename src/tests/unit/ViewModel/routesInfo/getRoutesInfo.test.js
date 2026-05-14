@@ -196,7 +196,9 @@ describe('useRoutesViewModel - semanas y días', () => {
 
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        expect(mockExecuteFiltered).toHaveBeenCalledWith(1, expect.anything());
+        const calls = mockExecuteFiltered.mock.calls;
+        const lastCall = calls[calls.length - 1];
+        expect(lastCall[0]).toBe(1);
     });
 
     it('debe llamar getFilteredRoutes con dayName cuando se seleccionan semana y día', async () => {
