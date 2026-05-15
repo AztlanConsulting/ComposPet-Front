@@ -141,7 +141,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         console.log("selectedWeek:", selectedWeek, typeof selectedWeek);
         console.log("selectedDay:", selectedDay, typeof selectedDay);
 
-        if (selectedWeek === null || isNaN(selectedWeek)) return
+        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return
 
         async function fetchRoutes(){
             setLoading(true);

@@ -16,15 +16,30 @@ jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
 }));
 
 describe('useRoutesViewModel', () => {
-    let mockExecute;
+    let mockExecuteFiltered;
 
     beforeEach(() => {
         jest.clearAllMocks();
 
-        mockExecute = jest.fn();
+        mockExecuteFiltered = jest.fn();
 
+        GetAvailableWeeksUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([
+                { 
+                    weekStart: new Date(Date.now() - 86400000), 
+                    weekEnd: new Date(Date.now() + 6 * 86400000), 
+                    label: 'Semana actual' 
+                }
+            ]),
+        }));
+        GetDaysOfRoutesUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([]),
+        }));
         GetRoutesInfoUseCase.mockImplementation(() => ({
-            execute: mockExecute,
+            execute: jest.fn().mockResolvedValue([]),
+        }));
+        GetFilteredRoutesUseCase.mockImplementation(() => ({
+            execute: mockExecuteFiltered,
         }));
     });
 
@@ -43,37 +58,35 @@ describe('useRoutesViewModel', () => {
             },
         ];
 
-        mockExecute.mockResolvedValue(mockRoutes);
+        mockExecuteFiltered.mockResolvedValue(mockRoutes);
 
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(result.current.loading).toBe(false);
+            expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
         });
 
-        expect(mockExecute).toHaveBeenCalledTimes(1);
         expect(result.current.routesList).toEqual(mockRoutes);
         expect(result.current.error).toBe(null);
     });
 
     it('debe regresar error cuando falla el caso de uso', async () => {
-        mockExecute.mockRejectedValue(
+        mockExecuteFiltered.mockRejectedValue(
             new Error('Error al cargar la información de rutas')
         );
 
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(result.current.loading).toBe(false);
+            expect(result.current.error).toBe('Error al cargar la información de rutas');expect(result.current.error).toBe('Error al cargar la información de rutas');
         });
 
-        expect(mockExecute).toHaveBeenCalledTimes(1);
+        expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
         expect(result.current.routesList).toEqual([]);
-        expect(result.current.error).toBe('Error al cargar la información de rutas');
     });
 
     it('debe regresar la configuración de columnas correctamente', () => {
-        mockExecute.mockResolvedValue([]);
+        mockExecuteFiltered.mockResolvedValue([]);
 
         const { result } = renderHook(() => useRoutesViewModel());
 
@@ -176,13 +189,14 @@ describe('useRoutesViewModel - semanas y días', () => {
         expect(result.current.daysOfRoutes).toEqual(mockDays);
     });
 
-    it('debe llamar getRoutesInfo cuando selectedWeek es null', async () => {
+    it('no llama a ningún use case de rutas cuando selectedWeek es null', async () => {
+        mockExecuteWeeks.mockReturnValue(new Promise(() => {}));
+
         const { result } = renderHook(() => useRoutesViewModel());
 
-        await waitFor(() => expect(result.current.loading).toBe(false));
-
-        expect(mockExecuteRoutes).toHaveBeenCalled();
+        expect(result.current.selectedWeek).toBe(null);
         expect(mockExecuteFiltered).not.toHaveBeenCalled();
+        expect(mockExecuteRoutes).not.toHaveBeenCalled();
     });
 
     it('debe llamar getFilteredRoutes cuando se selecciona una semana', async () => {
@@ -216,7 +230,7 @@ describe('useRoutesViewModel - semanas y días', () => {
         expect(mockExecuteFiltered).toHaveBeenCalledWith(1, 'Lunes');
     });
 
-    it('resetFilters debe limpiar selectedWeek y restaurar el día por defecto', async () => {
+    it('resetFilters debe restaurar la semana y el día por defecto', async () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => expect(result.current.loading).toBe(false));
@@ -232,8 +246,8 @@ describe('useRoutesViewModel - semanas y días', () => {
 
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        expect(result.current.selectedWeek).toBe(null);
-        expect(mockExecuteRoutes).toHaveBeenCalled();
+        expect(result.current.selectedWeek).toBe(1);
+        expect(mockExecuteFiltered).toHaveBeenCalled();
     });
 
     it('debe manejar error al cargar semanas', async () => {
@@ -250,11 +264,10 @@ describe('useRoutesViewModel - semanas y días', () => {
 
     it('debe manejar error al cargar días de ruta', async () => {
         mockExecuteDays.mockRejectedValue(new Error('Error días'));
+        mockExecuteWeeks.mockReturnValue(new Promise(() => {})); // evita que selectedWeek se setee
 
         const { result } = renderHook(() => useRoutesViewModel());
 
-        await waitFor(() => expect(result.current.loading).toBe(false));
-
-        expect(result.current.error).toBe('Error días');
+        await waitFor(() => expect(result.current.error).toBe('Error días'));
     });
 });
