@@ -86,6 +86,11 @@ export class RoutesRepository{
             totalToPay: route.total_a_pagar,
             totalPaid: route.total_pagado,
             notes: route.notas,
+            hasRequest: route.hasRequest,
+            status: route.status,
+            wantsCollection: route.wantsCollection,
+            wantsExtraProducts: route.wantsExtraProducts,
+            extraProductsDetails: route.extraProductsDetails || [],
         }));
     }
 }
