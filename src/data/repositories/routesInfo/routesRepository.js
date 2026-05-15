@@ -58,4 +58,29 @@ export class RoutesRepository{
         return routesList;
     }
 
+    async getAvailableWeeks() {
+        const response = await this.apiClient.getAvailableWeeks();
+        return response.data;
+    }
+
+    async getDaysOfRoutes() {
+        const response = await this.apiClient.getDaysOfRoutes();
+        return response.data;
+    }
+
+    async getFilteredRoutes(weekIndex, dayName) {
+        const response = await this.apiClient.getFilteredRoutes(weekIndex, dayName);
+
+        return response.data.map(route => new RouteInfo({
+            name: route.nombre,
+            collectedBuckets: route.recoleccion,
+            deliveredBuckets: route.entrega,
+            extraProducts: route.productos_extra,
+            schedule: route.horario,
+            paymentMethod: route.forma_pago,
+            totalToPay: route.total_a_pagar,
+            totalPaid: route.total_pagado,
+            notes: route.notas,
+        }));
+    }
 }
