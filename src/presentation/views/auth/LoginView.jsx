@@ -77,7 +77,7 @@ function SignInForm(){
                             onClick={() => onGoogleLogin()} 
                             disabled={loadingAction === 'google'}
                         >
-                            <Icon name="google" size="icon-medium"></Icon>
+                            <Icon name="google" size="medium"></Icon>
                             {loadingAction ? "Conectando..." : "Continuar con Google"}
                         </Button>
 

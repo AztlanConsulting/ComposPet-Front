@@ -33,3 +33,30 @@ export class GetRoutesInfoUseCase {
         return await this.routesRepository.getRoutesInfo();
     }
 }
+
+export class GetAvailableWeeksUseCase {
+    constructor(){
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute(){
+        return await this.routesRepository.getAvailableWeeks();
+    }
+}
+
+export class GetDaysOfRoutesUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute() {
+        return await this.routesRepository.getDaysOfRoutes();
+    }
+}
+
+export class GetFilteredRoutesUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute(weekIndex, dayName) {
+        return await this.routesRepository.getFilteredRoutes(weekIndex, dayName);
+    }
+}

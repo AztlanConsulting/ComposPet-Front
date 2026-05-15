@@ -3,7 +3,10 @@ import useRoutesViewModel from '../../../../presentation/viewmodels/routesInfo/r
 import { GetRoutesInfoUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 
 jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
-    GetRoutesInfoUseCase: jest.fn(),
+    GetRoutesInfoUseCase:     jest.fn(),
+    GetAvailableWeeksUseCase: jest.fn(),
+    GetDaysOfRoutesUseCase:   jest.fn(),
+    GetFilteredRoutesUseCase: jest.fn(),
 }));
 
 describe('useRoutesViewModel - copyLinkInfo', () => {

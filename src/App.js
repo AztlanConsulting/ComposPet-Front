@@ -72,24 +72,24 @@ function Home() {
                         <Icon name="plus" csssize="small" color="primary" />
                     </Button>
                     <Button size='mini' csstype='plus-min' className='button'>
-                        <Icon name="minus" csssize="icon-small" color="primary" />
+                        <Icon name="minus" csssize="small" color="primary" />
                     </Button>
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <Icon name="plus" size="icon-large" color="primary" />
-                    <Icon name="minus" size="icon-large" color="primary" />
-                    <Icon name="arrow" size="icon-large" color="primary" />
-                    <Icon name="bills" size="icon-large" color="primary" />
-                    <Icon name="card" size="icon-large" color="primary" />
-                    <Icon name="copy" size="icon-large" color="primary" />
-                    <Icon name="facebook" size="icon-large" color="primary" />
-                    <Icon name="google" size="icon-large" color="primary" />
-                    <Icon name="instagram" size="icon-large" color="primary" />
-                    <Icon name="logo" size="icon-large" color="primary" />
-                    <Icon name="piggy" size="icon-large" color="primary" />
-                    <Icon name="search" size="icon-large" color="primary" />
-                    <Icon name="tiktok" size="icon-large" color="primary" />
+                    <Icon name="plus" size="large" color="primary" />
+                    <Icon name="minus" size="large" color="primary" />
+                    <Icon name="arrow" size="large" color="primary" />
+                    <Icon name="bills" size="large" color="primary" />
+                    <Icon name="card" size="large" color="primary" />
+                    <Icon name="copy" size="large" color="primary" />
+                    <Icon name="facebook" size="large" color="primary" />
+                    <Icon name="google" size="large" color="primary" />
+                    <Icon name="instagram" size="large" color="primary" />
+                    <Icon name="logo" size="large" color="primary" />
+                    <Icon name="piggy" size="large" color="primary" />
+                    <Icon name="search" size="large" color="primary" />
+                    <Icon name="tiktok" size="large" color="primary" />
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>

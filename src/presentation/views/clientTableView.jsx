@@ -1,5 +1,5 @@
 import useClientTableViewModel from "../viewmodels/clientTableViewModel";
-import ClientTable from "../../components/organisms/ClientTable";
+import ClientTable from "../../components/organisms/clientTable";
 import '../../css/atoms/clientTableColumnsDef.css';
 import Navbar from "../../components/molecules/Navbar";
 import ProblemAlert from "../../components/Template/ProblemAlert";
