@@ -78,7 +78,7 @@ describe('useRoutesViewModel', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(result.current.error).toBe('Error al cargar la información de rutas');expect(result.current.error).toBe('Error al cargar la información de rutas');
+            expect(result.current.error).toBe('Error al cargar la información de rutas');
         });
 
         expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);

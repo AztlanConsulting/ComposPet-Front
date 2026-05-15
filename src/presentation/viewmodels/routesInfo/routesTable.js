@@ -88,9 +88,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         return weeks.map((week) => {
             const date = new Date(week.weekStart);
             const month = date.toLocaleString("es-MX", { month: "long" });
-            console.log(month);
             const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-            console.log(monthKey);
 
             countByMonth[monthKey] = (countByMonth[monthKey] || 0) + 1;
 
@@ -137,10 +135,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, []);
 
     useEffect(() => {
-        console.log("=== fetchRoutes disparado ===");
-        console.log("selectedWeek:", selectedWeek, typeof selectedWeek);
-        console.log("selectedDay:", selectedDay, typeof selectedDay);
-
         if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return
 
         async function fetchRoutes(){
@@ -152,9 +146,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     selectedWeek,
                     selectedDay || undefined
                 );
-                /*const routes = selectedWeek !== null
-                    ? await getFilteredRoutes.execute(selectedWeek, selectedDay || undefined)
-                    : await getRoutesInfo.execute();*/
+
                 setRoutesList(routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
