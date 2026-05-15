@@ -45,7 +45,7 @@
 }
 
 .ag-row.row-inactive {
-    background-color: var(--color-red-primary) !important;
+    background-color: var(--color-red-secondary) !important;
 }
 
 .ag-row.row-neither {
