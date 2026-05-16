@@ -16,6 +16,7 @@ export default function RoutesInfo(){
                 <CopyLink {...copyLinkInfo} />
             </div>
             <RoutesTablePage />
+            {/* Agrega información de colores */}
             <ColorsInfo />
         </div>
     )

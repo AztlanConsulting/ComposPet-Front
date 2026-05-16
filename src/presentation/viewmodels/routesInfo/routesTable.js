@@ -70,6 +70,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         )
     }
 
+    // funcion que determina si el fondo es rojo
     const hasRedBackground = (data) => {
         return data?.hasRequest === true && data?.status === false;
     };
@@ -77,15 +78,18 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
         { headerName: "Nombre", field: "name", width: 200},
+        // Recoleccion
         { headerName: "# Recolección", field: "collectedBuckets", width: 200,
+            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
             cellStyle: (params) => {
+                // si tiene fondo rojo, resaltar en negrita
                 if (hasRowBackground(params.data)) {
                     return hasRedBackground(params.data)
                         ? { fontWeight: "var(--font-weight-bold)" }
                         : null;
                 }
-
-                if (String(params.value).trim() === "0") {
+                // si el valor es 0, resaltar en rojo y negrita
+                if (params.value === "0") {
                     return {
                         color: "var(--color-red-primary)",
                         fontWeight: "var(--font-weight-bold)",
@@ -95,15 +99,17 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 return null;
             },
         },
+        // Entrega
         { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
+            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
             cellStyle: (params) => {
                 if (hasRowBackground(params.data)) {
                     return hasRedBackground(params.data)
                         ? { fontWeight: "var(--font-weight-bold)" }
                         : null;
                 }
-
-                if (String(params.value).trim() === "0") {
+                // si el valor es 0, resaltar en rojo y negrita
+                if (params.value === "0") {
                     return {
                         color: "var(--color-red-primary",
                         fontWeight: "var(--font-weight-bold)",
@@ -113,21 +119,25 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 return null;
             },
         },
+        // Productos extra con personalizado para mostrar cada producto en su color correspondiente
         {
             headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
             cellRenderer: (params) => {
                 const products = params.data?.extraProductsDetails || [];
 
+                // Si no hay productos extra, mostrar un espacio
                 if (!products.length) {
                     return params.value || " ";
                 }
 
                 return (
                     <div>
+                        {/* Muestra cada producto con su color correspondiente */}
                         {products.map((product, index) => (
                             <div
                                 key={index}
                                 style={{
+                                    // Si la fila tiene fondo, usar color de texto normal, si no, usar el color del producto
                                     color: hasRowBackground(params.data)
                                         ? "inherit"
                                         : PRODUCT_COLORS[product.color] ||
@@ -156,6 +166,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         sortable: true,
         resizable: true,
         tooltipField: "notes",
+        // Aplica estilo de negrita a toda la fila si tiene fondo rojo
         cellStyle: (params) => {
             if (hasRedBackground(params.data)) {
                 return {
