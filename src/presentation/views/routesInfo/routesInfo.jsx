@@ -2,6 +2,7 @@ import RoutesTablePage from "./routeTabla";
 import Navbar from "../../../components/molecules/Navbar";
 import CopyLink from "../../../components/molecules/CopyLink";
 import useRoutesViewModel from "../../viewmodels/routesInfo/routesTable";
+import ColorsInfo from "./colorsInfo";
 
 import '../../../css/routesInfo/routesInfo.css';
 
@@ -15,6 +16,8 @@ export default function RoutesInfo(){
                 <CopyLink {...copyLinkInfo} />
             </div>
             <RoutesTablePage />
+            {/* Agrega información de colores */}
+            <ColorsInfo />
         </div>
     )
 }

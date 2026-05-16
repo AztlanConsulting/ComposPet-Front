@@ -46,16 +46,28 @@ describe('useRoutesViewModel', () => {
     it('debe regresar la información de las rutas correctamente', async () => {
         const mockRoutes = [
             {
-                name: 'Alejandra Arredondo',
-                collectedBuckets: 2,
-                deliveredBuckets: 3,
-                extraProducts: 'Composta',
-                schedule: '10:00',
-                paymentMethod: 'Efectivo',
-                totalToPay: 100,
-                totalPaid: 100,
-                notes: 'N/A',
-            },
+                nombre: 'Alejandra Arredondo',
+                recoleccion: '2',
+                entrega: '3',
+                productos_extra: 'Composta',
+                horario: '10:00',
+                forma_pago: 'Efectivo',
+                total_a_pagar: '100',
+                total_pagado: '100',
+                notas: 'N/A',
+
+                hasRequest: true,
+                status: true,
+                wantsCollection: true,
+                wantsExtraProducts: true,
+
+                extraProductsDetails: [
+                    {
+                        text: 'Composta',
+                        color: 'verde',
+                    },
+                ],
+            }
         ];
 
         mockExecuteFiltered.mockResolvedValue(mockRoutes);
@@ -92,20 +104,21 @@ describe('useRoutesViewModel', () => {
 
         expect(result.current.columnDefinitions).toEqual([
             { headerName: "Nombre", field: "name", width: 200 },
-            { headerName: "# Recolección", field: "collectedBuckets", width: 200 },
-            { headerName: "# Entrega", field: "deliveredBuckets", width: 200 },
-            { headerName: "Productos Extra", field: "extraProducts", width: 200 },
+            { headerName: "# Recolección", field: "collectedBuckets", width: 200, cellStyle: expect.any(Function) },
+            { headerName: "# Entrega", field: "deliveredBuckets", width: 200, cellStyle: expect.any(Function) },
+            { headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true, cellRenderer: expect.any(Function) },
             { headerName: "Horario", field: "schedule", width: 200 },
             { headerName: "Forma de pago", field: "paymentMethod", width: 200 },
             { headerName: "Total a pagar", field: "totalToPay", width: 200 },
             { headerName: "Total pagado", field: "totalPaid", width: 200 },
-            { headerName: "Notas", field: "notes", width: 200 },
+            { headerName: "Notas", field: "notes", width: 500 },
         ]);
 
         expect(result.current.defaultColDef).toEqual({
             sortable: true,
             resizable: true,
             tooltipField: "notes",
+            cellStyle: expect.any(Function),
         });
     });
 });
