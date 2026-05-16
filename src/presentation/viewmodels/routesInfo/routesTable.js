@@ -56,7 +56,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         amarillo: "var(--color-yellow-primary)",
         naranja: "var(--color-orange-primary)",
         morado: "var(--color-purple-primary)",
-        verde: "var(--color--green-products)",
+        verde: "var(--color-green-products)",
     }
 
     // Función para determinar si una fila debe tener fondo
@@ -70,19 +70,25 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         )
     }
 
+    const hasRedBackground = (data) => {
+        return data?.hasRequest === true && data?.status === false;
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
         { headerName: "Nombre", field: "name", width: 200},
         { headerName: "# Recolección", field: "collectedBuckets", width: 200,
             cellStyle: (params) => {
                 if (hasRowBackground(params.data)) {
-                    return null;
+                    return hasRedBackground(params.data)
+                        ? { fontWeight: "var(--font-weight-bold)" }
+                        : null;
                 }
 
                 if (String(params.value).trim() === "0") {
                     return {
-                        color: "red",
-                        fontWeight: "bold",
+                        color: "var(--color-red-primary)",
+                        fontWeight: "var(--font-weight-bold)",
                     };
                 }
 
@@ -92,13 +98,15 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
             cellStyle: (params) => {
                 if (hasRowBackground(params.data)) {
-                    return null;
+                    return hasRedBackground(params.data)
+                        ? { fontWeight: "var(--font-weight-bold)" }
+                        : null;
                 }
 
                 if (String(params.value).trim() === "0") {
                     return {
-                        color: "red",
-                        fontWeight: "bold",
+                        color: "var(--color-red-primary",
+                        fontWeight: "var(--font-weight-bold)",
                     };
                 }
 
@@ -109,8 +117,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
             cellRenderer: (params) => {
                 const products = params.data?.extraProductsDetails || [];
-
-                console.log("Productos detalle:", products);
 
                 if (!products.length) {
                     return params.value || " ";
@@ -150,6 +156,15 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         sortable: true,
         resizable: true,
         tooltipField: "notes",
+        cellStyle: (params) => {
+            if (hasRedBackground(params.data)) {
+                return {
+                    fontWeight: "var(--font-weight-bold)",
+                };
+            }
+
+            return null;
+        },
     };
 
     const getDefaultDay = (days) => {
