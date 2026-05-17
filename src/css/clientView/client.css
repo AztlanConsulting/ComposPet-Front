@@ -6,12 +6,15 @@
     width: 100%;
     max-width: 1400px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, auto);
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
     padding: 0 7rem;
+    margin-top: 1rem;
     box-sizing: border-box;
     align-self: stretch;
-    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
 .filters-Row .formSelect{
@@ -28,6 +31,9 @@
     background-color: #8ECAC8;
 }
 
+.filters-Row .search-input-container {
+    margin-top: 2.7rem;
+}
 /* Tablet */
 @media (max-width: 1024px) {
     .filters-Row {

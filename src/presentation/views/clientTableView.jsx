@@ -5,6 +5,7 @@ import Navbar from "../../components/molecules/Navbar";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import DropdownInput from '../../components/molecules/DropdownInput';
 import '../../css/clientView/client.css';
+import SearchInput from "../../components/molecules/searchInput";
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -19,10 +20,11 @@ export default function ClientTableView() {
         columnDefinitions,
         defaultColDef,
         editingRowId,
-        routeList,
         routesDropdown,
         selectedRoute,
         setSelectedRoute,
+        searchText,
+        setSearchText,
     } = useClientTableViewModel();
 
 return (
@@ -31,18 +33,22 @@ return (
         <Navbar />
     
         <section className="content-wrapper">
-            <div className='filters-Row'>
-                {/* Dropdown para filtro */}
-                <DropdownInput
-                    id="routeFilter"
-                    value={selectedRoute}
-                    onChange={(e) => setSelectedRoute(e.target.value)}
-                    options={routesDropdown}
-                    className="dropdown"
-                />
-            </div>
 
             <div className="table-container">
+                <div className="filters-Row">
+                    {/* Dropdown para filtro */}
+                    <DropdownInput
+                        id="routeFilter"
+                        value={selectedRoute}
+                        onChange={(e) => setSelectedRoute(e.target.value)}
+                        options={routesDropdown}
+                        className="dropdown"
+                    />
+                    <SearchInput
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
+                </div>
                 <div className="table-scroll">
                     <ClientTable
                         loading={loading}
