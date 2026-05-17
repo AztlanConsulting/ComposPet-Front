@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import '../../../css/tokens/colors.css';
+
+import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
+import ProblemAlert from "../../../components/Template/ProblemAlert";
+import AceptAlert from "../../../components/Template/AceptAlert";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -22,6 +26,56 @@ function useRoutesViewModel(){
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [originalRoutesList, setOriginalRoutesList] = useState([]);
+    const [editingRowId, setEditingRowId] = useState(null);
+
+    const isCellChanged = useCallback((params) => {
+        const rowId = params.data.name;
+        const field = params.colDef.field;
+
+        const originalRow = originalRoutesList.find(c => c.name === rowId);
+
+        if(!originalRow) return false;
+        
+        return originalRow[field] !== params.value;
+    }, [originalRoutesList]);
+
+    const handleEdit = useCallback((params) => {
+
+        if (editingRowId !== null) return;
+
+        setEditingRowId(params.data.name);
+
+        setTimeout(() => {
+            params.api.startEditingCell({
+                rowIndex: params.node.rowIndex,
+                colKey: 'extraProducts', 
+            });
+        });
+    }, [editingRowId]);
+
+    const handleCancel = useCallback((params) => {
+        try{
+            setLoading(true);
+
+            params.api.stopEditing(false);
+            const rowId = params.data.name;
+            const originalRow = originalRoutesList.find(r => r.name === rowId);
+
+            if(!originalRow) return;
+
+            params.node.setData({...originalRow});
+
+            setEditingRowId(null);
+
+            params.api.refreshCells({force: true});
+        } catch (error) {
+            console.log("Error discarding changes in routes table: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [originalRoutesList]);
+
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
@@ -51,14 +105,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         bubbleMessage: "¡Copiado!",
     };
 
-    // Diccionario para asignar colores a los productos extra según su tipo
-    const PRODUCT_COLORS = {
-        amarillo: "var(--color-yellow-primary)",
-        naranja: "var(--color-orange-primary)",
-        morado: "var(--color-purple-primary)",
-        verde: "var(--color-green-products)",
-    }
-
     // Función para determinar si una fila debe tener fondo
     const hasRowBackground = (data) => {
         return (
@@ -76,87 +122,23 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
-    const columnDefinitions = [
-        { headerName: "Nombre", field: "name", width: 200},
-        // Recoleccion
-        { headerName: "# Recolección", field: "collectedBuckets", width: 200,
-            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
-            cellStyle: (params) => {
-                // si tiene fondo rojo, resaltar en negrita
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
-                    return {
-                        color: "var(--color-red-primary)",
-                        fontWeight: "var(--font-weight-bold)",
-                    };
-                }
-
-                return null;
+    const columnDefinitions = useMemo(() => 
+        getRoutesTableColumns({
+            editingRowId,
+            isCellChanged,
+            hasRowBackground,
+            hasRedBackground,
+            handleEdit,
+            handleCancel,
+            loading,
+            showProblemAlert: async (title, text) => {
+                await ProblemAlert({
+                    title,
+                    text
+                });
             },
-        },
-        // Entrega
-        { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
-            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
-            cellStyle: (params) => {
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
-                    return {
-                        color: "var(--color-red-primary",
-                        fontWeight: "var(--font-weight-bold)",
-                    };
-                }
-
-                return null;
-            },
-        },
-        // Productos extra con personalizado para mostrar cada producto en su color correspondiente
-        {
-            headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
-            cellRenderer: (params) => {
-                const products = params.data?.extraProductsDetails || [];
-
-                // Si no hay productos extra, mostrar un espacio
-                if (!products.length) {
-                    return params.value || " ";
-                }
-
-                return (
-                    <div>
-                        {/* Muestra cada producto con su color correspondiente */}
-                        {products.map((product, index) => (
-                            <div
-                                key={index}
-                                style={{
-                                    // Si la fila tiene fondo, usar color de texto normal, si no, usar el color del producto
-                                    color: hasRowBackground(params.data)
-                                        ? "inherit"
-                                        : PRODUCT_COLORS[product.color] ||
-                                        "#000",
-                                }}
-                            >
-                                {product.text}
-                            </div>
-                        ))}
-                    </div>
-                );
-            },
-        },
-        { headerName: "Horario", field: "schedule", width: 200},
-        { headerName: "Forma de pago", field: "paymentMethod", width: 200},
-        { headerName: "Total a pagar", field: "totalToPay", width: 200},
-        { headerName: "Total pagado", field: "totalPaid", width: 200},
-        { headerName: "Notas", field: "notes", width: 500},
-    ];
+        }),
+    [editingRowId, handleEdit, handleCancel, isCellChanged, loading]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
@@ -253,6 +235,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 );
 
                 setRoutesList(routes);
+                setOriginalRoutesList(JSON.parse(JSON.stringify(routes)));
                 console.log("Rutas obtenidas:", routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
