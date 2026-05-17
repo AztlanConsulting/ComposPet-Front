@@ -9,6 +9,7 @@ import {
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
+import { isValidSearchText } from "./utils/searchValidation";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -207,6 +208,11 @@ function useClientTableViewModel() {
         })
     }, [clientList, selectedRoute, searchText]);
 
+    const handleSearchText = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchText(value);
+    };
+
     const defaultColDef = useMemo(() => ({
 
         sortable: true,
@@ -246,6 +252,7 @@ function useClientTableViewModel() {
         setSelectedRoute,
         searchText,
         setSearchText,
+        handleSearchText,
     };
 }
 

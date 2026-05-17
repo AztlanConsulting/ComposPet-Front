@@ -25,6 +25,7 @@ export default function ClientTableView() {
         setSelectedRoute,
         searchText,
         setSearchText,
+        handleSearchText,
     } = useClientTableViewModel();
 
 return (
@@ -46,7 +47,7 @@ return (
                     />
                     <SearchInput
                         value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onChange={(e) => handleSearchText(e.target.value)}
                     />
                 </div>
                 <div className="table-scroll">

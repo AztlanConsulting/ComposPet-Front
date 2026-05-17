@@ -65,6 +65,7 @@ export default function RoutesTablePage() {
                     className="reload-icon" 
                     onClick={routesViewModel.resetFilters}
                 />
+
             </div>
 
             <div className="table-scroll">

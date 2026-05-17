@@ -123,4 +123,32 @@ describe('ClientTableViewModel', () => {
 
         expect(result.current.clientList).toHaveLength(3);
     });
+
+    it('debe retornar lista vacía si ingresa un emoji', async () => {
+        const { result } = renderHook(() => useClientTableViewModel());
+
+        await waitFor(() => {
+            expect(result.current.clientList).toHaveLength(3);
+        });
+
+        act(() => {
+            result.current.setSearchText('😀');
+        });
+
+        expect(result.current.clientList).toHaveLength(0);
+    });
+
+    it('debe retornar lista vacía si ingresa un carácter especial', async () => {
+        const { result } = renderHook(() => useClientTableViewModel());
+
+        await waitFor(() => {
+            expect(result.current.clientList).toHaveLength(3);
+        });
+
+        act(() => {
+            result.current.setSearchText('%$#');
+        });
+
+        expect(result.current.clientList).toHaveLength(0);
+    });
 });
