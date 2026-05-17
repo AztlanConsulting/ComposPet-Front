@@ -4,7 +4,7 @@
 
 .search-input-container {
     width: 100%;
-    max-width: 36rem;
+    max-width: 50rem;
     height: 2.5rem;
     display: flex;
     align-items: center;
@@ -12,7 +12,7 @@
     padding: 0 1rem;
     background-color: var(--color-green-tertiary);
     border: 0.12rem solid var(--color-green-secondary);
-    border-radius: var(--border-radius-2xl);
+    border-radius: var(--border-radius-xl);
     overflow: hidden;
 }
 
