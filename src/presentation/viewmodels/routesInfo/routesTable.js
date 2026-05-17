@@ -4,6 +4,7 @@ import {
     GetDaysOfRoutesUseCase, 
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import '../../../css/tokens/colors.css';
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -50,17 +51,111 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         bubbleMessage: "¡Copiado!",
     };
 
+    // Diccionario para asignar colores a los productos extra según su tipo
+    const PRODUCT_COLORS = {
+        amarillo: "var(--color-yellow-primary)",
+        naranja: "var(--color-orange-primary)",
+        morado: "var(--color-purple-primary)",
+        verde: "var(--color-green-products)",
+    }
+
+    // Función para determinar si una fila debe tener fondo
+    const hasRowBackground = (data) => {
+        return (
+            data?.hasRequest === true &&
+            (
+                data?.status === false ||
+                (data?.wantsExtraProducts === false && data?.wantsCollection === false)
+            )
+        )
+    }
+
+    // funcion que determina si el fondo es rojo
+    const hasRedBackground = (data) => {
+        return data?.hasRequest === true && data?.status === false;
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = [
         { headerName: "Nombre", field: "name", width: 200},
-        { headerName: "# Recolección", field: "collectedBuckets", width: 200},
-        { headerName: "# Entrega", field: "deliveredBuckets", width: 200},
-        { headerName: "Productos Extra", field: "extraProducts", width: 200},
+        // Recoleccion
+        { headerName: "# Recolección", field: "collectedBuckets", width: 200,
+            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
+            cellStyle: (params) => {
+                // si tiene fondo rojo, resaltar en negrita
+                if (hasRowBackground(params.data)) {
+                    return hasRedBackground(params.data)
+                        ? { fontWeight: "var(--font-weight-bold)" }
+                        : null;
+                }
+                // si el valor es 0, resaltar en rojo y negrita
+                if (params.value === "0") {
+                    return {
+                        color: "var(--color-red-primary)",
+                        fontWeight: "var(--font-weight-bold)",
+                    };
+                }
+
+                return null;
+            },
+        },
+        // Entrega
+        { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
+            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
+            cellStyle: (params) => {
+                if (hasRowBackground(params.data)) {
+                    return hasRedBackground(params.data)
+                        ? { fontWeight: "var(--font-weight-bold)" }
+                        : null;
+                }
+                // si el valor es 0, resaltar en rojo y negrita
+                if (params.value === "0") {
+                    return {
+                        color: "var(--color-red-primary",
+                        fontWeight: "var(--font-weight-bold)",
+                    };
+                }
+
+                return null;
+            },
+        },
+        // Productos extra con personalizado para mostrar cada producto en su color correspondiente
+        {
+            headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
+            cellRenderer: (params) => {
+                const products = params.data?.extraProductsDetails || [];
+
+                // Si no hay productos extra, mostrar un espacio
+                if (!products.length) {
+                    return params.value || " ";
+                }
+
+                return (
+                    <div>
+                        {/* Muestra cada producto con su color correspondiente */}
+                        {products.map((product, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    // Si la fila tiene fondo, usar color de texto normal, si no, usar el color del producto
+                                    color: hasRowBackground(params.data)
+                                        ? "inherit"
+                                        : PRODUCT_COLORS[product.color] ||
+                                        "#000",
+                                }}
+                            >
+                                {product.text}
+                            </div>
+                        ))}
+                    </div>
+                );
+            },
+        },
         { headerName: "Horario", field: "schedule", width: 200},
         { headerName: "Forma de pago", field: "paymentMethod", width: 200},
         { headerName: "Total a pagar", field: "totalToPay", width: 200},
         { headerName: "Total pagado", field: "totalPaid", width: 200},
-        { headerName: "Notas", field: "notes", width: 200},
+        { headerName: "Notas", field: "notes", width: 500},
     ];
 
     /**
@@ -71,6 +166,16 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         sortable: true,
         resizable: true,
         tooltipField: "notes",
+        // Aplica estilo de negrita a toda la fila si tiene fondo rojo
+        cellStyle: (params) => {
+            if (hasRedBackground(params.data)) {
+                return {
+                    fontWeight: "var(--font-weight-bold)",
+                };
+            }
+
+            return null;
+        },
     };
 
     const getDefaultDay = (days) => {
@@ -148,6 +253,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 );
 
                 setRoutesList(routes);
+                console.log("Rutas obtenidas:", routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
             } finally {

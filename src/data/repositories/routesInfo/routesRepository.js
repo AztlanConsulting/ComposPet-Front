@@ -41,15 +41,20 @@ export class RoutesRepository{
 
         for (const route of routes) {
             const routeObject = new RouteInfo({
-            name: route.nombre,
-            collectedBuckets: route.recoleccion,
-            deliveredBuckets: route.entrega,
-            extraProducts: route.productos_extra,
-            schedule: route.horario,
-            paymentMethod: route.forma_pago,
-            totalToPay: route.total_a_pagar,
-            totalPaid: route.total_pagado,
-            notes: route.notas,
+                name: route.nombre,
+                collectedBuckets: route.recoleccion,
+                deliveredBuckets: route.entrega,
+                extraProducts: route.productos_extra,
+                schedule: route.horario,
+                paymentMethod: route.forma_pago,
+                totalToPay: route.total_a_pagar,
+                totalPaid: route.total_pagado,
+                notes: route.notas,
+                hasRequest: route.hasRequest,
+                status: route.status,
+                wantsCollection: route.wantsCollection,
+                wantsExtraProducts: route.wantsExtraProducts,
+                extraProductsDetails: route.extraProductsDetails || [],
             });
 
             routesList.push(routeObject);
@@ -81,6 +86,11 @@ export class RoutesRepository{
             totalToPay: route.total_a_pagar,
             totalPaid: route.total_pagado,
             notes: route.notas,
+            hasRequest: route.hasRequest,
+            status: route.status,
+            wantsCollection: route.wantsCollection,
+            wantsExtraProducts: route.wantsExtraProducts,
+            extraProductsDetails: route.extraProductsDetails || [],
         }));
     }
 }

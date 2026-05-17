@@ -76,6 +76,23 @@ export default function RoutesTablePage() {
                         columnDefinitions={routesViewModel.columnDefinitions}
                         defaultColDef={routesViewModel.defaultColDef}
                         loading={routesViewModel.loading}
+                        getRowClass={(params) => {
+                            const data = params.data;
+
+                            if (data?.hasRequest === true && data?.status === false) {
+                                return "row-inactive";
+                            }
+
+                            if (
+                                data?.hasRequest === true &&
+                                data?.wantsExtraProducts === false &&
+                                data?.wantsCollection === false
+                            ) {
+                                return "row-neither";
+                            }
+
+                            return "";
+                        }}
                     />
                 </div>
             </div>

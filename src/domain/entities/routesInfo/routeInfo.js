@@ -32,6 +32,11 @@ export class RouteInfo {
     totalToPay,
     totalPaid,
     notes,
+    hasRequest,
+    status,
+    wantsCollection,
+    wantsExtraProducts,
+    extraProductsDetails,
   }) {
     this.name = name;
     this.collectedBuckets = collectedBuckets;
@@ -42,5 +47,11 @@ export class RouteInfo {
     this.totalToPay = totalToPay;
     this.totalPaid = totalPaid;
     this.notes = notes;
+
+    this.hasRequest = hasRequest;
+    this.status = status;
+    this.wantsCollection = wantsCollection;
+    this.wantsExtraProducts = wantsExtraProducts;
+    this.extraProductsDetails = extraProductsDetails;
   }
 }

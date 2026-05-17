@@ -153,6 +153,7 @@ function useCollectionRequestViewModel() {
             const result = await TimerAlert({
                 title: "Adeudo Pendiente",
                 text: "Tienes un adeudo mayor a $500, te recordamos pagarlo lo antes posible." ,
+                secondaryText: "",
                 confirmText: "Continuar",
                 timer:10000,
             });
@@ -167,6 +168,7 @@ function useCollectionRequestViewModel() {
             const result = await TimerAlert({
                 title: "Solicitud no disponible",
                 text: "Tienes un adeudo mayor a $1500, por lo que no es posible generar una solicitud." ,
+                secondaryText: "",
                 confirmText: "Continuar",
                 timer:10000,
             });
