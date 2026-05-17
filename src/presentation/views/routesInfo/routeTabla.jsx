@@ -32,33 +32,35 @@ export default function RoutesTablePage() {
         <div className="table-container">
 
             <div className="filters-container">
-                <DropdownInput
-                    id="weeks"
-                    size="md"
-                    value={routesViewModel.selectedWeek ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
-                    options={
-                        routesViewModel.weeks.map((w, i) => ({
-                            value: i,
-                            label: w.label,
+                <div className="filters-dropdowns">
+                    <DropdownInput
+                        id="weeks"
+                        size="md"
+                        value={routesViewModel.selectedWeek ?? ""}
+                        onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
+                        options={
+                            routesViewModel.weeks.map((w, i) => ({
+                                value: i,
+                                label: w.label,
+                            }))}
+                    >
+                        Semana
+                    </DropdownInput>
+
+                    <DropdownInput
+                        id="days"
+                        size="md"
+                        value={routesViewModel.selectedDay ?? ""}
+                        onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
+                        options={routesViewModel.daysOfRoutes.map(s => ({
+                            value: s.dia_ruta,
+                            label: s.dia_ruta,
                         }))}
-                >
-                    Semana
-                </DropdownInput>
-
-                <DropdownInput
-                    id="days"
-                    size="md"
-                    value={routesViewModel.selectedDay ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
-                    options={routesViewModel.daysOfRoutes.map(s => ({
-                        value: s.dia_ruta,
-                        label: s.dia_ruta,
-                    }))}
-                >
-                    Dia de ruta
-                </DropdownInput>
-
+                    >
+                        Dia de ruta
+                    </DropdownInput>
+                </div>
+                
                 <Icon 
                     name="reload" 
                     size="large" 
