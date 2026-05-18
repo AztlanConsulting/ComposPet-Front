@@ -57,6 +57,39 @@ function useRoutesViewModel(){
         return originalValue !== currentValue;
     }, [originalRoutesList]);
 
+    const hasPendingChanges = useMemo(() => {
+        return editingRowId !== null;
+    }, [editingRowId]);
+
+    const canChangeFilters = useCallback(async () => {
+        if(!hasPendingChanges){
+            return true;
+        }
+
+        await ProblemAlert({
+            title: "Tienes cambios pendientes",
+            text: "Guarda o descarta los cambios antes de cambiar de semana o día."
+        });
+
+        return false;
+    }, [hasPendingChanges]);
+
+    const handleWeekChange = useCallback(async (week) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedWeek(week);
+    }, [canChangeFilters]);
+
+    const handleDayChange = useCallback(async (day) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedDay(day);
+    }, [canChangeFilters]);
+
     const handleEdit = useCallback((params) => {
 
         if (editingRowId !== null) return;
@@ -356,10 +389,10 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         routesList,
         weeks,
         selectedWeek,
-        setSelectedWeek,
+        setSelectedWeek: handleWeekChange,
         daysOfRoutes,
         selectedDay,
-        setSelectedDay,
+        setSelectedDay: handleDayChange,
         loading,
         error,
         columnDefinitions,
