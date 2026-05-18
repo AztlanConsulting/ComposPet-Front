@@ -467,7 +467,7 @@ export function getRoutesTableColumns({
             },
 
             valueParser: (params) => {
-                return Number(params.newValue);
+                return params.newValue;
             },
 
             cellClassRules: modifiedClassRule,
@@ -490,7 +490,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.totalPaid = Number(params.newValue);
+                params.data.totalPaid = params.newValue;
                 return true;
             }
         },
