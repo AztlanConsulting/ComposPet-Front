@@ -92,6 +92,22 @@ function useRoutesViewModel(){
         }
     }, [originalRoutesList]);
 
+    const handleSave = useCallback(async (params) => {
+        try {
+            setLoading(true);
+            params.api.stopEditing(false);
+            const updatedData = params.data;
+            console.log("Datos a guardar: ", updatedData);
+
+            setEditingRowId(null);
+            await AceptAlert({});
+        } catch (error) {
+            console.log("Error saving routes data: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
@@ -147,6 +163,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             hasRedBackground,
             handleEdit,
             handleCancel,
+            handleSave,
             loading,
             payMap,
             payOptions,
@@ -158,7 +175,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, isCellChanged, loading, payMap, payOptions, extraProducts]);
+    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.

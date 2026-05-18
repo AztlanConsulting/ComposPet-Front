@@ -312,28 +312,37 @@ export function getRoutesTableColumns({
             cellEditor: ExtraProductsCellEditor,
             cellEditorParams: (params) => ({
                 extraProducts,
-                onSelectionChange: (newSelected) => {
+            onSelectionChange: (newSelected) => {
+                const selectedIds = Object.keys(newSelected).map(Number);
+                const selectedProducts = extraProducts.filter(p => selectedIds.includes(p.id_producto));
 
-                    const selectedIds = Object.keys(newSelected).map(Number);
-                    const selectedProducts = extraProducts.filter(p => selectedIds.includes(p.id_producto));
-
-                    params.data.extraProductsArray = newSelected;
-                    params.data.extraProductsDetails = selectedProducts.map(p => ({
+                params.data.extraProductsArray = newSelected;
+                
+                params.data.extraProductsDetails = [...selectedProducts.map(p => {
+                    console.log(`${p.nombre} → color: ${p.color}`);
+                    return {
                         text: newSelected[p.id_producto] > 1
                             ? `${p.nombre} (${newSelected[p.id_producto]})`
                             : p.nombre,
                         color: p.color,
-                    }));
-                    params.data.extraProducts = params.data.extraProductsDetails
-                        .map(p => p.text)
-                        .join("\n");
+                    };
+                })];
+                
+                params.data.extraProducts = params.data.extraProductsDetails
+                    .map(p => p.text)
+                    .join("\n");
 
+
+                setTimeout(() => {
                     params.api.resetRowHeights();
                     params.api.refreshCells({
                         rowNodes: [params.node],
+                        columns: ['extraProductsDetails'],
                         force: true,
                     });
-                }
+                }, 0);
+
+            },
             }),
 
             cellEditorPopup: true,
