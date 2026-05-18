@@ -437,6 +437,10 @@ export function getRoutesTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
 
+            valueParser: (params) => {
+                return Number(params.newValue);
+            },
+
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
