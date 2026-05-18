@@ -93,6 +93,7 @@ export class RoutesRepository{
             wantsCollection: route.wantsCollection,
             wantsExtraProducts: route.wantsExtraProducts,
             extraProductsDetails: route.extraProductsDetails || [],
+            extraProductsArray: route.extraProductsArray || [],
         }));
     }
 

@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./routesFieldsValidation";
+import { forwardRef, useImperativeHandle, useState, useEffect, useRef } from "react";
 
 // Diccionario para asignar colores a los productos extra según su tipo
 const PRODUCT_COLORS = {
@@ -11,6 +12,114 @@ const PRODUCT_COLORS = {
     morado: "var(--color-purple-primary)",
     verde: "var(--color-green-products)",
 }
+
+const ExtraProductsCellEditor = forwardRef((props, ref) => {
+    const allProducts = props.extraProducts || [];
+
+    const [selected, setSelected] = useState(() => {
+        const initial = {};
+        (props.data?.extraProductsDetails || []).forEach(d => {
+            const product = allProducts.find(p => p.nombre === d.text.split(" (")[0]);
+            if (product) {
+                const match = d.text.match(/\((\d+)\)$/);
+                initial[product.id_producto] = match ? parseInt(match[1]) : 1;
+            }
+        });
+        return initial;
+    });
+
+    const [inputValues, setInputValues] = useState(() => {
+        const vals = {};
+        Object.entries(selected).forEach(([id, qty]) => {
+            vals[id] = String(qty);
+        });
+        return vals;
+    });
+
+    const selectedRef = useRef(selected);
+    useEffect(() => {
+        selectedRef.current = selected;
+    }, [selected]);
+
+
+    const toggle = (id) => {
+        setSelected(prev => {
+            const next = { ...prev };
+            if (next[id] !== undefined) {
+                delete next[id];
+                setInputValues(v => { const n = {...v}; delete n[id]; return n; });
+            } else {
+                next[id] = 1;
+                setInputValues(v => ({ ...v, [id]: "1" }));
+            }
+            selectedRef.current = next;
+            props.onSelectionChange?.(next);
+            return next;
+        });
+    };
+
+    const handleQuantityChange = (id, rawValue) => {
+        setInputValues(prev => ({ ...prev, [id]: rawValue }));
+
+        const parsed = parseInt(rawValue);
+        if (!isNaN(parsed) && parsed >= 1) {
+            setSelected(prev => {
+                const next = { ...prev, [id]: parsed };
+                selectedRef.current = next;
+                props.onSelectionChange?.(next);
+                return next;
+            });
+        }
+    };
+
+    const handleQuantityBlur = (id) => {
+        const raw = inputValues[id];
+        const parsed = parseInt(raw);
+        const safe = (!isNaN(parsed) && parsed >= 1) ? parsed : 1;
+
+        setInputValues(prev => ({ ...prev, [id]: String(safe) }));
+        setSelected(prev => {
+            const next = { ...prev, [id]: safe };
+            selectedRef.current = next;
+            props.onSelectionChange?.(next);
+            return next;
+        });
+    };
+
+    return (
+        <div className="extra-products-menu">
+            {allProducts.map((product) => {
+                const isSelected = selected[product.id_producto] !== undefined;
+                return (
+                    <div 
+                        key={product.id_producto}
+                        style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0" }}
+                    >
+                        <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggle(product.id_producto)}
+                            id={`product-${product.id_producto}`}
+                        />
+                        <label htmlFor={`product-${product.id_producto}`} style={{ flex: 1 }}>
+                            {product.nombre}
+                        </label>
+                        {isSelected && (
+                            <input
+                                type="number"
+                                min={1}
+                                value={inputValues[product.id_producto] ?? ""}
+                                onChange={(e) => handleQuantityChange(product.id_producto, e.target.value)}
+                                onBlur={() => handleQuantityBlur(product.id_producto)}
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    );
+});
 
 export function getRoutesTableColumns({
     editingRowId,
@@ -25,6 +134,7 @@ export function getRoutesTableColumns({
     loading,
     payMap,
     payOptions,
+    extraProducts,
 }) {
 
     const modifiedClassRule = {
@@ -80,7 +190,7 @@ export function getRoutesTableColumns({
                     <div className="edit-div">
                         <Button 
                         className='action-button'
-                        disabled={isAnotherRowEditing}
+                        disabled={isAnotherRowEditing || !params.data.hasRequest}
                         size='mini' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
@@ -192,27 +302,68 @@ export function getRoutesTableColumns({
         },
         // Productos extra con personalizado para mostrar cada producto en su color correspondiente
         {
-            headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
+            headerName: "Productos Extra", 
+            field: "extraProductsDetails",
+            width: 250, 
+            cellDataType: false,
+            valueFormatter: () => "",
+            editable: (params) => params.data.name === editingRowId,
+            cellClassRules: modifiedClassRule,
+            cellEditor: ExtraProductsCellEditor,
+            cellEditorParams: (params) => ({
+                extraProducts,
+                onSelectionChange: (newSelected) => {
+
+                    const selectedIds = Object.keys(newSelected).map(Number);
+                    const selectedProducts = extraProducts.filter(p => selectedIds.includes(p.id_producto));
+
+                    params.data.extraProductsArray = newSelected;
+                    params.data.extraProductsDetails = selectedProducts.map(p => ({
+                        text: newSelected[p.id_producto] > 1
+                            ? `${p.nombre} (${newSelected[p.id_producto]})`
+                            : p.nombre,
+                        color: p.color,
+                    }));
+                    params.data.extraProducts = params.data.extraProductsDetails
+                        .map(p => p.text)
+                        .join("\n");
+
+                    params.api.resetRowHeights();
+                    params.api.refreshCells({
+                        rowNodes: [params.node],
+                        force: true,
+                    });
+                }
+            }),
+
+            cellEditorPopup: true,
+            cellEditorPopupPosition: 'under',
+
+            suppressKeyboardEvent: () => true,
+
+            valueSetter: (params) => {
+
+                return true;
+            },
+
             cellRenderer: (params) => {
                 const products = params.data?.extraProductsDetails || [];
-
-                // Si no hay productos extra, mostrar un espacio
-                if (!products.length) {
-                    return params.value || " ";
-                }
+                if (!products.length) return params.data?.extraProducts || " ";
 
                 return (
-                    <div>
-                        {/* Muestra cada producto con su color correspondiente */}
+                    <div style={{ 
+                        whiteSpace: "normal",
+                        wordBreak: "break-word",
+                        padding: "4px 0",
+                    }}>
                         {products.map((product, index) => (
                             <div
                                 key={index}
                                 style={{
-                                    // Si la fila tiene fondo, usar color de texto normal, si no, usar el color del producto
                                     color: hasRowBackground(params.data)
                                         ? "inherit"
-                                        : PRODUCT_COLORS[product.color] ||
-                                        "#000",
+                                        : PRODUCT_COLORS[product.color] || "#000",
+                                    lineHeight: "1.6",
                                 }}
                             >
                                 {product.text}
@@ -222,7 +373,33 @@ export function getRoutesTableColumns({
                 );
             },
         },
-        { headerName: "Horario", field: "schedule", width: 200},
+        { 
+            headerName: "Horario", 
+            field: "schedule", 
+            width: 200,
+            editable: (params) => params.data.name === editingRowId,
+            cellClassRules: modifiedClassRule,
+            valueSetter: (params) => {
+                const validation = validateField("schedule", params.newValue);
+
+                if(validation !== true) {
+                    params.data.schedule = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "schedule",
+                        });
+                    }, 0);
+                    return false;
+                }
+
+                params.data.schedule = params.newValue;
+                return true;
+            }
+        },
         { 
             headerName: "Forma de pago", 
             field: "paymentId", 
@@ -241,7 +418,41 @@ export function getRoutesTableColumns({
             }
         },
         { headerName: "Total a pagar", field: "totalToPay", width: 200},
-        { headerName: "Total pagado", field: "totalPaid", width: 200},
+        { 
+            headerName: "Total pagado", 
+            field: "totalPaid", 
+            width: 200,
+            editable: (params) => params.data.name === editingRowId,
+            cellEditor: "agNumberCellEditor",
+
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("paid", params.newValue);
+
+                if(validation !== true) {
+                    params.data.totalPaid = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "totalPaid",
+                        });
+                    }, 0);
+
+                    return false;
+                }
+
+                params.data.totalPaid = Number(params.newValue);
+                return true;
+            }
+        },
         { 
             headerName: "Notas", 
             field: "notes", 

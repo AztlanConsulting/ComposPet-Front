@@ -45,8 +45,15 @@ function useRoutesViewModel(){
         const originalRow = originalRoutesList.find(c => c.name === rowId);
 
         if(!originalRow) return false;
-        
-        return originalRow[field] !== params.value;
+
+        const originalValue = originalRow[field];
+        const currentValue = params.value;
+
+        if (typeof originalValue === 'object' || typeof currentValue === 'object') {
+            return JSON.stringify(originalValue) !== JSON.stringify(currentValue);
+        }
+
+        return originalValue !== currentValue;
     }, [originalRoutesList]);
 
     const handleEdit = useCallback((params) => {
@@ -58,7 +65,7 @@ function useRoutesViewModel(){
         setTimeout(() => {
             params.api.startEditingCell({
                 rowIndex: params.node.rowIndex,
-                colKey: 'extraProducts', 
+                colKey: 'collectedBuckets', 
             });
         });
     }, [editingRowId]);
@@ -143,6 +150,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             loading,
             payMap,
             payOptions,
+            extraProducts,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -150,7 +158,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, isCellChanged, loading, payMap, payOptions]);
+    [editingRowId, handleEdit, handleCancel, isCellChanged, loading, payMap, payOptions, extraProducts]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
