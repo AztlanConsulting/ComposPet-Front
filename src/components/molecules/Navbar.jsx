@@ -52,7 +52,7 @@ export default function Navbar() {
     ];
 
     const clientInfo = [
-        { label: "Info clientes", path: "/" },
+        { label: "Info clientes", path: "/tabla-clientes" },
         { label: "Registrar cliente", path: "/admin/registrar-cliente" },
     ];
 
