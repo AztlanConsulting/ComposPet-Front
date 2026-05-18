@@ -93,12 +93,51 @@ function useRoutesViewModel(){
         }
     }, [originalRoutesList]);
 
-    const getRoutesInfo = new GetRoutesInfoUseCase();
-    const getAvailableWeeks = new GetAvailableWeeksUseCase();
-    const getDaysOfRoutes = new GetDaysOfRoutesUseCase();
-    const getFilteredRoutes = new GetFilteredRoutesUseCase();
-    const getDropdownInfo = new GetDataForEditingRequestUseCase();
-    const updateRequest = new UpdateRequestUseCase();
+    const getRoutesInfo = useMemo(
+        () => new GetRoutesInfoUseCase(),
+        []
+    );
+
+    const getAvailableWeeks = useMemo(
+        () => new GetAvailableWeeksUseCase(),
+        []
+    );
+
+    const getDaysOfRoutes = useMemo(
+        () => new GetDaysOfRoutesUseCase(),
+        []
+    );
+
+    const getFilteredRoutes = useMemo(
+        () => new GetFilteredRoutesUseCase(),
+        []
+    );
+
+    const getDropdownInfo = useMemo(
+        () => new GetDataForEditingRequestUseCase(),
+        []
+    );
+
+    const updateRequest = useMemo(
+        () => new UpdateRequestUseCase(),
+        []
+    );
+
+    const refreshRoutes = useCallback(async () => {
+        const routes = await getFilteredRoutes.execute(
+            selectedWeek,
+            selectedDay || undefined
+        );
+
+        setRoutesList(routes);
+        setOriginalRoutesList(
+            JSON.parse(JSON.stringify(routes))
+        );
+    }, [
+        selectedWeek,
+        selectedDay,
+        getFilteredRoutes,
+    ]);
 
     const handleSave = useCallback(async (params) => {
         try {
@@ -107,9 +146,7 @@ function useRoutesViewModel(){
             const updatedData = params.data;
             await updateRequest.execute(updatedData);
 
-            setOriginalRoutesList(prev => 
-                prev.map(row => row.name === updatedData.name ? JSON.parse(JSON.stringify(updatedData)) : row)
-            );
+            await refreshRoutes();
 
             setEditingRowId(null);
             await AceptAlert({});
@@ -122,7 +159,7 @@ function useRoutesViewModel(){
         } finally {
             setLoading(false);
         }
-    }, [updateRequest]);
+    }, [updateRequest, refreshRoutes]);
 
     const DAY_NAME_MAP = {
         0: "Domingo",
@@ -281,29 +318,30 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, []);
 
     useEffect(() => {
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return
+        if (
+            selectedWeek === null ||
+            isNaN(selectedWeek) ||
+            selectedWeek < 0
+        ) return;
 
-        async function fetchRoutes(){
-            setLoading(true);
-            setError(null);
+        async function fetchRoutes() {
+            try {
+                setLoading(true);
+                setError(null);
 
-            try{
-                const routes = await getFilteredRoutes.execute(
-                    selectedWeek,
-                    selectedDay || undefined
+                await refreshRoutes();
+            } catch (error) {
+                setError(
+                    error.message ||
+                    "Error al cargar la información"
                 );
-
-                setRoutesList(routes);
-                setOriginalRoutesList(JSON.parse(JSON.stringify(routes)));
-                console.log("Rutas obtenidas:", routes);
-            } catch (error){
-                setError(error.message || "Error al cargar la información");
             } finally {
                 setLoading(false);
             }
         }
+
         fetchRoutes();
-    }, [selectedWeek, selectedDay]);
+    }, [selectedWeek, selectedDay, refreshRoutes]);
 
     const resetFilters = () => {
         const currentIndex = weeks.findIndex(week => {
