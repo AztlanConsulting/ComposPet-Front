@@ -84,4 +84,24 @@ export class RoutesApiClient {
             throw error;
         }
     }
+
+    /**
+     * Actualiza la información de la solicitud de recolección modificada por el administrador.
+     * Realiza una petición POST al endpoint de rutas y retorna success.
+     *
+     * @async
+     * @returns {Promise<Object>} Promesa que resuelve con un objeto conteniendo:
+     * @returns {boolean} return.success - Indica si la operación fue exitosa.
+     * @returns {Array<Object>} return.data - métodos de pago, productos extra.
+     * @throws {Error} Lanza un error si la petición HTTP falla o el servidor retorna un error.
+     * 
+     */
+    async updateRequest(data){
+        try {
+            const response = await api.post('/rutas/informacion-editar', {data});
+            return response;
+        } catch (error) {
+            console.error("Error en updateRequest: ", error.response?.data || error.message);
+        }
+    }
 }

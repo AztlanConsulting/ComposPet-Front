@@ -5,6 +5,7 @@ import {
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase,
     GetDataForEditingRequestUseCase,
+    UpdateRequestUseCase,
  } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import '../../../css/tokens/colors.css';
 
@@ -92,28 +93,36 @@ function useRoutesViewModel(){
         }
     }, [originalRoutesList]);
 
-    const handleSave = useCallback(async (params) => {
-        try {
-            setLoading(true);
-            params.api.stopEditing(false);
-            const updatedData = params.data;
-            console.log("Datos a guardar: ", updatedData);
-
-            setEditingRowId(null);
-            await AceptAlert({});
-        } catch (error) {
-            console.log("Error saving routes data: ", error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
     const getDaysOfRoutes = new GetDaysOfRoutesUseCase();
     const getFilteredRoutes = new GetFilteredRoutesUseCase();
     const getDropdownInfo = new GetDataForEditingRequestUseCase();
+    const updateRequest = new UpdateRequestUseCase();
+
+    const handleSave = useCallback(async (params) => {
+        try {
+            setLoading(true);
+            params.api.stopEditing(false);
+            const updatedData = params.data;
+            await updateRequest.execute(updatedData);
+
+            setOriginalRoutesList(prev => 
+                prev.map(row => row.name === updatedData.name ? JSON.parse(JSON.stringify(updatedData)) : row)
+            );
+
+            setEditingRowId(null);
+            await AceptAlert({});
+        } catch (error) {
+            console.log("Error saving routes data: ", error);
+            await ProblemAlert({
+                title: "Error al guardar",
+                text: error.message || "Ocurrió un error al guardar los cambios"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, [updateRequest]);
 
     const DAY_NAME_MAP = {
         0: "Domingo",

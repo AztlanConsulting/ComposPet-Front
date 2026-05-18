@@ -39,6 +39,8 @@ export class RouteInfo {
     wantsExtraProducts,
     extraProductsDetails,
     extraProductsArray,
+    clientId,
+    requestId,
   }) {
     this.name = name;
     this.collectedBuckets = collectedBuckets;
@@ -57,5 +59,7 @@ export class RouteInfo {
     this.wantsExtraProducts = wantsExtraProducts;
     this.extraProductsDetails = extraProductsDetails;
     this.extraProductsArray = extraProductsArray;
+    this.clientId = clientId;
+    this.requestId = requestId;
   }
 }

@@ -40,4 +40,8 @@ export class RoutesIRepository {
   async getDropdownInfo(){
     throw new Error('Error al obtener la información necesaria para editar la recolección');
   }
+
+  async updateRequest(){
+    throw new Error('Error al actualizar la información de la solicitud de recolección');
+  }
 }

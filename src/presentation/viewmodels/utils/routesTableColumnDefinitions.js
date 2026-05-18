@@ -319,7 +319,6 @@ export function getRoutesTableColumns({
                 params.data.extraProductsArray = newSelected;
                 
                 params.data.extraProductsDetails = [...selectedProducts.map(p => {
-                    console.log(`${p.nombre} → color: ${p.color}`);
                     return {
                         text: newSelected[p.id_producto] > 1
                             ? `${p.nombre} (${newSelected[p.id_producto]})`
