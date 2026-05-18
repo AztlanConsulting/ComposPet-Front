@@ -35,7 +35,6 @@ export default function ClientTable({
                 enableBrowserTooltips={true}
                 localeText={AG_GRID_LOCALE_ES}
                 editType="fullRow"
-                stopEditingWhenCellsLoseFocus={true}
                 getRowHeight={(params) => {
                     const products = params.data?.extraProductsDetails || [];
                     const count = products.length;
@@ -44,6 +43,9 @@ export default function ClientTable({
                 }}
                 onFirstDataRendered={(params) => {
                     params.api.resetRowHeights();
+                }}
+                onBodyScroll={params => {
+                    params.api.stopEditing(false);
                 }}
                 onCellClicked={(params) => {
                     if (editingRowId && params.data.clientId === editingRowId) {
