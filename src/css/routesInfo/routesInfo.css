@@ -131,6 +131,15 @@
     font-size: var(--font-size-sm);
 }
 
+.search-wrapper {
+    margin-left: auto;
+    width: 35rem;
+}
+
+.search-wrapper .search-input-container {
+    width: 100%;
+    max-width: none;
+}
 /* Tablet */
 @media (max-width: 1024px) {
     .table-container {
@@ -159,6 +168,11 @@
 
     .background-colors-grid{
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-wrapper {
+        width: 100%;
+        margin-left: 0;
     }
 }
 

@@ -45,10 +45,13 @@ return (
                         options={routesDropdown}
                         className="dropdown"
                     />
-                    <SearchInput
-                        value={searchText}
-                        onChange={(e) => handleSearchText(e.target.value)}
-                    />
+                     <div className="search-wrapper">
+                        <SearchInput
+                            value={searchText}
+                            onChange={(e) => handleSearchText(e.target.value)}
+                            placeholder="Buscar a un cliente por nombre"
+                        />
+                     </div>
                 </div>
                 <div className="table-scroll">
                     <ClientTable

@@ -34,11 +34,26 @@
 .filters-Row .search-input-container {
     margin-top: 2.5rem;
 }
+
+.search-wrapper {
+    margin-left: auto;
+    width: 35rem;
+}
+
+.search-wrapper .search-input-container {
+    width: 100%;
+    max-width: none;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
     .filters-Row {
         grid-template-columns: 1fr 1fr;
         padding: 0 3rem;
+    }
+    .search-wrapper {
+        width: 100%;
+        margin-left: 0;
     }
 }
 
@@ -48,5 +63,10 @@
         grid-template-columns: 1fr;
         padding: 0 1rem;
         justify-items: center;
+    }
+    .search-wrapper {
+        width: 100%;
+        max-width: 16rem;
+        margin-left: 0;
     }
 }

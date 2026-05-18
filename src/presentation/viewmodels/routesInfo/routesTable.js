@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import '../../../css/tokens/colors.css';
+import { isValidSearchText } from "../utils/searchValidation";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -22,6 +23,7 @@ function useRoutesViewModel(){
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
@@ -205,7 +207,22 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 label: `Semana ${weekNumber} - ${monthFormat}`,
             };
         });
-    }
+    };
+
+    const handleSearchText = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchText(value);
+    };
+
+    const filteredRoutesList = useMemo(() => {
+        return routesList.filter((route) => {
+            const fullName = `${route.name} || ''`.toLowerCase();
+            const matchesSearch = searchText.trim()
+                ? fullName.includes(searchText.trim().toLowerCase())
+                : true;
+            return matchesSearch;
+        });
+    }, [routesList, searchText]);
 
     useEffect(() => {
         async function fetchWeeks() {
@@ -273,7 +290,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     return {
-        routesList,
+        routesList: filteredRoutesList,
         weeks,
         selectedWeek,
         setSelectedWeek,
@@ -286,6 +303,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         defaultColDef,
         resetFilters,
         copyLinkInfo,
+        searchText,
+        setSearchText,
+        handleSearchText,
     }
 }
 

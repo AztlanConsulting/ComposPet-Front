@@ -8,6 +8,7 @@ import TimerAlert from '../../../components/Template/timerAlert';
 import '../../../css/routesInfo/routesInfo.css'
 import Icon from '../../../components/atoms/Icon';
 import DropdownInput from "../../../components/molecules/DropdownInput";
+import SearchInput from "../../../components/molecules/searchInput";
 
 /**
  * Componente de página que muestra la tabla de información de rutas del día actual.
@@ -65,6 +66,14 @@ export default function RoutesTablePage() {
                     className="reload-icon" 
                     onClick={routesViewModel.resetFilters}
                 />
+
+                <div className="search-wrapper">
+                    <SearchInput
+                        value={routesViewModel.searchText}
+                        onChange={(e) => routesViewModel.handleSearchText(e.target.value)}
+                        placeholder="Buscar a un cliente por nombre"
+                    />
+                </div>
 
             </div>
 

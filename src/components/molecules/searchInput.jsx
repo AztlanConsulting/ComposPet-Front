@@ -1,5 +1,6 @@
 import Icon from "../atoms/Icon";
 import Input from "../atoms/Input";
+
 import "../../css/molecules/searchInput.css";
 
 function SearchInput({
