@@ -3,7 +3,9 @@ import {
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
     GetFilteredRoutesUseCase, 
-    GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+    GetRoutesInfoUseCase,
+    GetDataForEditingRequestUseCase,
+ } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import '../../../css/tokens/colors.css';
 
 import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
@@ -28,6 +30,13 @@ function useRoutesViewModel(){
     const [error, setError] = useState(null);
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
     const [editingRowId, setEditingRowId] = useState(null);
+
+    const [payMethods, setPayMethods] = useState([]);
+    const payOptions = payMethods.map(r => r.id_pago);
+    const payMap = Object.fromEntries(
+        payMethods.map(r => [r.id_pago, r.tipo])
+    )
+    const [extraProducts, setExtraProducts] = useState([]);
 
     const isCellChanged = useCallback((params) => {
         const rowId = params.data.name;
@@ -81,6 +90,7 @@ function useRoutesViewModel(){
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
     const getDaysOfRoutes = new GetDaysOfRoutesUseCase();
     const getFilteredRoutes = new GetFilteredRoutesUseCase();
+    const getDropdownInfo = new GetDataForEditingRequestUseCase();
 
     const DAY_NAME_MAP = {
         0: "Domingo",
@@ -131,6 +141,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             handleEdit,
             handleCancel,
             loading,
+            payMap,
+            payOptions,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -138,7 +150,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, isCellChanged, loading]);
+    [editingRowId, handleEdit, handleCancel, isCellChanged, loading, payMap, payOptions]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
@@ -188,6 +200,19 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             };
         });
     }
+
+    useEffect(() => {
+        async function fetchDropdownInfo() {
+            try {
+                const data = await getDropdownInfo.execute();
+                setPayMethods(data.payMethods);
+                setExtraProducts(data.extraProducts);
+            } catch (error) {
+                setError(error.message || "Error al cargar información de dropdowns");
+            }
+        }
+        fetchDropdownInfo();
+    }, []);
 
     useEffect(() => {
         async function fetchWeeks() {

@@ -46,6 +46,7 @@ export class RoutesRepository{
                 deliveredBuckets: route.entrega,
                 extraProducts: route.productos_extra,
                 schedule: route.horario,
+                paymentId: route.id_pago,
                 paymentMethod: route.forma_pago,
                 totalToPay: route.total_a_pagar,
                 totalPaid: route.total_pagado,
@@ -82,6 +83,7 @@ export class RoutesRepository{
             deliveredBuckets: route.entrega,
             extraProducts: route.productos_extra,
             schedule: route.horario,
+            paymentId: route.id_pago,
             paymentMethod: route.forma_pago,
             totalToPay: route.total_a_pagar,
             totalPaid: route.total_pagado,
@@ -92,5 +94,20 @@ export class RoutesRepository{
             wantsExtraProducts: route.wantsExtraProducts,
             extraProductsDetails: route.extraProductsDetails || [],
         }));
+    }
+
+    /**
+     * Obtiene los productos extra y métodos de pago disponibles.
+     * Realiza una petición al API, procesa la respuesta y convierte cada ruta
+     *
+     * @async
+     * @returns {Promise<Object>} Promesa que resuelve con un objeto con payMethods y extraProducts.
+     * @throws {Error} Lanza un error si la petición al API falla o si hay problemas
+     * al transformar los datos.
+     * 
+     */
+    async getDropdownInfo(){
+        const response = await this.apiClient.getDropdownInfo();
+        return response;
     }
 }

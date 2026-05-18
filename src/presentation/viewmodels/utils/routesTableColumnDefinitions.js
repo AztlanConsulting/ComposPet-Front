@@ -23,8 +23,8 @@ export function getRoutesTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
-    paymentMap,
-    paymentOptions,
+    payMap,
+    payOptions,
 }) {
 
     const modifiedClassRule = {
@@ -223,7 +223,23 @@ export function getRoutesTableColumns({
             },
         },
         { headerName: "Horario", field: "schedule", width: 200},
-        { headerName: "Forma de pago", field: "paymentMethod", width: 200},
+        { 
+            headerName: "Forma de pago", 
+            field: "paymentId", 
+            width: 200,
+            editable: (params) => params.data.name === editingRowId,
+            cellClassRules: modifiedClassRule,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: payOptions,
+            },
+            valueFormatter: (params) => {
+                return payMap[params.value] || params.value;
+            },
+            valueParser: (params) => {
+                return params.newValue;
+            }
+        },
         { headerName: "Total a pagar", field: "totalToPay", width: 200},
         { headerName: "Total pagado", field: "totalPaid", width: 200},
         { 
@@ -240,7 +256,7 @@ export function getRoutesTableColumns({
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.apistartEditingCell({
+                        params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "notes",
                         });

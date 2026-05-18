@@ -63,4 +63,25 @@ export class RoutesApiClient {
             throw error;
         }
     }
+
+    /**
+     * Obtiene la información de métodos de pago y productos extra disponibles.
+     * Realiza una petición GET al endpoint de rutas y retorna los datos de la respuesta.
+     *
+     * @async
+     * @returns {Promise<Object>} Promesa que resuelve con un objeto conteniendo:
+     * @returns {boolean} return.success - Indica si la operación fue exitosa.
+     * @returns {Array<Object>} return.data - métodos de pago, productos extra.
+     * @throws {Error} Lanza un error si la petición HTTP falla o el servidor retorna un error.
+     * 
+     */
+    async getDropdownInfo(){
+        try{
+            const response = await api.get('/rutas/informacion-editar');
+            return response.data;
+        } catch (error) {
+            console.error("Error en getDropdownInfo: ", error.response?.data || error.message);
+            throw error;
+        }
+    }
 }
