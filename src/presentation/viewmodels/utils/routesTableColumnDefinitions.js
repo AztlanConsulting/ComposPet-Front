@@ -3,7 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./routesFieldsValidation";
-import { forwardRef, useImperativeHandle, useState, useEffect, useRef } from "react";
+import { forwardRef, useImperativeHandle, useState, useEffect, useRef , useMemo} from "react";
 
 // Diccionario para asignar colores a los productos extra según su tipo
 const PRODUCT_COLORS = {
@@ -16,44 +16,73 @@ const PRODUCT_COLORS = {
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
 
-    const [selected, setSelected] = useState(() => {
+    const buildSelectedState = () => {
         const initial = {};
+
         (props.data?.extraProductsDetails || []).forEach(d => {
-            const product = allProducts.find(p => p.nombre === d.text.split(" (")[0]);
+            const product = allProducts.find(
+                p => p.nombre === d.text.split(" (")[0]
+            );
+
             if (product) {
                 const match = d.text.match(/\((\d+)\)$/);
-                initial[product.id_producto] = match ? parseInt(match[1]) : 1;
+
+                initial[product.id_producto] = match
+                    ? parseInt(match[1])
+                    : 1;
             }
         });
+
         return initial;
-    });
+    };
+
+    const initialSelected = useMemo(
+        () => buildSelectedState(),
+        []
+    );
+
+    const [selected, setSelected] = useState(initialSelected);
 
     const [inputValues, setInputValues] = useState(() => {
         const vals = {};
-        Object.entries(selected).forEach(([id, qty]) => {
+
+        Object.entries(initialSelected).forEach(([id, qty]) => {
             vals[id] = String(qty);
         });
+
         return vals;
     });
 
     const selectedRef = useRef(selected);
+
     useEffect(() => {
         selectedRef.current = selected;
     }, [selected]);
 
-
     const toggle = (id) => {
         setSelected(prev => {
             const next = { ...prev };
+
             if (next[id] !== undefined) {
                 delete next[id];
-                setInputValues(v => { const n = {...v}; delete n[id]; return n; });
+
+                setInputValues(v => {
+                    const n = { ...v };
+                    delete n[id];
+                    return n;
+                });
             } else {
                 next[id] = 1;
-                setInputValues(v => ({ ...v, [id]: "1" }));
+
+                setInputValues(v => ({
+                    ...v,
+                    [id]: "1",
+                }));
             }
+
             selectedRef.current = next;
             props.onSelectionChange?.(next);
+
             return next;
         });
     };
