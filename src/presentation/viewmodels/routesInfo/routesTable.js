@@ -191,10 +191,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         const countByMonth = {};
 
         return weeks.map((week) => {
-            const date = new Date(week.weekStart);
+            const date = new Date(week.weekEnd);
             const month = date.toLocaleString("es-MX", { month: "long" });
             const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-
             countByMonth[monthKey] = (countByMonth[monthKey] || 0) + 1;
 
             const weekNumber = countByMonth[monthKey];

@@ -2,11 +2,10 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
+html,
+
 .register-client-background {
-    min-height: 100vh;
     background-color: var(--color-bg);
-    padding: 0 1.5rem;
-    box-sizing: border-box;
 }
 
 .register-client-title {
