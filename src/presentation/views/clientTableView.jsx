@@ -45,7 +45,7 @@ return (
                         options={routesDropdown}
                         className="dropdown"
                     />
-                     <div className="search-wrapper">
+                     <div className="client-search-wrapper">
                         <SearchInput
                             value={searchText}
                             onChange={(e) => handleSearchText(e.target.value)}

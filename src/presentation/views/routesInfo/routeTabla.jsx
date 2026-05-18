@@ -33,39 +33,45 @@ export default function RoutesTablePage() {
         <div className="table-container">
 
             <div className="filters-container">
-                <DropdownInput
-                    id="weeks"
-                    size="md"
-                    value={routesViewModel.selectedWeek ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
-                    options={
-                        routesViewModel.weeks.map((w, i) => ({
-                            value: i,
-                            label: w.label,
-                        }))}
-                >
-                    Semana
-                </DropdownInput>
+                <div className="filters-dropdowns">
+                    <DropdownInput
+                        id="weeks"
+                        size="md"
+                        value={routesViewModel.selectedWeek ?? ""}
+                        onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
+                        options={
+                            routesViewModel.weeks.map((w, i) => ({
+                                value: i,
+                                label: w.label,
+                            }))}
+                    >
+                        Semana
+                    </DropdownInput>
 
-                <DropdownInput
-                    id="days"
-                    size="md"
-                    value={routesViewModel.selectedDay ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
-                    options={routesViewModel.daysOfRoutes.map(s => ({
-                        value: s.dia_ruta,
-                        label: s.dia_ruta,
-                    }))}
-                >
-                    Dia de ruta
-                </DropdownInput>
 
-                <Icon 
-                    name="reload" 
-                    size="large" 
-                    className="reload-icon" 
-                    onClick={routesViewModel.resetFilters}
-                />
+                    <div className="day-filter-group">
+
+                        <DropdownInput
+                            id="days"
+                            size="md"
+                            value={routesViewModel.selectedDay ?? ""}
+                            onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
+                            options={routesViewModel.daysOfRoutes.map(s => ({
+                                value: s.dia_ruta,
+                                label: s.dia_ruta,
+                            }))}
+                        >
+                            Dia de ruta
+                        </DropdownInput>
+
+                        <Icon 
+                            name="reload" 
+                            size="large" 
+                            className="reload-icon" 
+                            onClick={routesViewModel.resetFilters}
+                        />
+                    </div>
+                </div>
 
                 <div className="search-wrapper">
                     <SearchInput

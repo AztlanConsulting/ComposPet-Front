@@ -4,7 +4,7 @@
 // - espacios
 // - acentos
 export function isValidSearchText(text) {
-    const regex = /^[a-zA-ZÀ-ÿ0-9\s]*$/;
+    const regex = /^[a-zA-ZÀ-ÿ\s]*$/;
 
     return regex.test(text);
 }
