@@ -202,7 +202,7 @@ export function getRoutesTableColumns({
                 );
             }
         },
-        { headerName: "Nombre", field: "name", width: 200},
+        { headerName: "Nombre", field: "name", width: 300},
         // Recoleccion
         { headerName: "# Recolección", field: "collectedBuckets", width: 200,
             editable: (params) => params.data.name === editingRowId,
