@@ -35,12 +35,12 @@
     margin-top: 2.5rem;
 }
 
-.search-wrapper {
+.client-search-wrapper {
     margin-left: auto;
     width: 35rem;
 }
 
-.search-wrapper .search-input-container {
+.client-search-wrapper .search-input-container {
     width: 100%;
     max-width: none;
 }

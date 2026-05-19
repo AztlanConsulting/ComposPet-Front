@@ -14,7 +14,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 10rem auto 0 auto;
-    padding: 0 12rem;
+    padding: 0 11rem;
     box-sizing: border-box;
 }
 
@@ -98,7 +98,6 @@
     width: calc(100% - 220px);
     margin-left: 111px;
     margin-top: 10px;
-
     display: flex;
     flex-direction: column;
     gap: 10px;

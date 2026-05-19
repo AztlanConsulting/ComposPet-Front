@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ClientTable from "../../../components/organisms/clientTable";
+import ClientTable from "../../../components/organisms/ClientTable";
 import useRoutesViewModel  from "../../viewmodels/routesInfo/routesTable";
 import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
