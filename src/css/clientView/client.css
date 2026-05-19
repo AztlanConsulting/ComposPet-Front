@@ -2,6 +2,14 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
+.counters-row {
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 7rem;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
 .filters-Row {
     width: 100%;
     max-width: 1400px;
@@ -11,10 +19,10 @@
     align-items: center;
     gap: 1rem;
     padding: 0rem 2.7rem 0rem 5rem;
-    margin-top: 1rem;
     box-sizing: border-box;
     align-self: stretch;
     margin-bottom: 2rem;
+    margin-top: -3rem;
 }
 
 .filters-Row .formSelect{
@@ -43,6 +51,20 @@
 .client-search-wrapper .search-input-container {
     width: 100%;
     max-width: none;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .counters-row {
+        padding: 0 3rem;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+    .counters-row {
+        padding: 0 1rem;
+    }
 }
 
 /* Tablet */

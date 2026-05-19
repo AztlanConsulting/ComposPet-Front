@@ -1,0 +1,26 @@
+@import "../tokens/colors.css";
+@import "../tokens/typography.css";
+
+.counters-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem
+}
+
+.counters-label{
+    font-family: var(--font-family-primary);
+    font-size: clamp(1rem, 2vw, var(--font-size-2xl));
+    font-weight: 700;
+    color: var(--color-black);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.counters-value{
+    font-family: var(--font-family-primary);
+    font-size: clamp(1rem, 2vw, var(--font-size-2xl));
+    font-weight: 700;
+    color: var(--color-green-secondary);
+    text-align: center;
+}
