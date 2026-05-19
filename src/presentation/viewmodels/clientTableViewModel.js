@@ -9,6 +9,7 @@ import {
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
+import { isValidSearchText } from "./utils/searchValidation";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -34,6 +35,9 @@ function useClientTableViewModel() {
     const [selectedRoute, setSelectedRoute] = useState('');
     // Lista de las opciones para el dropdown
     const [routesDropdown, setRoutesDropdown] = useState([]);
+
+    // variable para el buscador
+    const [searchText, setSearchText] = useState('');
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -177,11 +181,37 @@ function useClientTableViewModel() {
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
-    // Variable para obtener el filtro de los clientes de acuerdo a la opción seleccionada
-    // del dropdown
-    const filteredClientList = selectedRoute
-        ? clientList.filter( client => client.routeId === Number(selectedRoute))
-        : clientList;
+    // *********************************************************************
+    // Variable que obtiene la lista de clientes filtrada de acuerdo a:
+    // 1. La ruta seleccionada en el dropdown.
+    // 2. El texto ingresado en el buscador.
+    //
+    // useMemo memoriza el resultado del filtrado y solo vuelve a calcularlo
+    // cuando cambia:
+    // - la lista de clientes,
+    // - la ruta seleccionada,
+    // - o el texto de búsqueda.
+    // **********************************************************************
+    const filteredClientList = useMemo(() => {
+        return clientList.filter((client) => {
+            const matechesRoute = selectedRoute
+                ? client.routeId === Number(selectedRoute)
+                : true;
+
+            const fullName = `${client.name} || ''}`.toLowerCase();
+
+            const matechesSearch = searchText.trim()
+                ? fullName.includes(searchText.trim().toLowerCase())
+                : true;
+
+            return matechesRoute && matechesSearch;
+        })
+    }, [clientList, selectedRoute, searchText]);
+
+    const handleSearchText = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchText(value);
+    };
 
     const defaultColDef = useMemo(() => ({
 
@@ -238,6 +268,9 @@ function useClientTableViewModel() {
         routesDropdown,
         selectedRoute,
         setSelectedRoute,
+        searchText,
+        setSearchText,
+        handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
     };
