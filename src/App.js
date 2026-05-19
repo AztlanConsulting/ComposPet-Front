@@ -37,6 +37,7 @@ import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import ProblemAlert from './components/Template/ProblemAlert';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 import CopyLink from './components/molecules/CopyLink';
+import CountersGroup from './components/molecules/CountersGroup';
 
 function Home() {
     const navigate = useNavigate();
@@ -186,9 +187,15 @@ function Home() {
                             Municipio
                         </DropdownInput>
                     </div>
-                    
+                    <div>
+                    <CountersGroup 
+                        counters={[
+                            { label: "Total de Familias", value: 50 },
+                            { label: "Familias por ruta", value: 25 },
+                        ]}
+                    />
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
