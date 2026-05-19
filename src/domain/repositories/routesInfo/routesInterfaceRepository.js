@@ -36,4 +36,8 @@ export class RoutesIRepository {
   async getFilteredRoutes(){
     throw new Error('Error al obtener la información para filtrar rutas por dia');
   }
+
+  async generateConfirmationMessages(){
+    throw new Error('Error al generar los mensajes de confirmación');
+  }
 }
