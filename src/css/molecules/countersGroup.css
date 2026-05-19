@@ -1,0 +1,12 @@
+.counters-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin-top: 3rem;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.counters-group .counters-container{
+    flex: 0 0 auto;
+}

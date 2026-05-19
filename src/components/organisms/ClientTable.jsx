@@ -12,7 +12,7 @@ ModuleRegistry.registerModules([ AllCommunityModule ]);
  * @param {List<ClientInfo>} clientList
  * @param {List<Object>} columnDefinitions
  * @param {Object} defaultColDef
- * 
+ *
  */
 
 export default function ClientTable({

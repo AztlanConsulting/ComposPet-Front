@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
@@ -7,6 +7,7 @@ import {
 import { GenerateRouteMessagesUseCase } from '../../../domain/useCases/routesInfo/generateRouteMessagesUseCase';
 import { RoutesRepository } from "../../../data/repositories/routesInfo/routesRepository";
 import '../../../css/tokens/colors.css';
+import { isValidSearchText } from "../utils/searchValidation";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -24,6 +25,7 @@ function useRoutesViewModel(){
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
@@ -45,7 +47,7 @@ function useRoutesViewModel(){
         6: "Sábado",
     };
 
-    const formPath = "/formulario-recoleccion";
+    const formPath = "/inicio-sesion?redirect=/formulario-recoleccion";
     const formUrl = `https://www.compospetmx.org${formPath}`;
     const formLink = `¡Excelente día!
 
@@ -235,10 +237,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         const countByMonth = {};
 
         return weeks.map((week) => {
-            const date = new Date(week.weekStart);
+            const date = new Date(week.weekEnd);
             const month = date.toLocaleString("es-MX", { month: "long" });
             const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-
             countByMonth[monthKey] = (countByMonth[monthKey] || 0) + 1;
 
             const weekNumber = countByMonth[monthKey];
@@ -249,7 +250,22 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 label: `Semana ${weekNumber} - ${monthFormat}`,
             };
         });
-    }
+    };
+
+    const handleSearchText = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchText(value);
+    };
+
+    const filteredRoutesList = useMemo(() => {
+        return routesList.filter((route) => {
+            const fullName = `${route.name} || ''`.toLowerCase();
+            const matchesSearch = searchText.trim()
+                ? fullName.includes(searchText.trim().toLowerCase())
+                : true;
+            return matchesSearch;
+        });
+    }, [routesList, searchText]);
 
     useEffect(() => {
         async function fetchWeeks() {
@@ -317,7 +333,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     return {
-        routesList,
+        routesList: filteredRoutesList,
         weeks,
         selectedWeek,
         setSelectedWeek,
@@ -331,6 +347,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         resetFilters,
         copyLinkInfo,
         handleGenerateMessages,
+        searchText,
+        setSearchText,
+        handleSearchText,
     }
 }
 
