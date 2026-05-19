@@ -149,4 +149,17 @@ describe('useClientTableViewModel', () => {
 
         expect(result.current.clientList).toHaveLength(3);
     });
+    it('debe retornar lista vacía si ingresa un número', async () => {
+        const { result } = renderHook(() => useClientTableViewModel());
+
+        await waitFor(() => {
+            expect(result.current.clientList).toHaveLength(3);
+        });
+
+        act(() => {
+            result.current.setSearchText('1');
+        });
+
+        expect(result.current.clientList).toHaveLength(0);
+    });
 });
