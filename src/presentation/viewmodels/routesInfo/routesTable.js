@@ -38,7 +38,7 @@ function useRoutesViewModel(){
         6: "Sábado",
     };
 
-    const formPath = "/formulario-recoleccion";
+    const formPath = "/inicio-sesion?redirect=/formulario-recoleccion";
     const formUrl = `https://www.compospetmx.org${formPath}`;
     const formLink = `¡Excelente día!
 
