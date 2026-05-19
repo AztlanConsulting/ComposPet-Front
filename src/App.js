@@ -38,6 +38,7 @@ import ProblemAlert from './components/Template/ProblemAlert';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 import CopyLink from './components/molecules/CopyLink';
 import CountersGroup from './components/molecules/CountersGroup';
+import BalanceCountersGroup from './components/organisms/BalanceCountersGroup';
 
 function Home() {
     const navigate = useNavigate();
@@ -193,6 +194,26 @@ function Home() {
                             { label: "Total de Familias", value: 50 },
                             { label: "Familias por ruta", value: 25 },
                         ]}
+                    />
+
+                    <BalanceCountersGroup
+                        routeCounter={{
+                            title: 'Saldo total de ruta',
+                            favorSubtitle: 'Saldo a favor',
+                            favorBalance: '$361',
+
+                            pendingSubtitle: 'Saldo pendiente',
+                            pendingBalance: '- $147',
+                        }}
+
+                        totalCounter={{
+                            title: 'Saldo total',
+                            favorSubtitle: 'Saldo a favor',
+                            favorBalance: '$361',
+
+                            pendingSubtitle: 'Saldo pendiente',
+                            pendingBalance: '- $147',
+                        }}
                     />
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import '../../css/clientView/client.css';
 import SearchInput from "../../components/molecules/searchInput";
 import CountersGroup from '../../components/molecules/CountersGroup';
 import '../../css/molecules/countersGroup.css';
+import BalanceCountersGroup from '../../components/organisms/BalanceCountersGroup';
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -44,6 +45,26 @@ return (
                         { label: "Total de Familias", value: totalActiveFamilies },
                         { label: "Familias por ruta", value: activeFamiliesByRoute },
                     ]}
+                />
+
+                <BalanceCountersGroup
+                    routeCounter={{
+                        title: 'Saldo total de ruta',
+                        favorSubtitle: 'Saldo a favor',
+                        favorBalance: '$361',
+
+                        pendingSubtitle: 'Saldo pendiente',
+                        pendingBalance: '- $147',
+                    }}
+
+                    totalCounter={{
+                        title: 'Saldo total',
+                        favorSubtitle: 'Saldo a favor',
+                        favorBalance: '$361',
+
+                        pendingSubtitle: 'Saldo pendiente',
+                        pendingBalance: '- $147',
+                    }}
                 />
             </div>
 

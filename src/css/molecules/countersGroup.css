@@ -4,7 +4,8 @@
     gap: 3rem;
     margin-top: 3rem;
     justify-content: flex-start;
-    width: 100%;
+    align-items: flex-start;
+    margin: 0;
 }
 
 .counters-group .counters-container{

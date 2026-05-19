@@ -1,0 +1,25 @@
+.balance-counters-group{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5rem;
+    flex-wrap: nowrap;
+    padding: 0;
+}
+
+/* Tablet */
+@media (max-width: 1024px){
+    .balance-counters-group{
+        gap: 3rem;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px){
+    .balance-counters-group{
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+}
