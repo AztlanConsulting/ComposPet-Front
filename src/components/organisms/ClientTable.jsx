@@ -12,7 +12,7 @@ ModuleRegistry.registerModules([ AllCommunityModule ]);
  * @param {List<ClientInfo>} clientList
  * @param {List<Object>} columnDefinitions
  * @param {Object} defaultColDef
- * 
+ *
  */
 
 export default function ClientTable({
@@ -21,6 +21,7 @@ export default function ClientTable({
     defaultColDef,
     loading,
     editingRowId,
+    getRowClass,
 }) {
 
     return (
@@ -34,18 +35,7 @@ export default function ClientTable({
                 enableBrowserTooltips={true}
                 localeText={AG_GRID_LOCALE_ES}
                 editType="fullRow"
-                onCellClicked={(params) => {
-                    if (editingRowId && params.data.clientId === editingRowId) {
-                        setTimeout(() => {
-                            const input = document.querySelector('.ag-cell-edit-input');
-                            if (input) {
-                                const length = input.value.length;
-                                input.setSelectionRange(length, length);
-                            }
-                        });
-                    }
-                }}
-                context={{ editingRowId }}
+                getRowClass={getRowClass}
             />
         </div>
     );

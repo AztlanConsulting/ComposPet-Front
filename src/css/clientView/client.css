@@ -14,12 +14,15 @@
     width: 100%;
     max-width: 1400px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, auto);
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
-    padding: 0 7rem;
+    padding: 0rem 2.7rem 0rem 5rem;
     box-sizing: border-box;
     align-self: stretch;
-    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-top: -3rem;
 }
 
 .filters-Row .formSelect{
@@ -34,6 +37,20 @@
 
 .filters-Row .selectOption.selected{
     background-color: #8ECAC8;
+}
+
+.filters-Row .search-input-container {
+    margin-top: 2.5rem;
+}
+
+.client-search-wrapper {
+    margin-left: auto;
+    width: 35rem;
+}
+
+.client-search-wrapper .search-input-container {
+    width: 100%;
+    max-width: none;
 }
 
 /* Tablet */
@@ -56,6 +73,10 @@
         grid-template-columns: 1fr 1fr;
         padding: 0 3rem;
     }
+    .search-wrapper {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 /* Celular */
@@ -64,5 +85,10 @@
         grid-template-columns: 1fr;
         padding: 0 1rem;
         justify-items: center;
+    }
+    .search-wrapper {
+        width: 100%;
+        max-width: 16rem;
+        margin-left: 0;
     }
 }
