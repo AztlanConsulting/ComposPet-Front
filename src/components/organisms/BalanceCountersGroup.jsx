@@ -1,7 +1,5 @@
 import React from 'react';
-
 import BalanceCounter from '../molecules/BalanceCounter';
-
 import '../../css/organisms/balanceCountersGroup.css';
 
 /**

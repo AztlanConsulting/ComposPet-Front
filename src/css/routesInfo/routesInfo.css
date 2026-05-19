@@ -8,7 +8,15 @@
     min-height: 100vh;
     padding-bottom: 3rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:0 2rem;
+    margin: 0 auto;
+    padding:0 1.5rem;
+    box-sizing: border-box;
 }
+
 
 .table-container {
     width: 100%;
@@ -71,10 +79,25 @@
     overflow-x: hidden !important;
 }
 
-.copy-link-container {
-    position: absolute;
-    top: 6rem;
-    right: 6.8rem;
+.route-header-row {
+    width: 100%;
+    max-width: 1400px;
+    padding-left: 7rem;
+    padding-right: 5rem;
+    box-sizing: border-box;
+    align-self: stretch;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.copy-link-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .ag-cell.cell-zero{
