@@ -48,7 +48,6 @@ function useRoutesViewModel(){
             data?.hasRequest === true &&
             data?.status === false
         ) {
-            console.log("INACTIVE");
             return "row-inactive";
         }
 
@@ -57,7 +56,6 @@ function useRoutesViewModel(){
             data?.wantsExtraProducts === false &&
             data?.wantsCollection === false
         ) {
-            console.log("NEITHER");
             return "row-neither";
         }
 
