@@ -21,7 +21,6 @@ export default function ClientTable({
     defaultColDef,
     loading,
     editingRowId,
-    getRowClass,
 }) {
 
     return (
@@ -35,7 +34,18 @@ export default function ClientTable({
                 enableBrowserTooltips={true}
                 localeText={AG_GRID_LOCALE_ES}
                 editType="fullRow"
-                getRowClass={getRowClass}
+                onCellClicked={(params) => {
+                    if (editingRowId && params.data.clientId === editingRowId) {
+                        setTimeout(() => {
+                            const input = document.querySelector('.ag-cell-edit-input');
+                            if (input) {
+                                const length = input.value.length;
+                                input.setSelectionRange(length, length);
+                            }
+                        });
+                    }
+                }}
+                context={{ editingRowId }}
             />
         </div>
     );
