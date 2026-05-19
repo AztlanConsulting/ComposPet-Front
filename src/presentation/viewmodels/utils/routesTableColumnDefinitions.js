@@ -164,16 +164,12 @@ export function getRoutesTableColumns({
     payMap,
     payOptions,
     extraProducts,
+    getRowClass,
 }) {
 
     const modifiedClassRule = {
         'cell-modified': (params) => isCellChanged(params)
     };
-
-    function blockInvalidNumberKeys(params) {
-        const forbiddenKeys = ["e", "E"];
-        return forbiddenKeys.includes(params.event.key);
-    }
 
     function blockInvalidNumberKeys(params) {
         const forbiddenKeys = ["e", "E"];
@@ -264,17 +260,12 @@ export function getRoutesTableColumns({
 
             // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
             cellStyle: (params) => {
-                // si tiene fondo rojo, resaltar en negrita
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
+                const rowClass = getRowClass({ data: params.data });
+
+                if (rowClass === "row-inactive") {
                     return {
-                        color: "var(--color-red-primary)",
                         fontWeight: "var(--font-weight-bold)",
+                        color: "var(--color-red-primary)",
                     };
                 }
 
@@ -313,16 +304,12 @@ export function getRoutesTableColumns({
 
             // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
             cellStyle: (params) => {
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
+                const rowClass = getRowClass({ data: params.data });
+
+                if (rowClass === "row-inactive") {
                     return {
-                        color: "var(--color-red-primary",
                         fontWeight: "var(--font-weight-bold)",
+                        color: "var(--color-red-primary)",
                     };
                 }
 

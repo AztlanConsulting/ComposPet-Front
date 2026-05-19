@@ -39,6 +39,29 @@ function useRoutesViewModel(){
     )
     const [extraProducts, setExtraProducts] = useState([]);
 
+    const getRowClass = useCallback((params) => {
+        const data = params.data;
+
+        if(
+            data?.hasRequest === true &&
+            data?.status === false
+        ) {
+            console.log("INACTIVE");
+            return "row-inactive";
+        }
+
+        if(
+            data?.hasRequest === true &&
+            data?.wantsExtraProducts === false &&
+            data?.wantsCollection === false
+        ) {
+            console.log("NEITHER");
+            return "row-neither";
+        }
+
+        return "";
+    }, []);
+
     const isCellChanged = useCallback((params) => {
         const rowId = params.data.name;
         const field = params.colDef.field;
@@ -218,20 +241,17 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     // Función para determinar si una fila debe tener fondo
-    const hasRowBackground = (data) => {
-        return (
-            data?.hasRequest === true &&
-            (
-                data?.status === false ||
-                (data?.wantsExtraProducts === false && data?.wantsCollection === false)
-            )
-        )
-    }
+    const hasRowBackground = useCallback((data) => {
+        const rowClass = getRowClass({ data });
+
+        return rowClass === "row-inactive" ||
+            rowClass === "row-neither";
+    }, [getRowClass]);
 
     // funcion que determina si el fondo es rojo
-    const hasRedBackground = (data) => {
-        return data?.hasRequest === true && data?.status === false;
-    };
+    const hasRedBackground = useCallback((data) => {
+        return getRowClass({ data }) === "row-inactive";
+    }, [getRowClass]);
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = useMemo(() => 
@@ -247,6 +267,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             payMap,
             payOptions,
             extraProducts,
+            getRowClass,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -254,7 +275,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts]);
+    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts, getRowClass]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
@@ -399,6 +420,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         defaultColDef,
         resetFilters,
         copyLinkInfo,
+        getRowClass,
     }
 }
 

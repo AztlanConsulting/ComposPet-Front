@@ -73,11 +73,11 @@
     font-weight: var(--font-weight-bold);
 }
 
-.ag-row.row-inactive {
+.custom-green-theme .ag-row.row-inactive .ag-cell {
     background-color: var(--color-red-secondary) !important;
 }
 
-.ag-row.row-neither {
+.custom-green-theme .ag-row.row-neither .ag-cell {
     background-color: var(--color-gray-bg) !important;
 }
 .ag-cell {

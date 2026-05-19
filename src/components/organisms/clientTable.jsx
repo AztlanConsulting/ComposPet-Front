@@ -21,8 +21,8 @@ export default function ClientTable({
     defaultColDef,
     loading,
     editingRowId,
+    getRowClass,
 }) {
-    const gridRef = React.useRef(null);
 
     return (
         <div className='wrapper ag-theme-alpine custom-green-theme'>
@@ -35,6 +35,7 @@ export default function ClientTable({
                 enableBrowserTooltips={true}
                 localeText={AG_GRID_LOCALE_ES}
                 editType="fullRow"
+                getRowClass={getRowClass}
                 getRowHeight={(params) => {
                     const products = params.data?.extraProductsDetails || [];
                     const count = products.length;
