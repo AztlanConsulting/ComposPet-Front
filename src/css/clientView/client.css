@@ -2,6 +2,14 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
+.counters-row {
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 7rem;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
 .filters-Row {
     width: 100%;
     max-width: 1400px;
@@ -26,6 +34,20 @@
 
 .filters-Row .selectOption.selected{
     background-color: #8ECAC8;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .counters-row {
+        padding: 0 3rem;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+    .counters-row {
+        padding: 0 1rem;
+    }
 }
 
 /* Tablet */

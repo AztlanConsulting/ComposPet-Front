@@ -5,6 +5,8 @@ import Navbar from "../../components/molecules/Navbar";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import DropdownInput from '../../components/molecules/DropdownInput';
 import '../../css/clientView/client.css';
+import CountersGroup from '../../components/molecules/CountersGroup';
+import '../../css/molecules/countersGroup.css';
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -23,14 +25,25 @@ export default function ClientTableView() {
         routesDropdown,
         selectedRoute,
         setSelectedRoute,
+        totalActiveFamilies,
+        activeFamiliesByRoute,
     } = useClientTableViewModel();
 
 return (
     <main className="background">
 
         <Navbar />
-    
         <section className="content-wrapper">
+            <div className="counters-row">
+                {/* Contador Total de familias | Contador familias por ruta */}
+                <CountersGroup 
+                    counters={[
+                        { label: "Total de Familias", value: totalActiveFamilies },
+                        { label: "Familias por ruta", value: activeFamiliesByRoute },
+                    ]}
+                />
+            </div>
+
             <div className='filters-Row'>
                 {/* Dropdown para filtro */}
                 <DropdownInput

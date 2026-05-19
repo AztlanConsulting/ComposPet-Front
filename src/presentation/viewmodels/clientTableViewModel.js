@@ -211,6 +211,24 @@ function useClientTableViewModel() {
 
     }, [editingRowId]);
 
+    // Funciones para los contadores de familias activas y familias por ruta
+    const isActiveClient = (client) => client.status === true;
+
+    const totalActiveFamilies = useMemo(() => {
+        return clientList.filter(isActiveClient).length;
+    }, [clientList]);
+
+    const activeFamiliesByRoute = useMemo(() => {
+        return clientList.filter(client => {
+            const isActive = isActiveClient(client);
+            const matchesRoute = selectedRoute
+                ? client.routeId === Number(selectedRoute)
+                : true;
+
+            return isActive && matchesRoute;
+        }).length;
+    }, [clientList, selectedRoute]);
+
     return {
         clientList: filteredClientList,
         loading,
@@ -220,6 +238,8 @@ function useClientTableViewModel() {
         routesDropdown,
         selectedRoute,
         setSelectedRoute,
+        totalActiveFamilies,
+        activeFamiliesByRoute,
     };
 }
 
