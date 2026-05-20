@@ -49,13 +49,4 @@ export class AuthApiClient {
             handleHttpError(error);
         }
     }
-
-    async logout() {
-        try {
-            const response = await api.post('/cerrar-sesion');
-            return response.data;
-        } catch (error) {
-            handleHttpError(error);
-        }
-    }
 }

@@ -17,10 +17,17 @@ export default function Navbaritem({
     route = "/", 
     icon = <></>, 
     logout = false, 
+    onClick,
     children 
 }) {
+    const handleClick = (e) => {
+        if (onClick) {
+            e.preventDefault(); 
+            onClick(e);
+        }
+    };
     return (
-        <Link to={route} className={logout ? "logout" : "navbarItem"}>
+        <Link to={route} className={logout ? "logout" : "navbarItem"} onClick={handleClick} >
         <span>{icon}</span>
         {children}
         </Link>

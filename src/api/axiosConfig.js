@@ -53,7 +53,7 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (originalRequest.url.includes('/refresh') || originalRequest.url.includes('/cerrar-sesion')) {
+        if (originalRequest.url.includes('/refresh')) {
             accessToken = null;
             sessionStorage.removeItem('user');
             if (window.location.pathname !== '/inicio-sesion') {

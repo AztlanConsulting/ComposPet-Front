@@ -36,8 +36,4 @@ export class AuthIRepository{
     async loginWithGoogle(idToken) {
         throw new Error("AuthIRepository.loginWithGoogle() no implementado");
     }
-
-    async logout() {
-        throw new Error("AuthIRepository.logout() no implementado")
-    }
 }
