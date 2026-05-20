@@ -180,6 +180,7 @@ export function getRoutesTableColumns({
         {
             width: 150,
             headerName: "Editar",
+            cellClass: 'edit-cell',
             cellRenderer: (params) => {
                 const isEditing = params.data.name === editingRowId;
 
@@ -320,6 +321,7 @@ export function getRoutesTableColumns({
         {
             headerName: "Productos Extra", 
             field: "extraProductsDetails",
+            cellClass: 'multiline-cell',
             width: 250, 
             cellDataType: false,
             valueFormatter: () => "",
