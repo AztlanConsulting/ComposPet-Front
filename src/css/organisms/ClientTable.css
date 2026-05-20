@@ -12,10 +12,8 @@
 .custom-green-theme {
     --ag-background-color: var(--color-bg);
     --ag-foreground-color: var(--color-green-secondary);
-
     --ag-border-color: var(--color-green-secondary);
     --ag-row-border-color: var(--color-bg);
-
     --ag-font-size: var(--font-size-md);
 }
 
@@ -35,7 +33,6 @@
 .custom-green-theme .ag-header-cell-label {
     color: var(--color-black);
 }
-
 
 .custom-green-theme ::-webkit-scrollbar {
     width: 10px;
@@ -65,5 +62,4 @@
         padding: 0 1rem 0 1rem;
         height: 35rem;
     }
-
 }

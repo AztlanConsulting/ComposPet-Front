@@ -13,16 +13,32 @@
 .filters-Row {
     width: 100%;
     max-width: 1400px;
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0rem 2.7rem 0rem 5rem;
+    padding: 0 2.7vw;
+    margin: 2rem auto;
     box-sizing: border-box;
-    align-self: stretch;
-    margin-bottom: 2rem;
-    margin-top: -3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Dropdown ocupa el espacio disponible */
+.filters-Row .dropdown {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Search ocupa más espacio y se alinea a la derecha */
+.client-search-wrapper {
+    flex: 2;
+    min-width: 280px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.client-search-wrapper .search-input-container {
+    width: 100%;
+    max-width: 40rem;
 }
 
 .filters-Row .formSelect{
@@ -43,52 +59,41 @@
     margin-top: 2.5rem;
 }
 
-.client-search-wrapper {
-    margin-left: auto;
-    width: 35rem;
-}
-
-.client-search-wrapper .search-input-container {
-    width: 100%;
-    max-width: none;
-}
-
 /* Tablet */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .counters-row {
         padding: 0 3rem;
     }
-}
 
-/* Celular */
-@media (max-width: 768px) {
-    .counters-row {
-        padding: 0 1rem;
-    }
-}
-
-/* Tablet */
-@media (max-width: 1024px) {
     .filters-Row {
-        grid-template-columns: 1fr 1fr;
-        padding: 0 3rem;
+        padding: 0 10rem;
+        gap: 1.5rem;
     }
-    .search-wrapper {
-        width: 100%;
-        margin-left: 0;
+
+    .client-search-wrapper {
+        max-width: 30rem;
     }
 }
 
-/* Celular */
+
 @media (max-width: 768px) {
     .filters-Row {
         grid-template-columns: 1fr;
         padding: 0 1rem;
         justify-items: center;
     }
-    .search-wrapper {
-        width: 100%;
-        max-width: 16rem;
-        margin-left: 0;
+    .filters-Row {
+        flex-direction: column;
+        padding: 0 3rem;
+        gap: 1rem;
+        align-items: stretch;
     }
-}
+
+    .client-search-wrapper {
+        max-width: none;
+        justify-content: stretch;
+    }
+    .counters-row {
+        padding: 0 1rem;
+    }
+} */

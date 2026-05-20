@@ -47,24 +47,24 @@ return (
                 />
             </div>
 
-            <div className="table-container">
-                <div className="filters-Row">
-                    {/* Dropdown para filtro */}
-                    <DropdownInput
-                        id="routeFilter"
-                        value={selectedRoute}
-                        onChange={(e) => setSelectedRoute(e.target.value)}
-                        options={routesDropdown}
-                        className="dropdown"
+            <div className="filters-Row">
+                {/* Dropdown para filtro */}
+                <DropdownInput
+                    id="routeFilter"
+                    value={selectedRoute}
+                    onChange={(e) => setSelectedRoute(e.target.value)}
+                    options={routesDropdown}
+                    className="dropdown"
+                />
+                    <div className="client-search-wrapper">
+                    <SearchInput
+                        value={searchText}
+                        onChange={(e) => handleSearchText(e.target.value)}
+                        placeholder="Buscar a un cliente por nombre"
                     />
-                     <div className="client-search-wrapper">
-                        <SearchInput
-                            value={searchText}
-                            onChange={(e) => handleSearchText(e.target.value)}
-                            placeholder="Buscar a un cliente por nombre"
-                        />
-                     </div>
-                </div>
+                    </div>
+            </div>
+            <div className="table-container">
                 <div className="table-scroll">
                     <ClientTable
                         loading={loading}
