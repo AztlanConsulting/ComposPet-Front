@@ -55,7 +55,7 @@
 }
 
 .custom-green-theme {
-    min-width: 1100px;
+    min-width: 60rem;
     height: 30rem;
 }
 
@@ -146,10 +146,11 @@
 }
 
 /* Responsive filtros */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+
     .filters-container {
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 3rem;
 
         display: flex;
         flex-direction: column;
@@ -206,21 +207,26 @@
     .day-filter-group .dropdown-container {
         flex: 1;
     }
+
+    .custom-green-theme{
+        min-width: 6rem;
+    }
+    
 }
 
 /* Mobile */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .page {
         padding: 0.5rem;
+    }
+
+    .reload-icon {
+        width: 2rem;
     }
 
     .table-container {
         margin-top: 1.5rem;
         padding: 0 0.5rem;
-    }
-
-    .filters-container{
-        padding: 0 3rem 0 1rem;
     }
 
     .filters-dropdowns{
@@ -229,7 +235,7 @@
     }
 
     .custom-green-theme {
-        min-width: 1100px;
+        min-width: 6rem;
         height: 35rem;
         font-size: var(--font-size-xs);
     }
@@ -281,6 +287,10 @@
     .search-wrapper .search-input-container {
         width: 100%;
         max-width: none;
+    }
+
+    .filters-container{
+        padding: 0 1rem 0 1rem;
     }
 }
 
