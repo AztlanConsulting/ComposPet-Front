@@ -60,3 +60,21 @@ export class GetFilteredRoutesUseCase {
         return await this.routesRepository.getFilteredRoutes(weekIndex, dayName);
     }
 }
+
+export class GetDataForEditingRequestUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute() {
+        return await this.routesRepository.getDropdownInfo();
+    }
+}
+
+export class UpdateRequestUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute(data) {
+        return await this.routesRepository.updateRequest(data);
+    }
+}

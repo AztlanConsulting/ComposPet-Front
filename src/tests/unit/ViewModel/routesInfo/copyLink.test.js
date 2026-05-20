@@ -1,13 +1,25 @@
 import { renderHook } from '@testing-library/react';
 import useRoutesViewModel from '../../../../presentation/viewmodels/routesInfo/routesTable';
-import { GetRoutesInfoUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
+import {
+    GetRoutesInfoUseCase,
+    GetAvailableWeeksUseCase,
+    GetDaysOfRoutesUseCase,
+    GetFilteredRoutesUseCase,
+    GetDataForEditingRequestUseCase,
+    UpdateRequestUseCase,
+} from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 
-jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
-    GetRoutesInfoUseCase:     jest.fn(),
-    GetAvailableWeeksUseCase: jest.fn(),
-    GetDaysOfRoutesUseCase:   jest.fn(),
-    GetFilteredRoutesUseCase: jest.fn(),
-}));
+jest.mock(
+    '../../../../domain/useCases/routesInfo/routesTableUseCase',
+    () => ({
+        GetRoutesInfoUseCase: jest.fn(),
+        GetAvailableWeeksUseCase: jest.fn(),
+        GetDaysOfRoutesUseCase: jest.fn(),
+        GetFilteredRoutesUseCase: jest.fn(),
+        GetDataForEditingRequestUseCase: jest.fn(),
+        UpdateRequestUseCase: jest.fn(),
+    })
+);
 
 describe('useRoutesViewModel - copyLinkInfo', () => {
     beforeEach(() => {
@@ -15,6 +27,29 @@ describe('useRoutesViewModel - copyLinkInfo', () => {
 
         GetRoutesInfoUseCase.mockImplementation(() => ({
             execute: jest.fn().mockResolvedValue([]),
+        }));
+
+        GetAvailableWeeksUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([]),
+        }));
+
+        GetDaysOfRoutesUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([]),
+        }));
+
+        GetFilteredRoutesUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([]),
+        }));
+
+        GetDataForEditingRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue({
+                payMethods: [],
+                extraProducts: [],
+            }),
+        }));
+
+        UpdateRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue(undefined),
         }));
     });
 
