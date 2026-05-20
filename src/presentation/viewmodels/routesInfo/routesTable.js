@@ -246,6 +246,43 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         bubbleMessage: "¡Copiado!",
     };
 
+    /**
+     * Genera mensajes de confirmación para la semana y día seleccionados.
+     *
+     * Valida que existan filtros seleccionados antes de ejecutar el caso de uso.
+     * Si la operación es exitosa, abre automáticamente el archivo de Google Sheets
+     * generado en una nueva pestaña del navegador.
+     *
+     * @async
+     * @returns {Promise<void>}
+     * @throws {Error} Lanza un error si faltan filtros o si falla la generación de mensajes.
+     */
+    const handleGenerateMessages = async () => {
+        if (selectedWeek === null || !selectedDay) {
+            throw new Error("Selecciona una semana y un día de ruta");
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const result = await generateRouteMessages.execute(
+                selectedWeek,
+                selectedDay
+            );
+
+            if (result?.success === false) {
+                throw new Error(result.message || "No hay mensajes para generar");
+            }
+
+            window.open(result.data.sheetUrl, "_blank");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
+
     // Función para determinar si una fila debe tener fondo
     const hasRowBackground = useCallback((data) => {
         const rowClass = getRowClass({ data });

@@ -138,6 +138,8 @@ export class RoutesRepository{
             weekIndex,
             dayName
         );
+
+        return response;
     }
 
     /*

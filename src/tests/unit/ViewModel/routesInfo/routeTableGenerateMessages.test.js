@@ -1,3 +1,10 @@
+jest.mock("../../../../components/Template/ProblemAlert", () => jest.fn());
+jest.mock("../../../../components/Template/AceptAlert", () => jest.fn());
+
+jest.mock("../../../../presentation/viewmodels/utils/routesTableColumnDefinitions", () => ({
+    getRoutesTableColumns: jest.fn(() => []),
+}));
+
 import { renderHook, waitFor, act } from "@testing-library/react";
 
 import useRoutesViewModel from "../../../../presentation/viewmodels/routesInfo/routesTable";
@@ -7,6 +14,8 @@ import {
     GetDaysOfRoutesUseCase,
     GetFilteredRoutesUseCase,
     GetRoutesInfoUseCase,
+    GetDataForEditingRequestUseCase,
+    UpdateRequestUseCase,
 } from "../../../../domain/useCases/routesInfo/routesTableUseCase";
 
 import { GenerateRouteMessagesUseCase } from "../../../../domain/useCases/routesInfo/generateRouteMessagesUseCase";
@@ -26,7 +35,20 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
     let mockGetAvailableWeeksExecute;
     let mockGetDaysOfRoutesExecute;
     let mockGetFilteredRoutesExecute;
+    let mockGetDropdownInfoExecute;
     let mockGenerateMessagesExecute;
+
+    beforeAll(() => {
+        jest.useFakeTimers();
+
+        // Jueves 14 de mayo de 2026.
+        // Esto hace que getDefaultDay encuentre "Jueves".
+        jest.setSystemTime(new Date("2026-05-14T10:00:00"));
+    });
+
+    afterAll(() => {
+        jest.useRealTimers();
+    });
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -46,6 +68,12 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
 
         mockGetFilteredRoutesExecute = jest.fn().mockResolvedValue([]);
 
+        mockGetDropdownInfoExecute = jest.fn().mockResolvedValue({
+            payMethods: [],
+            extraProducts: [],
+        });
+
+
         mockGenerateMessagesExecute = jest.fn();
 
         GetRoutesInfoUseCase.mockImplementation(() => ({
@@ -63,6 +91,15 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         GetFilteredRoutesUseCase.mockImplementation(() => ({
             execute: mockGetFilteredRoutesExecute,
         }));
+
+        GetDataForEditingRequestUseCase.mockImplementation(() => ({
+            execute: mockGetDropdownInfoExecute,
+        }));
+
+        UpdateRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn(),
+        }));
+
 
         GenerateRouteMessagesUseCase.mockImplementation(() => ({
             execute: mockGenerateMessagesExecute,
@@ -112,10 +149,11 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
 
         await waitFor(() => {
             expect(result.current.selectedWeek).toBe(0);
+            expect(result.current.selectedDay).toBe("Jueves");
         });
 
-        act(() => {
-            result.current.setSelectedDay(null);
+        await act(async () => {
+            await result.current.setSelectedDay(null);
         });
 
         // Actuar y afirmar
