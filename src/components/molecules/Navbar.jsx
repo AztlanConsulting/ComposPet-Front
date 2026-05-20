@@ -55,7 +55,7 @@ export default function Navbar() {
     ];
 
     const clientInfo = [
-        { label: "Info clientes", path: "/" },
+        { label: "Info clientes", path: "/tabla-clientes" },
         { label: "Registrar cliente", path: "/admin/registrar-cliente" },
     ];
 
@@ -74,7 +74,7 @@ export default function Navbar() {
     const clientLinks = [
         { component: <Dropdown title="Inicio" options={homeOptions} /> },
         { component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
-        { component: <NavbarItem route="/faq">FAQ</NavbarItem> },
+        { component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
     ];
 
     const centerLinks = isAdmin ? adminLinks : clientLinks;

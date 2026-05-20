@@ -4,6 +4,20 @@ import useFirstFormViewModel from "../../../../presentation/viewmodels/collectio
 import { GetCurrentCollectionRequestUseCase } from "../../../../domain/useCases/getCurrentCollectionRequestUseCase";
 import { SaveCollectionRequestFirstSectionUseCase } from "../../../../domain/useCases/saveCollectionRequestFirstSectionUseCase";
 
+import TimerAlert from "../../../../components/Template/timerAlert";
+import ProblemAlert from "../../../../components/Template/ProblemAlert";
+
+
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+    useNavigate: () => mockNavigate,
+}));
+
+jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
+
+jest.mock("../../../../components/Template/ProblemAlert", () => jest.fn());
+
 jest.mock("../../../../data/datasources/collectionRequestApiClient", () => ({
     CollectionRequestApiClient: jest.fn(),
 }));
@@ -31,6 +45,18 @@ describe("useFirstFormViewModel", () => {
     beforeEach(() => {
         jest.clearAllMocks();
 
+        mockNavigate.mockClear();
+
+        TimerAlert.mockResolvedValue({
+            isConfirmed: true,
+            dismiss: false,
+        });
+
+        ProblemAlert.mockResolvedValue({
+            isConfirmed: true,
+        });
+
+
         getCurrentExecuteMock = jest.fn();
         saveFirstSectionExecuteMock = jest.fn();
 
@@ -43,6 +69,42 @@ describe("useFirstFormViewModel", () => {
         }));
     });
 
+    it("Redirecciona al inicio si la solicitud semanal ya está completada", async () => {
+        //Arrange
+        getCurrentExecuteMock.mockResolvedValue({
+            id: "requestId",
+            wantsPickup: () => true,
+            wantsAdditionalProducts: () => false,
+            collectedBuckets: 3,
+            deliveredBuckets: 1,
+            getStatus: () => true,
+        });
+
+        //Actuar
+        renderHook(() =>
+            useFirstFormViewModel(
+                clientId,
+                weekStartDate,
+                weekEndDate,
+            ),
+        );
+
+        //Afirmar
+        await waitFor(() => {
+            expect(TimerAlert).toHaveBeenCalledWith({
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+        });
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith("/");
+        });
+    });
+
     it("Carga la solicitud actual correctamente", async () => {
         //Arrange (Preparar)
         getCurrentExecuteMock.mockResolvedValue({
@@ -51,6 +113,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 3,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         //Actuar
@@ -97,7 +160,9 @@ describe("useFirstFormViewModel", () => {
 
         //Afirmar 
         await waitFor(() => {
-            expect(result.current.errors.general).toBe("Error al cargar solicitud");
+            expect(result.current.loadError).toBe(
+                "No pudimos cargar la información de tu solicitud. Intenta nuevamente más tarde."
+            );
         });
 
         expect(result.current.loading).toBe(false);
@@ -111,6 +176,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 1,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -136,6 +202,9 @@ describe("useFirstFormViewModel", () => {
         expect(result.current.errors.requestId).toBe(
             "Id de solicitud no encontrado. Por favor regresa a la pantalla anterior.",
         );
+
+        expect(ProblemAlert).not.toHaveBeenCalled();
+        expect(result.current.loading).toBe(false);
         expect(saveFirstSectionExecuteMock).not.toHaveBeenCalled();
     });
 
@@ -147,6 +216,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -183,6 +253,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         const { result } = renderHook(() =>
@@ -222,6 +293,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -270,6 +342,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -310,6 +383,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => false,
             collectedBuckets: 0,
             deliveredBuckets: 0,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockResolvedValue({
@@ -350,6 +424,7 @@ describe("useFirstFormViewModel", () => {
             wantsAdditionalProducts: () => true,
             collectedBuckets: 2,
             deliveredBuckets: 1,
+            getStatus: () => false,
         });
 
         saveFirstSectionExecuteMock.mockRejectedValue(
@@ -374,9 +449,14 @@ describe("useFirstFormViewModel", () => {
         });
 
         //Afirmar
-        expect(result.current.errors.requestId).toBe(
-            "Error al guardar la solicitud",
-        );
+        expect(ProblemAlert).toHaveBeenCalledWith({
+            title: "No pudimos guardar la información",
+            text: "Ocurrió un problema al guardar tu solicitud. Intenta nuevamente.",
+            icon: "error",
+            confirmText: "Entendido",
+        });
+
+        expect(result.current.errors.requestId).toBe("");
         expect(result.current.loading).toBe(false);
     });
 });

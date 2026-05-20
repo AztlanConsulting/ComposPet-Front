@@ -3,7 +3,7 @@
 @import "../tokens/typography.css";
 
 .secondPage {
-    background-color: --var(--color-green-tertiary);;
+    background-color: --var(--color-green-tertiary);
     width: 100%;
 }
 

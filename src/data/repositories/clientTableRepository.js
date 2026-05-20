@@ -42,6 +42,7 @@ export class ClientTableRepository extends ClientTableIRepository{
         for (const client of clients) {
             const  clientObject = new ClientInfo({
                 clientId: client.clientId,
+                userId: client.userId,
                 pets: client.pets,
                 family: client.family,
                 address: client.address,
@@ -50,8 +51,10 @@ export class ClientTableRepository extends ClientTableIRepository{
                 cellphone: client.cellphone,
                 balance: client.balance,
                 lastRequest: client.lastRequest,
+                routeId: client.routeId,
                 route: client.route,
                 status: client.status,
+                order: client.order,
             });
 
             clientList.push(clientObject);

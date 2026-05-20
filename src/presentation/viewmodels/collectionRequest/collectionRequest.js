@@ -42,6 +42,59 @@ function calculateCurrentWeekRange() {
 };  
 
 
+function StandardRouteDay(routeDay) {
+    if (!routeDay) return null;
+
+
+    let day = routeDay
+        .split(" ")[0]
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+    return day
+}
+
+function getRouteDayNumber(routeDay) {
+    const standardDay = StandardRouteDay(routeDay);
+
+    const routeDayNumber = {
+        domingo: 0,
+        lunes: 1,
+        martes: 2,
+        miercoles: 3,
+        jueves: 4,
+        viernes: 5,
+        sabado: 6,
+    };
+
+    return routeDayNumber[standardDay] ?? null;
+}
+
+function theClientIsInTime(routeDay) {
+    const today = new Date();
+    const routeDayNumber = getRouteDayNumber(routeDay);
+
+    if (routeDayNumber === null) return false;
+
+    const currentDay = today.getDay();
+
+    const routeDate = new Date(today);
+    routeDate.setDate(today.getDate() + (routeDayNumber - currentDay));
+    routeDate.setHours(0, 0, 0, 0);
+
+    const limitDate = new Date(routeDate);
+    limitDate.setHours(limitDate.getHours() - 6);
+
+    const weekStartDate = new Date(today);
+    weekStartDate.setDate(today.getDate() - currentDay);
+    weekStartDate.setHours(0, 0, 0, 0);
+
+    const access = today >= weekStartDate && today <= limitDate
+
+    return access;
+}
+
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
  *
@@ -54,13 +107,42 @@ function useCollectionRequestViewModel() {
 
     const navigate = useNavigate();
     
-    const { clientId } = useAuthenticatedClient();
-    const { balance } = useCreditBalance(clientId);
+    const { clientId, 
+            routeDay,  
+            loading: clientloading, 
+            error: clientError 
+        } = useAuthenticatedClient();
+    
+    const { balance, 
+            loading : creditLoading, 
+            error: creditError 
+        } = useCreditBalance(clientId);
+
+    const loading = clientloading || creditLoading;
+    const error = clientError || creditError;
 
     useEffect(() => {
-        const validateDebtAccess = async () => {
+        const validateFormAccess = async () => {
 
-        if (balance === null || balance === undefined) return;
+        if (balance === null || balance === undefined || !routeDay) return;
+
+        const isInTimeToRequest = theClientIsInTime(routeDay);
+
+        if (isInTimeToRequest === false){
+            const result = await TimerAlert({
+                title: "Solicitud no disponible",
+                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta." ,
+                secondaryText: "Si es una urgencia, contáctanos a través de WhatsApp.",
+                confirmText: "Continuar",
+                timer:10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+
+            return;
+        }
         
         if (balance > -500){
             setDebtAccess(true);
@@ -71,6 +153,7 @@ function useCollectionRequestViewModel() {
             const result = await TimerAlert({
                 title: "Adeudo Pendiente",
                 text: "Tienes un adeudo mayor a $500, te recordamos pagarlo lo antes posible." ,
+                secondaryText: "",
                 confirmText: "Continuar",
                 timer:10000,
             });
@@ -85,6 +168,7 @@ function useCollectionRequestViewModel() {
             const result = await TimerAlert({
                 title: "Solicitud no disponible",
                 text: "Tienes un adeudo mayor a $1500, por lo que no es posible generar una solicitud." ,
+                secondaryText: "",
                 confirmText: "Continuar",
                 timer:10000,
             });
@@ -95,7 +179,7 @@ function useCollectionRequestViewModel() {
         }
     };
 
-    validateDebtAccess();
+    validateFormAccess();
     }, [balance, navigate]);
     
     const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
@@ -231,6 +315,8 @@ function useCollectionRequestViewModel() {
         secondSectionViewModel,
         debtAccess,
         balance,
+        loading,
+        error,
     };
 }
 

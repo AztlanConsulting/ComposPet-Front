@@ -9,8 +9,8 @@ export default function Error ({ message}) {
     return(
         <div className="error-container">
             <div className="error-icon">⚠️</div>
-            <p className="error-message">{message}</p>
+            <p className="error-text">{message}</p>
             <img src={Logo} alt="ComposPet" className="error-logo" />
         </div>
-    )
+    );
 }

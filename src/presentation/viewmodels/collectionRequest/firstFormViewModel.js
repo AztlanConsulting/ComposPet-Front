@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import TimerAlert from "../../../components/Template/timerAlert";
+import ProblemAlert from "../../../components/Template/ProblemAlert";
 
 import { CollectionRequestApiClient } from '../../../data/datasources/collectionRequestApiClient';
 import { CollectionRequestRepository } from '../../../data/repositories/collectionRequestRepository';
@@ -116,12 +120,15 @@ function validateCollectionRequestFirstSection({
  */
 function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, weekEndDate) {
 
+    const navigate = useNavigate();
+
     //Estados iniciales del formulario para valores controlados de las moleculas
     const [requestId, setRequestId] = useState('');
     const [wantsCollection, setWantsCollection] = useState(null);
     const [wantsExtraProducts, setWantsExtraProducts] = useState(null);
     const [collectedBuckets, setCollectedBuckets] = useState(0);
     const [deliveredBuckets, setDeliveredBuckets] = useState(0);
+    const [status, setStatus] = useState(false);
 
     //Estado inicial de los errores
     //Puede que no sea necesario, por que nunca tendria error inicial
@@ -136,6 +143,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
     //Saber si se está cargando la solicitud actual o guardando los datos, para mostrar en la UI
     const [loading, setLoading] = useState(false);
+    const [loadError, setLoadError] = useState(null);
+    
 
     //Empiezan los efectos
 
@@ -143,6 +152,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     const loadCurrentCollectionRequest = async () => {
         if (!clientId || !weekStartDate || !weekEndDate) return;
         setLoading(true);
+
+        setLoadError(null);
 
         // Limpiar errores
         setErrors({
@@ -172,16 +183,16 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
             setWantsExtraProducts(collectionRequest.wantsAdditionalProducts());
             setCollectedBuckets(collectionRequest.collectedBuckets || 0);
             setDeliveredBuckets(collectionRequest.deliveredBuckets || 0);
+            setStatus(collectionRequest.getStatus());
+
+            //Aqui obtengo el status para ver si saco de una al cliente
 
         } catch (error) {
-            setErrors({
-                requestId: '',
-                wantsCollection: '',
-                wantsExtraProducts: '',
-                collectedBuckets: '',
-                deliveredBuckets: '',
-                general: error.message || 'Error al cargar la solicitud de recolección actual.',
-            });
+            console.error("Error al cargar la solicitud actual:", error);
+
+            setLoadError(
+            "No pudimos cargar la información de tu solicitud. Intenta nuevamente más tarde."
+            );
         } finally {
             setLoading(false);
         }
@@ -190,6 +201,29 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     useEffect(() => {
         loadCurrentCollectionRequest();
     }, [clientId, weekStartDate, weekEndDate]);
+
+    useEffect(() => {
+
+        const validateCompletedRequest = async () => {
+
+            if (status !== true) return;
+
+            const result = await TimerAlert({
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+        };
+
+        validateCompletedRequest();
+
+    }, [status, navigate]);
 
     // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
     useEffect(() => {
@@ -313,63 +347,16 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 nextStep,
             };
         } catch (error) {
-            const msg = error.message || '';
 
-            if (msg.includes('solicitud')) {
-                setErrors({
-                    requestId: msg,
-                    wantsCollection: '',
-                    wantsExtraProducts: '',
-                    collectedBuckets: '',
-                    deliveredBuckets: '',
-                    general: '',
-                });
-            } else if (msg.includes('recolección')) {
-                setErrors({
-                    requestId: '',
-                    wantsCollection: msg,
-                    wantsExtraProducts: '',
-                    collectedBuckets: '',
-                    deliveredBuckets: '',
-                    general: '',
-                });
-            } else if (msg.includes('productos extra')) {
-                setErrors({
-                    requestId: '',
-                    wantsCollection: '',
-                    wantsExtraProducts: msg,
-                    collectedBuckets: '',
-                    deliveredBuckets: '',
-                    general: '',
-                });
-            } else if (msg.includes('recolectadas')) {
-                setErrors({
-                    requestId: '',
-                    wantsCollection: '',
-                    wantsExtraProducts: '',
-                    collectedBuckets: msg,
-                    deliveredBuckets: '',
-                    general: '',
-                });
-            } else if (msg.includes('entregadas')) {
-                setErrors({
-                    requestId: '',
-                    wantsCollection: '',
-                    wantsExtraProducts: '',
-                    collectedBuckets: '',
-                    deliveredBuckets: msg,
-                    general: '',
-                });
-            } else {
-                setErrors({
-                    requestId: '',
-                    wantsCollection: '',
-                    wantsExtraProducts: '',
-                    collectedBuckets: '',
-                    deliveredBuckets: '',
-                    general: msg || 'Error al guardar la solicitud de recolección.',
-                });
-            }
+            console.error("Error al guardar la primera sección:", error);
+            await ProblemAlert({
+                title: "No pudimos guardar la información",
+                text: "Ocurrió un problema al guardar tu solicitud. Intenta nuevamente.",
+                icon: "error",
+                confirmText: "Entendido",
+            });
+
+            return { success: false };
         } finally {
             setLoading(false);
         }
@@ -383,6 +370,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         deliveredBuckets,
         errors,
         loading,
+        loadError,
 
         setWantsCollection,
         setWantsExtraProducts,

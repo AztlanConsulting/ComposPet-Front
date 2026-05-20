@@ -4,13 +4,14 @@
 
 .error-container {
     width: 100%;
-    min-height: 300px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     box-sizing: border-box;
+    background-color: var(--color-bg);
 }
 
 .error-logo{
@@ -19,11 +20,11 @@
 }
 
 .error-icon {
-    font-size: 3rem;
+    font-size: 4rem;
 }
 
 .error-text {
-    font-size: 1.2rem;
+    font-size: 2rem; 
     color: var(--color-red-primary); /* rojo suave */
     font-weight: var(--font-weight-medium);
     text-align: center;

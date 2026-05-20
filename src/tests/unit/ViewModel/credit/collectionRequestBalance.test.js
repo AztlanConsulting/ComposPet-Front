@@ -48,7 +48,25 @@ jest.mock("../../../../presentation/viewmodels/collectionRequest/secondPageViewM
     }));
 });
 
+jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewModel", () => {
+    return jest.fn(() => ({
+        loadSummary: jest.fn(),
+        saveThirdSection: jest.fn(),
+    }));
+});
+
 jest.mock("../../../../components/Template/confirmationAlert", () => jest.fn());
+
+beforeAll(() => {
+    jest.useFakeTimers();
+
+    // Miércoles 13 de mayo 2026 a las 10 AM
+    jest.setSystemTime(new Date("2026-05-13T10:00:00"));
+});
+
+afterAll(() => {
+    jest.useRealTimers();
+});
 
 // Agrupa las pruebas relacionadas con el balance del cliente.
 describe("useCollectionRequestViewModel - balance del cliente", () => {
@@ -60,6 +78,7 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         // Simula que hay un cliente autenticado clientId".
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
+            routeDay: "Sábado",
         });
     });
 
@@ -113,6 +132,7 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         expect(TimerAlert).toHaveBeenCalledWith({
             title: "Adeudo Pendiente",
             text: "Tienes un adeudo mayor a $500, te recordamos pagarlo lo antes posible.",
+            secondaryText: "",
             confirmText: "Continuar",
             timer: 10000,
         });
@@ -149,6 +169,7 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         expect(TimerAlert).toHaveBeenCalledWith({
             title: "Solicitud no disponible",
             text: "Tienes un adeudo mayor a $1500, por lo que no es posible generar una solicitud.",
+            secondaryText: "",
             confirmText: "Continuar",
             timer: 10000,
         });

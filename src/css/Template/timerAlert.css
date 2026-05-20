@@ -19,6 +19,21 @@
     line-height: var(--line-height-normal);
 }
 
+.custom-swal-message {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.custom-swal-message p {
+    margin: 0;
+}
+
+.custom-swal-secondary-text {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
 .custom-swal-confirm,
 .custom-swal-cancel,
 .custom-swal-confirm-timer {

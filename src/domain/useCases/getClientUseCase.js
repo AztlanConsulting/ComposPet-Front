@@ -1,5 +1,7 @@
 /**
- * Caso de uso para obtener la id del cliente.
+ * Caso de uso para obtener la información básica del cliente
+ * y su ruta asignada.
+ *
  * Actúa como intermediario entre el ViewModel y el repositorio,
  * aplicando la validación de presencia antes de delegar al repositorio.
  *
@@ -18,7 +20,8 @@ export class GetClientUseCase {
     }
 
     /**
-     * Ejecuta la obtención del cliente asociado al id del usuario.
+     * Ejecuta la obtención básica del cliente asociado al id del usuario, 
+     * Incluyendo el dia de ruta
      *
      * @async
      * @param {string} userId - Id del usuario.

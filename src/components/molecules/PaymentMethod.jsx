@@ -28,7 +28,7 @@ export default function PaymentMethod({
                     ${selectedPaymentIndex === index ? "payment-card-selected" : ""}
                 `}
             >       
-                    <Icon name={icon} size="icon-large" className={selectedPaymentIndex == index ? "icon-selected" : ""} />
+                    <Icon name={icon} size="large" className={selectedPaymentIndex == index ? "icon-selected" : ""} />
                     
                     <p className='payment-method'>{method.tipo}</p>
 

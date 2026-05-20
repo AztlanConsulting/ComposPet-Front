@@ -25,6 +25,7 @@ import CounterInput from '../src/components/molecules/counterInput';
 import FormCard from './components/Template/formCard';
 import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
+import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import DropdownInput from './components/molecules/DropdownInput';
 
 import RegisterClient from './presentation/views/admin/RegisterClient';
@@ -33,6 +34,10 @@ import CollectionRequestView from './presentation/views/collectionRequest/collec
 import ClientTable from './presentation/views/clientTableView';
 
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
+import ProblemAlert from './components/Template/ProblemAlert';
+import UnauthorizedPage from './presentation/views/UnauthorizedPage';
+import CopyLink from './components/molecules/CopyLink';
+import CountersGroup from './components/molecules/CountersGroup';
 
 function Home() {
     const navigate = useNavigate();
@@ -68,24 +73,24 @@ function Home() {
                         <Icon name="plus" csssize="small" color="primary" />
                     </Button>
                     <Button size='mini' csstype='plus-min' className='button'>
-                        <Icon name="minus" csssize="icon-small" color="primary" />
+                        <Icon name="minus" csssize="small" color="primary" />
                     </Button>
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
-                    <Icon name="plus" size="icon-large" color="primary" />
-                    <Icon name="minus" size="icon-large" color="primary" />
-                    <Icon name="arrow" size="icon-large" color="primary" />
-                    <Icon name="bills" size="icon-large" color="primary" />
-                    <Icon name="card" size="icon-large" color="primary" />
-                    <Icon name="copy" size="icon-large" color="primary" />
-                    <Icon name="facebook" size="icon-large" color="primary" />
-                    <Icon name="google" size="icon-large" color="primary" />
-                    <Icon name="instagram" size="icon-large" color="primary" />
-                    <Icon name="logo" size="icon-large" color="primary" />
-                    <Icon name="piggy" size="icon-large" color="primary" />
-                    <Icon name="search" size="icon-large" color="primary" />
-                    <Icon name="tiktok" size="icon-large" color="primary" />
+                    <Icon name="plus" size="large" color="primary" />
+                    <Icon name="minus" size="large" color="primary" />
+                    <Icon name="arrow" size="large" color="primary" />
+                    <Icon name="bills" size="large" color="primary" />
+                    <Icon name="card" size="large" color="primary" />
+                    <Icon name="copy" size="large" color="primary" />
+                    <Icon name="facebook" size="large" color="primary" />
+                    <Icon name="google" size="large" color="primary" />
+                    <Icon name="instagram" size="large" color="primary" />
+                    <Icon name="logo" size="large" color="primary" />
+                    <Icon name="piggy" size="large" color="primary" />
+                    <Icon name="search" size="large" color="primary" />
+                    <Icon name="tiktok" size="large" color="primary" />
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
@@ -105,10 +110,17 @@ function Home() {
                     >
                         Usuario
                     </InputComponent>
+
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <ProductCard></ProductCard>
+
+                    <CopyLink
+                        text="Link del formulario de recolección"
+                        link="Texto de prueba para copiar al portapapeles"
+                        bubbleMessage="¡Copiado!"
+                    />
 
                     <Login></Login>
                 </div>
@@ -175,9 +187,15 @@ function Home() {
                             Municipio
                         </DropdownInput>
                     </div>
-
+                    <div>
+                    <CountersGroup 
+                        counters={[
+                            { label: "Total de Familias", value: 50 },
+                            { label: "Familias por ruta", value: 25 },
+                        ]}
+                    />
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -189,17 +207,33 @@ function App() {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <Router>
                 <Routes>
+                    
+                    <Route path="/error" element={<UnauthorizedPage/>} />
                     <Route path="/inicio-sesion" element={<LoginForm />} />
                     <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
                     <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
+                    {/* Rutas para usuarios autenticados */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
                         <Route path="/tabla-clientes" element={<ClientTable />} />
                         <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
+
+                    {/* Rutas de administrador - Protegidas por Rol */}
+                    <Route element={<ProtectedRoute roles={["Administrador"]} />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/tabla-clientes" element={<ClientTable />} />
+                        <Route path="/registrar-cliente" element={<RegisterClient />} />
+                        <Route path="/ruta" element={<RoutesInfo />} />
+                    </Route>
+
+                    {/* Rutas de clientes - Protegidas por Rol */}
+                    <Route element={<ProtectedRoute roles={["Cliente"]} />}>
+                        <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                    </Route>
+
                 </Routes>
             </Router>
         </GoogleOAuthProvider>

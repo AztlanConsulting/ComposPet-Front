@@ -26,14 +26,14 @@ const Input = forwardRef(({
 }, ref) => {
     return (
         <input
-        type={type}
-        placeholder={placeholder}
-        id={id}
-        className={`input ${size} ${className}`}
-        onChange={onChange}
-        value={value} 
-        maxLength={80}
-        ref={ref}
+            type={type}
+            placeholder={placeholder}
+            id={id}
+            className={`input ${size} ${className}`}
+            onChange={onChange}
+            value={value}
+            maxLength={80}
+            ref={ref}
         />
     );
 });

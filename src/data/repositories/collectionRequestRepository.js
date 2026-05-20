@@ -63,6 +63,7 @@ export class CollectionRequestRepository extends CollectionRequestIRepository{
             wantsCollection: data.quiere_recoleccion,
             wantsExtraProducts: data.quiere_productos_extra,
             paymentId: data.id_pago,
+            status: data.estatus,
         });
     }
 

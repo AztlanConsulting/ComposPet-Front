@@ -2,7 +2,6 @@ import React from 'react';
 import FormCard from '../Template/formCard';
 import YesNoQuestion from '../molecules/YesNoQuestion';
 import CounterInput from '../molecules/counterInput';
-import Loading from '../Template/loading';
 import Error from '../Template/error';
 
 import '../../css/organisms/firstFormRecolectionRequest.css';
@@ -37,12 +36,13 @@ export default function FirstFormCollectionRequest({
     collectedBuckets,
     setCollectedBuckets,
     errors,
-    loading,
+    loadError,
 }) {
-    if (loading) {
-        return <Loading />;
-    }
 
+    if (loadError) {
+        return <Error message={loadError} />;
+    }
+    
     return (
         
         <FormCard>

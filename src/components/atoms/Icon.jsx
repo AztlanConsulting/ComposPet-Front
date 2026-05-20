@@ -14,6 +14,10 @@ import { ReactComponent as LogoIcon } from '../../public/icons/logo.svg';
 import { ReactComponent as PiggyIcon } from '../../public/icons/piggy.svg';
 import { ReactComponent as SearchIcon } from '../../public/icons/search.svg';
 import { ReactComponent as TiktokIcon } from '../../public/icons/tiktok.svg';
+import { ReactComponent as EditIcon } from '../../public/icons/edit.svg';
+import { ReactComponent as CancelIcon } from '../../public/icons/cancel.svg';
+import { ReactComponent as SaveIcon } from '../../public/icons/save.svg';
+import { ReactComponent as ReloadIcon } from '../../public/icons/reload.svg';
 
 /**
  * Mapa de nombres de icono a sus componentes SVG correspondientes.
@@ -36,6 +40,10 @@ const icons = {
     piggy: PiggyIcon,
     search: SearchIcon,
     tiktok: TiktokIcon,
+    edit: EditIcon,
+    cancel: CancelIcon,
+    save: SaveIcon,
+    reload: ReloadIcon,
 };
 
 /**
@@ -68,7 +76,7 @@ export default function Icon({
 
     const svg = (
         <IconComponent
-            className={`icon ${size} ${color} ${className}`}
+            className={`icon icon-${size} ${color} ${className}`}
             aria-hidden={!label}
         />   
     );
@@ -76,7 +84,7 @@ export default function Icon({
     if (onClick){
         return(
             <button
-                className={`icon-button ${size} ${color} ${className}`}
+                className={`icon-button icon-button-${size} ${color} ${className}`}
                 onClick={onClick}
                 aria-label={label}
                 type="button"

@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
-import { GetClientTableUseCase } from "../../domain/useCases/getClientTableUseCase";
-import { ClientTableRepository } from "../../data/repositories/clientTableRepository";
-import { ClientApiClient } from "../../data/datasources/clientApiClient";
+
+import { 
+    getTableUseCase, 
+    getRoutesUseCase, 
+    updateClientUseCase 
+} from '../../di/admin/clientTableDependencies';
+
+import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
+import ProblemAlert from "../../components/Template/ProblemAlert";
+import AceptAlert from "../../components/Template/AceptAlert";
+import { isValidSearchText } from "./utils/searchValidation";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -10,36 +18,55 @@ import { ClientApiClient } from "../../data/datasources/clientApiClient";
  */
 function useClientTableViewModel() {
 
-    // AG Table config
-    const columnDefinitions = useMemo(() => [
-        {field: "name", headerName: "Nombre"},
-        {field: "lastRequest", headerName: "Última recolección"},
-        {field: "balance", headerName: "Saldo"},
-        {field: "notes", headerName: "Notas"},
-        {field: "cellphone", headerName: "Teléfono"},
-        {field: "address", headerName: "Dirección"},
-        {field: "route", headerName: "Ruta"},
-        {field: "pets", headerName: "Mascotas"},
-        {field: "family", headerName: "Familia"},
-        {field: "status", headerName: "Estatus"},
-    ])
-
-    const defaultColDef = useMemo(() => ({
-        filter: true,
-        sortable: true,
-        resizable: true,
-        floatingFilter: true,
-        tooltipValueGetter: (params) => params.value,
-    }), []);
-
+    // Estados para manejar la edición 
+    const [editingRowId, setEditingRowId] = useState(null);
+    const [originalClientList, setOriginalClientList] = useState([]);
+    
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
+    
+    const [routeList, setRouteList] = useState([]);
+    
+    const routeOptions = routeList.map(r => r.id_ruta);
+    const routeMap = Object.fromEntries(
+        routeList.map(r => [r.id_ruta, r.dia_ruta])
+    );
+    // establece que ruta se selecciona
+    const [selectedRoute, setSelectedRoute] = useState('');
+    // Lista de las opciones para el dropdown
+    const [routesDropdown, setRoutesDropdown] = useState([]);
 
-    const getTableUseCase = useMemo(() => {
-        const datasource = new ClientApiClient();
-        const repository = new ClientTableRepository(datasource);
-        return new GetClientTableUseCase(repository);
-    }, []);
+    // variable para el buscador
+    const [searchText, setSearchText] = useState('');
+
+    const getRoutes = useCallback( async () => {
+        if (loading) return;
+
+        try{
+            setLoading(true);
+
+            const response = await getRoutesUseCase.execute();
+            setRouteList(response);
+
+            // Para las rutas del dropdown
+            const mappedRoutes = response
+                .sort((a, b) => a.id_ruta - b.id_ruta)
+                .map(route => ({
+                    value: route.id_ruta,
+                    label: route.dia_ruta
+             }));
+
+            setRoutesDropdown([
+                { value: '', label: 'Sin filtro' },
+                ...mappedRoutes
+            ]);
+
+        } catch (error) {
+            console.log("Error loading routes list: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [getRoutesUseCase]);
 
     const getInfo = useCallback( async () => {
 
@@ -50,6 +77,7 @@ function useClientTableViewModel() {
 
             const response = await getTableUseCase.execute();
             setClientList(response);
+            setOriginalClientList(JSON.parse(JSON.stringify(response)));
 
         } catch (error) {
             console.log("Error loading client data: ", error);
@@ -60,13 +88,191 @@ function useClientTableViewModel() {
 
     useEffect(() => {
         getInfo();
+        getRoutes();
     }, []);
 
+    const isCellChanged = useCallback((params) => {
+        const rowId = params.data.clientId;
+        const field = params.colDef.field;
+
+        const originalRow = originalClientList.find(c => c.clientId === rowId);
+
+        if (!originalRow) return false;
+
+        return originalRow[field] !== params.value;
+    }, [originalClientList]);
+
+    const handleEdit = useCallback((params) => {
+
+        if (editingRowId !== null) return;
+
+        setEditingRowId(params.data.clientId);
+
+        setTimeout(() => {
+            params.api.startEditingCell({
+                rowIndex: params.node.rowIndex,
+                colKey: 'balance', 
+            });
+        });
+    }, [editingRowId]);
+
+    const handleCancel = useCallback((params) => {
+        
+        try {
+
+            setLoading(true);
+
+            params.api.stopEditing(false);
+
+            const rowId = params.data.clientId;
+
+            const originalRow = originalClientList.find(r => r.clientId === rowId);
+
+            if(!originalRow) return;
+
+            params.node.setData({...originalRow});
+
+            setEditingRowId(null);
+
+            params.api.refreshCells({force: true});
+
+        } catch (error) {
+            console.log("Error discarding changes in client data: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [originalClientList]);
+
+    const handleSave = useCallback( async (params) => {
+        try {
+            setLoading(true);
+            params.api.stopEditing(false);
+            const updatedData = params.data;
+            const response = await updateClientUseCase.execute(updatedData);
+            getInfo();
+            
+            setEditingRowId(null);
+
+            await AceptAlert({});
+        } catch (error) {
+            console.log("Error updating client data: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [updateClientUseCase]);
+
+    // AG Table columns config
+    const columnDefinitions = useMemo(() => 
+        getClientTableColumns({
+            editingRowId,
+            handleEdit,
+            handleSave,
+            handleCancel,
+            isCellChanged,
+            routeMap,
+            routeOptions,
+            showProblemAlert: async (title, text) => {
+                await ProblemAlert({
+                    title,
+                    text
+                });
+            },
+            loading,
+        }),
+    [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
+
+    // *********************************************************************
+    // Variable que obtiene la lista de clientes filtrada de acuerdo a:
+    // 1. La ruta seleccionada en el dropdown.
+    // 2. El texto ingresado en el buscador.
+    //
+    // useMemo memoriza el resultado del filtrado y solo vuelve a calcularlo
+    // cuando cambia:
+    // - la lista de clientes,
+    // - la ruta seleccionada,
+    // - o el texto de búsqueda.
+    // **********************************************************************
+    const filteredClientList = useMemo(() => {
+        return clientList.filter((client) => {
+            const matechesRoute = selectedRoute
+                ? client.routeId === Number(selectedRoute)
+                : true;
+
+            const fullName = `${client.name} || ''}`.toLowerCase();
+
+            const matechesSearch = searchText.trim()
+                ? fullName.includes(searchText.trim().toLowerCase())
+                : true;
+
+            return matechesRoute && matechesSearch;
+        })
+    }, [clientList, selectedRoute, searchText]);
+
+    const handleSearchText = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchText(value);
+    };
+
+    const defaultColDef = useMemo(() => ({
+
+        sortable: true,
+        resizable: true,
+
+        tooltipValueGetter: (params) => params.value,
+    }), []);
+
+    useEffect(() => {
+
+        const handleBeforeUnload = (event) => {
+
+            if (editingRowId !== null) {
+
+                event.preventDefault();
+
+                event.returnValue = '';
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+
+    }, [editingRowId]);
+
+    // Funciones para los contadores de familias activas y familias por ruta
+    const isActiveClient = (client) => client.status === true;
+
+    const totalActiveFamilies = useMemo(() => {
+        return clientList.filter(isActiveClient).length;
+    }, [clientList]);
+
+    const activeFamiliesByRoute = useMemo(() => {
+        return clientList.filter(client => {
+            const isActive = isActiveClient(client);
+            const matchesRoute = selectedRoute
+                ? client.routeId === Number(selectedRoute)
+                : true;
+
+            return isActive && matchesRoute;
+        }).length;
+    }, [clientList, selectedRoute]);
+
     return {
-        clientList,
+        clientList: filteredClientList,
         loading,
         columnDefinitions,
         defaultColDef,
+        editingRowId,
+        routesDropdown,
+        selectedRoute,
+        setSelectedRoute,
+        searchText,
+        setSearchText,
+        handleSearchText,
+        totalActiveFamilies,
+        activeFamiliesByRoute,
     };
 }
 
