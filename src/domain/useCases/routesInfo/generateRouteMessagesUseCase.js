@@ -26,6 +26,11 @@ export class GenerateRouteMessagesUseCase {
      * @throws {Error} Lanza un error si falta la semana seleccionada o si el repositorio falla.
      */
     async execute(weekIndex, dayName) {
+
+        if (weekIndex === null || weekIndex === undefined || !dayName) {
+            throw new Error("Faltan datos para generar los mensajes de confirmación");
+        }
+
         return await this.routesRepository.generateConfirmationMessages(
             weekIndex,
             dayName
