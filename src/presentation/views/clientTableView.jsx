@@ -4,10 +4,12 @@ import '../../css/atoms/clientTableColumnsDef.css';
 import Navbar from "../../components/molecules/Navbar";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import DropdownInput from '../../components/molecules/DropdownInput';
+import Loading from '../../components/Template/loading';
 import '../../css/clientView/client.css';
 import SearchInput from "../../components/molecules/searchInput";
 import CountersGroup from '../../components/molecules/CountersGroup';
 import '../../css/molecules/countersGroup.css';
+import '../../css/routesInfo/routesInfo.css';
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -31,6 +33,13 @@ export default function ClientTableView() {
         totalActiveFamilies,
         activeFamiliesByRoute,
     } = useClientTableViewModel();
+
+    // ==================== RENDERIZADO CONDICIONAL ====================
+    if (loading) {
+        return <Loading />
+    }
+
+    // ==================== RENDERIZADO PRINCIPAL ====================
 
 return (
     <main className="background">
