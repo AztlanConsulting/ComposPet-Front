@@ -55,6 +55,13 @@ export class LoginUseCase{
         }
     }
 
+    /**
+     * Ejecuta la lógica para invalidar y cerrar la sesión activa del usuario.
+     * * @async
+     * @method logout
+     * @returns {Promise<void>} Promesa que se resuelve una vez completado el flujo de cierre de sesión.
+     * @throws {Error} Si ocurre un fallo al revocar los tokens en la infraestructura.
+     */
     async logout() {
         try {
             await this.authRepository.logout();

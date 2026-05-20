@@ -72,5 +72,4 @@ export class AuthRepository extends AuthIRepository{
             throw error;
         }
     }
-
 }

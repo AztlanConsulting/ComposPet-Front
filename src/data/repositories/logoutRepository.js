@@ -2,6 +2,9 @@ import { logoutIRepository } from "../../domain/repositories/logoutInterfaceRepo
 import { LogoutApiClient } from "../datasources/LogoutApiClient";
 
 export class LogoutRepository extends logoutIRepository {
+    /**
+     * Inicializa las dependencias necesarias para la gestión de sesión.
+     */
     constructor() {
         super();
         this.apiClient = new LogoutApiClient();
