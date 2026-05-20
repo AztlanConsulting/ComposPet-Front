@@ -6,6 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 
+const observer = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends observer {
+    constructor(callback) {
+        super((entries, observer) => {
+            window.requestAnimationFrame(() => {
+                if (!Array.isArray(entries) || !entries.length) return;
+                callback(entries, observer);
+            });
+        });
+    }
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

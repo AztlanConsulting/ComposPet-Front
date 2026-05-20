@@ -36,6 +36,30 @@ export default function ClientTable({
                 localeText={AG_GRID_LOCALE_ES}
                 editType="fullRow"
                 getRowClass={getRowClass}
+                getRowHeight={(params) => {
+                    const products = params.data?.extraProductsDetails || [];
+                    const count = products.length;
+                    if (count <= 1) return 42;
+                    return count * 26 + 12;
+                }}
+                onFirstDataRendered={(params) => {
+                    params.api.resetRowHeights();
+                }}
+                onBodyScroll={params => {
+                    params.api.stopEditing(false);
+                }}
+                onCellClicked={(params) => {
+                    if (editingRowId && params.data.clientId === editingRowId) {
+                        setTimeout(() => {
+                            const input = document.querySelector('.ag-cell-edit-input');
+                            if (input) {
+                                const length = input.value.length;
+                                input.setSelectionRange(length, length);
+                            }
+                        });
+                    }
+                }}
+                context={{ editingRowId }}
             />
         </div>
     );

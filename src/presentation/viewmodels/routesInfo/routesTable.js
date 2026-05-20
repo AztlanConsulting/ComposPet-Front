@@ -1,11 +1,18 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
     GetFilteredRoutesUseCase, 
-    GetRoutesInfoUseCase } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+    GetRoutesInfoUseCase,
+    GetDataForEditingRequestUseCase,
+    UpdateRequestUseCase,
+ } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import '../../../css/tokens/colors.css';
 import { isValidSearchText } from "../utils/searchValidation";
+
+import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
+import ProblemAlert from "../../../components/Template/ProblemAlert";
+import AceptAlert from "../../../components/Template/AceptAlert";
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -23,12 +30,192 @@ function useRoutesViewModel(){
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [originalRoutesList, setOriginalRoutesList] = useState([]);
+    const [editingRowId, setEditingRowId] = useState(null);
     const [searchText, setSearchText] = useState('');
 
-    const getRoutesInfo = new GetRoutesInfoUseCase();
-    const getAvailableWeeks = new GetAvailableWeeksUseCase();
-    const getDaysOfRoutes = new GetDaysOfRoutesUseCase();
-    const getFilteredRoutes = new GetFilteredRoutesUseCase();
+    const [payMethods, setPayMethods] = useState([]);
+    const payOptions = payMethods.map(r => r.id_pago);
+    const payMap = Object.fromEntries(
+        payMethods.map(r => [r.id_pago, r.tipo])
+    )
+    const [extraProducts, setExtraProducts] = useState([]);
+
+    const getRowClass = useCallback((params) => {
+        const data = params.data;
+
+        if(
+            data?.hasRequest === true &&
+            data?.status === false
+        ) {
+            return "row-inactive";
+        }
+
+        if(
+            data?.hasRequest === true &&
+            data?.wantsExtraProducts === false &&
+            data?.wantsCollection === false
+        ) {
+            return "row-neither";
+        }
+
+        return "";
+    }, []);
+
+    const isCellChanged = useCallback((params) => {
+        const rowId = params.data.name;
+        const field = params.colDef.field;
+
+        const originalRow = originalRoutesList.find(c => c.name === rowId);
+
+        if(!originalRow) return false;
+
+        const originalValue = originalRow[field];
+        const currentValue = params.value;
+
+        if (typeof originalValue === 'object' || typeof currentValue === 'object') {
+            return JSON.stringify(originalValue) !== JSON.stringify(currentValue);
+        }
+
+        return originalValue !== currentValue;
+    }, [originalRoutesList]);
+
+    const hasPendingChanges = useMemo(() => {
+        return editingRowId !== null;
+    }, [editingRowId]);
+
+    const canChangeFilters = useCallback(async () => {
+        if(!hasPendingChanges){
+            return true;
+        }
+
+        await ProblemAlert({
+            title: "Tienes cambios pendientes",
+            text: "Guarda o descarta los cambios antes de cambiar de semana o día."
+        });
+
+        return false;
+    }, [hasPendingChanges]);
+
+    const handleWeekChange = useCallback(async (week) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedWeek(week);
+    }, [canChangeFilters]);
+
+    const handleDayChange = useCallback(async (day) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedDay(day);
+    }, [canChangeFilters]);
+
+    const handleEdit = useCallback((params) => {
+
+        if (editingRowId !== null) return;
+
+        setEditingRowId(params.data.name);
+
+        setTimeout(() => {
+            params.api.startEditingCell({
+                rowIndex: params.node.rowIndex,
+                colKey: 'collectedBuckets', 
+            });
+        });
+    }, [editingRowId]);
+
+    const handleCancel = useCallback((params) => {
+        try{
+            setLoading(true);
+
+            params.api.stopEditing(false);
+            const rowId = params.data.name;
+            const originalRow = originalRoutesList.find(r => r.name === rowId);
+
+            if(!originalRow) return;
+
+            params.node.setData({...originalRow});
+
+            setEditingRowId(null);
+
+            params.api.refreshCells({force: true});
+        } catch (error) {
+            console.log("Error discarding changes in routes table: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [originalRoutesList]);
+
+    const getRoutesInfo = useMemo(
+        () => new GetRoutesInfoUseCase(),
+        []
+    );
+
+    const getAvailableWeeks = useMemo(
+        () => new GetAvailableWeeksUseCase(),
+        []
+    );
+
+    const getDaysOfRoutes = useMemo(
+        () => new GetDaysOfRoutesUseCase(),
+        []
+    );
+
+    const getFilteredRoutes = useMemo(
+        () => new GetFilteredRoutesUseCase(),
+        []
+    );
+
+    const getDropdownInfo = useMemo(
+        () => new GetDataForEditingRequestUseCase(),
+        []
+    );
+
+    const updateRequest = useMemo(
+        () => new UpdateRequestUseCase(),
+        []
+    );
+
+    const refreshRoutes = useCallback(async () => {
+        const routes = await getFilteredRoutes.execute(
+            selectedWeek,
+            selectedDay || undefined
+        );
+
+        setRoutesList(routes);
+        setOriginalRoutesList(
+            JSON.parse(JSON.stringify(routes))
+        );
+    }, [
+        selectedWeek,
+        selectedDay,
+        getFilteredRoutes,
+    ]);
+
+    const handleSave = useCallback(async (params) => {
+        try {
+            setLoading(true);
+            params.api.stopEditing(false);
+            const updatedData = params.data;
+            await updateRequest.execute(updatedData);
+
+            await refreshRoutes();
+
+            setEditingRowId(null);
+            await AceptAlert({});
+        } catch (error) {
+            console.log("Error saving routes data: ", error);
+            await ProblemAlert({
+                title: "Error al guardar",
+                text: error.message || "Ocurrió un error al guardar los cambios"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, [updateRequest, refreshRoutes]);
 
     const DAY_NAME_MAP = {
         0: "Domingo",
@@ -53,112 +240,42 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         bubbleMessage: "¡Copiado!",
     };
 
-    // Diccionario para asignar colores a los productos extra según su tipo
-    const PRODUCT_COLORS = {
-        amarillo: "var(--color-yellow-primary)",
-        naranja: "var(--color-orange-primary)",
-        morado: "var(--color-purple-primary)",
-        verde: "var(--color-green-products)",
-    }
-
     // Función para determinar si una fila debe tener fondo
-    const hasRowBackground = (data) => {
-        return (
-            data?.hasRequest === true &&
-            (
-                data?.status === false ||
-                (data?.wantsExtraProducts === false && data?.wantsCollection === false)
-            )
-        )
-    }
+    const hasRowBackground = useCallback((data) => {
+        const rowClass = getRowClass({ data });
+
+        return rowClass === "row-inactive" ||
+            rowClass === "row-neither";
+    }, [getRowClass]);
 
     // funcion que determina si el fondo es rojo
-    const hasRedBackground = (data) => {
-        return data?.hasRequest === true && data?.status === false;
-    };
+    const hasRedBackground = useCallback((data) => {
+        return getRowClass({ data }) === "row-inactive";
+    }, [getRowClass]);
 
     // ==================== CONFIGURACIÓN DE TABLA ====================
-    const columnDefinitions = [
-        { headerName: "Nombre", field: "name", width: 200},
-        // Recoleccion
-        { headerName: "# Recolección", field: "collectedBuckets", width: 200,
-            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
-            cellStyle: (params) => {
-                // si tiene fondo rojo, resaltar en negrita
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
-                    return {
-                        color: "var(--color-red-primary)",
-                        fontWeight: "var(--font-weight-bold)",
-                    };
-                }
-
-                return null;
+    const columnDefinitions = useMemo(() => 
+        getRoutesTableColumns({
+            editingRowId,
+            isCellChanged,
+            hasRowBackground,
+            hasRedBackground,
+            handleEdit,
+            handleCancel,
+            handleSave,
+            loading,
+            payMap,
+            payOptions,
+            extraProducts,
+            getRowClass,
+            showProblemAlert: async (title, text) => {
+                await ProblemAlert({
+                    title,
+                    text
+                });
             },
-        },
-        // Entrega
-        { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
-            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
-            cellStyle: (params) => {
-                if (hasRowBackground(params.data)) {
-                    return hasRedBackground(params.data)
-                        ? { fontWeight: "var(--font-weight-bold)" }
-                        : null;
-                }
-                // si el valor es 0, resaltar en rojo y negrita
-                if (params.value === "0") {
-                    return {
-                        color: "var(--color-red-primary",
-                        fontWeight: "var(--font-weight-bold)",
-                    };
-                }
-
-                return null;
-            },
-        },
-        // Productos extra con personalizado para mostrar cada producto en su color correspondiente
-        {
-            headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true,
-            cellRenderer: (params) => {
-                const products = params.data?.extraProductsDetails || [];
-
-                // Si no hay productos extra, mostrar un espacio
-                if (!products.length) {
-                    return params.value || " ";
-                }
-
-                return (
-                    <div>
-                        {/* Muestra cada producto con su color correspondiente */}
-                        {products.map((product, index) => (
-                            <div
-                                key={index}
-                                style={{
-                                    // Si la fila tiene fondo, usar color de texto normal, si no, usar el color del producto
-                                    color: hasRowBackground(params.data)
-                                        ? "inherit"
-                                        : PRODUCT_COLORS[product.color] ||
-                                        "#000",
-                                }}
-                            >
-                                {product.text}
-                            </div>
-                        ))}
-                    </div>
-                );
-            },
-        },
-        { headerName: "Horario", field: "schedule", width: 200},
-        { headerName: "Forma de pago", field: "paymentMethod", width: 200},
-        { headerName: "Total a pagar", field: "totalToPay", width: 200},
-        { headerName: "Total pagado", field: "totalPaid", width: 200},
-        { headerName: "Notas", field: "notes", width: 500},
-    ];
+        }),
+    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts, getRowClass]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
@@ -224,6 +341,19 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, [routesList, searchText]);
 
     useEffect(() => {
+        async function fetchDropdownInfo() {
+            try {
+                const data = await getDropdownInfo.execute();
+                setPayMethods(data.payMethods);
+                setExtraProducts(data.extraProducts);
+            } catch (error) {
+                setError(error.message || "Error al cargar información de dropdowns");
+            }
+        }
+        fetchDropdownInfo();
+    }, []);
+
+    useEffect(() => {
         async function fetchWeeks() {
             try {
                 const data = await getAvailableWeeks.execute();
@@ -256,28 +386,30 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, []);
 
     useEffect(() => {
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return
+        if (
+            selectedWeek === null ||
+            isNaN(selectedWeek) ||
+            selectedWeek < 0
+        ) return;
 
-        async function fetchRoutes(){
-            setLoading(true);
-            setError(null);
+        async function fetchRoutes() {
+            try {
+                setLoading(true);
+                setError(null);
 
-            try{
-                const routes = await getFilteredRoutes.execute(
-                    selectedWeek,
-                    selectedDay || undefined
+                await refreshRoutes();
+            } catch (error) {
+                setError(
+                    error.message ||
+                    "Error al cargar la información"
                 );
-
-                setRoutesList(routes);
-                console.log("Rutas obtenidas:", routes);
-            } catch (error){
-                setError(error.message || "Error al cargar la información");
             } finally {
                 setLoading(false);
             }
         }
+
         fetchRoutes();
-    }, [selectedWeek, selectedDay]);
+    }, [selectedWeek, selectedDay, refreshRoutes]);
 
     const resetFilters = () => {
         const currentIndex = weeks.findIndex(week => {
@@ -292,16 +424,17 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         routesList: filteredRoutesList,
         weeks,
         selectedWeek,
-        setSelectedWeek,
+        setSelectedWeek: handleWeekChange,
         daysOfRoutes,
         selectedDay,
-        setSelectedDay,
+        setSelectedDay: handleDayChange,
         loading,
         error,
         columnDefinitions,
         defaultColDef,
         resetFilters,
         copyLinkInfo,
+        getRowClass,
         searchText,
         setSearchText,
         handleSearchText,
