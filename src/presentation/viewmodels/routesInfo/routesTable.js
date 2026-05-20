@@ -5,7 +5,8 @@ import {
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase,
     GetDataForEditingRequestUseCase,
-    UpdateRequestUseCase, } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+    UpdateRequestUseCase, 
+} from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import { GenerateRouteMessagesUseCase } from '../../../domain/useCases/routesInfo/generateRouteMessagesUseCase';
 import { RoutesRepository } from "../../../data/repositories/routesInfo/routesRepository";
 import '../../../css/tokens/colors.css';
