@@ -28,6 +28,7 @@ export class RouteInfo {
     deliveredBuckets,
     extraProducts,
     schedule,
+    paymentId,
     paymentMethod,
     totalToPay,
     totalPaid,
@@ -37,12 +38,16 @@ export class RouteInfo {
     wantsCollection,
     wantsExtraProducts,
     extraProductsDetails,
+    extraProductsArray,
+    clientId,
+    requestId,
   }) {
     this.name = name;
     this.collectedBuckets = collectedBuckets;
     this.deliveredBuckets = deliveredBuckets;
     this.extraProducts = extraProducts;
     this.schedule = schedule;
+    this.paymentId = paymentId;
     this.paymentMethod = paymentMethod;
     this.totalToPay = totalToPay;
     this.totalPaid = totalPaid;
@@ -53,5 +58,8 @@ export class RouteInfo {
     this.wantsCollection = wantsCollection;
     this.wantsExtraProducts = wantsExtraProducts;
     this.extraProductsDetails = extraProductsDetails;
+    this.extraProductsArray = extraProductsArray;
+    this.clientId = clientId;
+    this.requestId = requestId;
   }
 }

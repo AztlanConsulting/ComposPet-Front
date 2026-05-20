@@ -11,7 +11,7 @@
  * 
  */
 export class RoutesIRepository {
-   /**
+    /**
    * Obtiene la información de las rutas.
    * Este método debe ser implementado por las clases que extiendan esta interfaz.
    *
@@ -39,5 +39,13 @@ export class RoutesIRepository {
 
   async generateConfirmationMessages(){
     throw new Error('Error al generar los mensajes de confirmación');
+  }
+
+  async getDropdownInfo(){
+    throw new Error('Error al obtener la información necesaria para editar la recolección');
+  }
+
+  async updateRequest(){
+    throw new Error('Error al actualizar la información de la solicitud de recolección');
   }
 }
