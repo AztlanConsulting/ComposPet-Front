@@ -10,14 +10,6 @@
     box-sizing: border-box;
 }
 
-.table-container {
-    width: 100%;
-    max-width: 1400px;
-    margin: 10rem auto 0 auto;
-    padding: 0 11rem;
-    box-sizing: border-box;
-}
-
 .filters-container{
     width: auto;
     padding: 0 5rem 0 5rem;

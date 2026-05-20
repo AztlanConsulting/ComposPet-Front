@@ -2,6 +2,22 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
+.client-filters-container{
+    width: auto;
+    padding: 0 5rem 0 5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1rem; 
+}
+
+.route-filter {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
 .counters-row {
     width: 100%;
     max-width: 1400px;
@@ -30,15 +46,13 @@
 
 /* Search ocupa más espacio y se alinea a la derecha */
 .client-search-wrapper {
-    flex: 2;
-    min-width: 280px;
-    display: flex;
-    justify-content: flex-end;
+    margin-left: auto;
+    width: 35rem;
 }
 
 .client-search-wrapper .search-input-container {
     width: 100%;
-    max-width: 40rem;
+    max-width: none;
 }
 
 .filters-Row .formSelect{

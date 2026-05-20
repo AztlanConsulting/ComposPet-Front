@@ -83,8 +83,6 @@ export default function RoutesTablePage() {
 
             </div>
 
-            <div className="table-scroll">
-                <div className="ag-theme-alpine custom-green-theme">
                     <ClientTable
                         clientList={routesViewModel.routesList}
                         columnDefinitions={routesViewModel.columnDefinitions}
@@ -108,8 +106,6 @@ export default function RoutesTablePage() {
                             return "";
                         }}
                     />
-                </div>
-            </div>
         </div>
     );
 }
