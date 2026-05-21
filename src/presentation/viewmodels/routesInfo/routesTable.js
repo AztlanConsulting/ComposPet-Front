@@ -19,7 +19,7 @@ function useRoutesViewModel(){
     const [weeks, setWeeks] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState(null);
     const [daysOfRoutes, setDaysOfRoutes] = useState([]);
-    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDay, setSelectedDay] = useState(undefined);
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -224,39 +224,48 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, [routesList, searchText]);
 
     useEffect(() => {
-        async function fetchWeeks() {
+        async function initialize() {
+            setLoading(true);
             try {
-                const data = await getAvailableWeeks.execute();
-                setWeeks(formatWeeks(data));
+                const [weeksData, daysData] = await Promise.all([
+                    getAvailableWeeks.execute(),
+                    getDaysOfRoutes.execute(),
+                ]);
 
-                const currentIndex = data.findIndex(week => {
+                const formattedWeeks = formatWeeks(weeksData);
+                setWeeks(formattedWeeks);
+                setDaysOfRoutes(daysData);
+
+                const currentIndex = weeksData.findIndex(week => {
                     const now = new Date();
                     return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
                 });
-                setSelectedWeek(currentIndex >= 0 ? currentIndex : data.length - 1);
-            } catch (error){
-                setError(error.message || "Error al cargar semanas");
+                const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
+                setSelectedWeek(weekIdx);
+                setSelectedDay(null);
+
+                const routes = await getFilteredRoutes.execute(weekIdx, undefined);
+                setRoutesList(routes);
+
+            } catch (err) {
+                setError(err.message || "Error al inicializar");
+            } finally {
+                setLoading(false);
             }
         }
-        fetchWeeks();
+        initialize();
     }, []);
 
-    useEffect(() => {
-        async function fetchDaysOfRoutes() {
-            try {
-                const data = await getDaysOfRoutes.execute();
-                setDaysOfRoutes(data);
+    const [initialized, setInitialized] = useState(false);
 
-                setSelectedDay(getDefaultDay(data));
-            } catch (error) {
-                setError(error.message || "Error al cargar días de ruta");
-            }
+    useEffect(() => {
+
+        if (!initialized) {
+            setInitialized(true);
+            return;
         }
-        fetchDaysOfRoutes();
-    }, []);
 
-    useEffect(() => {
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return
+        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return;
 
         async function fetchRoutes(){
             setLoading(true);
@@ -269,7 +278,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 );
 
                 setRoutesList(routes);
-                console.log("Rutas obtenidas:", routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
             } finally {
@@ -285,7 +293,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
         });
         setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
-        setSelectedDay(getDefaultDay(daysOfRoutes));
+        setSelectedDay(null);
     };
 
     return {
