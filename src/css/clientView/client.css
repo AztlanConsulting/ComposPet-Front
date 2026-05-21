@@ -18,7 +18,7 @@
     gap: 1rem;
 }
 
-/* .counters-row {
+.counters-row {
     width: 100%;
     max-width: 1400px;
     padding: 0 7rem;
@@ -29,14 +29,6 @@
     align-items: flex-start;
     gap: 3rem;
     margin-top: 1rem;
-} */
-
-.counters-row {
-    width: 100%;
-    max-width: 1400px;
-    padding: 0 7rem;
-    box-sizing: border-box;
-    align-self: stretch;
 }
 
 .filters-Row {

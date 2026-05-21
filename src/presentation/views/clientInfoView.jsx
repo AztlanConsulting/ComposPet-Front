@@ -7,14 +7,7 @@ import BalanceCountersGroup from "../../components/organisms/BalanceCountersGrou
 
 export default function ClientInfo(){
 
-    const { 
-        totalActiveFamilies,
-        activeFamiliesByRoute,
-        totalAmount,
-        pendingAmount,
-        totalAmountPerRoute,
-        pendingAmountPerRoute,
-     } = useClientTableViewModel();
+    const viewModel = useClientTableViewModel();
 
     return(
         <div className="page">
@@ -23,31 +16,31 @@ export default function ClientInfo(){
                 {/* Contador Total de familias | Contador familias por ruta */}
                 <CountersGroup 
                     counters={[
-                        { label: "Total de Familias", value: totalActiveFamilies },
-                        { label: "Familias por ruta", value: activeFamiliesByRoute },
+                        { label: "Total de Familias", value: viewModel.totalActiveFamilies },
+                        { label: "Familias por ruta", value: viewModel.activeFamiliesByRoute },
                     ]}
                 />
 
-                {/* <BalanceCountersGroup
+                <BalanceCountersGroup
                     counters={[
                         {
                         title: 'Saldo total de ruta',
                         favorSubtitle: 'Saldo a favor',
-                        favorBalance: totalAmountPerRoute,
+                        favorBalance: viewModel.totalAmountPerRoute,
                         pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: pendingAmountPerRoute,
+                        pendingBalance: viewModel.pendingAmountPerRoute,
                         },
                         {
                         title: 'Saldo total',
                         favorSubtitle: 'Saldo a favor',
-                        favorBalance: totalAmount,
+                        favorBalance: viewModel.totalAmount,
                         pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: pendingAmount,
+                        pendingBalance: viewModel.pendingAmount,
                         },
                     ]}
-                /> */}
+                />
             </div>
-            <ClientTableView />
+            <ClientTableView viewModel={viewModel}/>
         </div>
     )
 }

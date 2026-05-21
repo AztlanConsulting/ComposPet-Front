@@ -289,7 +289,7 @@ function useClientTableViewModel() {
         }, 0);
     }, [clientList]);
 
-    // Funciones para los contadores de saldo total y saldo pendiente por ruta
+    //Funciones para los contadores de saldo total y saldo pendiente por ruta
     const totalAmountPerRoute = useMemo(() => {
         return clientList.reduce((total, client) => {
             const balance = Number(client.balance || 0);
@@ -313,6 +313,7 @@ function useClientTableViewModel() {
             return balance < 0 ? total + balance : total;
         }, 0);
     }, [clientList, selectedRoute]);
+
 
     return {
         clientList: filteredClientList,

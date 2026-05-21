@@ -13,7 +13,7 @@ import SearchInput from "../../components/molecules/searchInput";
  *
  * @returns {JSX.Element} Vista icon la tabla de usuarios de Compospet.
  */
-export default function ClientTableView() {
+export default function ClientTableView({ viewModel }) {
 
     const {
         loading,
@@ -27,7 +27,7 @@ export default function ClientTableView() {
         searchText,
         setSearchText,
         handleSearchText,
-    } = useClientTableViewModel();
+    } = viewModel;
 
     // ==================== RENDERIZADO CONDICIONAL ====================
     if (loading) {
