@@ -2,9 +2,17 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
+.page {
+    background-color: var(--color-bg);
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+}
+
 .client-filters-container{
     width: auto;
-    padding: 0 6.5rem 0 8rem;
+    padding: 0 5rem 0 5rem;
     margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
@@ -54,12 +62,12 @@
 }
 
 
-.client-search-wrapper {
+.search-wrapper {
     flex: 0 0 25rem;
     width: 35rem;
 }
 
-.client-search-wrapper .search-input-container {
+.search-wrapper .search-input-container {
     width: 100%;
     max-width: none;
 }
@@ -80,6 +88,19 @@
 
 .filters-Row .search-input-container {
     margin-top: 2.5rem;
+}
+
+.table-container .wrapper {
+    width: 100%;
+    padding: 0 5rem;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.table-container .custom-green-theme {
+    width: 100%;
+    min-width: 60rem;
+    height: 30rem;
 }
 
 /* Tablet */

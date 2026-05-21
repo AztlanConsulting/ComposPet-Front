@@ -80,14 +80,13 @@ export default function RoutesTablePage({ routesViewModel }) {
                 </div>
 
             </div>
-
-                    <ClientTable
-                        clientList={routesViewModel.routesList}
-                        columnDefinitions={routesViewModel.columnDefinitions}
-                        defaultColDef={routesViewModel.defaultColDef}
-                        loading={routesViewModel.loading}
-                        getRowClass={routesViewModel.getRowClass}
-                    />
+                <ClientTable
+                    clientList={routesViewModel.routesList}
+                    columnDefinitions={routesViewModel.columnDefinitions}
+                    defaultColDef={routesViewModel.defaultColDef}
+                    loading={routesViewModel.loading}
+                    getRowClass={routesViewModel.getRowClass}
+                />
         </div>
     );
 }
