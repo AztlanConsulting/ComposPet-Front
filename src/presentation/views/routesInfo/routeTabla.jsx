@@ -81,33 +81,13 @@ export default function RoutesTablePage({
 
             </div>
 
-            <div className="table-scroll">
-                <div className="ag-theme-alpine custom-green-theme">
                     <ClientTable
                         clientList={routesViewModel.routesList}
                         columnDefinitions={routesViewModel.columnDefinitions}
                         defaultColDef={routesViewModel.defaultColDef}
                         loading={routesViewModel.loading}
-                        getRowClass={(params) => {
-                            const data = params.data;
-
-                            if (data?.hasRequest === true && data?.status === false) {
-                                return "row-inactive";
-                            }
-
-                            if (
-                                data?.hasRequest === true &&
-                                data?.wantsExtraProducts === false &&
-                                data?.wantsCollection === false
-                            ) {
-                                return "row-neither";
-                            }
-
-                            return "";
-                        }}
+                        getRowClass={routesViewModel.getRowClass}
                     />
-                </div>
-            </div>
         </div>
     );
 }

@@ -32,6 +32,7 @@ import RegisterClient from './presentation/views/admin/RegisterClient';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 import ClientTable from './presentation/views/clientTableView';
+import ClientInfo from './presentation/views/clientInfoView';
 
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import ProblemAlert from './components/Template/ProblemAlert';
@@ -238,14 +239,14 @@ function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/tabla-clientes" element={<ClientTable />} />
+                        <Route path="/tabla-clientes" element={<ClientInfo />} />
                         <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
                     </Route>
 
                     {/* Rutas de administrador - Protegidas por Rol */}
                     <Route element={<ProtectedRoute roles={["Administrador"]} />}>
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/tabla-clientes" element={<ClientTable />} />
+                        <Route path="/tabla-clientes" element={<ClientInfo />} />
                         <Route path="/registrar-cliente" element={<RegisterClient />} />
                         <Route path="/ruta" element={<RoutesInfo />} />
                     </Route>

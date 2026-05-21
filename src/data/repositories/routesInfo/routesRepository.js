@@ -46,6 +46,7 @@ export class RoutesRepository{
                 deliveredBuckets: route.entrega,
                 extraProducts: route.productos_extra,
                 schedule: route.horario,
+                paymentId: route.id_pago,
                 paymentMethod: route.forma_pago,
                 totalToPay: route.total_a_pagar,
                 totalPaid: route.total_pagado,
@@ -75,13 +76,13 @@ export class RoutesRepository{
 
     async getFilteredRoutes(weekIndex, dayName) {
         const response = await this.apiClient.getFilteredRoutes(weekIndex, dayName);
-
         return response.data.map(route => new RouteInfo({
             name: route.nombre,
             collectedBuckets: route.recoleccion,
             deliveredBuckets: route.entrega,
             extraProducts: route.productos_extra,
             schedule: route.horario,
+            paymentId: route.id_pago,
             paymentMethod: route.forma_pago,
             totalToPay: route.total_a_pagar,
             totalPaid: route.total_pagado,
@@ -91,6 +92,39 @@ export class RoutesRepository{
             wantsCollection: route.wantsCollection,
             wantsExtraProducts: route.wantsExtraProducts,
             extraProductsDetails: route.extraProductsDetails || [],
+            extraProductsArray: route.extraProductsArray || [],
+            clientId: route.clientId,
+            requestId: route.requestId,
         }));
+    }
+
+    /**
+     * Obtiene los productos extra y métodos de pago disponibles.
+     * Realiza una petición al API, procesa la respuesta y convierte cada ruta
+     *
+     * @async
+     * @returns {Promise<Object>} Promesa que resuelve con un objeto con payMethods y extraProducts.
+     * @throws {Error} Lanza un error si la petición al API falla o si hay problemas
+     * al transformar los datos.
+     * 
+     */
+    async getDropdownInfo(){
+        const response = await this.apiClient.getDropdownInfo();
+        return response;
+    }
+
+    /**
+     * Actualiza la información de la solicitud de recolección modificada por el administrador.
+     * Realiza una petición al API, procesa la respuesta y convierte cada ruta
+     *
+     * @async
+     * @returns {Promise<BOOL>} Promesa.
+     * @throws {Error} Lanza un error si la petición al API falla o si hay problemas
+     * al transformar los datos.
+     * 
+     */
+    async updateRequest(data){
+        const response = await this.apiClient.updateRequest(data);
+        return response;
     }
 }
