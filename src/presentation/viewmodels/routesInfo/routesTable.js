@@ -417,7 +417,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
                 const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
                 setSelectedWeek(weekIdx);
-                setSelectedDay(null);
+                const defaultDay = getDefaultDay(daysData);
+                setSelectedDay(defaultDay)
 
                 const routes = await getFilteredRoutes.execute(weekIdx, undefined);
                 setRoutesList(routes);
@@ -465,7 +466,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
         });
         setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
-        setSelectedDay(null);
+        setSelectedDay(getDefaultDay(daysOfRoutes));
     };
 
     return {
