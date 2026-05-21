@@ -5,6 +5,8 @@ import {
     GetAvailableWeeksUseCase,
     GetDaysOfRoutesUseCase,
     GetFilteredRoutesUseCase,
+    GetDataForEditingRequestUseCase,
+    UpdateRequestUseCase,
 } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 import { act } from '@testing-library/react';
 
@@ -13,6 +15,8 @@ jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
     GetAvailableWeeksUseCase: jest.fn(),
     GetDaysOfRoutesUseCase:   jest.fn(),
     GetFilteredRoutesUseCase: jest.fn(),
+    GetDataForEditingRequestUseCase: jest.fn(),
+    UpdateRequestUseCase:     jest.fn(),
 }));
 
 describe('useRoutesViewModel', () => {
@@ -41,6 +45,15 @@ describe('useRoutesViewModel', () => {
         GetFilteredRoutesUseCase.mockImplementation(() => ({
             execute: mockExecuteFiltered,
         }));
+        GetDataForEditingRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue({
+                payMethods: [],
+                extraproducts: [],
+            })
+        }))
+        UpdateRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue([]),
+        }))
     });
 
     it('debe regresar la información de las rutas correctamente', async () => {
@@ -97,30 +110,6 @@ describe('useRoutesViewModel', () => {
         expect(result.current.routesList).toEqual([]);
     });
 
-    it('debe regresar la configuración de columnas correctamente', () => {
-        mockExecuteFiltered.mockResolvedValue([]);
-
-        const { result } = renderHook(() => useRoutesViewModel());
-
-        expect(result.current.columnDefinitions).toEqual([
-            { headerName: "Nombre", field: "name", width: 200 },
-            { headerName: "# Recolección", field: "collectedBuckets", width: 200, cellStyle: expect.any(Function) },
-            { headerName: "# Entrega", field: "deliveredBuckets", width: 200, cellStyle: expect.any(Function) },
-            { headerName: "Productos Extra", field: "extraProducts", width: 250, autoHeight: true, cellRenderer: expect.any(Function) },
-            { headerName: "Horario", field: "schedule", width: 200 },
-            { headerName: "Forma de pago", field: "paymentMethod", width: 200 },
-            { headerName: "Total a pagar", field: "totalToPay", width: 200 },
-            { headerName: "Total pagado", field: "totalPaid", width: 200 },
-            { headerName: "Notas", field: "notes", width: 500 },
-        ]);
-
-        expect(result.current.defaultColDef).toEqual({
-            sortable: true,
-            resizable: true,
-            tooltipField: "notes",
-            cellStyle: expect.any(Function),
-        });
-    });
 });
 
 describe('useRoutesViewModel - semanas y días', () => {

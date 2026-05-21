@@ -12,9 +12,7 @@
 
 .table-container {
     width: 100%;
-    max-width: 1400px;
     margin: 10rem auto 0 auto;
-    padding: 0 11rem;
     box-sizing: border-box;
 }
 
@@ -82,11 +80,11 @@
     font-weight: var(--font-weight-bold);
 }
 
-.ag-row.row-inactive {
+.custom-green-theme .ag-row.row-inactive .ag-cell {
     background-color: var(--color-red-secondary) !important;
 }
 
-.ag-row.row-neither {
+.custom-green-theme .ag-row.row-neither .ag-cell {
     background-color: var(--color-gray-bg) !important;
 }
 .ag-cell {

@@ -36,4 +36,12 @@ export class RoutesIRepository {
   async getFilteredRoutes(){
     throw new Error('Error al obtener la información para filtrar rutas por dia');
   }
+
+  async getDropdownInfo(){
+    throw new Error('Error al obtener la información necesaria para editar la recolección');
+  }
+
+  async updateRequest(){
+    throw new Error('Error al actualizar la información de la solicitud de recolección');
+  }
 }
