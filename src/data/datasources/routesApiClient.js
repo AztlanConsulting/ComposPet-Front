@@ -29,6 +29,13 @@ export class RoutesApiClient {
         }
     }
 
+    /**
+     * Obtiene las semanas disponibles para filtrar rutas.
+     *
+     * @async
+     * @returns {Promise<Object>} Respuesta del backend con las semanas disponibles.
+     * @throws {Error} Lanza un error si falla la petición HTTP.
+     */
     async getAvailableWeeks() {
         try {
             const response = await api.get('/rutas/semanas');
@@ -39,6 +46,13 @@ export class RoutesApiClient {
         }
     }
 
+    /**
+     * Obtiene todos los días de ruta disponibles.
+     *
+     * @async
+     * @returns {Promise<Object>} Respuesta del backend con los días de ruta.
+     * @throws {Error} Lanza un error si falla la petición HTTP.
+     */
     async getDaysOfRoutes() {
         try {
             const response = await api.get('/rutas/dias-ruta');
@@ -49,6 +63,15 @@ export class RoutesApiClient {
         }
     }
 
+    /**
+     * Obtiene las rutas filtradas por semana y día.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} [dayName] - Día de ruta a filtrar.
+     * @returns {Promise<Object>} Respuesta del backend con las rutas filtradas.
+     * @throws {Error} Lanza un error si falla la petición.
+     */
     async getFilteredRoutes(weekIndex, dayName){
         try {
             const params = {
@@ -65,6 +88,33 @@ export class RoutesApiClient {
     }
 
     /**
+     * Solicita al backend la generación de mensajes de confirmación
+     * para una semana y día de ruta específicos.
+     * 
+     * Envía un POST al endpoint correspondiente con los parámetros necesarios, y espera la respuesta del servidor.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Object>} Respuesta del backend 
+     * @throws {Error} Lanza un error si ocurre un fallo.
+     */
+    async generateConfirmationMessages(weekIndex, dayName){
+        try {
+
+            const response = await api.post('/rutas/mensajes-de-confirmacion', {
+                weekIndex,
+                dayName,
+            });
+            
+            return response.data;
+        } catch (error) {
+            console.error("Error en generateConfirmationMessages:", error.response?.data || error.message);
+            throw error;
+        }
+    }
+    
+    /*
      * Obtiene la información de métodos de pago y productos extra disponibles.
      * Realiza una petición GET al endpoint de rutas y retorna los datos de la respuesta.
      *
