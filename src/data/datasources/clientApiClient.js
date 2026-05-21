@@ -68,7 +68,6 @@ export class ClientApiClient {
     async getCompostStatus(){
         try{
             const response = await api.get("/cliente/estatus-composta");
-            console.log("Compost status response: ", response.data);
             return response.data;
         } catch (error){
             handleHttpError(error);
@@ -78,7 +77,6 @@ export class ClientApiClient {
     async updateCompostStatus(newStatus){
         try{
             const response = await api.post("/cliente/modificar-estatus-composta", { status: newStatus });
-            console.log("Compost status update response: ", response);
             return response.data;
         } catch (error){
             handleHttpError(error);

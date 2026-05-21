@@ -98,7 +98,6 @@ function useClientTableViewModel() {
         try {
             setLoading(true);
             const response = await getCompostStatusUseCase.execute();
-            console.log("Compost status in ViewModel: ", response.status.data);
             setCompostStatus(response.status.data);
         } catch (error) {
             console.log("Error loading client data: ", error);
@@ -121,7 +120,6 @@ function useClientTableViewModel() {
             setLoading(true);
 
             const newStatus = !compostStatus;
-            console.log("New compost status to update: ", newStatus);
 
             await updateCompostStatusUseCase.execute(newStatus);
 
@@ -302,10 +300,8 @@ function useClientTableViewModel() {
     }, [clientList]);
 
     const activeFamiliesByRoute = useMemo(() => {
-        console.log("ENTRO A ACTIVE FAMILIES BY ROUTE: ");
         return clientList.filter(client => {
             const isActive = isActiveClient(client);
-            console.log(`Client ${client.name} is active: ${isActive}`);
             const matchesRoute = selectedRoute
                 ? client.routeId === Number(selectedRoute)
                 : true;

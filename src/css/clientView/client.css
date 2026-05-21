@@ -4,7 +4,7 @@
 
 .client-filters-container{
     width: auto;
-    padding: 0 5rem 0 5rem;
+    padding: 0 6.5rem 0 8rem;
     margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
@@ -23,7 +23,7 @@
 .counters-row {
     width: 100%;
     max-width: 1400px;
-    padding: 0 7rem;
+    padding: 0 8rem;
     box-sizing: border-box;
     align-self: stretch;
 }
