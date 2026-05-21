@@ -18,6 +18,7 @@ import { ReactComponent as EditIcon } from '../../public/icons/edit.svg';
 import { ReactComponent as CancelIcon } from '../../public/icons/cancel.svg';
 import { ReactComponent as SaveIcon } from '../../public/icons/save.svg';
 import { ReactComponent as ReloadIcon } from '../../public/icons/reload.svg';
+import { ReactComponent as GoogleSheetsIcon } from '../../public/icons/googlesheets.svg';
 
 /**
  * Mapa de nombres de icono a sus componentes SVG correspondientes.
@@ -44,6 +45,7 @@ const icons = {
     cancel: CancelIcon,
     save: SaveIcon,
     reload: ReloadIcon,
+    googleSheets: GoogleSheetsIcon,
 };
 
 /**

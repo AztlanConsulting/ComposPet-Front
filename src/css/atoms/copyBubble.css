@@ -25,6 +25,18 @@
     line-height: var(--line-height-normal);
 }
 
+.copy-bubble.success {
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+    border-color: var(--color-green-primary);
+}
+
+.copy-bubble.error {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}
+
 .copy-bubble::after {
     content: "";
     position: absolute;
@@ -35,21 +47,19 @@
     width: 0.8rem;
     height: 0.8rem;
 
-    background-color: var(--color-green-quintiary);
-
-    border-right: 0.12rem solid var(--color-green-primary);
-    border-bottom: 0.12rem solid var(--color-green-primary);
+    border-right: 0.12rem solid;
+    border-bottom: 0.12rem solid;
 
     transform: translateX(-50%) rotate(45deg);
 }
 
-.copy-bubble.success {
+.copy-bubble.success::after {
     background-color: var(--color-green-quintiary);
     color: var(--color-green-primary);
     border-color: var(--color-green-primary);
 }
 
-.copy-bubble.error {
+.copy-bubble.error::after {
     background-color: var(--color-red-secondary);
     color: var(--color-red-primary);
     border-color: var(--color-red-primary);

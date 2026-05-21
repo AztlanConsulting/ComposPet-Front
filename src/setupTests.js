@@ -5,8 +5,24 @@
 import '@testing-library/jest-dom';
 
 jest.mock("axios", () => ({
-    post: jest.fn(),
-    get: jest.fn(),
+    create: jest.fn(() => ({
+        interceptors: {
+            request: {
+                use: jest.fn(),
+            },
+            response: {
+                use: jest.fn(),
+            },
+        },
+        get: jest.fn(),
+        post: jest.fn(),
+        put: jest.fn(),
+        delete: jest.fn(),
+    })),
+}));
+
+jest.mock("sweetalert2", () => ({
+    fire: jest.fn(),
 }));
 
 jest.mock('swiper/react', () => ({

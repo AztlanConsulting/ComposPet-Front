@@ -1,4 +1,3 @@
-
 import { RoutesApiClient } from '../../datasources/routesApiClient';
 import { RouteInfo } from '../../../domain/entities/routesInfo/routeInfo';
 
@@ -60,20 +59,42 @@ export class RoutesRepository{
 
             routesList.push(routeObject);
         }
-
         return routesList;
     }
 
+    /**
+     * Obtiene las semanas disponibles para filtrar rutas.
+     *
+     * @async
+     * @returns {Promise<Array<Object>>} Lista de semanas disponibles.
+     * @throws {Error} Lanza un error si falla la petición al API.
+     */
     async getAvailableWeeks() {
         const response = await this.apiClient.getAvailableWeeks();
         return response.data;
     }
 
+    /**
+     * Obtiene los días de ruta disponibles.
+     *
+     * @async
+     * @returns {Promise<Array<Object>>} Lista de días de ruta.
+     * @throws {Error} Lanza un error si falla la petición al API.
+     */
     async getDaysOfRoutes() {
         const response = await this.apiClient.getDaysOfRoutes();
         return response.data;
     }
 
+    /**
+     * Obtiene las rutas filtradas por semana y día.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Array<RouteInfo>>} Lista de rutas filtradas.
+     * @throws {Error} Lanza un error si falla la petición o transformación de datos.
+     */
     async getFilteredRoutes(weekIndex, dayName) {
         const response = await this.apiClient.getFilteredRoutes(weekIndex, dayName);
         return response.data.map(route => new RouteInfo({
@@ -99,6 +120,27 @@ export class RoutesRepository{
     }
 
     /**
+     * Solicita al API la generación de mensajes de confirmación
+     * para una semana y día de ruta específicos.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Object>} Respuesta del backend con el resultado de la operación.
+     * @returns {boolean} return.success - Indica si la generación fue exitosa.
+     * @throws {Error} Lanza un error si falla la comunicación con el API.
+     * @see RoutesApiClient.generateConfirmationMessages
+     */
+    async generateConfirmationMessages(weekIndex, dayName) {
+        const response = await this.apiClient.generateConfirmationMessages(
+            weekIndex,
+            dayName
+        );
+
+        return response;
+    }
+
+    /*
      * Obtiene los productos extra y métodos de pago disponibles.
      * Realiza una petición al API, procesa la respuesta y convierte cada ruta
      *
