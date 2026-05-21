@@ -377,6 +377,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
                 const routes = await getFilteredRoutes.execute(weekIdx, undefined);
                 setRoutesList(routes);
+                setWeeklyRoutesList(routes);
 
             } catch (err) {
                 setError(err.message || "Error al inicializar");
@@ -407,19 +408,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     error.message ||
                     "Error al cargar la información"
                 );
-                // console.log("Primera ruta:", routes[0]);
-                // console.table(
-                //     routes.map((route) => ({
-                //         name: route.name,
-                //         totalToPay: route.totalToPay,
-                //         totalPaid: route.totalPaid,
-                //         parsedToPay: getNumberValue(route.totalToPay),
-                //         parsedPaid: getNumberValue(route.totalPaid),
-                //     }))
-                // );
+
                 setError(error.message || "Error al cargar la información");
 
-                // setRoutesList(routes);
             } finally {
                 setLoading(false);
             }
@@ -428,55 +419,65 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         fetchRoutes();
     }, [selectedWeek, selectedDay, refreshRoutes]);
 
-    const resetFilters = () => {
-        const currentIndex = weeks.findIndex(week => {
-            const now = new Date();
-            return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
-        });
-        setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
-        setSelectedDay(null);
-    };
-
-    // ==================== SALDOS DE CONTADORES ====================
-
-    // Obtener todas las rutas de la semana seleccionada
+    // carga todas las rutas de la semana seleccionada
     useEffect(() => {
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) {
+        if (
+            selectedWeek === null ||
+            isNaN(selectedWeek) ||
+            selectedWeek < 0 ||
+            !daysOfRoutes.length
+        ) {
             return;
         }
 
         async function fetchWeeklyRoutes() {
             try {
-                const routes = await getFilteredRoutes.execute(
-                    selectedWeek
-                );
+                const routes = (
+                    await Promise.all(
+                        daysOfRoutes.map(day =>
+                            getFilteredRoutes.execute(
+                                selectedWeek,
+                                day.dia_ruta
+                            )
+                        )
+                    )
+                ).flat();
 
                 setWeeklyRoutesList(routes);
 
-            } catch (error) {
-                setError(error.message || "Error al cargar semana");
+            } catch {
+                setWeeklyRoutesList([]);
             }
         }
 
         fetchWeeklyRoutes();
 
-    }, [selectedWeek]);
+    }, [
+        selectedWeek,
+        daysOfRoutes,
+        getFilteredRoutes
+    ]);
 
-    // Convierte valores vacíos a número
-    const getNumberValue = (value) => {
-        if (!value || value === ' ') {
-            return 0;
-        }
+    const resetFilters = () => {
+        const currentIndex = weeks.findIndex(week => {
+            const now = new Date();
 
-        return Number(
-            String(value)
-                .replace('$', '')
-                .replace(',', '')
-                .trim()
-        ) || 0;
+            return (
+                now >= new Date(week.weekStart) &&
+                now < new Date(week.weekEnd)
+            );
+        });
+
+        setSelectedWeek(
+            currentIndex >= 0
+                ? currentIndex
+                : weeks.length - 1
+        );
+
+        setSelectedDay(null);
     };
 
-    // Formato moneda
+    // formatea montos a moneda
     const formatCurrency = (amount) => {
         if (amount < 0) {
             return `-$${Math.abs(amount)}`;
@@ -485,74 +486,102 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         return `$${amount}`;
     };
 
-    // Diferencia entre pagado y por pagar
-    const getBalance = (route) => {
-        const totalToPay = getNumberValue(route.totalToPay);
-        const totalPaid = getNumberValue(route.totalPaid);
+    // convierte valores a número
+    const getNumberValue = (value) => {
+        if (!value) return 0;
 
-        return totalPaid - totalToPay;
+        return Number(
+            String(value)
+                .replaceAll('$', '')
+                .replaceAll(',', '')
+                .trim()
+        ) || 0;
     };
 
-    // ==================== SUMATORIA TOTAL ====================
-    // Suma TOTAL A PAGAR de la ruta seleccionada
+    // obtiene total a pagar
+    const getTotalToPay = (route) => {
+        return getNumberValue(route.totalToPay);
+    };
 
+    // obtiene total pagado
+    const getTotalPaid = (route) => {
+        return getNumberValue(route.totalPaid);
+    };
+
+    // calcula saldo pendiente
+    const getPending = (route) => {
+        return getTotalToPay(route) - getTotalPaid(route);
+    };
+
+    // contador de sumatoria total
     const dayTotalAmount = useMemo(() => {
-        return filteredRoutesList.reduce((total, route) => {
-            return total + getNumberValue(route.totalToPay);
-        }, 0);
+        return filteredRoutesList.reduce(
+            (total, route) => total + getTotalToPay(route),
+            0
+        );
     }, [filteredRoutesList]);
 
-    // ==================== SALDO DE RUTA ====================
-
+    // contador de ruta pagado
     const routePayedAmount = useMemo(() => {
-        return filteredRoutesList.reduce((total, route) => {
-            const balance = getBalance(route);
-
-            return balance > 0
-                ? total + balance
-                : total;
-
-        }, 0);
-
+        return filteredRoutesList.reduce(
+            (total, route) => total + getTotalPaid(route),
+            0
+        );
     }, [filteredRoutesList]);
 
+    // contador de ruta pendiente
     const routePendingAmount = useMemo(() => {
         return filteredRoutesList.reduce((total, route) => {
-            const balance = getBalance(route);
+            const pending = getPending(route);
 
-            return balance < 0
-                ? total + balance
+            return pending > 0
+                ? total + pending
                 : total;
 
         }, 0);
 
     }, [filteredRoutesList]);
 
-    // ==================== SALDO SEMANAL ====================
+    // aplica filtro de búsqueda para semana
+    const filteredWeeklyRoutesList = useMemo(() => {
+        const query = searchText.trim().toLowerCase();
 
+        if (!query) {
+            return weeklyRoutesList;
+        }
+
+        return weeklyRoutesList.filter(route =>
+            `${route.name || ''}`
+                .toLowerCase()
+                .includes(query)
+        );
+
+    }, [
+        weeklyRoutesList,
+        searchText
+    ]);
+
+    // contador semanal pagado
     const weeklyPayedAmount = useMemo(() => {
-        return weeklyRoutesList.reduce((total, route) => {
-            const balance = getBalance(route);
+        return filteredWeeklyRoutesList.reduce(
+            (total, route) => total + getTotalPaid(route),
+            0
+        );
 
-            return balance > 0
-                ? total + balance
-                : total;
+    }, [filteredWeeklyRoutesList]);
 
-        }, 0);
-
-    }, [weeklyRoutesList]);
-
+    // contador semanal pendiente
     const weeklyPendingAmount = useMemo(() => {
-        return weeklyRoutesList.reduce((total, route) => {
-            const balance = getBalance(route);
+        return filteredWeeklyRoutesList.reduce((total, route) => {
+            const pending = getPending(route);
 
-            return balance < 0
-                ? total + balance
+            return pending > 0
+                ? total + pending
                 : total;
 
         }, 0);
 
-    }, [weeklyRoutesList]);
+    }, [filteredWeeklyRoutesList]);
 
     return {
         routesList: filteredRoutesList,

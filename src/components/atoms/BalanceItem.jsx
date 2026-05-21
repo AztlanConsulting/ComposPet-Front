@@ -14,15 +14,35 @@ export default function BalanceItem({
     value = '',
     variant = 'positive',
 }) {
+
+    const numericValue = Number(
+        String(value)
+            .replace('$', '')
+            .replace(',', '')
+            .trim()
+    );
+
+    const resolvedVariant =
+        numericValue === 0
+            ? 'neutral'
+            : variant;
+
     return (
         <div className="balance-item">
+
             <span className="balance-item-subtitle">
                 {subtitle}
             </span>
 
-            <span className={`balance-item-value balance-item-value-${variant}`}>
+            <span
+                className={`
+                    balance-item-value
+                    balance-item-value-${resolvedVariant}
+                `}
+            >
                 {value}
             </span>
+
         </div>
     );
 }

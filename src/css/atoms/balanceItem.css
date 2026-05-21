@@ -32,17 +32,31 @@
     color: var(--color-red-primary);
 }
 
-/* Celular */
+.balance-item-value-neutral{
+    color: var(--color-black);
+}
+
+/* celular */
 @media (max-width: 768px){
+
     .balance-item{
         gap: 0.3rem;
     }
 
     .balance-item-subtitle{
-        font-size: clamp(0.85rem, 2vw, var(--font-size-xs));
+        font-size: clamp(
+            0.85rem,
+            2vw,
+            var(--font-size-xs)
+        );
     }
 
     .balance-item-value{
-        font-size: clamp(1rem, 3vw, var(--font-size-xl));
+        font-size: clamp(
+            1rem,
+            3vw,
+            var(--font-size-xl)
+        );
     }
+
 }
