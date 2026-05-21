@@ -4,40 +4,58 @@ import CopyLink from "../../../components/molecules/CopyLink";
 import useRoutesViewModel from "../../viewmodels/routesInfo/routesTable";
 import ColorsInfo from "./colorsInfo";
 import BalanceCountersGroup from '../../../components/organisms/BalanceCountersGroup';
+import CountersGroup from '../../../components/molecules/CountersGroup';
 
 export default function RoutesInfo(){
-    const { copyLinkInfo } = useRoutesViewModel();
+    const routesViewModel = useRoutesViewModel();
+
+    const { 
+        copyLinkInfo,
+        dayTotalAmount,
+        routePayedAmount,
+        routePendingAmount,
+        weeklyPayedAmount,
+        weeklyPendingAmount,
+    } = routesViewModel;
 
     return(
         <div className="page">
             <Navbar />
+
             <div className="route-header-row">
-                <BalanceCountersGroup
-                    routeCounter={{
-                        title: 'Saldo total de ruta',
-                        favorSubtitle: 'Saldo a favor',
-                        favorBalance: '$361',
-
-                        pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: '- $147',
-                    }}
-
-                    totalCounter={{
-                        title: 'Saldo total semanal',
-                        favorSubtitle: 'Saldo a favor',
-                        favorBalance: '$361',
-
-                        pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: '- $147',
-                    }}
+                <CountersGroup 
+                    counters={[
+                        { label: "Sumatoria total", value: dayTotalAmount },
+                    ]}
                 />
+
+                <BalanceCountersGroup
+                    counters={[
+                        {
+                            title: 'Ruta',
+                            favorSubtitle: 'Pagado',
+                            favorBalance: routePayedAmount,
+                            pendingSubtitle: 'Pendiente',
+                            pendingBalance: routePendingAmount,
+                        },
+                        {
+                            title: 'Semana',
+                            favorSubtitle: 'Pagado',
+                            favorBalance: weeklyPayedAmount,
+                            pendingSubtitle: 'Pendiente',
+                            pendingBalance: weeklyPendingAmount,
+                        },
+                    ]}
+                />
+
                 <div className="copy-link-container">
                     <CopyLink {...copyLinkInfo} />
                 </div>
             </div>
-            <RoutesTablePage />
-            {/* Agrega información de colores */}
+
+            <RoutesTablePage routesViewModel={routesViewModel} />
+
             <ColorsInfo />
         </div>
-    )
+    );
 }

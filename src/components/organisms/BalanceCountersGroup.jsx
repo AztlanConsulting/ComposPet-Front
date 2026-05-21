@@ -5,33 +5,24 @@ import '../../css/organisms/balanceCountersGroup.css';
 /**
  * Contenedor principal para mostrar múltiples bloques de saldo.
  *
- * @param {Object} routeCounter
- * @param {Object} totalCounter
+ * @param {Array} counters - Lista de contadores de saldo.
  * @returns {JSX.Element}
  */
 export default function BalanceCountersGroup({
-    routeCounter = {},
-    totalCounter = {},
+    counters = [],
 }) {
     return (
         <div className="balance-counters-group">
-
-            <BalanceCounter
-                title={routeCounter.title}
-                favorSubtitle={routeCounter.favorSubtitle}
-                favorBalance={routeCounter.favorBalance}
-                pendingSubtitle={routeCounter.pendingSubtitle}
-                pendingBalance={routeCounter.pendingBalance}
-            />
-
-            <BalanceCounter
-                title={totalCounter.title}
-                favorSubtitle={totalCounter.favorSubtitle}
-                favorBalance={totalCounter.favorBalance}
-                pendingSubtitle={totalCounter.pendingSubtitle}
-                pendingBalance={totalCounter.pendingBalance}
-            />
-
+            {counters.map((counter) => (
+                <BalanceCounter
+                    key={counter.title}
+                    title={counter.title}
+                    favorSubtitle={counter.favorSubtitle}
+                    favorBalance={counter.favorBalance}
+                    pendingSubtitle={counter.pendingSubtitle}
+                    pendingBalance={counter.pendingBalance}
+                />
+            ))}
         </div>
     );
 }

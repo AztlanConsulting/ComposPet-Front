@@ -24,6 +24,7 @@ function useRoutesViewModel(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
 
     const getRoutesInfo = new GetRoutesInfoUseCase();
     const getAvailableWeeks = new GetAvailableWeeksUseCase();
@@ -215,7 +216,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     const filteredRoutesList = useMemo(() => {
         return routesList.filter((route) => {
-            const fullName = `${route.name} || ''`.toLowerCase();
+            const fullName = `${route.name || ''}`.toLowerCase();
             const matchesSearch = searchText.trim()
                 ? fullName.includes(searchText.trim().toLowerCase())
                 : true;
@@ -267,9 +268,18 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     selectedWeek,
                     selectedDay || undefined
                 );
+                console.log("Primera ruta:", routes[0]);
+                console.table(
+                    routes.map((route) => ({
+                        name: route.name,
+                        totalToPay: route.totalToPay,
+                        totalPaid: route.totalPaid,
+                        parsedToPay: getNumberValue(route.totalToPay),
+                        parsedPaid: getNumberValue(route.totalPaid),
+                    }))
+                );
 
                 setRoutesList(routes);
-                console.log("Rutas obtenidas:", routes);
             } catch (error){
                 setError(error.message || "Error al cargar la información");
             } finally {
@@ -288,6 +298,123 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         setSelectedDay(getDefaultDay(daysOfRoutes));
     };
 
+    // ==================== SALDOS DE CONTADORES ====================
+
+    // Obtener todas las rutas de la semana seleccionada
+    useEffect(() => {
+        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) {
+            return;
+        }
+
+        async function fetchWeeklyRoutes() {
+            try {
+                const routes = await getFilteredRoutes.execute(
+                    selectedWeek
+                );
+
+                setWeeklyRoutesList(routes);
+
+            } catch (error) {
+                setError(error.message || "Error al cargar semana");
+            }
+        }
+
+        fetchWeeklyRoutes();
+
+    }, [selectedWeek]);
+
+    // Convierte valores vacíos a número
+    const getNumberValue = (value) => {
+        if (!value || value === ' ') {
+            return 0;
+        }
+
+        return Number(
+            String(value)
+                .replace('$', '')
+                .replace(',', '')
+                .trim()
+        ) || 0;
+    };
+
+    // Formato moneda
+    const formatCurrency = (amount) => {
+        if (amount < 0) {
+            return `-$${Math.abs(amount)}`;
+        }
+
+        return `$${amount}`;
+    };
+
+    // Diferencia entre pagado y por pagar
+    const getBalance = (route) => {
+        const totalToPay = getNumberValue(route.totalToPay);
+        const totalPaid = getNumberValue(route.totalPaid);
+
+        return totalPaid - totalToPay;
+    };
+
+    // ==================== SUMATORIA TOTAL ====================
+    // Suma TOTAL A PAGAR de la ruta seleccionada
+
+    const dayTotalAmount = useMemo(() => {
+        return filteredRoutesList.reduce((total, route) => {
+            return total + getNumberValue(route.totalToPay);
+        }, 0);
+    }, [filteredRoutesList]);
+
+    // ==================== SALDO DE RUTA ====================
+
+    const routePayedAmount = useMemo(() => {
+        return filteredRoutesList.reduce((total, route) => {
+            const balance = getBalance(route);
+
+            return balance > 0
+                ? total + balance
+                : total;
+
+        }, 0);
+
+    }, [filteredRoutesList]);
+
+    const routePendingAmount = useMemo(() => {
+        return filteredRoutesList.reduce((total, route) => {
+            const balance = getBalance(route);
+
+            return balance < 0
+                ? total + balance
+                : total;
+
+        }, 0);
+
+    }, [filteredRoutesList]);
+
+    // ==================== SALDO SEMANAL ====================
+
+    const weeklyPayedAmount = useMemo(() => {
+        return weeklyRoutesList.reduce((total, route) => {
+            const balance = getBalance(route);
+
+            return balance > 0
+                ? total + balance
+                : total;
+
+        }, 0);
+
+    }, [weeklyRoutesList]);
+
+    const weeklyPendingAmount = useMemo(() => {
+        return weeklyRoutesList.reduce((total, route) => {
+            const balance = getBalance(route);
+
+            return balance < 0
+                ? total + balance
+                : total;
+
+        }, 0);
+
+    }, [weeklyRoutesList]);
+
     return {
         routesList: filteredRoutesList,
         weeks,
@@ -305,6 +432,11 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         searchText,
         setSearchText,
         handleSearchText,
+        dayTotalAmount: formatCurrency(dayTotalAmount),
+        routePayedAmount: formatCurrency(routePayedAmount),
+        routePendingAmount: formatCurrency(routePendingAmount),
+        weeklyPayedAmount: formatCurrency(weeklyPayedAmount),
+        weeklyPendingAmount: formatCurrency(weeklyPendingAmount),
     }
 }
 

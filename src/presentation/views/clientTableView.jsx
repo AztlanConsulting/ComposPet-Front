@@ -31,6 +31,10 @@ export default function ClientTableView() {
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
+        totalAmount,
+        pendingAmount,
+        totalAmountPerRoute,
+        pendingAmountPerRoute,
     } = useClientTableViewModel();
 
 return (
@@ -48,23 +52,22 @@ return (
                 />
 
                 <BalanceCountersGroup
-                    routeCounter={{
+                    counters={[
+                        {
                         title: 'Saldo total de ruta',
                         favorSubtitle: 'Saldo a favor',
-                        favorBalance: '$361',
-
+                        favorBalance: totalAmountPerRoute,
                         pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: '- $147',
-                    }}
-
-                    totalCounter={{
+                        pendingBalance: pendingAmountPerRoute,
+                        },
+                        {
                         title: 'Saldo total',
                         favorSubtitle: 'Saldo a favor',
-                        favorBalance: '$361',
-
+                        favorBalance: totalAmount,
                         pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: '- $147',
-                    }}
+                        pendingBalance: pendingAmount,
+                        },
+                    ]}
                 />
             </div>
 
