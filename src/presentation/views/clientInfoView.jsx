@@ -6,10 +6,7 @@ import '../../css/clientView/client.css';
 
 export default function ClientInfo(){
 
-    const { 
-        totalActiveFamilies,
-        activeFamiliesByRoute,
-     } = useClientTableViewModel();
+    const viewModel = useClientTableViewModel();
 
     return(
         <div className="page">
@@ -18,12 +15,12 @@ export default function ClientInfo(){
                 {/* Contador Total de familias | Contador familias por ruta */}
                 <CountersGroup 
                     counters={[
-                        { label: "Total de Familias", value: totalActiveFamilies },
-                        { label: "Familias por ruta", value: activeFamiliesByRoute },
+                        { label: "Total de Familias", value: viewModel.totalActiveFamilies },
+                        { label: "Familias por ruta", value: viewModel.activeFamiliesByRoute },
                     ]}
                 />
             </div>
-            <ClientTableView />
+            <ClientTableView viewModel={viewModel} />
         </div>
     )
 }

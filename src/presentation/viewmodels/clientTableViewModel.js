@@ -36,7 +36,7 @@ function useClientTableViewModel() {
     );
     // establece que ruta se selecciona
     const [selectedRoute, setSelectedRoute] = useState('');
-    
+
     // Lista de las opciones para el dropdown
     const [routesDropdown, setRoutesDropdown] = useState([]);
 
@@ -302,8 +302,10 @@ function useClientTableViewModel() {
     }, [clientList]);
 
     const activeFamiliesByRoute = useMemo(() => {
+        console.log("ENTRO A ACTIVE FAMILIES BY ROUTE: ");
         return clientList.filter(client => {
             const isActive = isActiveClient(client);
+            console.log(`Client ${client.name} is active: ${isActive}`);
             const matchesRoute = selectedRoute
                 ? client.routeId === Number(selectedRoute)
                 : true;

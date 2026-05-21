@@ -16,7 +16,7 @@ export default function Toggle({
     className = "",
 }) {
     return (
-        <label
+        <span
             className={`toggle-switch ${size} ${className}`}
             style={{
                 "--toggle-active-color": activeColor,
@@ -31,7 +31,7 @@ export default function Toggle({
                 disabled={disabled}
             />
 
-            <span className="toggle-slider"></span>
-        </label>
+            <label htmlFor={id} className="toggle-slider"></label>
+        </span>
     );
 }
