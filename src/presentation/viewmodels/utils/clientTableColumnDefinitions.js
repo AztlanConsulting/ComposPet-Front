@@ -30,6 +30,7 @@ export function getClientTableColumns({
         {
             width: 150,
             headerName: "Editar",
+            cellClass: 'edit-cell',
             cellRenderer: (params) => {
                 const isEditing = params.data.clientId === editingRowId;
 

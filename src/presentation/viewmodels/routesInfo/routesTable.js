@@ -5,8 +5,10 @@ import {
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase,
     GetDataForEditingRequestUseCase,
-    UpdateRequestUseCase,
- } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+    UpdateRequestUseCase, 
+} from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import { GenerateRouteMessagesUseCase } from '../../../domain/useCases/routesInfo/generateRouteMessagesUseCase';
+import { RoutesRepository } from "../../../data/repositories/routesInfo/routesRepository";
 import '../../../css/tokens/colors.css';
 import { isValidSearchText } from "../utils/searchValidation";
 
@@ -26,7 +28,7 @@ function useRoutesViewModel(){
     const [weeks, setWeeks] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState(null);
     const [daysOfRoutes, setDaysOfRoutes] = useState([]);
-    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDay, setSelectedDay] = useState(undefined);
     const [routesList, setRoutesList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -217,6 +219,11 @@ function useRoutesViewModel(){
         }
     }, [updateRequest, refreshRoutes]);
 
+
+    const generateRouteMessages = new GenerateRouteMessagesUseCase(
+        new RoutesRepository()
+    );
+    
     const DAY_NAME_MAP = {
         0: "Domingo",
         1: "Lunes",
@@ -239,6 +246,44 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         link: formLink,
         bubbleMessage: "¡Copiado!",
     };
+
+    /**
+     * Genera mensajes de confirmación para la semana y día seleccionados.
+     *
+     * Valida que existan filtros seleccionados antes de ejecutar el caso de uso.
+     * Si la operación es exitosa, abre automáticamente el archivo de Google Sheets
+     * generado en una nueva pestaña del navegador.
+     *
+     * @async
+     * @returns {Promise<void>}
+     * @throws {Error} Lanza un error si faltan filtros o si falla la generación de mensajes.
+     */
+    const handleGenerateMessages = async () => {
+        if (selectedWeek === null || !selectedDay) {
+            throw new Error("Selecciona una semana y un día de ruta");
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const result = await generateRouteMessages.execute(
+                selectedWeek,
+                selectedDay
+            );
+
+            if (result?.success === false) {
+                throw new Error(result.message || "No hay mensajes para generar");
+            }
+
+            return result.data.sheetUrl;
+            //window.open(result.data.sheetUrl, "_blank");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
 
     // Función para determinar si una fila debe tener fondo
     const hasRowBackground = useCallback((data) => {
@@ -354,49 +399,52 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     }, []);
 
     useEffect(() => {
-        async function fetchWeeks() {
+        async function initialize() {
+            setLoading(true);
             try {
-                const data = await getAvailableWeeks.execute();
-                setWeeks(formatWeeks(data));
+                const [weeksData, daysData] = await Promise.all([
+                    getAvailableWeeks.execute(),
+                    getDaysOfRoutes.execute(),
+                ]);
 
-                const currentIndex = data.findIndex(week => {
+                const formattedWeeks = formatWeeks(weeksData);
+                setWeeks(formattedWeeks);
+                setDaysOfRoutes(daysData);
+
+                const currentIndex = weeksData.findIndex(week => {
                     const now = new Date();
                     return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
                 });
-                setSelectedWeek(currentIndex >= 0 ? currentIndex : data.length - 1);
-            } catch (error){
-                setError(error.message || "Error al cargar semanas");
+                const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
+                setSelectedWeek(weekIdx);
+                setSelectedDay(null);
+
+                const routes = await getFilteredRoutes.execute(weekIdx, undefined);
+                setRoutesList(routes);
+
+            } catch (err) {
+                setError(err.message || "Error al inicializar");
+            } finally {
+                setLoading(false);
             }
         }
-        fetchWeeks();
+        initialize();
     }, []);
 
-    useEffect(() => {
-        async function fetchDaysOfRoutes() {
-            try {
-                const data = await getDaysOfRoutes.execute();
-                setDaysOfRoutes(data);
+    const [initialized, setInitialized] = useState(false);
 
-                setSelectedDay(getDefaultDay(data));
-            } catch (error) {
-                setError(error.message || "Error al cargar días de ruta");
-            }
+    useEffect(() => {
+        if (!initialized) {
+            setInitialized(true);
+            return;
         }
-        fetchDaysOfRoutes();
-    }, []);
 
-    useEffect(() => {
-        if (
-            selectedWeek === null ||
-            isNaN(selectedWeek) ||
-            selectedWeek < 0
-        ) return;
+        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return;
 
         async function fetchRoutes() {
             try {
                 setLoading(true);
                 setError(null);
-
                 await refreshRoutes();
             } catch (error) {
                 setError(
@@ -417,7 +465,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
         });
         setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
-        setSelectedDay(getDefaultDay(daysOfRoutes));
+        setSelectedDay(null);
     };
 
     return {
@@ -434,6 +482,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         defaultColDef,
         resetFilters,
         copyLinkInfo,
+        handleGenerateMessages,
         getRowClass,
         searchText,
         setSearchText,
