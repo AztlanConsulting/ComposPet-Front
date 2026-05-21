@@ -1,4 +1,3 @@
-
 import { RoutesApiClient } from '../../datasources/routesApiClient';
 import { RouteInfo } from '../../../domain/entities/routesInfo/routeInfo';
 
@@ -60,7 +59,6 @@ export class RoutesRepository{
 
             routesList.push(routeObject);
         }
-
         return routesList;
     }
 
