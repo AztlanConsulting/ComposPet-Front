@@ -27,12 +27,6 @@ export default function ClientTableView() {
         searchText,
         setSearchText,
         handleSearchText,
-        totalActiveFamilies,
-        activeFamiliesByRoute,
-        totalAmount,
-        pendingAmount,
-        totalAmountPerRoute,
-        pendingAmountPerRoute,
     } = useClientTableViewModel();
 
     // ==================== RENDERIZADO CONDICIONAL ====================
@@ -45,38 +39,6 @@ export default function ClientTableView() {
 return (
     
     <div className="client-table-container">
-
-        <Navbar />
-        <section className="content-wrapper">
-            <div className="counters-row">
-                {/* Contador Total de familias | Contador familias por ruta */}
-                <CountersGroup 
-                    counters={[
-                        { label: "Total de Familias", value: totalActiveFamilies },
-                        { label: "Familias por ruta", value: activeFamiliesByRoute },
-                    ]}
-                />
-
-                <BalanceCountersGroup
-                    counters={[
-                        {
-                        title: 'Saldo total de ruta',
-                        favorSubtitle: 'Saldo a favor',
-                        favorBalance: totalAmountPerRoute,
-                        pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: pendingAmountPerRoute,
-                        },
-                        {
-                        title: 'Saldo total',
-                        favorSubtitle: 'Saldo a favor',
-                        favorBalance: totalAmount,
-                        pendingSubtitle: 'Saldo pendiente',
-                        pendingBalance: pendingAmount,
-                        },
-                    ]}
-                />
-            </div>
-
             <div className="client-filters-container">
                 {/* Dropdown para filtro */}
                 <div className="route-filter">
@@ -106,7 +68,6 @@ return (
                     editingRowId={editingRowId}
                 >
                 </ClientTable>
-        </section>
     </div>
     );
 }

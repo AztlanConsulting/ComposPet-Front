@@ -404,20 +404,19 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     error.message ||
                     "Error al cargar la información"
                 );
-                console.log("Primera ruta:", routes[0]);
-                console.table(
-                    routes.map((route) => ({
-                        name: route.name,
-                        totalToPay: route.totalToPay,
-                        totalPaid: route.totalPaid,
-                        parsedToPay: getNumberValue(route.totalToPay),
-                        parsedPaid: getNumberValue(route.totalPaid),
-                    }))
-                );
-
-                setRoutesList(routes);
-            } catch (error){
+                // console.log("Primera ruta:", routes[0]);
+                // console.table(
+                //     routes.map((route) => ({
+                //         name: route.name,
+                //         totalToPay: route.totalToPay,
+                //         totalPaid: route.totalPaid,
+                //         parsedToPay: getNumberValue(route.totalToPay),
+                //         parsedPaid: getNumberValue(route.totalPaid),
+                //     }))
+                // );
                 setError(error.message || "Error al cargar la información");
+
+                // setRoutesList(routes);
             } finally {
                 setLoading(false);
             }

@@ -2,7 +2,7 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-.page {
+/* .page {
     background-color: var(--color-bg);
     width: 100%;
     min-height: 100vh;
@@ -15,8 +15,15 @@
     margin: 0 auto;
     padding:0 1.5rem;
     box-sizing: border-box;
-}
+} */
 
+.page {
+    background-color: var(--color-bg);
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+}
 .table-container {
     width: 100%;
     max-width: 1400px;
