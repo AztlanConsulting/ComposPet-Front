@@ -36,6 +36,7 @@ function useSecondPageViewModel(idClient) {
         try {
             const result = await getLastRequestPerClientUseCase.execute(idClient);
             setIdSolicitud(result?.idRequest || "");
+            console.log("ID de solicitud obtenida:", result?.idRequest);
 
             const extraProducts = await extraProductsUseCase.execute();
             setProducts(extraProducts || []);

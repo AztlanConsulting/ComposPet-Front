@@ -240,15 +240,20 @@ function useCollectionRequestViewModel() {
         //if(debtAccess) return;
 
         if (currentStep === 1) {
-            // Manda a llamar el metodo saveFirstSection CollectionRequestViewModel 
             const result = await firstSectionViewModel.saveFirstSection();
 
-            //Resultado de guardar la solicitud
             if (result.success && result.nextStep) {
-                thirdSectionViewModel.loadSummary();
-                //Ir al siguiente paso
+                if (result.nextStep === 2) {
+                    await secondSectionViewModel.loadData();
+                }
+
+                if (result.nextStep === 3) {
+                    await thirdSectionViewModel.loadSummary();
+                }
+
                 setCurrentStep(result.nextStep);
             }
+
             return;
         }
 

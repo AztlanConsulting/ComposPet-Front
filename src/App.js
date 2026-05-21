@@ -223,14 +223,6 @@ function App() {
                     <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
                     <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
-                    {/* Rutas para usuarios autenticados */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/tabla-clientes" element={<ClientInfo />} />
-                        <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
-                    </Route>
-
                     {/* Rutas de administrador - Protegidas por Rol */}
                     <Route element={<ProtectedRoute roles={["Administrador"]} />}>
                         <Route path="/dashboard" element={<Dashboard />} />
