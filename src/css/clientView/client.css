@@ -55,16 +55,15 @@
     flex: 1;
 }
 
-
 .filters-Row .dropdown {
     flex: 1;
     min-width: 200px;
 }
 
 
-.search-wrapper {
+.client-search-wrapper {
     flex: 0 0 25rem;
-    width: 35rem;
+    width: 25rem;
 }
 
 .search-wrapper .search-input-container {
