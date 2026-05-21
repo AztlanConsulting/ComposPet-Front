@@ -1,0 +1,21 @@
+@import '../tokens/colors.css';
+@import '../tokens/layout.css';
+@import '../tokens/typography.css';
+
+.compost-status-switch{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.switch-label{
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+}
+
+.toggle{
+    display: flex;
+    align-items: center;
+}

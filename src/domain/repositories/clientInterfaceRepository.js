@@ -24,4 +24,13 @@ export class ClientIRepository{
     async getClientByUserId(userId) {
         throw new Error('ClientIRepository.getClientByUserId() not implemented');
     }
+
+    async getCompostStatus(){
+        throw new Error('ClientIRepository.getCompostStatus() not implemented');
+    }
+
+    async updateCompostStatus(newStatus){
+        throw new Error('ClientIRepository.updateCompostStatus() not implemented');
+    }
+
 }

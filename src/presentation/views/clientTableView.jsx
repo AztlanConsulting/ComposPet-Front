@@ -7,6 +7,7 @@ import DropdownInput from '../../components/molecules/DropdownInput';
 import Loading from '../../components/Template/loading';
 import '../../css/clientView/client.css';
 import SearchInput from "../../components/molecules/searchInput";
+import CompostStatusSwitch from "../../components/molecules/CompostStatusSwitch";
 
 /**
  * Vista de la información de los clientes de Compospet
@@ -29,6 +30,9 @@ export default function ClientTableView() {
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
+        compostStatus,
+        getCompostStatus,
+        handleCompostStatusChange,
     } = useClientTableViewModel();
 
     // ==================== RENDERIZADO CONDICIONAL ====================
@@ -51,6 +55,15 @@ return (
                         onChange={(e) => setSelectedRoute(e.target.value)}
                         options={routesDropdown}
                         className="dropdown"
+                    />
+                </div>
+
+                <div>
+                    <CompostStatusSwitch
+                        id="compost-raiz"
+                        label="Entrega de composta"
+                        checked={compostStatus}
+                        onChange={handleCompostStatusChange}
                     />
                 </div>
 

@@ -20,7 +20,7 @@ export class ClientApiClient {
         } catch (error) {
             handleHttpError(error);
         }
-    }
+    };
 
     /**
      * Obtiene la lista de clientes de Compospet
@@ -37,7 +37,7 @@ export class ClientApiClient {
         } catch (error) {
             handleHttpError(error);
         }
-    }
+    };
 
     /**
      * Obtiene la lista de rutas disponibles
@@ -54,7 +54,7 @@ export class ClientApiClient {
         } catch (error) {
             handleHttpError(error);
         }
-    }
+    };
 
     async updateClient(updatedClient){
         try{
@@ -63,5 +63,25 @@ export class ClientApiClient {
         } catch (error) {
             handleHttpError(error);
         }
-    }
+    };
+
+    async getCompostStatus(){
+        try{
+            const response = await api.get("/cliente/estatus-composta");
+            console.log("Compost status response: ", response.data);
+            return response.data;
+        } catch (error){
+            handleHttpError(error);
+        }
+    };
+
+    async updateCompostStatus(newStatus){
+        try{
+            const response = await api.post("/cliente/modificar-estatus-composta", { status: newStatus });
+            console.log("Compost status update response: ", response);
+            return response.data;
+        } catch (error){
+            handleHttpError(error);
+        }
+    };
 }

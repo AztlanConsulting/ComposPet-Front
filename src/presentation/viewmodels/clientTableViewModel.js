@@ -3,13 +3,16 @@ import { useCallback, useEffect, useState, useMemo } from "react";
 import { 
     getTableUseCase, 
     getRoutesUseCase, 
-    updateClientUseCase 
+    updateClientUseCase,
+    getCompostStatusUseCase,
+    updateCompostStatusUseCase,
 } from '../../di/admin/clientTableDependencies';
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
 import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
 import { isValidSearchText } from "./utils/searchValidation";
+import ConfirmAlert from "../../components/Template/confirmationAlert";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -33,11 +36,15 @@ function useClientTableViewModel() {
     );
     // establece que ruta se selecciona
     const [selectedRoute, setSelectedRoute] = useState('');
+    
     // Lista de las opciones para el dropdown
     const [routesDropdown, setRoutesDropdown] = useState([]);
 
     // variable para el buscador
     const [searchText, setSearchText] = useState('');
+
+    // variable para el switcher de composta
+    const [compostStatus, setCompostStatus] = useState(false);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -86,9 +93,55 @@ function useClientTableViewModel() {
         }
     }, [getTableUseCase]);
 
+    const getCompostStatus = useCallback( async () => {
+        if (loading) return;
+        try {
+            setLoading(true);
+            const response = await getCompostStatusUseCase.execute();
+            console.log("Compost status in ViewModel: ", response.status.data);
+            setCompostStatus(response.status.data);
+        } catch (error) {
+            console.log("Error loading client data: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [getCompostStatusUseCase]);
+
+    const handleCompostStatusChange = useCallback(async () => {
+        const result = await ConfirmAlert({
+            title: "¿Deseas cambiar el estatus de la composta?",
+            text: "La disponibilidad de entrega de composta será actualizada.",
+            confirmText: "Sí, cambiar",
+            cancelText: "Cancelar",
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            setLoading(true);
+
+            const newStatus = !compostStatus;
+            console.log("New compost status to update: ", newStatus);
+
+            await updateCompostStatusUseCase.execute(newStatus);
+
+            setCompostStatus(newStatus);
+
+            await AceptAlert({});
+        } catch (error) {
+            await ProblemAlert({
+                title: "Error",
+                text: "No se pudo actualizar el estatus de la composta.",
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, [compostStatus]);
+
     useEffect(() => {
         getInfo();
         getRoutes();
+        getCompostStatus();
     }, []);
 
     const isCellChanged = useCallback((params) => {
@@ -273,6 +326,9 @@ function useClientTableViewModel() {
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
+        compostStatus,
+        getCompostStatus,
+        handleCompostStatusChange,
     };
 }
 

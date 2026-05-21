@@ -1,0 +1,91 @@
+
+
+.toggle-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    display: inline-block;
+    border-radius: 999px;
+    background-color: var(--toggle-inactive-color);
+    transition: background-color 0.2s ease;
+    overflow: hidden;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgb(0 35 11 / 20%);
+    transition: transform 0.2s ease, width 0.2s ease;
+}
+
+/* Tamaños */
+.toggle-switch.sm .toggle-slider {
+    width: 28px;
+    height: 16px;
+}
+
+.toggle-switch.sm .toggle-slider::before {
+    width: 12px;
+    height: 12px;
+    top: 2px;
+    left: 2px;
+}
+
+.toggle-switch.md .toggle-slider {
+    width: 42px;
+    height: 24px;
+}
+
+.toggle-switch.md .toggle-slider::before {
+    width: 20px;
+    height: 20px;
+    top: 2px;
+    left: 2px;
+}
+
+.toggle-switch.lg .toggle-slider {
+    width: 56px;
+    height: 32px;
+}
+
+.toggle-switch.lg .toggle-slider::before {
+    width: 28px;
+    height: 28px;
+    top: 2px;
+    left: 2px;
+}
+
+/* Checked */
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--toggle-active-color);
+}
+
+.toggle-switch.sm input:checked + .toggle-slider::before {
+    transform: translateX(12px);
+}
+
+.toggle-switch.md input:checked + .toggle-slider::before {
+    transform: translateX(18px);
+}
+
+.toggle-switch.lg input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+/* Disabled */
+.toggle-switch input:disabled + .toggle-slider {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

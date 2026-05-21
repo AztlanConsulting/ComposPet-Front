@@ -27,6 +27,8 @@ import ProgressBarLogic from './components/molecules/ProgressBarLogic';
 import Navbar from './components/molecules/Navbar';
 import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import DropdownInput from './components/molecules/DropdownInput';
+import Toggle from './components/atoms/Toggle';
+import CompostStatusSwitch from './components/molecules/CompostStatusSwitch';
 
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
@@ -76,6 +78,13 @@ function Home() {
                     <Button size='mini' csstype='plus-min' className='button'>
                         <Icon name="minus" csssize="small" color="primary" />
                     </Button>
+                    <Toggle
+                        id="pagina-raiz"
+                    />
+                    <CompostStatusSwitch
+                        id="compost-raiz"
+                        label="Entrega de composta"
+                    />
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>

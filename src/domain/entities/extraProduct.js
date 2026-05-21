@@ -30,4 +30,8 @@ export class ExtraProduct {
         this.imageUrl = imageUrl;
         this.status = status;
     }
+
+    getCompostStatus(){
+        return this.status;
+    }
 }
