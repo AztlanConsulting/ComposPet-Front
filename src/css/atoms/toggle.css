@@ -1,5 +1,5 @@
 
-
+/* Contenedor principal del toggle */
 .toggle-switch {
     position: relative;
     display: inline-flex;
@@ -7,13 +7,14 @@
     overflow: hidden;
 }
 
+/* Input oculto del checkbox */
 .toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
     position: absolute;
 }
-
+/* Fondo visual del switch */
 .toggle-slider {
     position: relative;
     display: inline-block;
@@ -22,11 +23,11 @@
     transition: background-color 0.2s ease;
     overflow: hidden;
 }
-
+/* Círculo interno del switch */
 .toggle-slider::before {
     content: "";
     position: absolute;
-    background-color: #fff;
+    background-color: var(--color-white);
     border-radius: 50%;
     box-shadow: 0 2px 4px rgb(0 35 11 / 20%);
     transition: transform 0.2s ease, width 0.2s ease;
