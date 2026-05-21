@@ -12,9 +12,10 @@ import "../../css/atoms/copyBubble.css";
  */
 export default function CopyBubble({
     bubbleMessage = '',
+    isError = false,
 }) {
     return (
-        <div className="copy-bubble">
+        <div className={`copy-bubble ${isError ? 'error' : 'success'}`}>
             {bubbleMessage}
         </div>
     );

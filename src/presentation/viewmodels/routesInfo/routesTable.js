@@ -5,8 +5,10 @@ import {
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase,
     GetDataForEditingRequestUseCase,
-    UpdateRequestUseCase,
- } from "../../../domain/useCases/routesInfo/routesTableUseCase";
+    UpdateRequestUseCase, 
+} from "../../../domain/useCases/routesInfo/routesTableUseCase";
+import { GenerateRouteMessagesUseCase } from '../../../domain/useCases/routesInfo/generateRouteMessagesUseCase';
+import { RoutesRepository } from "../../../data/repositories/routesInfo/routesRepository";
 import '../../../css/tokens/colors.css';
 import { isValidSearchText } from "../utils/searchValidation";
 
@@ -217,6 +219,11 @@ function useRoutesViewModel(){
         }
     }, [updateRequest, refreshRoutes]);
 
+
+    const generateRouteMessages = new GenerateRouteMessagesUseCase(
+        new RoutesRepository()
+    );
+    
     const DAY_NAME_MAP = {
         0: "Domingo",
         1: "Lunes",
@@ -239,6 +246,44 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         link: formLink,
         bubbleMessage: "¡Copiado!",
     };
+
+    /**
+     * Genera mensajes de confirmación para la semana y día seleccionados.
+     *
+     * Valida que existan filtros seleccionados antes de ejecutar el caso de uso.
+     * Si la operación es exitosa, abre automáticamente el archivo de Google Sheets
+     * generado en una nueva pestaña del navegador.
+     *
+     * @async
+     * @returns {Promise<void>}
+     * @throws {Error} Lanza un error si faltan filtros o si falla la generación de mensajes.
+     */
+    const handleGenerateMessages = async () => {
+        if (selectedWeek === null || !selectedDay) {
+            throw new Error("Selecciona una semana y un día de ruta");
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const result = await generateRouteMessages.execute(
+                selectedWeek,
+                selectedDay
+            );
+
+            if (result?.success === false) {
+                throw new Error(result.message || "No hay mensajes para generar");
+            }
+
+            return result.data.sheetUrl;
+            //window.open(result.data.sheetUrl, "_blank");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
 
     // Función para determinar si una fila debe tener fondo
     const hasRowBackground = useCallback((data) => {
@@ -437,6 +482,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         defaultColDef,
         resetFilters,
         copyLinkInfo,
+        handleGenerateMessages,
         getRowClass,
         searchText,
         setSearchText,
