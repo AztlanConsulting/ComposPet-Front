@@ -276,7 +276,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 throw new Error(result.message || "No hay mensajes para generar");
             }
 
-            window.open(result.data.sheetUrl, "_blank");
+            return result.data.sheetUrl;
+            //window.open(result.data.sheetUrl, "_blank");
         } finally {
             setLoading(false);
         }

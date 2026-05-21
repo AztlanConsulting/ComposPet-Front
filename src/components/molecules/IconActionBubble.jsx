@@ -30,14 +30,19 @@ export default function IconActionBubble({
 
     const handleClick = async () => {
         try {
-            await onAction();
-
+            const actionResult = await onAction();
+            
             setCurrentBubbleMessage(bubbleMessage);
             setShowBubble(true);
 
             setTimeout(() => {
+
+                if (actionResult) {
+                    window.open(actionResult, "_blank");
+                }
+
                 setShowBubble(false);
-            }, 2000);
+            }, 1000);
         } catch (error) {
 
             const message = 

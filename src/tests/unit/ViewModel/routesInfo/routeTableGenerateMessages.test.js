@@ -108,7 +108,7 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         window.open = jest.fn();
     });
 
-    it("debe generar mensajes y abrir el Google Sheets cuando la respuesta es exitosa", async () => {
+    it("debe generar mensajes y regresar la URL del Google Sheets cuando la respuesta es exitosa", async () => {
         // Arrange
         mockGenerateMessagesExecute.mockResolvedValue({
             success: true,
@@ -125,8 +125,10 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         });
 
         // Actuar
+        let actionResult;
+
         await act(async () => {
-            await result.current.handleGenerateMessages();
+            actionResult = await result.current.handleGenerateMessages();
         });
 
         // Afirmar
@@ -135,10 +137,11 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
             "Jueves"
         );
 
-        expect(window.open).toHaveBeenCalledWith(
-            "https://docs.google.com/spreadsheets/d/test-sheet-id",
-            "_blank"
+        expect(actionResult).toBe(
+            "https://docs.google.com/spreadsheets/d/test-sheet-id"
         );
+
+        expect(window.open).not.toHaveBeenCalled();
 
         expect(result.current.loading).toBe(false);
     });
