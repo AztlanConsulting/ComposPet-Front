@@ -232,7 +232,7 @@ function useRegisterClientViewModel(){
         });
 
         if (result.isConfirmed) {
-            navigate("rutas");
+            navigate("/ruta");
         }
     };
 
@@ -249,7 +249,7 @@ function useRegisterClientViewModel(){
         });
 
         if (result.isConfirmed) {
-            navigate("/rutas");
+            navigate("/ruta");
         }
     }
 
