@@ -26,6 +26,7 @@ const Input = forwardRef(({
 }, ref) => {
     return (
         <input
+        
             type={type}
             placeholder={placeholder}
             id={id}

@@ -249,7 +249,7 @@ function useClientTableViewModel() {
                 ? client.routeId === Number(selectedRoute)
                 : true;
 
-            const fullName = `${client.name} || ''}`.toLowerCase();
+            const fullName = `${client.name || ''}`.toLowerCase();
 
             const matechesSearch = searchText.trim()
                 ? fullName.includes(searchText.trim().toLowerCase())
@@ -260,6 +260,8 @@ function useClientTableViewModel() {
     }, [clientList, selectedRoute, searchText]);
 
     const handleSearchText = (value) => {
+        console.log("VALUE:", value);
+        console.log("VALID:", isValidSearchText(value));
         if (!isValidSearchText(value)) return;
         setSearchText(value);
     };
@@ -320,7 +322,6 @@ function useClientTableViewModel() {
         selectedRoute,
         setSelectedRoute,
         searchText,
-        setSearchText,
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,

@@ -26,7 +26,6 @@ export default function ClientTableView({ viewModel }) {
         selectedRoute,
         setSelectedRoute,
         searchText,
-        setSearchText,
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
@@ -73,6 +72,7 @@ return (
                         <SearchInput
                             value={searchText}
                             onChange={(e) => handleSearchText(e.target.value)}
+                            onInput={(e) => handleSearchText(e.target.value)}
                             placeholder="Buscar a un cliente por nombre"
                         />
                     </div>
