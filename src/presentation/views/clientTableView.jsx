@@ -48,7 +48,9 @@ return (
                         onChange={(e) => setSelectedRoute(e.target.value)}
                         options={routesDropdown}
                         className="dropdown"
-                    />
+                    >
+                        Día de ruta
+                    </DropdownInput>
                 </div>
 
                 <div className="client-search-wrapper">
