@@ -3,7 +3,6 @@ import useClientTableViewModel from '../../../../presentation/viewmodels/clientT
 import {
     getTableUseCase,
     getRoutesUseCase,
-    updateClientUseCase,
 } from '../../../../di/admin/clientTableDependencies';
 
 jest.mock('../../../../di/admin/clientTableDependencies', () => ({
