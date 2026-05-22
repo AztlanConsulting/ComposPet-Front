@@ -6,7 +6,7 @@
  * @returns {Promise<any>} Promesa que debe resolver con la respuesta del proceso de cierre de sesión.
  * @throws {Error} Si el método es invocado directamente sin ser sobreescrito en la capa de infraestructura.
  */
-export class logoutIRepository {
+export class LogoutIRepository {
     async logout() {
         throw new Error("AuthIRepository.logout() no implementado")
     }

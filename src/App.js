@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 import {useState} from 'react';
 
 import Icon from './components/atoms/Icon';
