@@ -56,7 +56,9 @@ api.interceptors.response.use(
         if (originalRequest.url.includes('/refresh')) {
             accessToken = null;
             sessionStorage.removeItem('user');
-            window.location.href = '/inicio-sesion';
+            if (window.location.pathname !== '/inicio-sesion') {
+                window.location.href = '/inicio-sesion';
+            }
             return Promise.reject(error);
         }
 
