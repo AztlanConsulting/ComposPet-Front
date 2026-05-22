@@ -260,8 +260,6 @@ function useClientTableViewModel() {
     }, [clientList, selectedRoute, searchText]);
 
     const handleSearchText = (value) => {
-        console.log("VALUE:", value);
-        console.log("VALID:", isValidSearchText(value));
         if (!isValidSearchText(value)) return;
         setSearchText(value);
     };
