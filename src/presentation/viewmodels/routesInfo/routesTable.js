@@ -469,6 +469,15 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         setSelectedDay(getDefaultDay(daysOfRoutes));
     };
 
+    const handleOpenRoutesSheet = () => {
+        const url = process.env.REACT_APP_SHEETS_ROUTES_URL;
+        if (!url) {
+            console.error("URL de Google Sheets no configurada");
+            return;
+        }
+        window.open(url, "_blank", "noopener,noreferrer");
+    };
+
     return {
         routesList: filteredRoutesList,
         weeks,
@@ -488,6 +497,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         searchText,
         setSearchText,
         handleSearchText,
+        handleOpenRoutesSheet,
     }
 }
 
