@@ -8,7 +8,7 @@ import { FirstLoginRepository } from "../../data/repositories/firstLoginReposito
 export class FirstLoginUseCase{
 
     /**
-     * @param {firstLoginIRepository} firstLoginRepository - Implementación del repositorio de activación.
+     * @param {FirstLoginIRepository} firstLoginRepository - Implementación del repositorio de activación.
      */
     constructor(repository = null) {
         this.repository = repository ?? new FirstLoginRepository() ;

@@ -1,14 +1,13 @@
-import { firstLoginIRepository } from "../../domain/repositories/firstLoginInterfaceRepository";
+import { FirstLoginIRepository } from "../../domain/repositories/firstLoginInterfaceRepository";
 import { FirstLogin } from "../../domain/entities/firstLogin";
-import axios from 'axios';
 import { FirstLoginApiClient } from "../datasources/FirstLoginApiClient";
 
 /**
  * FirstLoginRepository extiende la interfaz definida en el dominio para 
  * implementar la persistencia y consulta de datos de autenticación inicial.
- * @extends firstLoginIRepository
+ * @extends FirstLoginIRepository
  */
-export class FirstLoginRepository extends firstLoginIRepository {
+export class FirstLoginRepository extends FirstLoginIRepository {
     /**
      * @param {Object} apiClient - Instancia del cliente HTTP configurado para realizar las peticiones.
      */

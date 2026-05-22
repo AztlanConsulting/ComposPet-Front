@@ -1,4 +1,4 @@
-export class firstLoginIRepository {
+export class FirstLoginIRepository {
     /**
      * @param {string} email
      * @param {bool} isFirstLogin - Bool que nos permite saber si es primer inicio o recuperar contraseña.

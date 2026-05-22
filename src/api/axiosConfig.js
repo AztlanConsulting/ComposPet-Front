@@ -1,6 +1,16 @@
 import axios from 'axios';
 
 let accessToken = null;
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach(({ resolve, reject }) => {
+        if (error) reject(error);
+        else resolve(token);
+    });
+    failedQueue = [];
+};
 
 /**
  * Verifica si el usuario tiene una sesión activa basada en la presencia del token.
@@ -65,20 +75,36 @@ api.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
+            // Si ya hay un refresh en curso, encolar y esperar
+            if (isRefreshing) {
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({ resolve, reject });
+                }).then((token) => {
+                    originalRequest.headers.Authorization = `Bearer ${token}`;
+                    return api(originalRequest);
+                }).catch((err) => Promise.reject(err));
+            }
+
+            isRefreshing = true;
+
             try {
                 const { data } = await api.post('/refresh');
-
                 accessToken = data.accessToken;
+
+                processQueue(null, accessToken); // Resolver todas las peticiones encoladas
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                
                 return api(originalRequest);
             } catch (err) {
+                processQueue(err, null); // Rechazar todas las peticiones encoladas
                 accessToken = null;
-                sessionStorage.removeItem('user'); 
+                sessionStorage.removeItem('user');
                 window.location.href = '/inicio-sesion';
                 return Promise.reject(err);
+            } finally {
+                isRefreshing = false;
             }
         }
+
         return Promise.reject(error);
     }
 );

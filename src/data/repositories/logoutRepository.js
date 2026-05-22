@@ -1,7 +1,7 @@
-import { logoutIRepository } from "../../domain/repositories/logoutInterfaceRepository";
+import { LogoutIRepository } from "../../domain/repositories/logoutInterfaceRepository";
 import { LogoutApiClient } from "../datasources/LogoutApiClient";
 
-export class LogoutRepository extends logoutIRepository {
+export class LogoutRepository extends LogoutIRepository {
     /**
      * Inicializa las dependencias necesarias para la gestión de sesión.
      */

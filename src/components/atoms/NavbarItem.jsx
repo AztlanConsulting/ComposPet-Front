@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
  * @returns {JSX.Element} Enlace de navegación estilizado según su tipo.
  */
 
-export default function Navbaritem({ 
+export default function NavbarItem({ 
     route = "/", 
     icon = <></>, 
     logout = false, 

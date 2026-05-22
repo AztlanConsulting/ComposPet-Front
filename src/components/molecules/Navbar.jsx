@@ -3,7 +3,7 @@ import { useState } from 'react';
 import logo from '../../public/img/LogoComposPet.svg';
 import "../../css/molecules/navbar.css";
 import Dropdown from './Dropdown';
-import NavbarItem from '../atoms/Navbaritem';
+import NavbarItem from '../atoms/NavbarItem.jsx';
 import { useLogout } from '../../presentation/viewmodels/auth/logoutViewModel';
 
 /**
