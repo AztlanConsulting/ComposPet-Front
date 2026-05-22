@@ -9,6 +9,7 @@ import '../../../css/routesInfo/routesInfo.css'
 import Icon from '../../../components/atoms/Icon';
 import DropdownInput from "../../../components/molecules/DropdownInput";
 import SearchInput from "../../../components/molecules/searchInput";
+import Button from "../../../components/atoms/Button";
 
 /**
  * Componente de página que muestra la tabla de información de rutas del día actual.
@@ -70,6 +71,11 @@ export default function RoutesTablePage({ routesViewModel }) {
                         />
                     </div>
                 </div>
+
+                <Button size='medium' csstype='resume' className='button'
+                    onClick={routesViewModel.handleOpenRoutesSheet}>
+                    Resumen de ruta
+                </Button>
 
                 <div className="search-wrapper">
                     <SearchInput
