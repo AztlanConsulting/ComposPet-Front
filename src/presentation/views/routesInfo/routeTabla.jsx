@@ -69,7 +69,7 @@ export default function RoutesTablePage({
                     </div>
                 </div>
 
-                <Button size='medium' csstype='resume' className='button'
+                <Button size='medium' csstype='resume' className='button button-small'
                     onClick={routesViewModel.handleOpenRoutesSheet}>
                     Resumen de ruta
                 </Button>

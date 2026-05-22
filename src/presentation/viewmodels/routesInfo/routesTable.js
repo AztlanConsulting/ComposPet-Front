@@ -330,7 +330,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     const defaultColDef = {
         sortable: true,
         resizable: true,
-        tooltipField: "notes",
         // Aplica estilo de negrita a toda la fila si tiene fondo rojo
         cellStyle: (params) => {
             if (hasRedBackground(params.data)) {

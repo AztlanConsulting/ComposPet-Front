@@ -3,7 +3,8 @@ import { useState } from 'react';
 import logo from '../../public/img/LogoComposPet.svg';
 import "../../css/molecules/navbar.css";
 import Dropdown from './Dropdown';
-import NavbarItem from '../atoms/Navbaritem';
+import NavbarItem from '../atoms/NavbarItem.jsx';
+import { useLogout } from '../../presentation/viewmodels/auth/logoutViewModel';
 
 /**
  * Componente principal de navegación de la aplicación.
@@ -36,20 +37,22 @@ import NavbarItem from '../atoms/Navbaritem';
  */
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const userRaw = sessionStorage.getItem('user');
-    const user = userRaw ? JSON.parse(userRaw) : null;
-    const rol = user?.rol;
 
-    const isAdmin = rol === 'Administrador';
+    const { user, isAdmin, logout } = useLogout();
 
     // variable para probar el menú con el botón de iniciar sesión
     //const isLoggedIn = false;
 
-    /*const homeOptions = [
+    const handleLogout = async (e) => {
+        if (e) e.preventDefault();
+        await logout();
+    };
+
+    const homeOptions = [
         { label: "¿Quiénes somos?", path: "" },
         { label: "Equipo", path: "" },
         { label: "¿Cómo funciona?", path: "" }
-    ];*/
+    ];
 
     const clientInfo = [
         { label: "Información clientes", path: "/tabla-clientes" },
@@ -98,7 +101,7 @@ export default function Navbar() {
             {/* Cerrar sesión — solo desktop */}
             <div className="navbarRight">
                 {user != null ? (
-                    <NavbarItem route="/" logout={true}>
+                    <NavbarItem route="/" logout={true} onClick={handleLogout}>
                         Cerrar sesión
                     </NavbarItem>
                 ) : (
@@ -130,7 +133,7 @@ export default function Navbar() {
                         <React.Fragment key={index}>{link.component}</React.Fragment>
                     ))}
                     {user != null ? (
-                        <NavbarItem route="/" logout={true}>
+                        <NavbarItem route="/" logout={true} onClick={handleLogout}>
                             Cerrar sesión
                         </NavbarItem>
                     ) : (
