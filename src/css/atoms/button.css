@@ -60,18 +60,29 @@
     background-color: var(--color-red-secondary);
     color: var(--color-red-primary);
     border-width: 0.12rem;
-    border-color: var(--color-red-primary);
+    border: 1px solid var(--color-red-primary);
 }
 
 .warning:hover{
     box-shadow: 0px 4px 10px rgba(209, 66, 66, .50);
 }
 
+.resume {
+    background-color: #FFF4E6;
+    color: var(--color-orange-primary);
+    border-width: 0.12rem;
+    border: 1px solid var(--color-orange-primary);
+}
+
+.resume:hover{
+    box-shadow: 0px 4px 10px rgba(247, 148, 29, .50);
+}
+
 .cancel {
     background-color: var(--color-bg);
     color: var(--color-green-secondary);
     border-width: 0.12rem;
-    border-color: var(--color-green-secondary);
+    border: 1px solid var(--color-green-secondary);
 }
 
 .cancel:hover{
@@ -91,7 +102,7 @@
     background-color: #DBFFF2;
     color: var(--color-green-primary);
     border-width: 0.12rem;
-    border-color: var(--color-green-primary);
+    border: 1px solid var(--color-green-primary);
 }
 
 .login:hover{
