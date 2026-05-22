@@ -418,7 +418,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
                 const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
                 setSelectedWeek(weekIdx);
-                setSelectedDay(null);
+                const defaultDay = getDefaultDay(daysData);
+                setSelectedDay(defaultDay)
 
                 const routes = await getFilteredRoutes.execute(weekIdx, undefined);
                 setRoutesList(routes);
@@ -520,6 +521,17 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         );
 
         setSelectedDay(null);
+        setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
+        setSelectedDay(getDefaultDay(daysOfRoutes));
+    };
+
+    const handleOpenRoutesSheet = () => {
+        const url = process.env.REACT_APP_SHEETS_ROUTES_URL;
+        if (!url) {
+            console.error("URL de Google Sheets no configurada");
+            return;
+        }
+        window.open(url, "_blank", "noopener,noreferrer");
     };
 
     // formatea montos a moneda
@@ -652,6 +664,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         routePendingAmount: formatCurrency(routePendingAmount),
         weeklyPayedAmount: formatCurrency(weeklyPayedAmount),
         weeklyPendingAmount: formatCurrency(weeklyPendingAmount),
+        handleOpenRoutesSheet,
     }
 }
 
