@@ -70,7 +70,7 @@ function useSecondPageViewModel(idClient) {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
 
-            if ( (id === 11 && currentQuantity === 0)  || (id === 2 && currentQuantity === 0)){
+            if ( ((id === 3 || productName === 'Composta (costal)') && currentQuantity === 0)  || ((id === 2  || productName === 'Composta (cubeta)') && currentQuantity === 0)){
                 setMessage(true)
                 setName((prevProductName) =>
                     prevProductName.includes(productName)
@@ -94,7 +94,7 @@ function useSecondPageViewModel(idClient) {
         setSelectedProducts((prevSelectedProducts) => {
             const currentQuantity = prevSelectedProducts[id] || 0;
 
-            if ( (id === 11 && currentQuantity > 0)  || (id === 2 && currentQuantity > 0)){
+            if ( ((id === 3  || productName === 'Composta (costal)') && currentQuantity > 0)  || ((id === 2  || productName === 'Composta (cubeta)') && currentQuantity > 0)){
                 setMessage(name.length === 2);
                 setName((prevProductName) => {
                     const updated = prevProductName.filter(n => n !== productName);

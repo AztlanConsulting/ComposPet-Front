@@ -7,7 +7,10 @@ import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './utilities/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
-
+import DropdownInput from './components/molecules/DropdownInput';
+import Toggle from './components/atoms/Toggle';
+import CompostStatusSwitch from './components/molecules/CompostStatusSwitch';
+import TemporaryView from './components/Template/temporaryView';
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
@@ -28,15 +31,9 @@ function App() {
                     <Route path="/activar-cuenta" element={<FirstLoginView isRecovery={false} />} />
                     <Route path="/recuperar-contraseña" element={<FirstLoginView isRecovery={true} />} />
 
+
                     <Route path="/componentMock" element={<ComponentMock/>} />
-
-                    {/* Rutas para usuarios autenticados */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/tabla-clientes" element={<ClientInfo />} />
-                        <Route path="/admin/registrar-cliente" element={<RegisterClient />} />
-                    </Route>
-
+                    
                     {/* Rutas de administrador - Protegidas por Rol */}
                     <Route element={<ProtectedRoute roles={["Administrador"]} />}>
                         <Route path="/dashboard" element={<Dashboard />} />
@@ -48,6 +45,14 @@ function App() {
                     {/* Rutas de clientes - Protegidas por Rol */}
                     <Route element={<ProtectedRoute roles={["Cliente"]} />}> 
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/" element={<TemporaryView navbarStatus={true} message={
+                            <>
+                                Gracias por ser parte de nuestra comunidad.
+                                <br />
+                                Próximamente podrás ver más información en la aplicación.
+                            </>
+                            }/>} 
+                        />
                     </Route>
 
                 </Routes>

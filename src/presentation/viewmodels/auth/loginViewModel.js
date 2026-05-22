@@ -104,7 +104,7 @@ function useLoginViewModel(loginUseCase){
         if (redirect && allowedRoutes.includes(redirect)) {
             // Solo los clientes pueden entrar al formulario de recolección
             if (redirect === "formulario-recoleccion" && !user.isClient()){
-                navigate("/dashboard")
+                navigate("/ruta")
                 return;
             }
             navigate(redirect);
@@ -112,7 +112,7 @@ function useLoginViewModel(loginUseCase){
         }
 
         if(user.isAdmin()){
-            navigate("/dashboard");
+            navigate("/ruta");
         } else if (user.isFirstLogin()){
             navigate("/");
         } else {

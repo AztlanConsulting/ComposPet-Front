@@ -1,10 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ClientTable from "../../../components/organisms/ClientTable";
-import useRoutesViewModel  from "../../viewmodels/routesInfo/routesTable";
 import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
-import TimerAlert from '../../../components/Template/timerAlert';
 import '../../../css/routesInfo/routesInfo.css'
 import Icon from '../../../components/atoms/Icon';
 import DropdownInput from "../../../components/molecules/DropdownInput";
@@ -61,7 +57,7 @@ export default function RoutesTablePage({
                         label: s.dia_ruta,
                     }))}
                 >
-                    Dia de ruta
+                    Día de ruta
                 </DropdownInput>
 
                 <Icon 
@@ -87,14 +83,13 @@ export default function RoutesTablePage({
                 </div>
 
             </div>
-
-                    <ClientTable
-                        clientList={routesViewModel.routesList}
-                        columnDefinitions={routesViewModel.columnDefinitions}
-                        defaultColDef={routesViewModel.defaultColDef}
-                        loading={routesViewModel.loading}
-                        getRowClass={routesViewModel.getRowClass}
-                    />
+                <ClientTable
+                    clientList={routesViewModel.routesList}
+                    columnDefinitions={routesViewModel.columnDefinitions}
+                    defaultColDef={routesViewModel.defaultColDef}
+                    loading={routesViewModel.loading}
+                    getRowClass={routesViewModel.getRowClass}
+                />
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import { ClientTableIRepository } from "../../domain/repositories/clientTableInterfaceRepository";
 import { ClientInfo } from "../../domain/entities/clientInfo";
+import {ExtraProduct} from "../../domain/entities/extraProduct";
 
 /**
  * Implementación concreta del repositorio de clientTable
@@ -63,4 +64,15 @@ export class ClientTableRepository extends ClientTableIRepository{
         return clientList;
     }
 
+    async getCompostStatus(){
+        const compostStatus = await this.apiClient.getCompostStatus();
+        return new ExtraProduct({
+            status: compostStatus,
+        });
+    }
+
+    async updateCompostStatus(newStatus){
+        const response = await this.apiClient.updateCompostStatus(newStatus);
+        return response;
+    }
 }

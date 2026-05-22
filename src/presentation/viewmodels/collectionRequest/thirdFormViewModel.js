@@ -61,15 +61,14 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
                 weekStartDate,
                 weekEndDate
             );
-
+            
             setCollection(response.collection);
             setProducts(response.products);
             setBalance(response.balance);
             setCollectionTotal(response.total);
             setPaymentMethods(response.payMethods);
             setNotes(response.collection.notes);
-
-            const aviableMethods = response.paymentMethods.map((method) => {
+            const aviableMethods = response.payMethods.map((method) => {
                 if (
                     method.tipo === "Saldo" &&
                     response.balance < response.total

@@ -339,7 +339,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
             // Si el cliente no desea recolección ni productos extra va directo al resumen sin agendar
             }else if (!collectionRequest.wantsPickup() && !collectionRequest.wantsAdditionalProducts()) {
-                nextStep = 4; 
+                nextStep = 3; 
             }
             
             return { 

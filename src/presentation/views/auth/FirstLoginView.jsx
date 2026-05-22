@@ -88,7 +88,7 @@ function FirstLoginView({ isRecovery = false}) {
             <div className="col d-flex flex-column align-items-center flex-wrap">
                 
                 <div className="logo-compospet">
-                    <img src={LogoComposPet} alt="logo de ComposPet" />
+                    <img src={LogoComposPet} alt="logo de ComposPet" fetchpriority="high"/>
                 </div>
 
                 <div className="forms-backgound">

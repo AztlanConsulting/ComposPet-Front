@@ -16,18 +16,20 @@
     background-color: var(--color-bg);
     display: flex;
     align-items: center;
-    padding: 20px 30px;
     box-sizing: border-box;
     position: relative;
     font-weight: var(--font-weight-bold);
     font-family: var(--font-family-primary);
 }
 
+.navbar.navbar {
+    padding: 1rem 5rem 0 5rem;
+}
+
 /* Imagen del navbar */
 .navbarLogo {
     width: 10.0625rem;
     height: auto;
-    margin-left: 7.5rem;
 }
 
 /* Ajusta la imagen */
@@ -54,7 +56,6 @@
     display: flex;
     align-items: center;
     margin-left: auto;
-    margin-right: 6.25rem;
 }
 
 /* Da estilo a los links del navbar */
@@ -126,6 +127,10 @@
  */
 @media (max-width: 1300px) {
 
+    .navbar.navbar {
+        padding: 1rem 2rem 0 2rem;
+    }
+
     .navbar {
         flex-wrap: wrap;
         padding: 1rem 1.25rem;
@@ -193,4 +198,5 @@
         border-top: 0.0625rem solid var(--color-green-tertiary);
         margin-top: 0.5rem;
     }
+
 }

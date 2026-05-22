@@ -11,8 +11,7 @@ import '../../../css/routesInfo/routesInfo.css';
 export default function RoutesInfo(){
     const routesViewModel = useRoutesViewModel();
 
-    const { 
-        copyLinkInfo,
+    const {
         dayTotalAmount,
         routePayedAmount,
         routePendingAmount,
