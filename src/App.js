@@ -7,9 +7,6 @@ import LoginForm from '../src/presentation/views/auth/LoginView';
 import ProtectedRoute from './utilities/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
-import DropdownInput from './components/molecules/DropdownInput';
-import Toggle from './components/atoms/Toggle';
-import CompostStatusSwitch from './components/molecules/CompostStatusSwitch';
 import TemporaryView from './components/Template/temporaryView';
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
@@ -40,6 +37,9 @@ function App() {
                         <Route path="/tabla-clientes" element={<ClientInfo />} />
                         <Route path="/registrar-cliente" element={<RegisterClient />} />
                         <Route path="/ruta" element={<RoutesInfo />} />
+                        <Route path="/" element={<RoutesInfo />} />
+
+                        
                     </Route>
 
                     {/* Rutas de clientes - Protegidas por Rol */}

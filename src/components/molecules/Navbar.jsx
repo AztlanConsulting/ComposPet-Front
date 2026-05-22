@@ -48,21 +48,21 @@ export default function Navbar() {
         await logout();
     };
 
-    const homeOptions = [
-        { label: "¿Quiénes somos?", path: "" },
-        { label: "Equipo", path: "" },
-        { label: "¿Cómo funciona?", path: "" }
-    ];
+    // const homeOptions = [
+    //     { label: "¿Quiénes somos?", path: "" },
+    //     { label: "Equipo", path: "" },
+    //     { label: "¿Cómo funciona?", path: "" }
+    // ];
 
     const clientInfo = [
         { label: "Información clientes", path: "/tabla-clientes" },
         { label: "Registrar cliente", path: "/registrar-cliente" },
     ];
 
-    const myRecolectionsOptions = [
-        { label: "Solicitar recolección", path: "/formulario-recoleccion" },
-        { label: "Mi Perfil", path: "" },
-    ];
+    // const myRecolectionsOptions = [
+    //     { label: "Solicitar recolección", path: "/formulario-recoleccion" },
+    //     { label: "Mi Perfil", path: "" },
+    // ];
 
     const adminLinks = [
         //{ component: <Dropdown title="Inicio" options={homeOptions} /> },
