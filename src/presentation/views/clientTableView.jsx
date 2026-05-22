@@ -13,7 +13,7 @@ import SearchInput from "../../components/molecules/searchInput";
  *
  * @returns {JSX.Element} Vista icon la tabla de usuarios de Compospet.
  */
-export default function ClientTableView() {
+export default function ClientTableView({ viewModel }) {
 
     const {
         loading,
@@ -27,9 +27,7 @@ export default function ClientTableView() {
         searchText,
         setSearchText,
         handleSearchText,
-        totalActiveFamilies,
-        activeFamiliesByRoute,
-    } = useClientTableViewModel();
+    } = viewModel;
 
     // ==================== RENDERIZADO CONDICIONAL ====================
     if (loading) {
@@ -41,7 +39,6 @@ export default function ClientTableView() {
 return (
     
     <div className="client-table-container">
-
             <div className="client-filters-container">
                 {/* Dropdown para filtro */}
                 <div className="route-filter">
@@ -71,9 +68,6 @@ return (
                     editingRowId={editingRowId}
                 >
                 </ClientTable>
-
     </div>
-
-
     );
 }

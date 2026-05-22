@@ -259,6 +259,62 @@ function useClientTableViewModel() {
         }).length;
     }, [clientList, selectedRoute]);
 
+    // Función para formatear los montos en formato de moneda
+    const formatCurrency = (amount) => {
+        if (amount < 0) {
+            return `- $${Math.abs(amount)}`;
+        }
+    
+        return `$${Math.abs(amount)}`;
+    };
+
+    // Funciones para los contadores de saldo total y saldo pendiente
+    const totalAmount = useMemo(() => {
+        return clientList.reduce((total, client) => {
+            const balance = Number(client.balance || 0);
+    
+            return balance > 0
+                ? total + balance
+                : total;
+        }, 0);
+    }, [clientList]);
+    
+    const pendingAmount = useMemo(() => {
+        return clientList.reduce((total, client) => {
+            const balance = Number(client.balance || 0);
+    
+            return balance < 0
+                ? total + balance
+                : total;
+        }, 0);
+    }, [clientList]);
+
+    //Funciones para los contadores de saldo total y saldo pendiente por ruta
+    const totalAmountPerRoute = useMemo(() => {
+        return clientList.reduce((total, client) => {
+            const balance = Number(client.balance || 0);
+    
+            if (Number(client.routeId) !== Number(selectedRoute)) {
+                return total;
+            }
+    
+            return balance > 0 ? total + balance : total;
+        }, 0);
+    }, [clientList, selectedRoute]);
+    
+    const pendingAmountPerRoute = useMemo(() => {
+        return clientList.reduce((total, client) => {
+            const balance = Number(client.balance || 0);
+    
+            if (Number(client.routeId) !== Number(selectedRoute)) {
+                return total;
+            }
+    
+            return balance < 0 ? total + balance : total;
+        }, 0);
+    }, [clientList, selectedRoute]);
+
+
     return {
         clientList: filteredClientList,
         loading,
@@ -273,6 +329,10 @@ function useClientTableViewModel() {
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,
+        totalAmount: formatCurrency(totalAmount),
+        pendingAmount: formatCurrency(pendingAmount),
+        totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
+        pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
     };
 }
 
