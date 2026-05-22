@@ -118,7 +118,7 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         });
 
         const { result } = renderHook(() => useRoutesViewModel());
-
+        console.log("RESULT ", result);
         await waitFor(() => {
             expect(result.current.selectedWeek).toBe(0);
             expect(result.current.selectedDay).toBe("Jueves");

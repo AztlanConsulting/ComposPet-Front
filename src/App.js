@@ -29,7 +29,7 @@ import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import DropdownInput from './components/molecules/DropdownInput';
 import Toggle from './components/atoms/Toggle';
 import CompostStatusSwitch from './components/molecules/CompostStatusSwitch';
-
+import TemporaryView from './components/Template/temporaryView';
 import RegisterClient from './presentation/views/admin/RegisterClient';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
@@ -234,6 +234,14 @@ function App() {
                     {/* Rutas de clientes - Protegidas por Rol */}
                     <Route element={<ProtectedRoute roles={["Cliente"]} />}>
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
+                        <Route path="/" element={<TemporaryView navbarStatus={true} message={
+                            <>
+                                Gracias por ser parte de nuestra comunidad.
+                                <br />
+                                Próximamente podrás ver más información en la aplicación.
+                            </>
+                            }/>} 
+                        />
                     </Route>
 
                 </Routes>

@@ -45,15 +45,15 @@ export default function Navbar() {
     // variable para probar el menú con el botón de iniciar sesión
     //const isLoggedIn = false;
 
-    const homeOptions = [
+    /*const homeOptions = [
         { label: "¿Quiénes somos?", path: "" },
         { label: "Equipo", path: "" },
         { label: "¿Cómo funciona?", path: "" }
-    ];
+    ];*/
 
     const clientInfo = [
-        { label: "Info clientes", path: "/tabla-clientes" },
-        { label: "Registrar cliente", path: "/admin/registrar-cliente" },
+        { label: "Información clientes", path: "/tabla-clientes" },
+        { label: "Registrar cliente", path: "/registrar-cliente" },
     ];
 
     const myRecolectionsOptions = [
@@ -62,16 +62,18 @@ export default function Navbar() {
     ];
 
     const adminLinks = [
-        { component: <Dropdown title="Inicio" options={homeOptions} /> },
+        //{ component: <Dropdown title="Inicio" options={homeOptions} /> },
         { component: <Dropdown title="Clientes" options={clientInfo} /> },
         { component: <NavbarItem route="/ruta">Rutas</NavbarItem> },
-        { component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
+        //{ component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
     ];
 
     const clientLinks = [
-        { component: <Dropdown title="Inicio" options={homeOptions} /> },
-        { component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
-        { component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
+        //{ component: <Dropdown title="Inicio" options={homeOptions} /> },
+        //{ component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
+        // //{ component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
+        // { component: <NavbarItem route="/">  </NavbarItem>},
+        { component: <NavbarItem route="/formulario-recoleccion">Formulario de recolección</NavbarItem> }
     ];
 
     const centerLinks = isAdmin ? adminLinks : clientLinks;
@@ -81,7 +83,9 @@ export default function Navbar() {
 
             {/* Logo — siempre visible */}
             <div className="navbarLeft">
-                <img src={logo} alt="ComposPet" className="navbarLogo" onClick={() => window.location.href = '/'} />
+                {isAdmin ? 
+                    <img src={logo} alt="ComposPet" className="navbarLogo" onClick={() => window.location.href = '/ruta'} /> 
+                    : <img src={logo} alt="ComposPet" className="navbarLogo" onClick={() => window.location.href = '/'} />}
             </div>
 
             {/* Links centro — solo desktop */}

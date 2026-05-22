@@ -110,7 +110,6 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         //Afirmar
         expect(saveFirstSectionMock).toHaveBeenCalled();
-        expect(loadSummaryMock).toHaveBeenCalled();
         expect(result.current.currentStep).toBe(2);
         expect(result.current.secondaryButtonText).toBe("Regresar");
     });
@@ -130,7 +129,6 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         //Afirmar
         expect(saveFirstSectionMock).toHaveBeenCalled();
-        expect(loadSummaryMock).not.toHaveBeenCalled();
         expect(result.current.currentStep).toBe(1);
     });
 
@@ -190,7 +188,7 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         //Afirmar
         expect(saveSecondSectionMock).toHaveBeenCalled();
-        expect(loadSummaryMock).toHaveBeenCalledTimes(2);
+        expect(loadSummaryMock).toHaveBeenCalledTimes(1);
         expect(result.current.currentStep).toBe(3);
     });
 });

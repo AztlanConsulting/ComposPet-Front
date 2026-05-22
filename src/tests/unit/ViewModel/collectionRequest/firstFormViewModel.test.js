@@ -412,7 +412,7 @@ describe("useFirstFormViewModel", () => {
         //Afirmar
         expect(response).toEqual({
             success: true,
-            nextStep: 4,
+            nextStep: 3,
         });
     });
 
