@@ -126,6 +126,7 @@
 
 .ag-cell.cell-zero {
     color: var(--color-red-primary);
+    font-family: var(--font-family-primary);
     font-weight: var(--font-weight-bold);
 }
 
@@ -170,6 +171,7 @@
 .legend-title {
     font-size: 14px;
     font-weight: bold;
+    font-family: var(--font-family-primary)
 }
 
 .color-info-item {
@@ -185,6 +187,7 @@
 }
 
 .color-text {
+    font-family: var(--font-family-primary);
     font-size: var(--font-size-sm);
 }
 
@@ -297,16 +300,19 @@
     .custom-green-theme {
         min-width: 45rem;
         height: 35rem;
+        font-family: var(--font-family-primary);
         font-size: var(--font-size-xs);
     }
 
     .custom-green-theme .ag-header-cell-text {
+        font-family: var(--font-family-primary);
         font-size: var(--font-size-xs) !important;
     }
 
     .custom-green-theme .ag-cell {
         font-size: var(--font-size-xs) !important;
         line-height: 1rem !important;
+        font-size: var(--font-size-xs) !important
     }
 
     .custom-green-theme .ag-row {
@@ -328,5 +334,6 @@
 
     .color-text {
         font-size: 12px;
+        font-size: var(--font-size-xs) !important
     }
 }
