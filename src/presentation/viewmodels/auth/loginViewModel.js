@@ -114,9 +114,9 @@ function useLoginViewModel(loginUseCase){
         if(user.isAdmin()){
             navigate("/ruta");
         } else if (user.isFirstLogin()){
-            navigate("/formulario-recoleccion");
+            navigate("/");
         } else {
-            navigate("/formulario-recoleccion");
+            navigate("/");
         }
     }
 
