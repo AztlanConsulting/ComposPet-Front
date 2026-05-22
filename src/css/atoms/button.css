@@ -11,6 +11,8 @@
     margin: 0.4rem;
 }
 
+
+
 .mini {
     width: 4.25rem;
     height: 1.3rem;
@@ -163,4 +165,8 @@
         height: 3rem;
         font-size: 1rem;
     }
+}
+
+.button-small {
+    font-size: var(--font-size-sm);
 }

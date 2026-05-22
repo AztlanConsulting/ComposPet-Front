@@ -56,19 +56,6 @@ const MOCK_WEEK = {
     label:     'Semana actual',
 };
 
-function extractEditCallbacks(columnDefinitions, params) {
-    const editCol = columnDefinitions[0];
-
-    const renderedIdle = editCol.cellRenderer({ ...params, data: { ...params.data, name: 'otra-fila' } });
-    const renderedEditing = editCol.cellRenderer({ ...params });
-
-    const handleEdit   = renderedIdle.props.children.props.onClick;
-    const handleSave   = renderedEditing.props.children[0].props.onClick;
-    const handleCancel = renderedEditing.props.children[1].props.onClick;
-
-    return { handleEdit, handleSave, handleCancel };
-}
-
 function makeParams(route, overrides = {}) {
     return {
         data: { ...route },
@@ -197,7 +184,6 @@ describe('handleCancel', () => {
 
     it('no falla si la fila no existe en originalRoutesList', async () => {
         const result = await mountHook();
-        const unknownParams = makeParams({ name: 'Desconocido', collectedBuckets: 0 });
 
         const editColRenderer = result.current.columnDefinitions[0].cellRenderer;
         const params = makeParams(MOCK_ROUTES[0]);
