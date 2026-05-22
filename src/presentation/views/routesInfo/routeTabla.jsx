@@ -57,7 +57,7 @@ export default function RoutesTablePage({
                         label: s.dia_ruta,
                     }))}
                 >
-                    Dia de ruta
+                    Día de ruta
                 </DropdownInput>
 
                 <Icon 

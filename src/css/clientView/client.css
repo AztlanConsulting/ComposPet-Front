@@ -10,11 +10,13 @@
     box-sizing: border-box;
 }
 
+.main{
+    padding: 0 5rem 0 5rem;
+}
+
 .counters-row {
     width: 100%;
-    max-width: 1400px;
     margin: 2rem auto 0 auto;
-    padding: 0 2.7vw;
     box-sizing: border-box;
 
     display: flex;
@@ -25,7 +27,6 @@
 
 .client-filters-container{
     width: auto;
-    padding: 0 5rem 0 5rem;
     margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
@@ -43,7 +44,6 @@
 
 .filters-Row {
     width: 100%;
-    max-width: 1400px;
     padding: 0 2.7vw;
     margin: 2rem auto;
     box-sizing: border-box;
@@ -96,14 +96,12 @@
 
 .client-table-container .wrapper {
     width: 100%;
-    padding: 0 5rem;
     box-sizing: border-box;
     overflow-x: auto;
 }
 
 .client-table-container .custom-green-theme {
     width: 100%;
-    min-width: 60rem;
     height: 30rem;
 }
 
@@ -163,5 +161,9 @@
 
     .client-search-wrapper {
         width: 100%;
+    }
+
+    .main{
+        padding: 0 2rem 0 2rem;
     }
 }

@@ -12,7 +12,7 @@ export default function ClientInfo(){
     return(
         <div className="page">
             <Navbar />
-            {/* <div className="main"> */}
+            <div className="main">
                 <div className="counters-row">
                     {/* Contador Total de familias | Contador familias por ruta */}
                     <CountersGroup 
@@ -42,7 +42,7 @@ export default function ClientInfo(){
                     />
                 </div>
                 <ClientTableView viewModel={viewModel}/>
-            {/* </div> */}
+            </div>
         </div>
     )
 }

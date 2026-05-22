@@ -20,9 +20,7 @@
 
 .route-header-row {
     width: 100%;
-    max-width: 1400px;
     margin: 2rem auto 0 auto;
-    padding: 0 5rem;
     box-sizing: border-box;
 
     display: flex;
@@ -50,13 +48,11 @@
     width: 100%;
     max-width: 2500px;
     margin: 2rem auto 0 auto;
-    padding: 0 2rem;
     box-sizing: border-box;
 }
 
 .filters-container {
     width: 100%;
-    padding: 0 5rem;
     margin-bottom: 1rem;
     box-sizing: border-box;
 
@@ -116,7 +112,6 @@
 }
 
 .custom-green-theme {
-    min-width: 60rem;
     height: 30rem;
 }
 
@@ -144,7 +139,6 @@
 
 .colors-info-wrapper {
     width: 100%;
-    max-width: 1400px;
     margin: 1rem auto 0 auto;
     padding: 0 5rem;
     box-sizing: border-box;
@@ -246,10 +240,6 @@
         margin-left: 0;
     }
 
-    .custom-green-theme {
-        min-width: 45rem;
-    }
-
     .colors-info-wrapper {
         padding: 0 3rem;
     }
@@ -295,7 +285,6 @@
     }
 
     .custom-green-theme {
-        min-width: 45rem;
         height: 35rem;
         font-size: var(--font-size-xs);
     }

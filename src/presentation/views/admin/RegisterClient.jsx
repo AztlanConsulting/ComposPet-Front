@@ -260,7 +260,7 @@ function RegisterClient(){
                                 }))}
                             error={dropdownErrors.selectedDay}
                         >
-                            Dia de ruta
+                        Día de ruta
                         </DropdownInput>
                     </div>
 
