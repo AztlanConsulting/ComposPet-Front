@@ -1,19 +1,6 @@
 import React from 'react';
 import './App.css';
-<<<<<<< bugfix/auth
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import {useState} from 'react';
-
-import Icon from './components/atoms/Icon';
-import Button from './components/atoms/Button';
-import InputComponent from './components/molecules/InputComponent';
-import Image from './components/atoms/Image';
-
-import PersonImg from './public/img/person.png';
-import AniluImg from './public/img/Anilu.png';
-=======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
->>>>>>> develop
 
 import Dashboard from './components/Dashboard';
 import LoginForm from '../src/presentation/views/auth/LoginView';
