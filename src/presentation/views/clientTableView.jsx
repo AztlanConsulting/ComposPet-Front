@@ -26,6 +26,7 @@ export default function ClientTableView({ viewModel }) {
         selectedRoute,
         setSelectedRoute,
         searchText,
+        setSearchText,
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,

@@ -378,6 +378,7 @@ function useClientTableViewModel() {
         selectedRoute,
         setSelectedRoute,
         searchText,
+        setSearchText,
         handleSearchText,
         totalActiveFamilies,
         activeFamiliesByRoute,

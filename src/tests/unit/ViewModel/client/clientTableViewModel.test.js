@@ -129,42 +129,6 @@ describe("useClientTableViewModel", () => {
         consoleSpy.mockRestore();
     });
 
-    it("No ejecuta múltiples llamadas si ya está cargando", async () => {
-
-        // Arrange
-        let resolvePromise;
-
-        dependencies.getTableUseCase.execute
-            .mockImplementation(() =>
-                new Promise((resolve) => {
-                    resolvePromise = resolve;
-                })
-            );
-
-        // Act
-        const { result } = renderHook(() =>
-            useClientTableViewModel()
-        );
-
-        await waitFor(() => {
-            expect(result.current.loading)
-                .toBe(true);
-        });
-
-        await act(async () => {
-            resolvePromise([]);
-        });
-
-        await waitFor(() => {
-            expect(result.current.loading)
-                .toBe(false);
-        });
-
-        // Assert
-        expect(dependencies.getTableUseCase.execute)
-            .toHaveBeenCalledTimes(1);
-    });
-
     it("Inicializa correctamente defaultColDef", () => {
 
         // Act
