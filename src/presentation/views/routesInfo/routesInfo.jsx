@@ -25,41 +25,42 @@ export default function RoutesInfo(){
             <Navbar />
             <div className="main">
                 <div className="route-header-row">
-                    <CountersGroup 
-                        counters={[
-                            { label: "Sumatoria total", value: dayTotalAmount },
-                        ]}
-                    />
-
-                    <BalanceCountersGroup
-                        counters={[
-                            {
-                                title: 'Ruta',
-                                favorSubtitle: 'Pagado',
-                                favorBalance: routePayedAmount,
-                                pendingSubtitle: 'Pendiente',
-                                pendingBalance: routePendingAmount,
-                            },
-                            {
-                                title: 'Semana',
-                                favorSubtitle: 'Pagado',
-                                favorBalance: weeklyPayedAmount,
-                                pendingSubtitle: 'Pendiente',
-                                pendingBalance: weeklyPendingAmount,
-                            },
-                        ]}
-                    />
+                    <div className="route-counters-section">
+                        <BalanceCountersGroup
+                            counters={[
+                                {
+                                    title: 'Ruta',
+                                    favorSubtitle: 'Pagado',
+                                    favorBalance: routePayedAmount,
+                                    pendingSubtitle: 'Pendiente',
+                                    pendingBalance: routePendingAmount,
+                                },
+                                {
+                                    title: 'Semana',
+                                    favorSubtitle: 'Pagado',
+                                    favorBalance: weeklyPayedAmount,
+                                    pendingSubtitle: 'Pendiente',
+                                    pendingBalance: weeklyPendingAmount,
+                                },
+                            ]}
+                        />
+                        <CountersGroup 
+                            counters={[
+                                { label: "Sumatoria total", value: dayTotalAmount },
+                            ]}
+                        />
+                    </div>
+                    <div className="copy-link-container">
+                        <CopyLink {...routesViewModel.copyLinkInfo} />
+                        <IconActionBubble
+                            text="Generar mensajes de confirmación"
+                            iconName="googleSheets"
+                            bubbleMessage="¡Mensajes generados!"
+                            errorMessage="Ups, algo salió mal"
+                            onAction={routesViewModel.handleGenerateMessages}
+                        />
+                    </div>
                 </div>
-            <div className="copy-link-container">
-                <CopyLink {...routesViewModel.copyLinkInfo} />
-                <IconActionBubble
-                    text="Generar mensajes de confirmación"
-                    iconName="googleSheets"
-                    bubbleMessage="¡Mensajes generados!"
-                    errorMessage="Ups, algo salió mal"
-                    onAction={routesViewModel.handleGenerateMessages}
-                />
-            </div>
             <RoutesTablePage 
                 routesViewModel={routesViewModel}
             />
