@@ -44,51 +44,46 @@ export default function ClientTableView({ viewModel }) {
 return (
     
     <div className="client-table-container">
+        <div className="client-filters-container">
+            {/* Dropdown para filtro */}
+            <div className="route-filter">
+                <DropdownInput
+                    id="routeFilter"
+                    value={selectedRoute}
+                    onChange={(e) => setSelectedRoute(e.target.value)}
+                    options={routesDropdown}
+                    className="dropdown"
+                />
+            </div>
 
-            {/* FILTROS */}
-                <div className="client-filters-container">
-                    {/* Dropdown para filtro */}
-                    <div className="route-filter">
-                        <DropdownInput
-                            id="routeFilter"
-                            value={selectedRoute}
-                            onChange={(e) => setSelectedRoute(e.target.value)}
-                            options={routesDropdown}
-                            className="dropdown"
-                        />
-                    </div>
-
-                    <div className="compost-switch-wrapper">
-                        <CompostStatusSwitch
-                            id="compost-status"
-                            label="Entrega de composta"
-                            checked={compostStatus}
-                            onChange={handleCompostStatusChange}
-                            size="sm"
-                        />
-                    </div>
-
-                    <div className="client-search-wrapper">
-                        <SearchInput
-                            value={searchText}
-                            onChange={(e) => handleSearchText(e.target.value)}
-                            onInput={(e) => handleSearchText(e.target.value)}
-                            placeholder="Buscar a un cliente por nombre"
-                        />
-                    </div>
+                <div className="compost-switch-wrapper">
+                    <CompostStatusSwitch
+                        id="compost-status"
+                        label="Entrega de composta"
+                        checked={compostStatus}
+                        onChange={handleCompostStatusChange}
+                        size="sm"
+                    />
                 </div>
 
-                <ClientTable
-                    loading={loading}
-                    clientList={clientList}
-                    columnDefinitions={columnDefinitions}
-                    defaultColDef={defaultColDef}
-                    editingRowId={editingRowId}
-                >
-                </ClientTable>
+                <div className="client-search-wrapper">
+                    <SearchInput
+                        value={searchText}
+                        onChange={(e) => handleSearchText(e.target.value)}
+                        onInput={(e) => handleSearchText(e.target.value)}
+                        placeholder="Buscar a un cliente por nombre"
+                    />
+                </div>
+            </div>
 
+            <ClientTable
+                loading={loading}
+                clientList={clientList}
+                columnDefinitions={columnDefinitions}
+                defaultColDef={defaultColDef}
+                editingRowId={editingRowId}
+            >
+            </ClientTable>
     </div>
-
-
     );
 }

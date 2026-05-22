@@ -1,10 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ClientTable from "../../../components/organisms/ClientTable";
-import useRoutesViewModel  from "../../viewmodels/routesInfo/routesTable";
 import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
-import TimerAlert from '../../../components/Template/timerAlert';
 import '../../../css/routesInfo/routesInfo.css'
 import Icon from '../../../components/atoms/Icon';
 import DropdownInput from "../../../components/molecules/DropdownInput";
@@ -16,8 +12,9 @@ import Button from "../../../components/atoms/Button";
  * Gestiona el estado de carga, errores y datos de rutas utilizando el ViewModel correspondiente.
  * Renderiza una tabla interactiva con AG-Grid mostrando detalles de cada ruta.
  */
-export default function RoutesTablePage({ routesViewModel }) {
-
+export default function RoutesTablePage({
+    routesViewModel,
+}) {
     // ==================== RENDERIZADO CONDICIONAL ====================
     if (routesViewModel.loading) {
         return <Loading />

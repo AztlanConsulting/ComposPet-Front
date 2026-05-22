@@ -1,0 +1,35 @@
+.balance-counter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.balance-counter-title{
+    margin: 0;
+    font-family: var(--font-family-primary);
+    font-size: clamp(1rem, 2vw, var(--font-size-2xl));
+    font-weight: 700;
+    color: var(--color-black);
+    text-align: center;
+}
+
+.balance-counter-items{
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* Celular */
+@media (max-width: 768px){
+    .balance-counter{
+        gap: 0.7rem;
+    }
+
+    .balance-counter-title{
+        font-size: clamp(1rem, 3vw, var(--font-size-xl));
+    }
+
+    .balance-counter-items{
+        gap: 1rem;
+    }
+}
