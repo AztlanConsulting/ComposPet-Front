@@ -250,7 +250,7 @@ function App() {
                     </Route>
 
                     {/* Rutas de clientes - Protegidas por Rol */}
-                    <Route element={<ProtectedRoute roles={["Cliente"]} />}>
+                    <Route element={<ProtectedRoute roles={["Cliente"]} />}> 
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
                     </Route>
 
