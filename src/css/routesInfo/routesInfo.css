@@ -318,4 +318,8 @@
     .color-text {
         font-size: 12px;
     }
+
+    .day-filter-group{
+        display: block;
+    }
 }

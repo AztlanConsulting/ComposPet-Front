@@ -11,3 +11,10 @@
 .counters-group .counters-container{
     flex: 0 0 auto;
 }
+
+/* Celular */
+@media (max-width: 768px){
+    .counters-group{
+        display: block;
+    }
+}
