@@ -45,7 +45,6 @@ export const useLogout = (useCaseOverride = null) => {
         } catch (error) {
             console.error("Error en logout:", error);
             
-            // Muestra la alerta visual usando tu componente personalizado
             await ProblemAlert({
                 title: "Error al cerrar sesión",
                 text: error.message || "No se pudo finalizar la sesión. Inténtalo de nuevo.",
