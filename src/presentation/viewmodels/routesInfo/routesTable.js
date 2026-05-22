@@ -236,7 +236,7 @@ function useRoutesViewModel(){
     };
 
     const formPath = "/inicio-sesion?redirect=/formulario-recoleccion";
-    const formUrl = `https://www.compospetmx.org${formPath}`;
+    const formUrl = `https://compospetmx.org${formPath}`;
     const formLink = `¡Excelente día!
 
 *¿Te anotamos para recolección mañana?* 🪣🚛
