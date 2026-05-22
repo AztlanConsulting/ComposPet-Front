@@ -1,6 +1,5 @@
-import { GetCompostStatusUseCase } from '../../../../domain/useCases/GetCompostStatusUseCase';
+import { GetCompostStatusUseCase } from '../../../../domain/useCases/getCompostStatusUseCase';
 import { UpdateCompostStatusUseCase } from '../../../../domain/useCases/updateCompostStatusUseCase';
-
 
 describe('GetCompostStatusUseCase', () => {
     let repository;
