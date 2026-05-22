@@ -61,7 +61,7 @@ describe('useRoutesViewModel - copyLinkInfo', () => {
             link: `¡Excelente día!
 
 *¿Te anotamos para recolección mañana?* 🪣🚛
-Apóyanos contestando el formulario de recolección de nuestra página https://www.compospetmx.org/inicio-sesion?redirect=/formulario-recoleccion para registrar tu recolección 🫶🏼`,
+Apóyanos contestando el formulario de recolección de nuestra página https://compospetmx.org/inicio-sesion?redirect=/formulario-recoleccion para registrar tu recolección 🫶🏼`,
             bubbleMessage: '¡Copiado!',
         });
     });

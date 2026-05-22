@@ -36,7 +36,7 @@ describe('CopyLink', () => {
         render(
             <CopyLink
                 text="Formulario de recolección"
-                link="https://www.compospetmx.org/inicio-sesion?redirect=/formulario-recoleccion"
+                link="https://compospetmx.org/inicio-sesion?redirect=/formulario-recoleccion"
                 bubbleMessage="¡Copiado!"
             />
         );
