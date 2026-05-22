@@ -13,7 +13,7 @@ import { LogoutUseCase } from '../../../domain/useCases/logoutUseCase';
  * isLoading: boolean
  * }} Un objeto que contiene el estado del usuario, bandera de rol, la función de logout y el estado de carga.
  */
-export const useLogout = () => {
+export const useLogout = (useCaseOverride = null) => {
     const [user, setUser] = useState(() => {
         const savedUser = sessionStorage.getItem('user');
         return savedUser ? JSON.parse(savedUser) : null;
@@ -21,7 +21,7 @@ export const useLogout = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const logoutUseCase = new LogoutUseCase();
+    const logoutUseCase = useCaseOverride ?? new LogoutUseCase();
 
     /**
      * Orquesta el proceso de cierre de sesión. Intercepta la UI para activar el estado de carga,
