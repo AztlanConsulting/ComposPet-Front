@@ -26,9 +26,6 @@ import { renderHook, waitFor, act } from "@testing-library/react";
 import useClientTableViewModel
     from "../../../../presentation/viewmodels/clientTableViewModel";
 
-import AceptAlert
-    from "../../../../components/Template/AceptAlert";
-
 import * as dependencies
     from "../../../../di/admin/clientTableDependencies";
 

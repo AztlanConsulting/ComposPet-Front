@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 
 /**
@@ -43,9 +43,6 @@ jest.mock('react-router-dom', () => {
     const actual = jest.requireActual('react-router-dom');
     return {
         ...actual,
-        BrowserRouter: ({ children }) => children,
-        Routes: ({ children }) => children,
-        Route: ({ element }) => element,
         useNavigate: () => jest.fn(),
     };
 });
