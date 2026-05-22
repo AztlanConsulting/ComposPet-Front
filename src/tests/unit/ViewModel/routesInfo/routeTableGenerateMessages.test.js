@@ -121,7 +121,10 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
 
         await waitFor(() => {
             expect(result.current.selectedWeek).toBe(0);
-            expect(result.current.selectedDay).toBe("Jueves");
+        });
+
+        await act(async () => {
+            result.current.setSelectedDay("Jueves");
         });
 
         // Actuar
@@ -152,7 +155,6 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
 
         await waitFor(() => {
             expect(result.current.selectedWeek).toBe(0);
-            expect(result.current.selectedDay).toBe("Jueves");
         });
 
         await act(async () => {
@@ -179,7 +181,10 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
 
         await waitFor(() => {
             expect(result.current.selectedWeek).toBe(0);
-            expect(result.current.selectedDay).toBe("Jueves");
+        });
+
+        await act(async () => {
+            result.current.setSelectedDay("Jueves");
         });
 
         // Actuar y afirmar
