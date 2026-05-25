@@ -76,17 +76,17 @@
     max-width: none;
 }
 
-.filters-Row .formSelect{
+.filters-Row .formSelect {
     background-color: rgba(196, 222, 221, .64);
     border: none;
 }
 
-.filters-Row .selectOptions{
-    background-color: rgba(196, 222, 221, 100);
+.filters-Row .selectOptions {
+    background-color: rgba(196, 222, 221, 1);
     border: none;
 }
 
-.filters-Row .selectOption.selected{
+.filters-Row .selectOption.selected {
     background-color: #8ECAC8;
 }
 

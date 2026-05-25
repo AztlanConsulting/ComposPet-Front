@@ -12,8 +12,6 @@
     border: 1px solid var(--color-green-secondary);
     border-width: 0.2rem;
     border-radius: var(--border-radius-lg);
-    /* Se mantiene sombra específica por ajuste visual del contenedor principal */
-    box-shadow: 0 0.2rem 3rem #03504D87;
 }
 
 /* tablet */

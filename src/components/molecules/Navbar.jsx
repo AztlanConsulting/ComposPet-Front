@@ -100,10 +100,16 @@ export default function Navbar() {
 
             {/* Cerrar sesión — solo desktop */}
             <div className="navbarRight">
-                {user != null && (
+                {user != null ? (
                     <NavbarItem route="/" logout={true} onClick={handleLogout}>
                         Cerrar sesión
                     </NavbarItem>
+                ) : (
+                    <div className="login">
+                        <NavbarItem route="/inicio-sesion">
+                            Iniciar sesión
+                        </NavbarItem>
+                    </div>
                 )}
             </div>
 
