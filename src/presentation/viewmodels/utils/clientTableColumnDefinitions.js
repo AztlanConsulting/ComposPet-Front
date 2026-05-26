@@ -29,6 +29,9 @@ export function getClientTableColumns({
     return [
         {
             width: 150,
+            pinned: 'left',
+            lockPinned: true,
+            suppressMovable: true,
             headerName: "Editar",
             cellClass: 'edit-cell',
             cellRenderer: (params) => {
