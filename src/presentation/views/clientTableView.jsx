@@ -33,6 +33,7 @@ export default function ClientTableView({ viewModel }) {
         compostStatus,
         getCompostStatus,
         handleCompostStatusChange,
+        getRowClass,
     } = viewModel;
 
     // ==================== RENDERIZADO CONDICIONAL ====================
@@ -83,6 +84,7 @@ return (
                 columnDefinitions={columnDefinitions}
                 defaultColDef={defaultColDef}
                 editingRowId={editingRowId}
+                getRowClass={getRowClass}
             >
             </ClientTable>
     </div>

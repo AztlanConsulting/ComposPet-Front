@@ -48,9 +48,7 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
-        console.log("getRowClass");
         if (data?.name === editingRowId) {
-            console.log("Entra al editing row");
             classes.push("row-editing");
         }
         

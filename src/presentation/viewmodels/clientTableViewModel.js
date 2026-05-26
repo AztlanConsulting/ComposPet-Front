@@ -187,6 +187,16 @@ function useClientTableViewModel() {
         });
     }, [editingRowId]);
 
+    const getRowClass = useCallback((params) => {
+        const data = params.data;
+        const classes = [];
+        if (data?.clientId === editingRowId) {
+            classes.push("row-editing");
+        }
+
+        return classes.join(" ");
+    }, [editingRowId])
+
     const handleCancel = useCallback((params) => {
         
         try {
@@ -205,7 +215,11 @@ function useClientTableViewModel() {
 
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
 
         } catch (error) {
             console.log("Error discarding changes in client data: ", error);
@@ -415,6 +429,7 @@ function useClientTableViewModel() {
         pendingAmount: formatCurrency(pendingAmount),
         totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
         pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
+        getRowClass,
     };
 }
 
