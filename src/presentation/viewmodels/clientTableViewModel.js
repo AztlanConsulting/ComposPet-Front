@@ -13,6 +13,7 @@ import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
 import { isValidSearchText } from "./utils/searchValidation";
 import ConfirmAlert from "../../components/Template/confirmationAlert";
+import usePrompt from "./utils/usePrompt";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -74,6 +75,25 @@ function useClientTableViewModel() {
             setLoading(false);
         }
     }, [getRoutesUseCase]);
+
+    const hasPendingChanges = useMemo(() => {
+        return editingRowId !== null;
+    }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
+
+    const canChangeFilters = useCallback(async () => {
+        if(!hasPendingChanges){
+            return true;
+        }
+
+        await ProblemAlert({
+            title: "Tienes cambios pendientes",
+            text: "Guarda o descarta los cambios antes de cambiar de ruta."
+        });
+
+        return false;
+    }, [hasPendingChanges]);
 
     const getInfo = useCallback( async () => {
 
@@ -264,6 +284,14 @@ function useClientTableViewModel() {
         setSearchText(value);
     };
 
+    const handleRouteChange = useCallback(async (route) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedRoute(route);
+    }, [canChangeFilters]);
+
     const defaultColDef = useMemo(() => ({
 
         sortable: true,
@@ -374,7 +402,7 @@ function useClientTableViewModel() {
         editingRowId,
         routesDropdown,
         selectedRoute,
-        setSelectedRoute,
+        setSelectedRoute: handleRouteChange,
         searchText,
         setSearchText,
         handleSearchText,

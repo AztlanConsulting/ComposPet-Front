@@ -15,6 +15,7 @@ import { isValidSearchText } from "../utils/searchValidation";
 import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
 import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
+import usePrompt from '../utils/usePrompt';
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -86,6 +87,8 @@ function useRoutesViewModel(){
     const hasPendingChanges = useMemo(() => {
         return editingRowId !== null;
     }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
 
     const canChangeFilters = useCallback(async () => {
         if(!hasPendingChanges){
