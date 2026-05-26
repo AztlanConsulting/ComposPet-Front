@@ -1,9 +1,21 @@
 import { renderHook, act } from "@testing-library/react";
 import { useFirstLoginViewModel } from "../../presentation/viewmodels/auth/firstLoginViewModel";
+import ConfirmAlert from '../../components/Template/confirmationAlert';
+import TimerAlert from "../../components/Template/timerAlert";
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     useNavigate: () => mockNavigate,
+}));
+
+jest.mock("../../components/Template/confirmationAlert", () => ({
+    __esModule: true,
+    default: jest.fn(),
+}));
+
+jest.mock("../../components/Template/timerAlert", () => ({
+    __esModule: true,
+    default: jest.fn(),
 }));
 
 jest.mock("axios", () => ({
@@ -30,6 +42,8 @@ describe("useFirstLoginViewModel", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        ConfirmAlert.mockResolvedValue({ isConfirmed: true });
+        TimerAlert.mockResolvedValue();
         mockUseCase = {
             executeRequest: jest.fn(),
             executeVerify: jest.fn(),
