@@ -53,7 +53,7 @@ function SignInForm(){
                     </div>
 
 
-                    <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
+                    <form onSubmit={(e) => {onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
 
                         <Login
                             email={email}
