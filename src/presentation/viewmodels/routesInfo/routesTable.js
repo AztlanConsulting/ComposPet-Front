@@ -47,24 +47,30 @@ function useRoutesViewModel(){
 
     const getRowClass = useCallback((params) => {
         const data = params.data;
-
-        if(
+        const classes = [];
+        console.log("getRowClass");
+        if (data?.name === editingRowId) {
+            console.log("Entra al editing row");
+            classes.push("row-editing");
+        }
+        
+        if (
             data?.hasRequest === true &&
             data?.status === false
         ) {
-            return "row-inactive";
+            classes.push("row-inactive");
         }
 
-        if(
+        if (
             data?.hasRequest === true &&
             data?.wantsExtraProducts === false &&
             data?.wantsCollection === false
         ) {
-            return "row-neither";
+            classes.push("row-neither");
         }
 
-        return "";
-    }, []);
+        return classes.join(" ");
+    }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
         const rowId = params.data.name;
@@ -147,7 +153,11 @@ function useRoutesViewModel(){
 
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
         } catch (error) {
             console.log("Error discarding changes in routes table: ", error);
         } finally {
