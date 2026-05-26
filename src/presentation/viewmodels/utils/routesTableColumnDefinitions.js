@@ -446,7 +446,15 @@ export function getRoutesTableColumns({
                 return params.newValue;
             }
         },
-        { headerName: "Total a pagar", field: "totalToPay", width: 200},
+        { headerName: "Total a pagar", 
+            field: "totalToPay", 
+            width: 200,
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
+
+                return `$${value.toFixed(2)}`;
+            },
+        },
         { 
             headerName: "Total pagado", 
             field: "totalPaid", 
@@ -457,7 +465,11 @@ export function getRoutesTableColumns({
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
 
+                return `$${value.toFixed(2)}`;
+            },
             valueParser: (params) => {
                 return params.newValue;
             },

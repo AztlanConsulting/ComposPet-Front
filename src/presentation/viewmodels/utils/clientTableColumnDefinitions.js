@@ -95,7 +95,11 @@ export function getClientTableColumns({
             },
 
             cellClassRules: modifiedClassRule,
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
 
+                return `$${value.toFixed(2)}`;
+            },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
 
