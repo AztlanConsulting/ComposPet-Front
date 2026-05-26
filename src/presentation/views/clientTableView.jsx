@@ -42,7 +42,7 @@ return (
     <div className="client-table-container">
         <div className="client-filters-container">
             {/* Dropdown para filtro */}
-            <div className="route-filter">
+            <div className="client-filter">
                 <DropdownInput
                     id="routeFilter"
                     value={selectedRoute}

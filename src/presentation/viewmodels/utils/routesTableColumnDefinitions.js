@@ -181,6 +181,8 @@ export function getRoutesTableColumns({
             width: 150,
             headerName: "Editar",
             cellClass: 'edit-cell',
+            pinned: "left",
+            lockPinned: true,
             cellRenderer: (params) => {
                 const isEditing = params.data.name === editingRowId;
 

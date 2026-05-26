@@ -210,7 +210,6 @@ function useRoutesViewModel(){
             setEditingRowId(null);
             await AceptAlert({});
         } catch (error) {
-            console.log("Error saving routes data: ", error);
             await ProblemAlert({
                 title: "Error al guardar",
                 text: error.message || "Ocurrió un error al guardar los cambios"

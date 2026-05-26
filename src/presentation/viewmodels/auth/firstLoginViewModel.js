@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import TimerAlert from '../../../components/Template/timerAlert';
+import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import { FirstLoginUseCase } from '../../../domain/useCases/firstLoginUseCase';
 
 /**
@@ -157,6 +158,15 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
             return; 
         }
 
+        const result = await ConfirmAlert({
+            title: "¿Deseas actualizar tu contraseña?",
+            text: "Se guardará tu nueva contraseña para iniciar sesión.",
+            confirmText: "Sí, actualizar",
+            cancelText: "Cancelar",
+        });
+
+        if (!result.isConfirmed) return;
+
         setLoading(true);
         setError(null);
 
@@ -168,7 +178,14 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
                 p2, 
                 entity?.token 
             );
-            
+
+            await TimerAlert({
+                title: "Contraseña actualizada",
+                text: "Tu contraseña se actualizó correctamente. Ahora puedes iniciar sesión.",
+                icon:'success',
+                timer:5000,
+            });
+
             navigate("/inicio-sesion");
         } catch (err) {
             if (err.message === "Failed to fetch" || !navigator.onLine) {

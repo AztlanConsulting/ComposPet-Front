@@ -5,6 +5,7 @@ import "../../css/molecules/navbar.css";
 import Dropdown from './Dropdown';
 import NavbarItem from '../atoms/NavbarItem.jsx';
 import { useLogout } from '../../presentation/viewmodels/auth/logoutViewModel';
+import { useLocation } from 'react-router-dom';
 
 /**
  * Componente principal de navegación de la aplicación.
@@ -39,6 +40,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const { user, isAdmin, logout } = useLogout();
+    const location = useLocation();
 
     // variable para probar el menú con el botón de iniciar sesión
     //const isLoggedIn = false;
@@ -66,8 +68,9 @@ export default function Navbar() {
 
     const adminLinks = [
         //{ component: <Dropdown title="Inicio" options={homeOptions} /> },
-        { component: <Dropdown title="Clientes" options={clientInfo} /> },
-        { component: <NavbarItem route="/ruta">Rutas</NavbarItem> },
+        { component: <NavbarItem route="/tabla-clientes" active={location.pathname === "/tabla-clientes"}>Información clientes</NavbarItem>},
+        { component: <NavbarItem route="/registrar-cliente" active={location.pathname === "/registrar-cliente"}>Registrar clientes</NavbarItem>},
+        { component: <NavbarItem route="/ruta" active={location.pathname === "/ruta"}>Rutas</NavbarItem> },
         //{ component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
     ];
 
@@ -76,7 +79,9 @@ export default function Navbar() {
         //{ component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
         // //{ component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
         // { component: <NavbarItem route="/">  </NavbarItem>},
-        { component: <NavbarItem route="/formulario-recoleccion">Formulario de recolección</NavbarItem> }
+        { component: <NavbarItem route="/formulario-recoleccion" active={location.pathname === "/formulario-recoleccion"}>
+                        Formulario de recolección
+                    </NavbarItem> }
     ];
 
     const centerLinks = isAdmin ? adminLinks : clientLinks;
