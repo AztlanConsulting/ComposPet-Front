@@ -419,7 +419,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 const defaultDay = getDefaultDay(daysData);
                 setSelectedDay(defaultDay)
 
-                const routes = await getFilteredRoutes.execute(weekIdx, undefined);
+                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
                 setRoutesList(routes);
                 setWeeklyRoutesList(routes);
 
@@ -432,13 +432,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         initialize();
     }, []);
 
-    const [initialized, setInitialized] = useState(false);
-
     useEffect(() => {
-        if (!initialized) {
-            setInitialized(true);
-            return;
-        }
 
         if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return;
 
