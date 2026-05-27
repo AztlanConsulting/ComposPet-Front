@@ -11,8 +11,6 @@
     margin: 0.4rem;
 }
 
-
-
 .mini {
     width: 4.25rem;
     height: 1.3rem;
@@ -154,7 +152,7 @@
 
     .large {
         width: 100%;
-        max-width: 8.5rem;
+        max-width: 100%;
         height: 2rem;
         font-size: 0.87rem;
     }

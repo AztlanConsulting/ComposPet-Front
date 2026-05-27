@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import { loginUseCase } from "../../../di/auth/authProvider";
 import useLoginViewModel from "../../viewmodels/auth/loginViewModel";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Vista de la pantalla de inicio de sesión conectada al ViewModel.
@@ -37,6 +38,8 @@ function SignInForm(){
         onSubmit,
     } = useLoginViewModel(loginUseCase);
 
+    const navigate = useNavigate();
+
     return(
         <main className="signIn-background">
 
@@ -52,8 +55,7 @@ function SignInForm(){
                         <p>¡Bienvenid@! Entra a tu sesión y sigue compostando con nosotros</p>
                     </div>
 
-
-                    <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap'>
+                    <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap form-content'>
 
                         <Login
                             email={email}
@@ -69,10 +71,36 @@ function SignInForm(){
                             <p className="error-message">
                                 {errors.general}
                             </p>}
+
+                        <Button 
+                            size="large" 
+                            type="submit" 
+                            csstype="accept" 
+                            className='auxiliar-button signin' 
+                            disabled={loading}
+                        >
+                            {loading ? "Ingresando..." : "Iniciar sesión"}
+                        </Button>
+
+                        <div className="separator">
+                            <span>O</span>
+                        </div>
+
+
+                        <Button 
+                            size="large" 
+                            type="button" 
+                            csstype="cancel" 
+                            className='auxiliar-button' 
+                            onClick={() => navigate("/activar-cuenta")}
+                            disabled={loading}
+                        >
+                            {loading ? "Ingresando..." : "Activar cuenta"}
+                        </Button>
                         
                         <Button 
                             csstype='cancel' 
-                            className='google-button' 
+                            className='auxiliar-button' 
                             type="button" 
                             onClick={() => onGoogleLogin()} 
                             disabled={loadingAction === 'google'}
@@ -81,28 +109,11 @@ function SignInForm(){
                             {loadingAction ? "Conectando..." : "Continuar con Google"}
                         </Button>
 
-                        <Button 
-                            size="large" 
-                            type="submit" 
-                            csstype="accept" 
-                            className='button' 
-                            disabled={loading}
-                        >
-                            {loading ? "Ingresando..." : "Iniciar sesión"}
-                        </Button>
-
                     </form>
-
                     
                     <Link to="/recuperar-contraseña" className="forgot-password">
-                        ¿Olvidaste tu contraseña?
+                        ¿Olvidaste tu contraseña? <b>Recuperar contraseña</b> 
                     </Link>
-
-                    <Link to="/activar-cuenta" className="first-login">
-                        Activa tu cuenta aquí
-                    </Link>
-                    
-                    
 
                 </div>
 
