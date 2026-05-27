@@ -1,5 +1,6 @@
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
+import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./routesFieldsValidation";
@@ -15,6 +16,19 @@ const PRODUCT_COLORS = {
 
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
+
+    const searchProduct = props.searchProduct || '';
+    const handleSearchProduct = props.handleSearchProduct;
+
+    const filteredProducts = useMemo(() => {
+        const query = searchProduct.trim().toLowerCase();
+
+        if (!query) return allProducts;
+
+        return allProducts.filter(product =>
+            product.nombre.toLowerCase().includes(query)
+        );
+    }, [allProducts, searchProduct]);
 
     const buildSelectedState = () => {
         const initial = {};
@@ -117,7 +131,13 @@ const ExtraProductsCellEditor = forwardRef((props, ref) => {
 
     return (
         <div className="extra-products-menu">
-            {allProducts.map((product) => {
+        <SearchInput
+            value={searchProduct}
+            onChange={(e) => handleSearchProduct(e.target.value)}
+            onInput={(e) => handleSearchProduct(e.target.value)}
+            placeholder="Buscar producto extra"
+        />
+            {filteredProducts.map((product) => {
                 const isSelected = selected[product.id_producto] !== undefined;
                 return (
                     <div 
@@ -165,6 +185,8 @@ export function getRoutesTableColumns({
     payOptions,
     extraProducts,
     getRowClass,
+    handleSearchProduct,
+    searchProduct,
 }) {
 
     const modifiedClassRule = {
@@ -333,36 +355,40 @@ export function getRoutesTableColumns({
             cellEditor: ExtraProductsCellEditor,
             cellEditorParams: (params) => ({
                 extraProducts,
-            onSelectionChange: (newSelected) => {
-                const selectedIds = Object.keys(newSelected).map(Number);
-                const selectedProducts = extraProducts.filter(p => selectedIds.includes(p.id_producto));
+                searchProduct,
+                handleSearchProduct,
 
-                params.data.extraProductsArray = newSelected;
-                
-                params.data.extraProductsDetails = [...selectedProducts.map(p => {
-                    return {
-                        text: newSelected[p.id_producto] > 1
-                            ? `${p.nombre} (${newSelected[p.id_producto]})`
-                            : p.nombre,
-                        color: p.color,
-                    };
-                })];
-                
-                params.data.extraProducts = params.data.extraProductsDetails
-                    .map(p => p.text)
-                    .join("\n");
+                onSelectionChange: (newSelected) => {
+                    const selectedIds = Object.keys(newSelected).map(Number);
 
+                    const selectedProducts = extraProducts.filter(p =>
+                        selectedIds.includes(p.id_producto)
+                    );
 
-                setTimeout(() => {
-                    params.api.resetRowHeights();
-                    params.api.refreshCells({
-                        rowNodes: [params.node],
-                        columns: ['extraProductsDetails'],
-                        force: true,
-                    });
-                }, 0);
+                    params.data.extraProductsArray = newSelected;
 
-            },
+                    params.data.extraProductsDetails =
+                        selectedProducts.map(p => ({
+                            text: newSelected[p.id_producto] > 1
+                                ? `${p.nombre} (${newSelected[p.id_producto]})`
+                                : p.nombre,
+                            color: p.color,
+                        }));
+
+                    params.data.extraProducts =
+                        params.data.extraProductsDetails
+                            .map(p => p.text)
+                            .join("\n");
+
+                    setTimeout(() => {
+                        params.api.resetRowHeights();
+                        params.api.refreshCells({
+                            rowNodes: [params.node],
+                            columns: ['extraProductsDetails'],
+                            force: true,
+                        });
+                    }, 0);
+                },
             }),
 
             cellEditorPopup: true,

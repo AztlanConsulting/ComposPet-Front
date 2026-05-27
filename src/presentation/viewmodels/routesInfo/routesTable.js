@@ -36,6 +36,7 @@ function useRoutesViewModel(){
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
     const [editingRowId, setEditingRowId] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
 
     const [payMethods, setPayMethods] = useState([]);
@@ -310,6 +311,12 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         return getRowClass({ data }) === "row-inactive";
     }, [getRowClass]);
 
+
+    const handleSearchProduct = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchProduct(value);
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = useMemo(() => 
         getRoutesTableColumns({
@@ -325,6 +332,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             payOptions,
             extraProducts,
             getRowClass,
+            handleSearchProduct,
+            searchProduct,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -332,7 +341,19 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts, getRowClass]);
+    [editingRowId, 
+        handleEdit, 
+        handleCancel, 
+        handleSave, 
+        isCellChanged, 
+        loading, 
+        payMap, 
+        payOptions, 
+        extraProducts, 
+        getRowClass,
+        handleSearchProduct,
+        searchProduct,
+    ]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
