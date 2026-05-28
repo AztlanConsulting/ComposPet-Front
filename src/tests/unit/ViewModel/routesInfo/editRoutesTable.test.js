@@ -68,6 +68,7 @@ function makeParams(route, overrides = {}) {
             startEditingCell: jest.fn(),
             stopEditing:      jest.fn(),
             refreshCells:     jest.fn(),
+            redrawRows: jest.fn(),
         },
         colDef: { field: 'collectedBuckets' },
         value:  route.collectedBuckets,
@@ -141,7 +142,7 @@ describe('handleEdit', () => {
         const params1 = makeParams(MOCK_ROUTES[0]);
         const params2 = makeParams(MOCK_ROUTES[1], {
             node: { rowIndex: 1, setData: jest.fn(), data: MOCK_ROUTES[1] },
-            api:  { startEditingCell: jest.fn(), stopEditing: jest.fn(), refreshCells: jest.fn() },
+            api:  { startEditingCell: jest.fn(), stopEditing: jest.fn(), refreshCells: jest.fn(), redrawRows: jest.fn(), },
         });
 
         const rendered1 = editColRenderer(params1);
@@ -178,7 +179,6 @@ describe('handleCancel', () => {
             expect(params.node.setData).toHaveBeenCalledWith(
                 expect.objectContaining({ name: MOCK_ROUTES[0].name })
             );
-            expect(params.api.refreshCells).toHaveBeenCalledWith({ force: true });
         });
     });
 

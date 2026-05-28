@@ -2,12 +2,14 @@ import { useContext, useEffect } from 'react';
 import { UNSAFE_NavigationContext } from 'react-router-dom';
 
 export default function usePrompt(when) {
-    const navigator = useContext(
+    const navigationContext = useContext(
         UNSAFE_NavigationContext
-    ).navigator;
+    );
+
+    const navigator = navigationContext?.navigator;
 
     useEffect(() => {
-        if (!when) return;
+        if (!when || !navigator) return;
 
         const push = navigator.push;
 
