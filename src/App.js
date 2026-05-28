@@ -48,7 +48,9 @@ function App() {
                                 <br />
                                 Próximamente podrás ver más información en la aplicación.
                             </>
-                            }/>} 
+                            }
+                            img={false}
+                        />}
                         />
                     </Route>
 

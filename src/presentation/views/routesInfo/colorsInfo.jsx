@@ -13,7 +13,6 @@ const BACKGROUND_COLORS = [
     { text: "No quiso recolección ni productos extra", color: "var(--color-gray-bg)" },
 ];
 
-
 export default function ColorsInfo() {
     return (
         <div className="colors-info-wrapper">
@@ -45,7 +44,6 @@ export default function ColorsInfo() {
                     </div>
                 ))}
             </div>
-
         </div>
     );
 }

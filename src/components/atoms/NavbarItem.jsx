@@ -17,6 +17,7 @@ export default function NavbarItem({
     route = "/", 
     icon = <></>, 
     logout = false, 
+    active = false,
     onClick,
     children 
 }) {
@@ -27,9 +28,16 @@ export default function NavbarItem({
         }
     };
     return (
-        <Link to={route} className={logout ? "logout" : "navbarItem"} onClick={handleClick} >
-        <span>{icon}</span>
-        {children}
+        <Link
+            to={route}
+            onClick={handleClick}
+            className={`
+                ${logout ? "logout" : "navbarItem"}
+                ${active ? "navbarItemActive" : ""}
+            `}
+        >
+            <span>{icon}</span>
+            {children}
         </Link>
     );
 }

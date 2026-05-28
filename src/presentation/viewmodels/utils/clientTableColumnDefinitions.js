@@ -34,6 +34,8 @@ export function getClientTableColumns({
             suppressMovable: true,
             headerName: "Editar",
             cellClass: 'edit-cell',
+            pinned: "left",
+            lockPinned: true,
             cellRenderer: (params) => {
                 const isEditing = params.data.clientId === editingRowId;
 
