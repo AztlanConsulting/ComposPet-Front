@@ -39,7 +39,6 @@ export const useLogout = (useCaseOverride = null) => {
             await logoutUseCase.execute();
             
             // Limpieza de estado local
-            // setUser(null);
             sessionStorage.removeItem('user');
             window.location.href = '/inicio-sesion';
         } catch (error) {
