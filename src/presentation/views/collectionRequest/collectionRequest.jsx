@@ -114,7 +114,11 @@ export default function CollectionRequestView() {
                             type="button"
                             size="medium"
                             csstype="cancel"
-                            className="collection-request-cancel-button"
+                            className={
+                                secondaryButtonText === 'Regresar'
+                                    ? "collection-request-cancel-button"
+                                    : "collection-request-cancel-page2-button"
+                            }
                             onClick={onSecondaryAction}
                         >
                             {secondaryButtonText}

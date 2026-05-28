@@ -10,7 +10,6 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0 1rem;
-    background-color: var(--color-green-tertiary);
     border: 0.12rem solid var(--color-green-secondary);
     border-radius: var(--border-radius-xl);
     overflow: hidden;

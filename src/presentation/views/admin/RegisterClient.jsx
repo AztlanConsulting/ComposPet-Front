@@ -7,6 +7,7 @@ import DropdownInput from '../../../components/molecules/DropdownInput';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Loading from '../../../components/Template/loading';
+import Icon from '../../../components/atoms/Icon';
 
 import useRegisterClientCatalogViewModel from '../../viewmodels/admin/registerClientCatalogViewModel';
 import { registerClientCatalogUseCase } from '../../../di/admin/registerClientDependencies';
@@ -101,7 +102,7 @@ function RegisterClient(){
                         error={errors.name}
                         required
                     >
-                        Nombre
+                        Nombre <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                     <div className='lastname-container'> 
@@ -122,7 +123,7 @@ function RegisterClient(){
                             error={errors.lastname1}
                             required
                         >
-                            Apellido Paterno
+                            Apellido Paterno <Icon name="requiredInput" size="mini" color="icon-required" />
                         </InputComponent>
 
                         <InputComponent
@@ -152,7 +153,7 @@ function RegisterClient(){
                             validateField("email", value);
                         }}
                     >
-                        Correo
+                        Correo <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                     <InputComponent
@@ -170,7 +171,7 @@ function RegisterClient(){
                             validateField("phone", value);
                         }}
                     >
-                        Número de teléfono
+                        Número de teléfono <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
                 </section>
 
@@ -239,7 +240,7 @@ function RegisterClient(){
                             validateField("address", value);
                         }}
                     >
-                        Dirección
+                        Dirección <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                 </section>
@@ -260,7 +261,7 @@ function RegisterClient(){
                                 }))}
                             error={dropdownErrors.selectedDay}
                         >
-                        Día de ruta
+                        Día de ruta <Icon name="requiredInput" size="mini" color="icon-required" />
                         </DropdownInput>
                     </div>
 

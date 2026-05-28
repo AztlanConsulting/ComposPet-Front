@@ -5,7 +5,7 @@ import Navbar from '../molecules/Navbar';
  * Componente de error.
  * Muestra un mensaje de error junto con un ícono y el logo de la aplicación.
  */
-export default function TemporaryView ({ navbarStatus, message }) {
+export default function TemporaryView ({ navbarStatus, message, img=true, }) {
     return(
         <>
             {navbarStatus === true && <Navbar />}
@@ -13,11 +13,13 @@ export default function TemporaryView ({ navbarStatus, message }) {
             <div className="temporary-container">
                 <p className="temporary-text">{message}</p>
 
-                <img 
-                    src={Logo} 
-                    alt="ComposPet" 
-                    className="temporary-logo" 
-                />
+                {img === true && (
+                    <img
+                        src={Logo}
+                        alt="ComposPet"
+                        className="temporary-logo"
+                    />
+                )}
             </div>
         </>
     );
