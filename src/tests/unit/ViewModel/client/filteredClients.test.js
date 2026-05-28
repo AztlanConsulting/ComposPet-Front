@@ -85,7 +85,7 @@ describe('ClientTableViewModel', () => {
             expect(result.current.clientList).toHaveLength(3);
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
@@ -130,13 +130,13 @@ describe('ClientTableViewModel', () => {
             expect(result.current.clientList).toHaveLength(2);
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
         expect(result.current.clientList).toHaveLength(1);
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute('');
         });
 
