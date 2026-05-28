@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './utilities/reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { reportWebVitalApiClient } from './data/datasources/reportWebVitalsApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 
 const observer = window.ResizeObserver;
@@ -28,34 +29,43 @@ root.render(
   </React.StrictMode>
 );
 
+const webVitalApiClient = new reportWebVitalApiClient();
 
 /**
- * Reports Web Vitals metrics in the browser console to support frontend
- * performance monitoring during development and validation.
- *
- * Metrics related to page loading are displayed in seconds, while INP is
- * displayed in milliseconds because it measures interaction response time.
- *
- * @param {Object} metric - Web Vitals metric reported by the library.
- * @param {string} metric.name - Name of the metric, such as FCP, LCP, TTFB, CLS or INP.
- * @param {number} metric.value - Current value of the reported metric.
- * @param {number} metric.delta - Difference between the current and previous metric value.
- */
+
+* Informa las métricas de Web Vitals 
+*
+* Las métricas relacionadas con la carga de la página se muestran en segundos, 
+* mientras que el INP se muestra en milisegundos, ya que mide el tiempo de respuesta de la interacción.
+*
+* @param {Object} metric - Métrica de Web Vitals informada por la biblioteca.
+* @param {string} metric.name - Nombre de la métrica, como FCP, LCP, TTFB, CLS o INP.
+* @param {number} metric.value - Valor actual de la métrica informada.
+* @param {number} metric.delta - Diferencia entre el valor actual y el anterior de la métrica.
+*/
 
 reportWebVitals((metric) => {
-  const shouldDisplayInMilliseconds = metric.name === 'INP';
+  const shouldDisplayInMilliseconds = metric.name === 'INP' || metric.name === 'FID';
 
   const value = shouldDisplayInMilliseconds
-    ? metric.value.toFixed(2)
-    : (metric.value / 1000).toFixed(2);
+    ? Number(metric.value.toFixed(2))
+    : Number((metric.value / 1000).toFixed(2));
 
   const delta = shouldDisplayInMilliseconds
-    ? metric.delta.toFixed(2)
-    : (metric.delta / 1000).toFixed(2);
+    ? Number(metric.delta.toFixed(2))
+    : Number((metric.delta / 1000).toFixed(2));
 
   const unit = shouldDisplayInMilliseconds ? 'ms' : 's';
 
-  console.log(
-    `[Web Vital] ${metric.name} | Valor: ${value} ${unit} | Delta: ${delta} ${unit}`
-  );
+  const metricData = {
+    name: metric.name,
+    value,
+    delta,
+    unit,
+    id: metric.id,
+    url: window.location.href,
+    timestamp: new Date().toISOString(),
+  };
+
+  webVitalApiClient.sendWebVitalMetric(metricData);
 });
