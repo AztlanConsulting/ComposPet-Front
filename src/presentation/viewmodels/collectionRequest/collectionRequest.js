@@ -84,7 +84,7 @@ function theClientIsInTime(routeDay) {
     routeDate.setHours(0, 0, 0, 0);
 
     const limitDate = new Date(routeDate);
-    limitDate.setHours(limitDate.getHours() - 6);
+    limitDate.setHours(limitDate.getHours() - 1);
 
     const weekStartDate = new Date(today);
     weekStartDate.setDate(today.getDate() - currentDay);
