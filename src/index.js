@@ -28,20 +28,19 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-/*reportWebVitals((metric) => {
-  const metricData = {
-    metric: metric.name,
-    value: Number(metric.value.toFixed(2)),
-    rating: metric.rating || 'No disponible',
-    delta: Number(metric.delta.toFixed(2)),
-    id: metric.id,
-  };
 
-  console.log(`[Web Vital] ${metric.name}:`, metricData);
-});*/
+/**
+ * Reports Web Vitals metrics in the browser console to support frontend
+ * performance monitoring during development and validation.
+ *
+ * Metrics related to page loading are displayed in seconds, while INP is
+ * displayed in milliseconds because it measures interaction response time.
+ *
+ * @param {Object} metric - Web Vitals metric reported by the library.
+ * @param {string} metric.name - Name of the metric, such as FCP, LCP, TTFB, CLS or INP.
+ * @param {number} metric.value - Current value of the reported metric.
+ * @param {number} metric.delta - Difference between the current and previous metric value.
+ */
 
 reportWebVitals((metric) => {
   const shouldDisplayInMilliseconds = metric.name === 'INP';
