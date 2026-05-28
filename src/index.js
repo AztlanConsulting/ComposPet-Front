@@ -44,7 +44,19 @@ root.render(
 });*/
 
 reportWebVitals((metric) => {
+  const shouldDisplayInMilliseconds = metric.name === 'INP';
+
+  const value = shouldDisplayInMilliseconds
+    ? metric.value.toFixed(2)
+    : (metric.value / 1000).toFixed(2);
+
+  const delta = shouldDisplayInMilliseconds
+    ? metric.delta.toFixed(2)
+    : (metric.delta / 1000).toFixed(2);
+
+  const unit = shouldDisplayInMilliseconds ? 'ms' : 's';
+
   console.log(
-    `[Web Vital] ${metric.name} | Valor: ${metric.value.toFixed(2)} ms | Delta: ${metric.delta.toFixed(2)}`
+    `[Web Vital] ${metric.name} | Valor: ${value} ${unit} | Delta: ${delta} ${unit}`
   );
 });
