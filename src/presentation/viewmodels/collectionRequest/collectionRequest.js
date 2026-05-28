@@ -287,21 +287,20 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 3) {
-            const result = await thirdSectionViewModel.saveThirdSection();
-            if (result.success && result.nextStep) {
-                const result = await ConfirmAlert({
-                    title: "¿Estás seguro que deseas enviar tu solicitud?",
-                    text: "Una vez enviada, no podrás hacer cambios en tu solicitud.",
-                    confirmText: "Sí, enviar solicitud",
-                    cancelText: "No, quedarme aquí",
-                });
-                console.log("Result from confirmation alert:", result.isConfirmed);
-                if (result.isConfirmed) {
-                    navigate("/")
-                }
-            }
-            return;
+            const result = await ConfirmAlert({
+                title: "¿Estás seguro que deseas enviar tu solicitud?",
+                text: "Una vez enviada, no podrás hacer cambios en tu solicitud.",
+                confirmText: "Sí, enviar solicitud",
+                cancelText: "No, quedarme aquí",
+            });
 
+            if (!result.isConfirmed) return;
+
+            const saveResult = await thirdSectionViewModel.saveThirdSection();
+
+            if (saveResult.success && saveResult.nextStep) {
+                navigate("/");
+            }
         }
 
     };

@@ -4,6 +4,11 @@
 
 html,
 
+.icon-required{
+    color: var(--color-red-primary);
+    padding-top: 0.2rem;
+}
+
 .register-client-background {
     background-color: var(--color-bg);
 }

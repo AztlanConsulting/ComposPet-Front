@@ -6,6 +6,7 @@ import Dropdown from './Dropdown';
 import NavbarItem from '../atoms/NavbarItem.jsx';
 import { useLogout } from '../../presentation/viewmodels/auth/logoutViewModel';
 import { useLocation } from 'react-router-dom';
+import ConfirmAlert from '../Template/confirmationAlert.jsx';
 
 /**
  * Componente principal de navegación de la aplicación.
@@ -47,6 +48,15 @@ export default function Navbar() {
 
     const handleLogout = async (e) => {
         if (e) e.preventDefault();
+        const result = await ConfirmAlert({
+            title: "¿Estás seguro de que quieres cerrar sesión?",
+            text: "",
+            confirmText: "Cerrar sesión",
+            cancelText: "Cancelar",
+        });
+
+        if (!result.isConfirmed) return;
+
         await logout();
     };
 
