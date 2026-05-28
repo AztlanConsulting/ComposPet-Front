@@ -83,7 +83,6 @@ function useClientTableViewModel() {
             setLoading(true);
 
             const response = await getTableUseCase.execute();
-            console.log("RESPONSE: ", response);
             setClientList(response);
             setOriginalClientList(JSON.parse(JSON.stringify(response)));
 

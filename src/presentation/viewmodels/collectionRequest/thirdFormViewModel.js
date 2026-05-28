@@ -109,8 +109,6 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         try {
             setLoading(true);
 
-            console.log("Collection total", collectionTotal);
-
             await updateCollectionTotalUseCase.execute(
                 collection.id_solicitud,
                 collectionTotal,
