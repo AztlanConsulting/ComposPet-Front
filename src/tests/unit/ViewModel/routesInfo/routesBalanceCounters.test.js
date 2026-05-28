@@ -38,6 +38,8 @@ describe('Routes Balance Counters ViewModel', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date('2026-01-05T12:00:00'));
 
         GetAvailableWeeksUseCase.mockImplementation(() => ({
             execute: mockGetAvailableWeeksExecute,
@@ -88,14 +90,23 @@ describe('Routes Balance Counters ViewModel', () => {
         mockUpdateRequestExecute.mockResolvedValue({});
     });
 
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
     it('debe calcular la sumatoria total, pagado y pendiente de la ruta actual', async () => {
         mockGetFilteredRoutesExecute.mockImplementation((week, day) => {
             if (day === 'Lunes 1') {
                 return Promise.resolve([
                     {
-                        name: 'Cliente Lunes 1',
+                        name: 'Cliente Ruta Actual 1',
                         totalToPay: 500,
                         totalPaid: 300,
+                    },
+                    {
+                        name: 'Cliente Ruta Actual 2',
+                        totalToPay: 200,
+                        totalPaid: 100,
                     },
                 ]);
             }

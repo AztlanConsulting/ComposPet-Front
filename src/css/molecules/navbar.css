@@ -67,6 +67,12 @@
     line-height: var(--line-height-normal);
 }
 
+.navbarItemActive {
+    border-bottom: 3px solid var(--color-green-secondary);
+    color: var(--color-black) !important;
+    padding: .5rem .5rem;
+}
+
 /* Da formato al boton de logout */
 .logout {
     background-color: var(--color-red-secondary);
