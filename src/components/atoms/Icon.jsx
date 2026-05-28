@@ -20,7 +20,7 @@ import { ReactComponent as SaveIcon } from '../../public/icons/save.svg';
 import { ReactComponent as ReloadIcon } from '../../public/icons/reload.svg';
 import { ReactComponent as GoogleSheetsIcon } from '../../public/icons/googlesheets.svg';
 import { ReactComponent as EyeClosed } from '../../public/icons/eyeClosed.svg';
-import { ReactComponent as OpenEyed } from '../../public/icons/eyeOpen.svg';
+import { ReactComponent as OpenedEye } from '../../public/icons/eyeOpen.svg';
 import { ReactComponent as RequiredInput } from '../../public/icons/required.svg';
 
 /**
@@ -50,7 +50,7 @@ const icons = {
     reload: ReloadIcon,
     googleSheets: GoogleSheetsIcon,
     eyeClosed: EyeClosed,
-    eyeOpened: OpenEyed,
+    eyeOpened: OpenedEye,
     requiredInput : RequiredInput,
 };
 
