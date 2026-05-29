@@ -3,26 +3,27 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-}
-
-.balance-counter-title{
-    margin: 0;
-    font-family: var(--font-family-primary);
-    font-size: clamp(1rem, 2vw, var(--font-size-2xl));
-    font-weight: 700;
-    color: var(--color-black);
-    text-align: center;
+    background-color: rgb(from var(--color-green-cards) r g b / 70%);
+    padding: 1rem;
+    border-radius: var(--border-radius-4xl);
+    width: 17rem;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .balance-counter-items{
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
+    justify-content: space-between;
+    width: 100%;
 }
 
 /* Celular */
 @media (max-width: 768px){
-    .balance-counter{
-        gap: 0.7rem;
+    .balance-counter,
+    .counters-group .counters-container{
+        width: 17rem;
+        max-width: 90%;
     }
 
     .balance-counter-title{

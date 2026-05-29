@@ -20,6 +20,7 @@ import DropdownInput from './molecules/DropdownInput';
 import CopyLink from './molecules/CopyLink';
 import CountersGroup from './molecules/CountersGroup';
 import BalanceCountersGroup from './organisms/BalanceCountersGroup';
+import MetricHeader from '../components/molecules/MetricHeader';
 
 
 function ComponentMock() {
@@ -73,6 +74,10 @@ function ComponentMock() {
                     <Icon name="piggy" size="large" color="primary" />
                     <Icon name="search" size="large" color="primary" />
                     <Icon name="tiktok" size="large" color="primary" />
+                    <Icon name="family" size="small" color="primary" />
+                    <Icon name="car" size="small" color="primary" />
+                    <Icon name="moneyBag" size="small" color="primary" />
+                    <Icon name="warning" size="small" color="primary" />
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
@@ -170,32 +175,40 @@ function ComponentMock() {
                         </DropdownInput>
                     </div>
                     <div>
-                    <CountersGroup 
-                        counters={[
-                            { label: "Total de Familias", value: 50 },
-                            { label: "Familias por ruta", value: 25 },
-                        ]}
-                    />
+                        <CountersGroup
+                            counters={[
+                                { label: "Total de Familias", value: 50 },
+                                { label: "Familias por ruta", value: 25 },
+                            ]}
+                        />
 
-                    <BalanceCountersGroup
-                        routeCounter={{
-                            title: 'Saldo total de ruta',
-                            favorSubtitle: 'Saldo a favor',
-                            favorBalance: '$361',
+                        <BalanceCountersGroup
+                            routeCounter={{
+                                title: 'Saldo total de ruta',
+                                favorSubtitle: 'Saldo a favor',
+                                favorBalance: '$361',
 
-                            pendingSubtitle: 'Saldo pendiente',
-                            pendingBalance: '- $147',
-                        }}
+                                pendingSubtitle: 'Saldo pendiente',
+                                pendingBalance: '- $147',
+                            }}
 
-                        totalCounter={{
-                            title: 'Saldo total',
-                            favorSubtitle: 'Saldo a favor',
-                            favorBalance: '$361',
+                            totalCounter={{
+                                title: 'Saldo total',
+                                favorSubtitle: 'Saldo a favor',
+                                favorBalance: '$361',
 
-                            pendingSubtitle: 'Saldo pendiente',
-                            pendingBalance: '- $147',
-                        }}
-                    />
+                                pendingSubtitle: 'Saldo pendiente',
+                                pendingBalance: '- $147',
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <MetricHeader
+                            text='Total de familias'
+                            iconName='family'
+                            size='small'
+                            color='primary'
+                        />
                     </div>
                 </div>
             </div>

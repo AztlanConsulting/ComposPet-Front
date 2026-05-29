@@ -5,13 +5,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    flex: 1;
+    min-width:0;
+    text-align: center;
 }
 
 .balance-item-subtitle{
     font-family: var(--font-family-primary);
-    font-size: clamp(1rem, 2vw, var(--font-size-sm));
-    font-weight: 700;
+    font-size: clamp(0.8rem, 1.5vw, var(--font-size-sm));
+    font-weight: var(--font-weight-normal);
     color: var(--color-black);
     text-align: center;
     white-space: nowrap;
@@ -19,9 +21,14 @@
 
 .balance-item-value{
     font-family: var(--font-family-primary);
-    font-size: clamp(1rem, 2vw, var(--font-size-2xl));
+    font-size: clamp(0.8rem, 1vw, var(--font-size-md));
     font-weight: 700;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    cursor: pointer;
 }
 
 .balance-item-value-positive{

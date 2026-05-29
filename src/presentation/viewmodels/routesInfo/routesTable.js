@@ -528,11 +528,20 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     // formatea montos a moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `-$${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
 
-        return `$${amount}`;
+        return `$${formattedAmount}`;
     };
 
     // convierte valores a número

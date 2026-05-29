@@ -1,20 +1,33 @@
 .counters-group{
     display: flex;
     flex-wrap: wrap;
-    gap: 3rem;
+    gap: 1rem;
     margin-top: 3rem;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     margin: 0;
 }
 
 .counters-group .counters-container{
     flex: 0 0 auto;
+    background-color: var(--color-green-tertiary);
+    padding: 1rem;
+    border-radius: var(--border-radius-4xl);
+    width: 17rem;
 }
 
 /* Celular */
 @media (max-width: 768px){
     .counters-group{
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .counters-group .counters-container{
+        width: 17rem;
+        max-width: 90%;
     }
 }

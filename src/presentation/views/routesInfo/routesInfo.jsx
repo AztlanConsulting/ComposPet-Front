@@ -7,6 +7,7 @@ import ColorsInfo from "./colorsInfo";
 import BalanceCountersGroup from '../../../components/organisms/BalanceCountersGroup';
 import CountersGroup from '../../../components/molecules/CountersGroup';
 import '../../../css/routesInfo/routesInfo.css';
+import  '../../../components/atoms/Icon';
 
 export default function RoutesInfo(){
     const routesViewModel = useRoutesViewModel();
@@ -25,29 +26,37 @@ export default function RoutesInfo(){
             <div className="main">
                 <div className="route-header-row">
                     <div className="route-counters-section">
-                        <BalanceCountersGroup
-                            counters={[
-                                {
-                                    title: 'Ruta',
-                                    favorSubtitle: 'Pagado',
-                                    favorBalance: routePayedAmount,
-                                    pendingSubtitle: 'Pendiente',
-                                    pendingBalance: routePendingAmount,
-                                },
-                                {
-                                    title: 'Semana',
-                                    favorSubtitle: 'Pagado',
-                                    favorBalance: weeklyPayedAmount,
-                                    pendingSubtitle: 'Pendiente',
-                                    pendingBalance: weeklyPendingAmount,
-                                },
-                            ]}
-                        />
-                        <CountersGroup 
-                            counters={[
-                                { label: "Sumatoria total", value: dayTotalAmount },
-                            ]}
-                        />
+                        <div className="summary-card">
+                            <CountersGroup
+                                counters={[
+                                    { label: "Sumatoria total", value: dayTotalAmount, icon:'moneySign', color:'colorsIcon'  },
+                                ]}
+                            />
+                        </div>
+                        <div className="center-balance-group">
+                            <BalanceCountersGroup
+                                counters={[
+                                    {
+                                        title: 'Saldo favor',
+                                        favorSubtitle: 'Ruta',
+                                        favorBalance: routePayedAmount,
+                                        pendingSubtitle: 'Semana',
+                                        pendingBalance: weeklyPayedAmount,
+                                        icon:'moneyBag',
+                                        color:'colorsIcon',
+                                    },
+                                    {
+                                        title: 'Pendiente',
+                                        favorSubtitle: 'Ruta',
+                                        favorBalance: routePendingAmount,
+                                        pendingSubtitle: 'Semana',
+                                        pendingBalance: weeklyPendingAmount,
+                                        icon:'warning',
+                                        color:'colorsIcon',
+                                    },
+                                ]}
+                            />
+                        </div>
                     </div>
                     <div className="copy-link-container">
                         <CopyLink {...routesViewModel.copyLinkInfo} />

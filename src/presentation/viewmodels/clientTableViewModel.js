@@ -312,11 +312,22 @@ function useClientTableViewModel() {
 
     // Función para formatear los montos en formato de moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `- $${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
     
-        return `$${Math.abs(amount)}`;
+        return `$${formattedAmount}`;
     };
 
     // Funciones para los contadores de saldo total y saldo pendiente
@@ -365,6 +376,19 @@ function useClientTableViewModel() {
         }, 0);
     }, [clientList, selectedRoute]);
 
+    console.log('ANTES DE FORMATEAR:', {
+        totalAmount,
+        pendingAmount,
+        totalAmountPerRoute,
+        pendingAmountPerRoute,
+    });
+
+    console.log('Despues de formater', {
+        totalAmount: formatCurrency(totalAmount),
+        pendingAmount: formatCurrency(pendingAmount),
+        totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
+        pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
+    })
 
     return {
         clientList: filteredClientList,
