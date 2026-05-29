@@ -243,13 +243,13 @@ function useCollectionRequestViewModel() {
         }
     };
 
-    const onSecondaryAction = () => {
+    const onSecondaryAction = async () => {
         if (currentStep === 1) {
-            cancelForm();
+            await cancelForm();
             return;
         }
 
-        goToPreviousStep(currentStep - 1);
+        await goToPreviousStep(currentStep - 1);
     };
 
     const onPrimaryAction = async () => {
