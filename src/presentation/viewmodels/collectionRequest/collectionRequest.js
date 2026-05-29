@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { redirect, useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
-//import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
-//import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
-//import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
+
 
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
@@ -199,11 +197,37 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-    const goBackStep = () => {
-        
-        if (currentStep > 1) {
-            setCurrentStep((prev) => prev - 1);
+    /**
+     * Regresa al formulario a un paso anterior desde la barra de progreso.
+     *
+     * Solo permite ir hacia atrás, evitando avanzar
+     * desde la barra. Antes de cambiar de paso, recarga la
+     * información correspondiente para mantener actualizados los datos
+     *
+     * @param {number} targetStep - Número del paso al que se desea regresar.
+     * @returns {Promise<void>} No retorna ningún valor.
+     */
+
+    const goToPreviousStep = async (targetStep) => {
+        if (targetStep >= currentStep) return;
+
+        if (targetStep < 1 || targetStep > totalSteps) return;
+
+        if (currentStep === 2 && targetStep === 1) {
+            await firstSectionViewModel.loadCurrentCollectionRequest();
         }
+
+        if (currentStep === 3) {
+            if (targetStep === 2) {
+                await secondSectionViewModel.loadData();
+            }
+
+            if (targetStep === 1) {
+                await firstSectionViewModel.loadCurrentCollectionRequest();
+            }
+        }
+
+        setCurrentStep(targetStep);
     };
 
     const cancelForm = async () => {
@@ -225,15 +249,7 @@ function useCollectionRequestViewModel() {
             return;
         }
 
-        if (currentStep === 2){
-            firstSectionViewModel.loadCurrentCollectionRequest();
-        }
-
-        if (currentStep === 3){
-            secondSectionViewModel.loadData();
-        }
-
-        goBackStep();
+        goToPreviousStep(currentStep - 1);
     };
 
     const onPrimaryAction = async () => {
@@ -314,6 +330,7 @@ function useCollectionRequestViewModel() {
         onPrimaryAction,
         onSecondaryAction,
         cancelForm,
+        goToPreviousStep,
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,

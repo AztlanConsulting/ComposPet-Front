@@ -29,10 +29,9 @@ export default function CollectionRequestView() {
         currentStep,
         totalSteps,
         onPrimaryAction,
-        onSecondaryAction,
         cancelForm,
+        goToPreviousStep,
         primaryButtonText,
-        secondaryButtonText,
         firstSectionViewModel,
         thirdSectionViewModel,
         secondSectionViewModel,
@@ -58,7 +57,10 @@ export default function CollectionRequestView() {
                 </h1>
 
                 <div className="collection-request-progress">
-                    <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
+                    <ProgressBarLogic 
+                        currentStep={currentStep} 
+                        totalSteps={totalSteps} 
+                        onStepClick={goToPreviousStep} />
                 </div>
 
                 {currentStep === 1 && (
@@ -114,29 +116,11 @@ export default function CollectionRequestView() {
                             type="button"
                             size="medium"
                             csstype="cancel"
-                            className={
-                                secondaryButtonText === 'Regresar'
-                                    ? "collection-request-cancel-button"
-                                    : "collection-request-cancel-page2-button"
-                            }
-                            onClick={onSecondaryAction}
+                            className="collection-request-cancel-page2-button"
+                            onClick={cancelForm}
                         >
-                            {secondaryButtonText}
+                            Cancelar
                         </Button>
-
-                        {currentStep > 1 && (
-                            <Button
-                                type="button"
-                                size="medium"
-                                csstype="cancel"
-                                className="collection-request-cancel-page2-button"
-                                onClick={cancelForm}
-                            >
-                                Cancelar
-                            </Button>
-
-                        )}
-
                     </div>
 
                     <Button
