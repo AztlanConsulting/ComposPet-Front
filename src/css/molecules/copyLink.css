@@ -10,4 +10,7 @@
 .copy-icon-wrapper {
     position: relative;
     display: inline-flex;
+    padding-bottom: 0.5rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
 }

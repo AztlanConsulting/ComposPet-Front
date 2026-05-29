@@ -168,3 +168,13 @@
 .button-small {
     font-size: var(--font-size-sm);
 }
+
+.button-today {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    width: 4.5rem;
+    height: 2.8rem;
+    margin-left: auto;
+    align-self: flex-end;
+    margin: 0;
+}

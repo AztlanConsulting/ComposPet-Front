@@ -6,6 +6,9 @@ import useRoutesViewModel from "../../viewmodels/routesInfo/routesTable";
 import ColorsInfo from "./colorsInfo";
 import BalanceCountersGroup from '../../../components/organisms/BalanceCountersGroup';
 import CountersGroup from '../../../components/molecules/CountersGroup';
+import DropdownInput from "../../../components/molecules/DropdownInput";
+import Button from "../../../components/atoms/Button";
+
 import '../../../css/routesInfo/routesInfo.css';
 
 export default function RoutesInfo(){
@@ -23,6 +26,45 @@ export default function RoutesInfo(){
         <div className="page">
             <Navbar />
             <div className="main">
+                <div className="filters-container">
+                    <div className="filters-dropdowns">
+                            <Button size='medium' csstype='accept' className='button button-today'
+                                onClick={routesViewModel.resetFilters}>
+                                Hoy
+                            </Button>
+
+                        <DropdownInput
+                            id="weeks"
+                            size="md"
+                            value={routesViewModel.selectedWeek ?? ""}
+                            onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
+                            options={
+                                routesViewModel.weeks.map((w, i) => ({
+                                    value: i,
+                                    label: w.label,
+                                }))}
+                        >
+                            Semana
+                        </DropdownInput>
+
+                            <DropdownInput
+                                id="days"
+                                size="md"
+                                value={routesViewModel.selectedDay ?? ""}
+                                onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
+                                options={routesViewModel.daysOfRoutes.map(s => ({
+                                    value: s.dia_ruta,
+                                    label: s.dia_ruta,
+                                }))}
+                            >
+                                Día de ruta
+                            </DropdownInput>
+                    </div>
+                    <div className="copy-link-container">
+                        <CopyLink {...routesViewModel.copyLinkInfo} />
+                    </div>
+                </div>
+
                 <div className="route-header-row">
                     <div className="route-counters-section">
                         <BalanceCountersGroup
@@ -48,9 +90,6 @@ export default function RoutesInfo(){
                                 { label: "Sumatoria total", value: dayTotalAmount },
                             ]}
                         />
-                    </div>
-                    <div className="copy-link-container">
-                        <CopyLink {...routesViewModel.copyLinkInfo} />
                         <IconActionBubble
                             text="Generar mensajes de confirmación"
                             iconName="googleSheets"
