@@ -3,6 +3,13 @@
 @import "../tokens/typography.css";
 
 html,
+body,
+#root {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+}
 
 .icon-required{
     color: var(--color-red-primary);
