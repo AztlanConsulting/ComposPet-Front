@@ -2,8 +2,6 @@ import ClientTable from "../../../components/organisms/ClientTable";
 import Loading from '../../../components/Template/loading';
 import Error from '../../../components/Template/error';
 import '../../../css/routesInfo/routesInfo.css'
-import Icon from '../../../components/atoms/Icon';
-import DropdownInput from "../../../components/molecules/DropdownInput";
 import SearchInput from "../../../components/molecules/searchInput";
 import Button from "../../../components/atoms/Button";
 
@@ -27,52 +25,10 @@ export default function RoutesTablePage({
     // ==================== RENDERIZADO PRINCIPAL ====================
     return (
         <div className="table-container">
-
             <div className="filters-container">
-                <div className="filters-dropdowns">
-                <DropdownInput
-                    id="weeks"
-                    size="md"
-                    value={routesViewModel.selectedWeek ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
-                    options={
-                        routesViewModel.weeks.map((w, i) => ({
-                            value: i,
-                            label: w.label,
-                        }))}
-                >
-                    Semana
-                </DropdownInput>
+                
 
 
-            <div className="day-filter-group">
-
-                <DropdownInput
-                    id="days"
-                    size="md"
-                    value={routesViewModel.selectedDay ?? ""}
-                    onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
-                    options={routesViewModel.daysOfRoutes.map(s => ({
-                        value: s.dia_ruta,
-                        label: s.dia_ruta,
-                    }))}
-                >
-                    Día de ruta
-                </DropdownInput>
-
-                <Icon 
-                        name="reload" 
-                        size="large" 
-                        className="reload-icon" 
-                        onClick={routesViewModel.resetFilters}
-                        />
-                    </div>
-                </div>
-
-                <Button size='medium' csstype='resume' className='button button-small'
-                    onClick={routesViewModel.handleOpenRoutesSheet}>
-                    Resumen de ruta
-                </Button>
 
                 <div className="search-wrapper">
                     <SearchInput

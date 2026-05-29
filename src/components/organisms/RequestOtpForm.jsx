@@ -19,7 +19,7 @@ export default function RequestOtpForm({
             <InputComponent
                 id="activation-email"
                 type="email"
-                size="lg"
+                size="xl"
                 value={email}
                 classNameLabel="label"
                 onChange={onEmailChange}

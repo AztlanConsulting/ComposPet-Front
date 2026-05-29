@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useBlocker } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
@@ -53,7 +53,7 @@ function validateForm(name, lastname1, email, phone, address){
     if(!phone){
         errors.phone = "El teléfono es requerido.";
         hasErrors = true;
-    } else if (!/^(\+52[\s-]?)?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{4}$/.test(phone)) {
+    } else if (!/^\+?\d{10,15}$/.test(phone)) {
         errors.phone = "Ingresa un teléfono válido.";
         hasErrors = true;
     }
@@ -193,11 +193,10 @@ function useRegisterClientViewModel(){
         };
 
         try {
-            const response = await registerClientUseCase.execute(data);
+            await registerClientUseCase.execute(data);
             await confirmForm();
         } catch (error) {
             const status = error?.status;
-            const message = error?.message;
 
             if (status === 409) {
                 await ProblemAlert({
