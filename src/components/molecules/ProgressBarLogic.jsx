@@ -13,19 +13,18 @@ import '../../css/molecules/progressBarLogic.css';
  */
 export default function ProgressBarLogic({
     currentStep,
-    totalSteps,
+    steps = [],
     onStepClick,
 }) {
-    const steps = ['Recolección', 'Productos', 'Carrito'];
-
-    const safeTotalSteps = steps.length || totalSteps || 1;
+    const safeSteps = steps.length ? steps : ['Paso 1'];
+    const safeTotalSteps = safeSteps.length;
     const safeCurrentStep = Math.min(Math.max(currentStep, 1), safeTotalSteps);
 
     return (
         <section className="progress-section">
             <ProgressBar
                 currentStep={safeCurrentStep}
-                steps={steps}
+                steps={safeSteps}
                 onStepClick={onStepClick}
             />
         </section>

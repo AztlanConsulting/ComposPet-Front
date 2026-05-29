@@ -27,7 +27,7 @@ import Error from '../../../components/Template/error';
 export default function CollectionRequestView() {
     const {
         currentStep,
-        totalSteps,
+        progressSteps,
         onPrimaryAction,
         cancelForm,
         goToPreviousStep,
@@ -58,9 +58,10 @@ export default function CollectionRequestView() {
 
                 <div className="collection-request-progress">
                     <ProgressBarLogic 
-                        currentStep={currentStep} 
-                        totalSteps={totalSteps} 
-                        onStepClick={goToPreviousStep} />
+                        currentStep={currentStep}
+                        steps={progressSteps}
+                        onStepClick={goToPreviousStep}
+                    />
                 </div>
 
                 {currentStep === 1 && (

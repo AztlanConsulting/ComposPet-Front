@@ -99,7 +99,8 @@ function theClientIsInTime(routeDay) {
  * @returns {object} Estado general del formulario y acciones de navegación.
  */
 function useCollectionRequestViewModel() {
-    const totalSteps = 3;
+    const progressSteps = ['Recolección', 'Productos', 'Carrito'];
+    const totalSteps = progressSteps.length;
     const [currentStep, setCurrentStep] = useState(1);
     const [debtAccess, setDebtAccess] = useState(false)
 
@@ -326,7 +327,7 @@ function useCollectionRequestViewModel() {
 
     return {
         currentStep,
-        totalSteps,
+        progressSteps,
         onPrimaryAction,
         onSecondaryAction,
         cancelForm,

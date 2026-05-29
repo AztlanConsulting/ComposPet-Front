@@ -11,7 +11,7 @@ import '../../css/atoms/progressBar.css';
  */
 export default function ProgressBar({
     currentStep,
-    steps,
+    steps = [],
     onStepClick,
     className = '',
 }) {
@@ -22,7 +22,6 @@ export default function ProgressBar({
             aria-valuenow={currentStep}
             aria-valuemin={1}
             aria-valuemax={steps.length}
-            aria-label={`Paso ${currentStep} de ${steps.length}`}
         >
             {steps.map((step, index) => {
                 const stepNumber = index + 1;
@@ -32,11 +31,8 @@ export default function ProgressBar({
                 const canGoBack = isCompleted;
 
                 return (
-                    <React.Fragment key={step}>
-                        <div
-                            className="cp-progress-step-content"
-                            style={{ gridColumn: `${index * 2 + 1}` }}
-                        >
+                    <div className="cp-progress-step-wrapper" key={step}>
+                        <div className="cp-progress-step-content">
                             <button
                                 type="button"
                                 className={`
@@ -46,12 +42,11 @@ export default function ProgressBar({
                                     ${isFuture ? 'future' : ''}
                                 `}
                                 onClick={() => {
-                                    if (canGoBack) {
+                                    if (canGoBack && typeof onStepClick === 'function') {
                                         onStepClick(stepNumber);
                                     }
                                 }}
                                 disabled={!canGoBack}
-                                aria-label={`Ir al paso ${stepNumber}: ${step}`}
                             >
                                 {isCompleted ? '✓' : ''}
                             </button>
@@ -67,10 +62,9 @@ export default function ProgressBar({
                                     cp-progress-step-line
                                     ${stepNumber < currentStep ? 'completed' : ''}
                                 `}
-                                style={{ gridColumn: `${index * 2 + 2}` }}
                             />
                         )}
-                    </React.Fragment>
+                    </div>
                 );
             })}
         </div>
