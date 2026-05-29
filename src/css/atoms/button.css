@@ -11,8 +11,6 @@
     margin: 0.4rem;
 }
 
-
-
 .mini {
     width: 4.25rem;
     height: 1.3rem;
@@ -59,8 +57,8 @@
 }
 
 .warning {
-    background-color: var(--color-red-secondary);
-    color: var(--color-red-primary);
+    background-color: var(--color-red-primary);
+    color: var(--color-white);
     border-width: 0.12rem;
     border: 1px solid var(--color-red-primary);
 }
@@ -101,8 +99,8 @@
 }
 
 .login {
-    background-color: #DBFFF2;
-    color: var(--color-green-primary);
+    background-color: var(--color-green-primary);
+    color: var(--color-white);
     border-width: 0.12rem;
     border: 1px solid var(--color-green-primary);
 }
@@ -154,7 +152,7 @@
 
     .large {
         width: 100%;
-        max-width: 8.5rem;
+        max-width: 100%;
         height: 2rem;
         font-size: 0.87rem;
     }

@@ -12,7 +12,7 @@
 
 .label-dropdown {
     font-family: var(--font-family-primary);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
     color: var(--color-green-secondary);
 }
 
@@ -64,6 +64,7 @@
     font-size: var(--font-size-md);
     background-color: var(--color-bg);
     border: 1px solid var(--color-green-secondary);
+    font-weight: var(--font-weight-normal);
     border-radius: var(--border-radius-lg);
     list-style: none;
     margin: 0;
@@ -80,6 +81,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.15s ease;
+    font-weight: var(--font-weight-normal);
 }
 
 .selectOption:hover {
@@ -87,12 +89,13 @@
 }
 
 .selectOption.selected {
-    background-color: rgba(21, 161, 155, .25); ;
+    background-color: rgba(21, 161, 155, .25);
+    font-weight: var(--font-weight-normal);
 }
 
 .selectedLabel {
     color: var(--color-green-secondary);
-    font-weight: 500;
+    font-weight: var(--font-weight-normal);
 }
 
 .placeholder {

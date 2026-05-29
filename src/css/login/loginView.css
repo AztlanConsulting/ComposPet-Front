@@ -4,7 +4,6 @@
 
 .signIn-background {
     min-height: 100dvh;
-    min-width: 100vw;  
     position: relative;
     display: flex;
     align-items: center; 
@@ -15,7 +14,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 1rem;
+    padding: .5rem;
     background-attachment: fixed
 }
 
@@ -28,11 +27,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .logo-compospet img {
-    width: 320px;
+    width: 24rem;
     height: auto;
 }
 
@@ -40,7 +39,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 532px;
+    width: min(90vw, 36rem);
     max-width: 100%;
     height: auto;
     min-height: auto;
@@ -48,7 +47,7 @@
     border-radius: 20px;
     border: 1px solid var(--color-green-primary);
     box-shadow: 0px 10px 32px 0px rgba(21, 161, 155, .7);
-    padding: 0 1.5rem 2rem 1.5rem;
+    padding: 0 2rem 1.5rem 2rem;
 }
 
 .title {
@@ -58,40 +57,45 @@
     align-items: center;
     justify-content: center;
     margin-top: 42px;
-    margin-bottom: 0px;
     text-align: center;
     padding: 0 1rem;
 }
 
 .title h1 {
     color: var(--color-green-secondary);
-    font-size: var(--font-size-2xl);
-    margin-bottom: 16px;
+    font-size: 32px;
+    font-weight: var(--font-weight-normal);
+    margin: -1rem 0 1rem 0;
 }
 
 .title p {
     color: var(--color-green-secondary);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    line-height: normal;
+    font-weight: var(--font-weight-normal);
+    margin-bottom: -.2px;
+}
+
+.form-content{
+    width: 100%;
+    max-width: 30rem;
 }
 
 .forgot-password {
     color: var(--color-green-secondary);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-md);
     font-family: var(--font-family-primary);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
     font-style: normal;
     line-height: normal;
     text-decoration: none;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
 }
 
 .return {
     color: var(--color-green-secondary);
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
     font-family: var(--font-family-primary);
     font-style: normal;
     line-height: normal;
@@ -103,7 +107,7 @@
 .first-login {
     color: var(--color-green-secondary);
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
     font-family: var(--font-family-primary);
     font-style: normal;
     line-height: normal;
@@ -112,112 +116,170 @@
     margin-bottom: 2px;
 }
 
-.google-button {
+.privacy-check-label{
+    margin: .5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--font-size-sm);
+}
+
+.privacy-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+}
+
+.privacy-link:hover {
+    opacity: 0.8;
+}
+
+.privacy-check{
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: var(--color-green-primary);
+}
+
+.auxiliar-button {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
     font-family: var(--font-family-primary);
-    width: 24.5rem;
-    max-width: 100%;
+    width: 100%;
+    max-width: 28rem;
     height: 2.5rem;
+    margin-top: 0.5rem;
+}
+
+.signin{
+    margin-top: 1rem;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 28rem;
+    gap: 0.75rem;
+    margin: 0.25rem 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    height: 1.6px;
+    background-color: var(--color-green-secondary);
+}
+
+.separator span {
+    color: var(--color-green-secondary);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
 }
 
 /* Tablet */
 @media (max-width: 768px) {
-    .logo-compospet img {
-        width: 300px;
+    .signIn-background {
+        padding: 1.5rem;
+        background-attachment: scroll;
     }
 
     .forms-backgound {
-        width: 90%;
-        min-height: auto;
-        border-radius: 16px;
+        padding: 1.75rem;
+        border-radius: 18px;
     }
 
-    .title {
-        margin-top: 32px;
+    .logo-compospet img {
+        max-width: 18rem;
     }
 
     .title h1 {
-        font-size: 1.25rem;
+        font-size: 1.75rem;
     }
 
-    .google-button {
+    .title p {
+        font-size: 0.80rem;
+    }
+
+    .auxiliar-button {
+        min-height: 2.4rem;
         width: 100%;
+        max-width: 24rem;
     }
 }
 
 /* Móvil */
 @media (max-width: 480px) {
-    .logo-compospet img {
-        width: 250px;
+
+    .signIn-background {
+        padding: 1rem;
+        align-items: center;
+        background-attachment: scroll;
     }
 
     .forms-backgound {
-        width: 98%;
-        border-radius: 12px;
-        padding: 0 0.5rem 0.5rem 0.5rem;
-    }
-
-    .title {
-        margin-top: 24px;
-        margin-bottom: 12px;
-    }
-
-    .title h1 {
-        font-size: var(--font-size-xl);
-        margin-bottom: 10px;
-    }
-
-    .title p {
-        font-size: var(--font-size-mn);
-        font-weight: var(--font-weight-semibold);
-        line-height: normal;
-    }
-
-    .forgot-password {
-        font-size: 0.85rem;
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-
-    .google-button {
         width: 100%;
-        font-size: 0.85rem;
+        max-width: 22rem;
+        padding: 1.25rem;
+        border-radius: 18px;
     }
-}
 
-@media (max-height: 768px) {
+    .logo-compospet {
+        margin-bottom: 0.75rem;
+    }
+
     .logo-compospet img {
-        width: 260px;
+        max-width: 14rem;
     }
-    .logo-compospet {
-        margin-bottom: 8px;
-    }
+
     .title {
-        margin-top: 16px;
+        margin-top: 0.5rem;
+        padding: 0;
     }
+
     .title h1 {
-        font-size: var(--font-size-xl);
-        margin-bottom: 8px;
+        font-size: 1.3rem;
+        line-height: 1.3;
     }
+
     .title p {
-        display: none;
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
-    .forms-backgound {
-        padding: 0 1.5rem 1rem 1.5rem;
-    }
-}
 
+    .forgot-password,
+    .first-login {
+        font-size: 0.95rem;
+    }
 
-@media (max-height: 580px) {
-    .logo-compospet {
-        display: none;
+    .auxiliar-button {
+        min-height: 2.4rem;
+        width: 100%;
+        max-width: 18rem;
     }
-    .title h1 {
-        font-size: var(--font-size-md);
+
+    .forgot-password,
+    .first-login {
+        font-size: 0.85rem;
+        text-align: center;
     }
+
+    .separator {
+        margin: 0.5rem 0;
+    }
+
+    .separator span {
+        font-size: 0.75rem;
+    }
+
 }

@@ -30,7 +30,7 @@ export default function Login({
             <InputComponent
                 id="email-input"
                 type="email"
-                size="lg"
+                size="xl"
                 value={email}
                 classNameLabel="label"
                 classNameInput={`input ${emailError ? "input-error" : ""}`}
@@ -44,7 +44,7 @@ export default function Login({
             <InputComponent
                 id="password-input"
                 type="password"
-                size="lg"
+                size="xl"
                 value={password}
                 classNameLabel="label"
                 classNameInput={`input ${passwordError ? "input-error" : ""}`}
