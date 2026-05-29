@@ -23,13 +23,20 @@
     margin: 0 auto;
 }
 
-.actions-section{
-    justify-content: center;
-    padding-left: 2rem;
+.actions-section {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.buttons-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 .route-header-row {
-    margin: 2rem auto 0 auto;
+    margin-top: 1rem;
     box-sizing: border-box;
 
     display: flex;

@@ -9,6 +9,7 @@ import CountersGroup from '../../../components/molecules/CountersGroup';
 import DropdownInput from "../../../components/molecules/DropdownInput";
 import Button from "../../../components/atoms/Button";
 import Label from "../../../components/atoms/Label";
+import Divider from "../../../components/atoms/Divider";
 
 import '../../../css/routesInfo/routesInfo.css';
 
@@ -94,14 +95,17 @@ export default function RoutesInfo(){
                             ]}
                         />
                         <div className="actions-section">
-                            <Button size='medium' csstype='accept' className='button-actions'
-                                onClick={routesViewModel.handleGenerateMessages}>
-                                Generar mensaje
-                            </Button>
-                            <Button size='medium' csstype='accept' className='button-actions'
-                                onClick={routesViewModel.handleOpenRoutesSheet}>
-                                Resumen de ruta
-                            </Button>
+                            <Divider />
+                            <div className="buttons-section-container">
+                                <Button size='medium' csstype='accept' className='button-actions'
+                                    onClick={routesViewModel.handleGenerateMessages}>
+                                    Generar mensaje
+                                </Button>
+                                <Button size='medium' csstype='accept' className='button-actions'
+                                    onClick={routesViewModel.handleOpenRoutesSheet}>
+                                    Resumen de ruta
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

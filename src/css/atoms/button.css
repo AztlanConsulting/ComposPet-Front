@@ -182,5 +182,5 @@
 .button-actions {
     font-weight: var(--font-weight-semibold);
     width: 12rem;
-
+    margin: 0; 
 }
