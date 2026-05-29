@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import ConfirmAlert from "./confirmationAlert";
 import Button from "../atoms/Button";
 
@@ -15,8 +16,14 @@ export default function ButtonActionAlert({
     csstype = "accept",
     className = "",
 }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleClick = async () => {
+        if (disabled || isLoading) return;
+
         try {
+            setIsLoading(true);
+
             const actionResult = await onAction();
 
             await ConfirmAlert({
@@ -44,6 +51,8 @@ export default function ButtonActionAlert({
             });
 
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -53,9 +62,9 @@ export default function ButtonActionAlert({
             csstype={csstype}
             className={`button ${className}`}
             onClick={handleClick}
-            disabled={disabled}
+            disabled={disabled || isLoading}
         >
-            {children}
+            {isLoading ? "Generando..." : children}
         </Button>
     );
 }
