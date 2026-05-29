@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 
 import { 
     getTableUseCase, 
@@ -25,6 +25,7 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
+    const hasValidationErrorRef = useRef(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -177,6 +178,8 @@ function useClientTableViewModel() {
 
         if (editingRowId !== null) return;
 
+        hasValidationErrorRef.current = false;
+
         setEditingRowId(params.data.clientId);
 
         setTimeout(() => {
@@ -232,6 +235,12 @@ function useClientTableViewModel() {
         try {
             setLoading(true);
             params.api.stopEditing(false);
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            if(hasValidationErrorRef.current) {
+                return;
+            }
+
             const updatedData = params.data;
             const response = await updateClientUseCase.execute(updatedData);
             getInfo();
@@ -263,6 +272,7 @@ function useClientTableViewModel() {
                 });
             },
             loading,
+            hasValidationErrorRef,
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 

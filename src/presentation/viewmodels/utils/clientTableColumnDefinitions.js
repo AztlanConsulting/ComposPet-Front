@@ -15,6 +15,7 @@ export function getClientTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
+    hasValidationErrorRef,
 }) {
 
     const modifiedClassRule = {
@@ -106,20 +107,24 @@ export function getClientTableColumns({
                 const validation = validateField("balance", params.newValue);
 
                 if (validation !== true) {
+                    hasValidationErrorRef.current = true;
                     params.data.balance = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "balance",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "balance",
+                            });
+                        }
                     }, 0);
 
                     return false;
                 }
 
+                hasValidationErrorRef.current = false;
                 params.data.balance = Number(params.newValue);
                 return true;
             },
@@ -135,15 +140,18 @@ export function getClientTableColumns({
                 const validation = validateField("notes", params.newValue);
 
                 if (validation !== true) {
+                    hasValidationErrorRef.current = true;
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "notes",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "notes",
+                            });
+                        }
                     }, 0);
 
                     return false;
