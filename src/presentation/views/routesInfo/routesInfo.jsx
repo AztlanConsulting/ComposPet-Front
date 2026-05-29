@@ -1,7 +1,6 @@
 import RoutesTablePage from "./routeTabla";
 import Navbar from "../../../components/molecules/Navbar";
 import CopyLink from "../../../components/molecules/CopyLink";
-import IconActionBubble from "../../../components/molecules/IconActionBubble";
 import useRoutesViewModel from "../../viewmodels/routesInfo/routesTable";
 import ColorsInfo from "./colorsInfo";
 import BalanceCountersGroup from '../../../components/organisms/BalanceCountersGroup';
@@ -10,6 +9,7 @@ import DropdownInput from "../../../components/molecules/DropdownInput";
 import Button from "../../../components/atoms/Button";
 import Label from "../../../components/atoms/Label";
 import Divider from "../../../components/atoms/Divider";
+import ButtonActionAlert from "../../../components/Template/ButtonActionAlert";
 
 import '../../../css/routesInfo/routesInfo.css';
 
@@ -23,6 +23,8 @@ export default function RoutesInfo(){
         weeklyPayedAmount,
         weeklyPendingAmount,
     } = routesViewModel;
+    
+    const isGoogleLoggedIn = sessionStorage.getItem('authProvider') === 'google';
 
     return(
         <div className="page">
@@ -97,12 +99,19 @@ export default function RoutesInfo(){
                         <div className="actions-section">
                             <Divider />
                             <div className="buttons-section-container">
+                                <ButtonActionAlert
+                                    onAction={routesViewModel.handleGenerateMessages}
+                                    successMessage="Mensajes generados exitosamente"
+                                    errorMessage="Ocurrió un error al generar los mensajes"
+                                    className="button-actions"
+                                    disabled={!isGoogleLoggedIn}
+                                >
+                                    Generar mensajes
+                                </ButtonActionAlert>
                                 <Button size='medium' csstype='accept' className='button-actions'
-                                    onClick={routesViewModel.handleGenerateMessages}>
-                                    Generar mensaje
-                                </Button>
-                                <Button size='medium' csstype='accept' className='button-actions'
-                                    onClick={routesViewModel.handleOpenRoutesSheet}>
+                                    onClick={routesViewModel.handleOpenRoutesSheet}
+                                    disabled={!isGoogleLoggedIn}
+                                >
                                     Resumen de ruta
                                 </Button>
                             </div>

@@ -1,3 +1,5 @@
+@import "../tokens/colors.css";
+
 .divider {
     width: 1px;
     background-color: var(--color-green-secondary);

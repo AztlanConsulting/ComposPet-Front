@@ -151,6 +151,7 @@ function useLoginViewModel(loginUseCase){
                 rol: user.rol 
             };
             sessionStorage.setItem('user', JSON.stringify(publicUser));
+            sessionStorage.setItem('authProvider', 'credentials');
 
             handleRedirect(user);
         } catch (err) {
@@ -193,6 +194,7 @@ function useLoginViewModel(loginUseCase){
                     rol: userEntity.rol 
                 };
                 sessionStorage.setItem('user', JSON.stringify(publicUser));
+                sessionStorage.setItem('authProvider', 'google');
                 
                 handleRedirect(userEntity);
             } catch (error) {
