@@ -28,6 +28,7 @@ export default function ClientTableView({ viewModel }) {
         compostStatus,
         getCompostStatus,
         handleCompostStatusChange,
+        getRowClass,
     } = viewModel;
 
     // ==================== RENDERIZADO CONDICIONAL ====================

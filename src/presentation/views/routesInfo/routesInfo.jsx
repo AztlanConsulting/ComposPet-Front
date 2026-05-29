@@ -106,15 +106,25 @@ export default function RoutesInfo(){
                             />
                         </div>
                     </div>
-                    <div className="copy-link-container">
-                        <CopyLink {...routesViewModel.copyLinkInfo} />
-                        <IconActionBubble
-                            text="Generar mensajes de confirmación"
-                            iconName="googleSheets"
-                            bubbleMessage="¡Mensajes generados!"
-                            errorMessage="Ups, algo salió mal"
-                            onAction={routesViewModel.handleGenerateMessages}
-                        />
+                    <div className="actions-section">
+                        <Divider />
+                        <div className="buttons-section-container">
+                            <ButtonActionAlert
+                                onAction={routesViewModel.handleGenerateMessages}
+                                successMessage="Mensajes generados exitosamente"
+                                errorMessage="Ocurrió un error al generar los mensajes"
+                                className="button-actions"
+                                disabled={!isGoogleLoggedIn}
+                            >
+                                Generar mensajes
+                            </ButtonActionAlert>
+                            <Button size='medium' csstype='accept' className='button-actions'
+                                onClick={routesViewModel.handleOpenRoutesSheet}
+                                disabled={!isGoogleLoggedIn}
+                            >
+                                Resumen de ruta
+                            </Button>
+                        </div>
                     </div>
                 </div>
             <RoutesTablePage 

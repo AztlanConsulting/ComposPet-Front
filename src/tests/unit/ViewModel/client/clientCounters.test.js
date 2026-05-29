@@ -109,7 +109,7 @@ describe('Client Counters ViewModel', () => {
             expect(result.current.totalActiveFamilies).toBe(3);
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
@@ -155,13 +155,13 @@ describe('Client Counters ViewModel', () => {
             expect(result.current.totalActiveFamilies).toBe(2);
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
         expect(result.current.activeFamiliesByRoute).toBe(1);
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute('');
         });
 

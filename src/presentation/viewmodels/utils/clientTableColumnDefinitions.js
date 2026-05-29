@@ -29,6 +29,9 @@ export function getClientTableColumns({
     return [
         {
             width: 150,
+            pinned: 'left',
+            lockPinned: true,
+            suppressMovable: true,
             headerName: "Editar",
             cellClass: 'edit-cell',
             pinned: "left",
@@ -94,7 +97,11 @@ export function getClientTableColumns({
             },
 
             cellClassRules: modifiedClassRule,
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
 
+                return `$${value.toFixed(2)}`;
+            },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
 
@@ -104,10 +111,12 @@ export function getClientTableColumns({
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "balance",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "balance",
+                            });
+                        }
                     }, 0);
 
                     return false;
@@ -128,15 +137,18 @@ export function getClientTableColumns({
                 const validation = validateField("notes", params.newValue);
 
                 if (validation !== true) {
+
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "notes",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "notes",
+                            });
+                        }
                     }, 0);
 
                     return false;
@@ -271,7 +283,16 @@ export function getClientTableColumns({
                 const validation = validateField("pets", params.newValue);
 
                 if (validation !== true){
-                    alert(validation);
+                    params.data.pets = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "pets",
+                        });
+                    }, 0);
                     return false;
                 }
 

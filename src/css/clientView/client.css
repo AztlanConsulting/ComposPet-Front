@@ -121,7 +121,7 @@
     color: var(--color-green-secondary);
 }
 
- @media (max-width: 1400px) {
+ @media (max-width: 1500px) {
     .counters-row{
         display: flex;
         flex-direction: column;
