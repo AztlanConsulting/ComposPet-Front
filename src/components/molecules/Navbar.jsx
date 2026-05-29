@@ -78,9 +78,9 @@ export default function Navbar() {
 
     const adminLinks = [
         //{ component: <Dropdown title="Inicio" options={homeOptions} /> },
+        { component: <NavbarItem route="/ruta" active={location.pathname === "/ruta"}>Rutas</NavbarItem> },
         { component: <NavbarItem route="/tabla-clientes" active={location.pathname === "/tabla-clientes"}>Información clientes</NavbarItem>},
         { component: <NavbarItem route="/registrar-cliente" active={location.pathname === "/registrar-cliente"}>Registrar clientes</NavbarItem>},
-        { component: <NavbarItem route="/ruta" active={location.pathname === "/ruta"}>Rutas</NavbarItem> },
         //{ component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
     ];
 
