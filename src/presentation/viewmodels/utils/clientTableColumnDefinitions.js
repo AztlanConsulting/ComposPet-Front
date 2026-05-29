@@ -15,7 +15,6 @@ export function getClientTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
-    hasValidationErrorRef,
 }) {
 
     const modifiedClassRule = {
@@ -107,7 +106,6 @@ export function getClientTableColumns({
                 const validation = validateField("balance", params.newValue);
 
                 if (validation !== true) {
-                    hasValidationErrorRef.current = true;
                     params.data.balance = params.oldValue;
 
                     setTimeout(async () => {
@@ -124,7 +122,6 @@ export function getClientTableColumns({
                     return false;
                 }
 
-                hasValidationErrorRef.current = false;
                 params.data.balance = Number(params.newValue);
                 return true;
             },
@@ -140,7 +137,7 @@ export function getClientTableColumns({
                 const validation = validateField("notes", params.newValue);
 
                 if (validation !== true) {
-                    hasValidationErrorRef.current = true;
+
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
@@ -286,7 +283,16 @@ export function getClientTableColumns({
                 const validation = validateField("pets", params.newValue);
 
                 if (validation !== true){
-                    alert(validation);
+                    params.data.pets = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "pets",
+                        });
+                    }, 0);
                     return false;
                 }
 

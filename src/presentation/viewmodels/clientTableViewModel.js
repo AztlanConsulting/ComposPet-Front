@@ -14,6 +14,7 @@ import AceptAlert from "../../components/Template/AceptAlert";
 import { isValidSearchText } from "./utils/searchValidation";
 import ConfirmAlert from "../../components/Template/confirmationAlert";
 import usePrompt from "./utils/usePrompt";
+import { validateField } from "./utils/clientFieldsValidations";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -25,7 +26,6 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
-    const hasValidationErrorRef = useRef(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -178,8 +178,6 @@ function useClientTableViewModel() {
 
         if (editingRowId !== null) return;
 
-        hasValidationErrorRef.current = false;
-
         setEditingRowId(params.data.clientId);
 
         setTimeout(() => {
@@ -231,13 +229,53 @@ function useClientTableViewModel() {
         }
     }, [originalClientList]);
 
+    const validateRow = (data) => {
+
+        const fieldsToValidate = [
+            "balance",
+            "notes",
+            "cellphone",
+            "address",
+            "order",
+            "pets",
+            "family",
+        ];
+
+        for (const field of fieldsToValidate) {
+
+            const result = validateField(field, data[field]);
+
+            if (result !== true) {
+                return {
+                    valid: false,
+                    field,
+                    message: result,
+                };
+            }
+        }
+
+        return { valid: true };
+    };
+
     const handleSave = useCallback( async (params) => {
         try {
             setLoading(true);
             params.api.stopEditing(false);
 
-            await new Promise(resolve => setTimeout(resolve, 0));
-            if(hasValidationErrorRef.current) {
+            const validation = validateRow(params.data);
+
+            if (!validation.valid) {
+
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: validation.message,
+                });
+
+                params.api.startEditingCell({
+                    rowIndex: params.node.rowIndex,
+                    colKey: validation.field,
+                });
+
                 return;
             }
 
@@ -272,7 +310,6 @@ function useClientTableViewModel() {
                 });
             },
             loading,
-            hasValidationErrorRef,
         }),
     [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
 
