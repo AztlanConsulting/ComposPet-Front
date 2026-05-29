@@ -2,10 +2,6 @@
 @import "../tokens/layout.css";
 @import "../tokens/typography.css";
 
-* {
-    box-sizing: border-box;
-}
-
 .signIn-background {
     min-height: 100dvh;
     position: relative;
