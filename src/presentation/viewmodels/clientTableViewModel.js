@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 
 import { 
     getTableUseCase, 
@@ -13,6 +13,8 @@ import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
 import { isValidSearchText } from "./utils/searchValidation";
 import ConfirmAlert from "../../components/Template/confirmationAlert";
+import usePrompt from "./utils/usePrompt";
+import { validateField } from "./utils/clientFieldsValidations";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -74,6 +76,25 @@ function useClientTableViewModel() {
             setLoading(false);
         }
     }, [getRoutesUseCase]);
+
+    const hasPendingChanges = useMemo(() => {
+        return editingRowId !== null;
+    }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
+
+    const canChangeFilters = useCallback(async () => {
+        if(!hasPendingChanges){
+            return true;
+        }
+
+        await ProblemAlert({
+            title: "Tienes cambios pendientes",
+            text: "Guarda o descarta los cambios antes de cambiar de ruta."
+        });
+
+        return false;
+    }, [hasPendingChanges]);
 
     const getInfo = useCallback( async () => {
 
@@ -167,6 +188,16 @@ function useClientTableViewModel() {
         });
     }, [editingRowId]);
 
+    const getRowClass = useCallback((params) => {
+        const data = params.data;
+        const classes = [];
+        if (data?.clientId === editingRowId) {
+            classes.push("row-editing");
+        }
+
+        return classes.join(" ");
+    }, [editingRowId])
+
     const handleCancel = useCallback((params) => {
         
         try {
@@ -185,7 +216,11 @@ function useClientTableViewModel() {
 
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
 
         } catch (error) {
             console.log("Error discarding changes in client data: ", error);
@@ -194,10 +229,56 @@ function useClientTableViewModel() {
         }
     }, [originalClientList]);
 
+    const validateRow = (data) => {
+
+        const fieldsToValidate = [
+            "balance",
+            "notes",
+            "cellphone",
+            "address",
+            "order",
+            "pets",
+            "family",
+        ];
+
+        for (const field of fieldsToValidate) {
+
+            const result = validateField(field, data[field]);
+
+            if (result !== true) {
+                return {
+                    valid: false,
+                    field,
+                    message: result,
+                };
+            }
+        }
+
+        return { valid: true };
+    };
+
     const handleSave = useCallback( async (params) => {
         try {
             setLoading(true);
             params.api.stopEditing(false);
+
+            const validation = validateRow(params.data);
+
+            if (!validation.valid) {
+
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: validation.message,
+                });
+
+                params.api.startEditingCell({
+                    rowIndex: params.node.rowIndex,
+                    colKey: validation.field,
+                });
+
+                return;
+            }
+
             const updatedData = params.data;
             const response = await updateClientUseCase.execute(updatedData);
             getInfo();
@@ -263,6 +344,14 @@ function useClientTableViewModel() {
         if (!isValidSearchText(value)) return;
         setSearchText(value);
     };
+
+    const handleRouteChange = useCallback(async (route) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedRoute(route);
+    }, [canChangeFilters]);
 
     const defaultColDef = useMemo(() => ({
 
@@ -374,7 +463,7 @@ function useClientTableViewModel() {
         editingRowId,
         routesDropdown,
         selectedRoute,
-        setSelectedRoute,
+        setSelectedRoute: handleRouteChange,
         searchText,
         setSearchText,
         handleSearchText,
@@ -387,6 +476,7 @@ function useClientTableViewModel() {
         pendingAmount: formatCurrency(pendingAmount),
         totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
         pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
+        getRowClass,
     };
 }
 

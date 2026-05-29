@@ -112,14 +112,14 @@ describe('Client Balance Counters ViewModel', () => {
             expect(result.current.totalAmount).toBe('$800');
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
         expect(result.current.totalAmountPerRoute).toBe('$500');
         expect(result.current.pendingAmountPerRoute).toBe('- $200');
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(2);
         });
 

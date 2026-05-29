@@ -24,9 +24,22 @@ export default function ClientTable({
     getRowClass,
 }) {
 
+    const gridRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const api = gridRef.current?.api;
+
+        if (!api) return;
+
+        requestAnimationFrame(() => {
+            api.redrawRows();
+        });
+    }, [editingRowId]);
+
     return (
         <div className='wrapper ag-theme-alpine custom-green-theme'>
             <AgGridReact
+                ref={gridRef}
                 rowData={clientList}
                 columnDefs={columnDefinitions}
                 defaultColDef={defaultColDef}

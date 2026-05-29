@@ -15,6 +15,7 @@ import { isValidSearchText } from "../utils/searchValidation";
 import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
 import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
+import usePrompt from '../utils/usePrompt';
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -35,6 +36,7 @@ function useRoutesViewModel(){
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
     const [editingRowId, setEditingRowId] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
 
     const [payMethods, setPayMethods] = useState([]);
@@ -46,24 +48,28 @@ function useRoutesViewModel(){
 
     const getRowClass = useCallback((params) => {
         const data = params.data;
-
-        if(
+        const classes = [];
+        if (data?.name === editingRowId) {
+            classes.push("row-editing");
+        }
+        
+        if (
             data?.hasRequest === true &&
             data?.status === false
         ) {
-            return "row-inactive";
+            classes.push("row-inactive");
         }
 
-        if(
+        if (
             data?.hasRequest === true &&
             data?.wantsExtraProducts === false &&
             data?.wantsCollection === false
         ) {
-            return "row-neither";
+            classes.push("row-neither");
         }
 
-        return "";
-    }, []);
+        return classes.join(" ");
+    }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
         const rowId = params.data.name;
@@ -86,6 +92,8 @@ function useRoutesViewModel(){
     const hasPendingChanges = useMemo(() => {
         return editingRowId !== null;
     }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
 
     const canChangeFilters = useCallback(async () => {
         if(!hasPendingChanges){
@@ -144,7 +152,11 @@ function useRoutesViewModel(){
 
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
         } catch (error) {
             console.log("Error discarding changes in routes table: ", error);
         } finally {
@@ -298,6 +310,12 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         return getRowClass({ data }) === "row-inactive";
     }, [getRowClass]);
 
+
+    const handleSearchProduct = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchProduct(value);
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = useMemo(() => 
         getRoutesTableColumns({
@@ -313,6 +331,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             payOptions,
             extraProducts,
             getRowClass,
+            handleSearchProduct,
+            searchProduct,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -320,7 +340,19 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts, getRowClass]);
+    [editingRowId, 
+        handleEdit, 
+        handleCancel, 
+        handleSave, 
+        isCellChanged, 
+        loading, 
+        payMap, 
+        payOptions, 
+        extraProducts, 
+        getRowClass,
+        handleSearchProduct,
+        searchProduct,
+    ]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.

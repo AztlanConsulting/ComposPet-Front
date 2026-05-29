@@ -99,9 +99,6 @@ api.interceptors.response.use(
                 processQueue(err, null); // Rechazar todas las peticiones encoladas
                 accessToken = null;
                 sessionStorage.removeItem('user');
-                sessionStorage.removeItem('authProvider');
-                window.location.href = '/inicio-sesion';
-                return Promise.reject(err);
             } finally {
                 isRefreshing = false;
             }
