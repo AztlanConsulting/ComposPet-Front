@@ -9,6 +9,8 @@ import useFirstLoginViewModel from "../../viewmodels/auth/firstLoginViewModel";
 import RequestOtpForm from "../../../components/organisms/RequestOtpForm";
 import VerifyOtpForm from "../../../components/organisms/VerifyOtpForm";
 import SetPasswordForm from "../../../components/organisms/SetPasswordForm";
+import PrivacyModal from '../../../components/organisms/PrivacyModal';
+import { useNavigate } from "react-router-dom";
 
 /**
  * Vista de activación de cuenta vinculada a `useFirstLoginViewModel`.
@@ -34,8 +36,14 @@ function FirstLoginView({ isRecovery = false}) {
         handleConfirmChange,
         onRequestOTP,
         onVerifyOTP,
-        onFinalize
+        onFinalize,
+        privacyAccepted,
+        setPrivacyAccepted,
     } = useFirstLoginViewModel(!isRecovery);
+
+    const navigate = useNavigate();
+
+    const [showPrivacy, setShowPrivacy] = useState(false);
 
     const stepInfo = {
         1: { 
@@ -101,12 +109,41 @@ function FirstLoginView({ isRecovery = false}) {
                         
                         {/* Paso 1: Email */}
                         {step === 1 && (
-                            <RequestOtpForm 
-                                email={email} 
-                                onEmailChange={(e) => setEmail(e.target.value)}
-                                emailError={error} // El error de 'correo no encontrado'
-                                autoFocus={true}
-                            />
+                            <>
+                                <RequestOtpForm 
+                                    email={email} 
+                                    onEmailChange={(e) => setEmail(e.target.value)}
+                                    emailError={error}
+                                    autoFocus={true}
+                                />
+
+                                {!isRecovery && (
+                                    <>
+                                        <label className='privacy-check-label'>
+                                            <input 
+                                                type="checkbox" 
+                                                id="cbox" 
+                                                className='privacy-check'
+                                                checked={privacyAccepted}
+                                                onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                                            /> 
+                                            He leído y acepto el 
+                                            <button 
+                                                type="button"
+                                                className='privacy-link'
+                                                onClick={() => setShowPrivacy(true)}
+                                            >
+                                                Aviso de privacidad
+                                            </button>
+                                        </label>
+
+                                        <PrivacyModal 
+                                            show={showPrivacy} 
+                                            onHide={() => setShowPrivacy(false)} 
+                                        />
+                                    </>
+                                )}
+                            </>
                         )}
 
                         {/* Paso 2: OTP */}
@@ -148,26 +185,30 @@ function FirstLoginView({ isRecovery = false}) {
                         {error && !passwordErrors.hasErrors && (
                             <p className="error-message mt-2">{error}</p>
                         )}
-
+                    
                         <Button 
                             size="large" 
                             type="submit" 
                             csstype="accept" 
-                            className='button' 
+                            className='auxiliar-button' 
                             disabled={loading}
                         >
                             {loading ? "Procesando..." : 
-                             step === 3 ? "Actualizar" : "Continuar"}
+                            step === 3 ? "Actualizar" : "Continuar"}
+                        </Button>
+
+                        <Button 
+                            size="large" 
+                            type="button" 
+                            csstype="cancel" 
+                            className='auxiliar-button' 
+                            onClick={() => navigate("/inicio-sesion")}
+                            disabled={loading}
+                        >
+                            {loading ? "Regresando..." : "Volver al inicio de sesión"}
                         </Button>
 
                     </form>
-
-                
-                    <div className="mt-3 text-center">
-                        <a href="/inicio-sesion" className="return">
-                            Volver al inicio de sesión
-                        </a>
-                    </div>
                     
                 </div>
             </div>

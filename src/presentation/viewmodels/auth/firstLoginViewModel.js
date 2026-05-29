@@ -28,7 +28,7 @@ function validatePasswordForm(p1, p2) {
     }
 
     // 3. Validar complejidad: 12 caracteres, 1 mayúscula, 1 número y 1 símbolo
-    const complexRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{12,}$/;
+    const complexRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{12,}$/;
     
     if (!complexRegex.test(p1)) {
         errors.password = "La contraseña debe tener 12 caracteres, una mayúscula y un número o símbolo.";
@@ -57,6 +57,8 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
     const [p1, setP1] = useState("");
     const [p2, setP2] = useState("");
     const [passwordErrors, setPasswordErrors] = useState({ password: "", confirmPassword: "" });
+
+    const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
     const useCase = injectedUseCase ?? new FirstLoginUseCase();
 
@@ -99,6 +101,12 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
      */
     const onRequestOTP = async (e) => {
         if(e) e.preventDefault();
+
+        if (isFirstLogin && !privacyAccepted) {
+            setError("Debes aceptar el Aviso de privacidad para continuar.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
@@ -119,8 +127,8 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
     };
 
     /**
-     * Fase 2: Verificar el código recibido por correo.
-     */
+        Fase 2: Verificar el código recibido por correo.
+    **/
     const onVerifyOTP = async () => {
         if (otpCode.length !== 6) {
             setError("El código debe ser de 6 dígitos.");
@@ -216,7 +224,9 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
         setP2,
         onRequestOTP,
         onVerifyOTP,
-        onFinalize
+        onFinalize,
+        privacyAccepted,
+        setPrivacyAccepted,
     };
 }
 

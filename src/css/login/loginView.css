@@ -120,6 +120,35 @@
     margin-bottom: 2px;
 }
 
+.privacy-check-label{
+    margin: .5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--font-size-sm);
+}
+
+.privacy-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+}
+
+.privacy-link:hover {
+    opacity: 0.8;
+}
+
+.privacy-check{
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: var(--color-green-primary);
+}
+
 .auxiliar-button {
     display: flex;
     align-items: center;
