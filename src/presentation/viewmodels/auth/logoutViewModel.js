@@ -40,6 +40,7 @@ export const useLogout = (useCaseOverride = null) => {
             
             // Limpieza de estado local
             sessionStorage.removeItem('user');
+            sessionStorage.removeItem('authProvider');
             window.location.href = '/inicio-sesion';
         } catch (error) {
             console.error("Error en logout:", error);
