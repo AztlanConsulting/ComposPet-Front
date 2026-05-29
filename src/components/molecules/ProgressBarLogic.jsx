@@ -8,35 +8,25 @@ import '../../css/molecules/progressBarLogic.css';
  *
  * @param {number} currentStep - Paso actual del formulario.
  * @param {number} totalSteps - Total de pasos del formulario.
+ * @param {Function} onStepClick - Función para regresar a un paso anterior.
  * @returns {JSX.Element} Sección de progreso del formulario.
  */
 export default function ProgressBarLogic({
     currentStep,
-    totalSteps,
+    steps = [],
+    onStepClick,
 }) {
-    const safeTotalSteps = totalSteps > 0 ? totalSteps : 1;
+    const safeSteps = steps.length ? steps : ['Paso 1'];
+    const safeTotalSteps = safeSteps.length;
     const safeCurrentStep = Math.min(Math.max(currentStep, 1), safeTotalSteps);
-    const progressPercentage = Math.round((safeCurrentStep / safeTotalSteps) * 100);
-    const currentStepLabel = `Paso ${safeCurrentStep}`;
 
     return (
         <section className="progress-section">
-            <span className="progress-section-title">Progreso</span>
-
-            <div className="progress-section-bar-wrapper">
-                <span
-                    className="progress-section-percentage"
-                    style={{ left: `min(calc(${progressPercentage}% - 1.5rem), calc(100% - 2.5rem))` }}
-                >
-                    {currentStepLabel}
-                </span>
-
-                <ProgressBar
-                    progressPercentage={progressPercentage}
-                    currentStep={safeCurrentStep}
-                    totalSteps={safeTotalSteps}
-                />
-            </div>
+            <ProgressBar
+                currentStep={safeCurrentStep}
+                steps={safeSteps}
+                onStepClick={onStepClick}
+            />
         </section>
     );
 }

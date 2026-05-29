@@ -150,8 +150,8 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         expect(result.current.currentStep).toBe(2);
 
         //Actuar
-        act(() => {
-            result.current.onSecondaryAction();
+        await act(async () => {
+            await result.current.onSecondaryAction();
         });
 
         //Afirmar
