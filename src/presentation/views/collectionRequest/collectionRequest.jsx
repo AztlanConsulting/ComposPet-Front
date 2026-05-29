@@ -27,12 +27,11 @@ import Error from '../../../components/Template/error';
 export default function CollectionRequestView() {
     const {
         currentStep,
-        totalSteps,
+        progressSteps,
         onPrimaryAction,
-        onSecondaryAction,
         cancelForm,
+        goToPreviousStep,
         primaryButtonText,
-        secondaryButtonText,
         firstSectionViewModel,
         thirdSectionViewModel,
         secondSectionViewModel,
@@ -58,7 +57,11 @@ export default function CollectionRequestView() {
                 </h1>
 
                 <div className="collection-request-progress">
-                    <ProgressBarLogic currentStep={currentStep} totalSteps={totalSteps} />
+                    <ProgressBarLogic 
+                        currentStep={currentStep}
+                        steps={progressSteps}
+                        onStepClick={goToPreviousStep}
+                    />
                 </div>
 
                 {currentStep === 1 && (
@@ -114,29 +117,11 @@ export default function CollectionRequestView() {
                             type="button"
                             size="medium"
                             csstype="cancel"
-                            className={
-                                secondaryButtonText === 'Regresar'
-                                    ? "collection-request-cancel-button"
-                                    : "collection-request-cancel-page2-button"
-                            }
-                            onClick={onSecondaryAction}
+                            className="collection-request-cancel-page2-button"
+                            onClick={cancelForm}
                         >
-                            {secondaryButtonText}
+                            Cancelar
                         </Button>
-
-                        {currentStep > 1 && (
-                            <Button
-                                type="button"
-                                size="medium"
-                                csstype="cancel"
-                                className="collection-request-cancel-page2-button"
-                                onClick={cancelForm}
-                            >
-                                Cancelar
-                            </Button>
-
-                        )}
-
                     </div>
 
                     <Button

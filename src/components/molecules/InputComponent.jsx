@@ -41,7 +41,7 @@ const InputComponent = forwardRef(({
             : type;
 
     return (
-        <div className="ml-4">
+        <div className="mt-2">
             <Label size={size} id={id} className={classNameLabel}>
                 {children}
             </Label>

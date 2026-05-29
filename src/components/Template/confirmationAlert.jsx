@@ -7,16 +7,17 @@ import "../../css/Template/confirmationAlert.css";
  */
 const ConfirmAlert = async ({
     title = "¿Estás seguro?",
-    text = "Se perderán los cambios no guardados.",
+    text = "",
     confirmText = "Sí, continuar",
     cancelText = "Cancelar",
     icon = "warning",
+    showCancelButton = true,
 }) => {
     return await Swal.fire({
         title,
         text,
         icon,
-        showCancelButton: true,
+        showCancelButton,
         confirmButtonText: confirmText,
         cancelButtonText: cancelText,
         reverseButtons: true,

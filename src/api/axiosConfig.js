@@ -66,6 +66,7 @@ api.interceptors.response.use(
         if (originalRequest.url.includes('/refresh')) {
             accessToken = null;
             sessionStorage.removeItem('user');
+            sessionStorage.removeItem('authProvider');
             if (window.location.pathname !== '/inicio-sesion') {
                 window.location.href = '/inicio-sesion';
             }

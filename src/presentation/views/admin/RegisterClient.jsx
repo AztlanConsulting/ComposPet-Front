@@ -4,7 +4,6 @@ import Label from '../../../components/atoms/Label';
 import Button from '../../../components/atoms/Button';
 
 import DropdownInput from '../../../components/molecules/DropdownInput';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Loading from '../../../components/Template/loading';
 import Icon from '../../../components/atoms/Icon';
@@ -61,7 +60,7 @@ function RegisterClient(){
         notes, setNotes, address, setAddress, cancelForm, confirmForm,
         handleSubmit, validateField,
         nameRef, lastname1Ref, emailRef, phoneRef, addressRef,
-    } = useRegisterClientViewModel();
+    } = useRegisterClientViewModel(registerClientUseCase);
 
     if (loading) {
         return <Loading />;
@@ -92,6 +91,7 @@ function RegisterClient(){
                         ref={nameRef}
                         value={name}
                         classNameLabel="label"
+                        placeholder="Ej. Alejandro Sebastián"
                         classNameInput={
                             `register-input ${errors.name ? "input-error" : ""}`
                         }
@@ -103,40 +103,40 @@ function RegisterClient(){
                         required
                     >
                         Nombre <Icon name="requiredInput" size="mini" color="icon-required" />
+                    </InputComponent> 
+
+                    <InputComponent
+                        id="lastname_1"
+                        type="text"
+                        ref={lastname1Ref}
+                        value={lastname1}
+                        classNameLabel="label"
+                        placeholder="Ej. Villavicencio"
+                        classNameInput={
+                            `register-input 
+                            ${errors.lastname1 ? "input-error" : ""}`
+                        }
+                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                        setLastName1(value);
+                        validateField("lastname1", value);
+                        }}
+                        error={errors.lastname1}
+                        required
+                    >
+                        Apellido Paterno <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
-                    <div className='lastname-container'> 
-                        <InputComponent
-                            id="lastname_1"
-                            type="text"
-                            ref={lastname1Ref}
-                            value={lastname1}
-                            classNameLabel="label"
-                            classNameInput={
-                                `register-input-mid 
-                                ${errors.lastname1 ? "input-error" : ""}`
-                            }
-                            onChange={(e) => {const value =sanitizeText(e.target.value);
-                            setLastName1(value);
-                            validateField("lastname1", value);
-                            }}
-                            error={errors.lastname1}
-                            required
-                        >
-                            Apellido Paterno <Icon name="requiredInput" size="mini" color="icon-required" />
-                        </InputComponent>
-
-                        <InputComponent
-                            id="lastname_2"
-                            type="text"
-                            value={lastname2}
-                            classNameLabel="label"
-                            classNameInput="register-input-mid"
-                            onChange={(e) => setLastName2(sanitizeText(e.target.value))}
-                        >
-                            Apellido Materno
-                        </InputComponent>
-                    </div>
+                    <InputComponent
+                        id="lastname_2"
+                        type="text"
+                        value={lastname2}
+                        classNameLabel="label"
+                        placeholder="Ej. Casarrubia"
+                        classNameInput="register-input"
+                        onChange={(e) => setLastName2(sanitizeText(e.target.value))}
+                    >
+                        Apellido Materno
+                    </InputComponent>
 
                     <InputComponent
                         id="email"
@@ -144,11 +144,12 @@ function RegisterClient(){
                         ref={emailRef}
                         value={email}
                         classNameLabel="label"
+                        placeholder="Ej. carlos.mendez@soluciones.com.mx"
                         classNameInput={
                             `register-input ${errors.email ? "input-error" : ""}`
                         }
                         error={errors.email}
-                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                        onChange={(e) => {const value = sanitizeEmail(e.target.value);
                             setEmail(value);
                             validateField("email", value);
                         }}
@@ -162,11 +163,12 @@ function RegisterClient(){
                         ref={phoneRef}
                         value={phone}
                         classNameLabel="label"
+                        placeholder="Ej. +524425676543"
                         classNameInput={
                             `register-input ${errors.phone ? "input-error" : ""}`
                         }
                         error={errors.phone}
-                        onChange={(e) => {const value =sanitizeText(e.target.value);
+                        onChange={(e) => {const value = sanitizePhone(e.target.value);
                             setPhone(value);
                             validateField("phone", value);
                         }}
@@ -231,6 +233,7 @@ function RegisterClient(){
                         ref={addressRef}
                         value={address}
                         classNameLabel="label"
+                        placeholder="Ej. Calle 123, Colonia, CP Ciudad, Estado"
                         classNameInput={
                             `register-input ${errors.address ? "input-error" : ""}`
                         }

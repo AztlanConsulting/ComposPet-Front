@@ -59,7 +59,10 @@ describe("useFirstLoginViewModel", () => {
         const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
 
         // Paso 1
-        act(() => { result.current.setEmail("test@test.com"); });
+        act(() => { 
+            result.current.setEmail("test@test.com");
+            result.current.setPrivacyAccepted(true); // ← nuevo
+        });
         await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
         expect(result.current.step).toBe(2);
         expect(result.current.entity.token).toBe("seed-token");
@@ -83,7 +86,10 @@ describe("useFirstLoginViewModel", () => {
         mockUseCase.executeRequest.mockRejectedValue(new Error("Correo no encontrado"));
         const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
 
-        act(() => { result.current.setEmail("noexiste@test.com"); });
+        act(() => { 
+            result.current.setEmail("noexiste@test.com");
+            result.current.setPrivacyAccepted(true);
+        });
         await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
 
         expect(result.current.step).toBe(1);
@@ -101,5 +107,26 @@ describe("useFirstLoginViewModel", () => {
 
         expect(result.current.passwordErrors.password).toContain("12 caracteres");
         expect(mockUseCase.executeFinalize).not.toHaveBeenCalled();
+    });
+
+    test("Fase 1: debe bloquear si no se acepta el aviso de privacidad", async () => {
+        const { result } = renderHook(() => useFirstLoginViewModel(true, mockUseCase));
+
+        act(() => { result.current.setEmail("test@test.com"); });
+        await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
+
+        expect(result.current.step).toBe(1);
+        expect(result.current.error).toBe("Debes aceptar el Aviso de privacidad para continuar.");
+        expect(mockUseCase.executeRequest).not.toHaveBeenCalled();
+    });
+
+    test("Fase 1: no debe validar privacidad en flujo de recuperación", async () => {
+        mockUseCase.executeRequest.mockResolvedValue({ email: "test@test.com", token: "seed-token" });
+        const { result } = renderHook(() => useFirstLoginViewModel(false, mockUseCase)); // isFirstLogin = false
+
+        act(() => { result.current.setEmail("test@test.com"); });
+        await act(async () => { await result.current.onRequestOTP({ preventDefault: () => {} }); });
+
+        expect(result.current.step).toBe(2); // pasa sin necesitar el checkbox
     });
 });
