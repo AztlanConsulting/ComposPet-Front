@@ -12,6 +12,9 @@ import { GetCurrentCollectionRequestUseCase } from '../../../domain/useCases/get
 import { SaveCollectionRequestFirstSectionUseCase } from '../../../domain/useCases/saveCollectionRequestFirstSectionUseCase';
 
 
+const MIN_BUCKETS_LIMIT = 0;
+const MAX_BUCKETS_LIMIT = 20;
+
 /**
  * Valida los campos de la primera sección del formulario de recolección.
  *
@@ -282,6 +285,60 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         }
     }, [wantsCollection, collectedBuckets, deliveredBuckets]);
 
+    const clampBucketValue = (value) => {
+        if (value === '') {
+            return '';
+        }
+
+        const numericValue = Number(value);
+
+        if (Number.isNaN(numericValue)) {
+            return MIN_BUCKETS_LIMIT;
+        }
+
+        return Math.min(
+            Math.max(numericValue, MIN_BUCKETS_LIMIT),
+            MAX_BUCKETS_LIMIT,
+        );
+    };
+
+    const handleDeliveredBucketsChange = (newValue) => {
+        setDeliveredBuckets(clampBucketValue(newValue));
+    };
+
+    const handleCollectedBucketsChange = (newValue) => {
+        setCollectedBuckets(clampBucketValue(newValue));
+    };
+
+
+    const incrementDeliveredBuckets = () => {
+        setDeliveredBuckets((previousValue) => {
+            const currentValue = previousValue === '' ? MIN_BUCKETS_LIMIT : Number(previousValue);
+            return clampBucketValue(currentValue + 1);
+        });
+    };
+
+    const decrementDeliveredBuckets = () => {
+        setDeliveredBuckets((previousValue) => {
+            const currentValue = previousValue === '' ? MIN_BUCKETS_LIMIT : Number(previousValue);
+            return clampBucketValue(currentValue - 1);
+        });
+    };
+
+    const incrementCollectedBuckets = () => {
+        setCollectedBuckets((previousValue) => {
+            const currentValue = previousValue === '' ? MIN_BUCKETS_LIMIT : Number(previousValue);
+            return clampBucketValue(currentValue + 1);
+        });
+    };
+
+    const decrementCollectedBuckets = () => {
+        setCollectedBuckets((previousValue) => {
+            const currentValue = previousValue === '' ? MIN_BUCKETS_LIMIT : Number(previousValue);
+            return clampBucketValue(currentValue - 1);
+        });
+    };
+
     /**
      * Valida y guarda la primera sección del formulario.
      * Retorna al ViewModel padre el siguiente step sugerido.
@@ -327,8 +384,8 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
                 requestId,
                 wantsCollection,
                 wantsExtraProducts,
-                Number(collectedBuckets),
-                Number(deliveredBuckets),
+                Number(collectedBuckets || 0),
+                Number(deliveredBuckets || 0),
             );
 
             let nextStep = 2; // Si el cliente desea productos extra, va al step 2 
@@ -374,8 +431,15 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
 
         setWantsCollection,
         setWantsExtraProducts,
-        setCollectedBuckets,
-        setDeliveredBuckets,
+
+        handleDeliveredBucketsChange,
+        handleCollectedBucketsChange,
+        incrementDeliveredBuckets,
+        decrementDeliveredBuckets,
+        incrementCollectedBuckets,
+        decrementCollectedBuckets,
+
+        
 
         saveFirstSection,
         loadCurrentCollectionRequest,

@@ -75,10 +75,14 @@ export default function CollectionRequestView() {
                         setWantsExtraProducts={firstSectionViewModel.setWantsExtraProducts}
 
                         deliveredBuckets={firstSectionViewModel.deliveredBuckets}
-                        setDeliveredBuckets={firstSectionViewModel.setDeliveredBuckets}
+                        handleDeliveredBucketsChange={firstSectionViewModel.handleDeliveredBucketsChange}
+                        incrementDeliveredBuckets={firstSectionViewModel.incrementDeliveredBuckets}
+                        decrementDeliveredBuckets={firstSectionViewModel.decrementDeliveredBuckets}
 
                         collectedBuckets={firstSectionViewModel.collectedBuckets}
-                        setCollectedBuckets={firstSectionViewModel.setCollectedBuckets}
+                        handleCollectedBucketsChange={firstSectionViewModel.handleCollectedBucketsChange}
+                        incrementCollectedBuckets={firstSectionViewModel.incrementCollectedBuckets}
+                        decrementCollectedBuckets={firstSectionViewModel.decrementCollectedBuckets}
 
                         errors={firstSectionViewModel.errors}
                         loadError={firstSectionViewModel.loadError}

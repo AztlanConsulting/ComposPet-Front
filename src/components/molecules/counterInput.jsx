@@ -4,9 +4,13 @@ import Icon from '../atoms/Icon';
 
 import '../../css/molecules/counterInput.css';
 
+const MAX_COUNTER_VALUE = 20;
+const MIN_COUNTER_VALUE = 0;
+
 /**
  * Molécula para seleccionar una cantidad mediante botones
  * de incremento y decremento.
+ * o ingresando el valor directamente en un input numérico.
  *
  * @param {string} question - Texto de la pregunta.
  * @param {number} value - Valor actual del contador.
@@ -21,11 +25,23 @@ export default function CounterInput({
     value,
     onIncrement,
     onDecrement,
+    onChange = () => {},
     disabled = false,
     disabledIncrement = false,
     disabledDecrement = false,
     error = '',
 }) {
+
+    const handleInputChange = (event) => {
+        onChange(event.target.value);
+    };
+
+    const handleInputBlur = () => {
+        if (value === '') {
+            onChange(MIN_COUNTER_VALUE);
+        }
+    };
+    
     return (
         <div className={`counter-input ${disabled ? 'counter-input-disabled' : ''}`}>
             <p className="counter-input-title">
@@ -37,22 +53,29 @@ export default function CounterInput({
                     type="button"
                     size="mini"
                     csstype="plus-min"
-                    className = {disabledDecrement  ? 'counter-input-error-decrement' : ''}
+                    className = {disabledDecrement  ? 'counter-input-limit-button' : ''}
                     onClick={onDecrement}
                     disabled={disabled || disabledDecrement}
                 >
                     <Icon name="minus" size="small" color="primary" />
                 </Button>
 
-                <span className="counter-input-value">
-                    {value}
-                </span>
+                <input
+                    type="number"
+                    className="counter-input-value"
+                    value={value}
+                    min={MIN_COUNTER_VALUE}
+                    max={MAX_COUNTER_VALUE}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    disabled={disabled}
+                />
 
                 <Button
                     type="button"
                     size="mini"
                     csstype="plus-min"
-                    className = {disabledIncrement  ? 'counter-input-error-increment' : ''}
+                    className = {disabledIncrement  ? 'counter-input-limit-button' : ''}
                     onClick={onIncrement}
                     disabled={disabled || disabledIncrement}
                 >
