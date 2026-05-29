@@ -137,9 +137,10 @@ function FirstLoginView({ isRecovery = false}) {
                                             </button>
                                         </label>
 
-                                        <PrivacyModal 
-                                            show={showPrivacy} 
-                                            onHide={() => setShowPrivacy(false)} 
+                                        <PrivacyModal
+                                            show={showPrivacy}
+                                            onHide={() => setShowPrivacy(false)}
+                                            content={<p>Aquí irá el aviso de privacidad real...</p>}
                                         />
                                     </>
                                 )}
