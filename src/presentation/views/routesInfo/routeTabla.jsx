@@ -28,10 +28,7 @@ export default function RoutesTablePage({
             <div className="filters-container">
                 
 
-                <Button size='medium' csstype='resume' className='button button-small'
-                    onClick={routesViewModel.handleOpenRoutesSheet}>
-                    Resumen de ruta
-                </Button>
+
 
                 <div className="search-wrapper">
                     <SearchInput

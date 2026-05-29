@@ -19,14 +19,22 @@
     margin-top: 2rem;
 }
 
+.today{
+    margin: 0 auto;
+}
+
+.actions-section{
+    justify-content: center;
+    padding-left: 2rem;
+}
+
 .route-header-row {
-    width: 100%;
     margin: 2rem auto 0 auto;
     box-sizing: border-box;
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     gap: 3rem;
 }
 

@@ -8,6 +8,7 @@ import BalanceCountersGroup from '../../../components/organisms/BalanceCountersG
 import CountersGroup from '../../../components/molecules/CountersGroup';
 import DropdownInput from "../../../components/molecules/DropdownInput";
 import Button from "../../../components/atoms/Button";
+import Label from "../../../components/atoms/Label";
 
 import '../../../css/routesInfo/routesInfo.css';
 
@@ -28,11 +29,13 @@ export default function RoutesInfo(){
             <div className="main">
                 <div className="filters-container">
                     <div className="filters-dropdowns">
+                        <div className="today">
+                            <Label id="Hoy" className="label-today" size="md">Hoy</Label>
                             <Button size='medium' csstype='accept' className='button button-today'
                                 onClick={routesViewModel.resetFilters}>
-                                Hoy
+                                {new Date().getDate()}
                             </Button>
-
+                        </div>
                         <DropdownInput
                             id="weeks"
                             size="md"
@@ -47,18 +50,18 @@ export default function RoutesInfo(){
                             Semana
                         </DropdownInput>
 
-                            <DropdownInput
-                                id="days"
-                                size="md"
-                                value={routesViewModel.selectedDay ?? ""}
-                                onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
-                                options={routesViewModel.daysOfRoutes.map(s => ({
-                                    value: s.dia_ruta,
-                                    label: s.dia_ruta,
-                                }))}
-                            >
-                                Día de ruta
-                            </DropdownInput>
+                        <DropdownInput
+                            id="days"
+                            size="md"
+                            value={routesViewModel.selectedDay ?? ""}
+                            onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
+                            options={routesViewModel.daysOfRoutes.map(s => ({
+                                value: s.dia_ruta,
+                                label: s.dia_ruta,
+                            }))}
+                        >
+                            Día de ruta
+                        </DropdownInput>
                     </div>
                     <div className="copy-link-container">
                         <CopyLink {...routesViewModel.copyLinkInfo} />
@@ -90,13 +93,16 @@ export default function RoutesInfo(){
                                 { label: "Sumatoria total", value: dayTotalAmount },
                             ]}
                         />
-                        <IconActionBubble
-                            text="Generar mensajes de confirmación"
-                            iconName="googleSheets"
-                            bubbleMessage="¡Mensajes generados!"
-                            errorMessage="Ups, algo salió mal"
-                            onAction={routesViewModel.handleGenerateMessages}
-                        />
+                        <div className="actions-section">
+                            <Button size='medium' csstype='accept' className='button-actions'
+                                onClick={routesViewModel.handleGenerateMessages}>
+                                Generar mensaje
+                            </Button>
+                            <Button size='medium' csstype='accept' className='button-actions'
+                                onClick={routesViewModel.handleOpenRoutesSheet}>
+                                Resumen de ruta
+                            </Button>
+                        </div>
                     </div>
                 </div>
             <RoutesTablePage 

@@ -178,3 +178,9 @@
     align-self: flex-end;
     margin: 0;
 }
+
+.button-actions {
+    font-weight: var(--font-weight-semibold);
+    width: 12rem;
+
+}
