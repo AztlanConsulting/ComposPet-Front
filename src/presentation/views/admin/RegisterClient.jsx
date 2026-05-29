@@ -6,6 +6,7 @@ import Button from '../../../components/atoms/Button';
 import DropdownInput from '../../../components/molecules/DropdownInput';
 import Form from 'react-bootstrap/Form';
 import Loading from '../../../components/Template/loading';
+import Icon from '../../../components/atoms/Icon';
 
 import useRegisterClientCatalogViewModel from '../../viewmodels/admin/registerClientCatalogViewModel';
 import { registerClientCatalogUseCase } from '../../../di/admin/registerClientDependencies';
@@ -90,6 +91,7 @@ function RegisterClient(){
                         ref={nameRef}
                         value={name}
                         classNameLabel="label"
+                        placeholder="Ej. Alejandro Sebastián"
                         classNameInput={
                             `register-input ${errors.name ? "input-error" : ""}`
                         }
@@ -100,8 +102,8 @@ function RegisterClient(){
                         error={errors.name}
                         required
                     >
-                        Nombre
-                    </InputComponent>
+                        Nombre <Icon name="requiredInput" size="mini" color="icon-required" />
+                    </InputComponent> 
 
                     <InputComponent
                         id="lastname_1"
@@ -109,8 +111,9 @@ function RegisterClient(){
                         ref={lastname1Ref}
                         value={lastname1}
                         classNameLabel="label"
+                        placeholder="Ej. Villavicencio"
                         classNameInput={
-                            `register-input-mid 
+                            `register-input 
                             ${errors.lastname1 ? "input-error" : ""}`
                         }
                         onChange={(e) => {const value =sanitizeText(e.target.value);
@@ -120,7 +123,7 @@ function RegisterClient(){
                         error={errors.lastname1}
                         required
                     >
-                        Apellido Paterno
+                        Apellido Paterno <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                     <InputComponent
@@ -128,7 +131,8 @@ function RegisterClient(){
                         type="text"
                         value={lastname2}
                         classNameLabel="label"
-                        classNameInput="register-input-mid"
+                        placeholder="Ej. Casarrubia"
+                        classNameInput="register-input"
                         onChange={(e) => setLastName2(sanitizeText(e.target.value))}
                     >
                         Apellido Materno
@@ -140,6 +144,7 @@ function RegisterClient(){
                         ref={emailRef}
                         value={email}
                         classNameLabel="label"
+                        placeholder="Ej. carlos.mendez@soluciones.com.mx"
                         classNameInput={
                             `register-input ${errors.email ? "input-error" : ""}`
                         }
@@ -149,7 +154,7 @@ function RegisterClient(){
                             validateField("email", value);
                         }}
                     >
-                        Correo
+                        Correo <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                     <InputComponent
@@ -158,6 +163,7 @@ function RegisterClient(){
                         ref={phoneRef}
                         value={phone}
                         classNameLabel="label"
+                        placeholder="Ej. +524425676543"
                         classNameInput={
                             `register-input ${errors.phone ? "input-error" : ""}`
                         }
@@ -167,7 +173,7 @@ function RegisterClient(){
                             validateField("phone", value);
                         }}
                     >
-                        Número de teléfono
+                        Número de teléfono <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
                 </section>
 
@@ -227,6 +233,7 @@ function RegisterClient(){
                         ref={addressRef}
                         value={address}
                         classNameLabel="label"
+                        placeholder="Ej. Calle 123, Colonia, CP Ciudad, Estado"
                         classNameInput={
                             `register-input ${errors.address ? "input-error" : ""}`
                         }
@@ -236,7 +243,7 @@ function RegisterClient(){
                             validateField("address", value);
                         }}
                     >
-                        Dirección
+                        Dirección <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
 
                 </section>
@@ -257,7 +264,7 @@ function RegisterClient(){
                                 }))}
                             error={dropdownErrors.selectedDay}
                         >
-                        Día de ruta
+                        Día de ruta <Icon name="requiredInput" size="mini" color="icon-required" />
                         </DropdownInput>
                     </div>
 

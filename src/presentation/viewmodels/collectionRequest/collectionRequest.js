@@ -84,7 +84,7 @@ function theClientIsInTime(routeDay) {
     routeDate.setHours(0, 0, 0, 0);
 
     const limitDate = new Date(routeDate);
-    limitDate.setHours(limitDate.getHours() - 6);
+    limitDate.setHours(limitDate.getHours() - 1);
 
     const weekStartDate = new Date(today);
     weekStartDate.setDate(today.getDate() - currentDay);
@@ -287,19 +287,20 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 3) {
-            const result = await thirdSectionViewModel.saveThirdSection();
-            if (result.success && result.nextStep) {
-                const result = await TimerAlert({
-                    title: "¡Completaste tu registro de recolección!",
-                    text: "" ,
-                    confirmText: "Continuar",
-                    icon: "success",
-                    timer:10000,
-                });
-                navigate("/")
-            }
-            return;
+            const result = await ConfirmAlert({
+                title: "¿Estás seguro que deseas enviar tu solicitud?",
+                text: "Una vez enviada, no podrás hacer cambios en tu solicitud.",
+                confirmText: "Sí, enviar solicitud",
+                cancelText: "No, quedarme aquí",
+            });
 
+            if (!result.isConfirmed) return;
+
+            const saveResult = await thirdSectionViewModel.saveThirdSection();
+
+            if (saveResult.success && saveResult.nextStep) {
+                navigate("/");
+            }
         }
 
     };

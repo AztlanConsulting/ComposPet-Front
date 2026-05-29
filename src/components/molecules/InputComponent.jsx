@@ -1,6 +1,7 @@
 import Input from "../atoms/Input";
 import Label from "../atoms/Label";
-import React, { forwardRef } from 'react'; 
+import React, { forwardRef, useState } from 'react';
+import Icon from '../../components/atoms/Icon';
 
 import "../../css/molecules/inputComponent.css"
 
@@ -32,23 +33,47 @@ const InputComponent = forwardRef(({
     error = "",
     children,
 }, ref) => { 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const inputType =
+        type === "password"
+            ? (showPassword ? "text" : "password")
+            : type;
+
     return (
         <div className="mt-2">
             <Label size={size} id={id} className={classNameLabel}>
                 {children}
             </Label>
-            <Input
-                placeholder={placeholder}
-                id={id}
-                size={size}
-                type={type}
-                onChange={onChange}
-                className={classNameInput}
-                value={value}
-                ref={ref}
-            />
+
+            <div className="input-container">
+
+
+                <Input
+                    placeholder={placeholder}
+                    id={id}
+                    size={size}
+                    type={inputType}
+                    onChange={onChange}
+                    className={classNameInput}
+                    value={value}
+                    ref={ref}
+                />
+
+                {type === "password" && (
+                    <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
+                    </button>
+                )}
+
+            </div>
+
             {error && (
-                <p className='error-message'>
+                <p className="error-message">
                     {error}
                 </p>
             )}

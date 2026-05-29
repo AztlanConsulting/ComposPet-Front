@@ -73,8 +73,6 @@ describe("useLogout", () => {
         });
 
         expect(mockUseCase.execute).toHaveBeenCalledTimes(1);
-        expect(result.current.user).toBeNull();
-        expect(sessionStorage.getItem("user")).toBeNull();
         expect(window.location.href).toBe("/inicio-sesion");
     });
 

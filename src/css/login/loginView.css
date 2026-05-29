@@ -22,6 +22,11 @@
     background-attachment: fixed
 }
 
+.error-message{
+    align-items: center;
+    text-align: center;
+}
+
 .logo-compospet {
     display: flex;
     flex-direction: column;
