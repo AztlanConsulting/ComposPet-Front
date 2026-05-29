@@ -1,5 +1,5 @@
 export const sanitizeText = (value) => {
-    return value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s.,;:@_]/g, '');
+    return value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s.,;:@_\-]/g, '');
 };
 
 export const sanitizeEmail = (value) => {

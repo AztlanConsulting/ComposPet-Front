@@ -55,7 +55,7 @@ function SignInForm(){
                         <p>¡Bienvenid@! Entra a tu sesión y sigue compostando con nosotros</p>
                     </div>
 
-                    <form onSubmit={(e) => {console.log("form disparado"); onSubmit(e);}} className='col d-flex flex-column align-items-center flex-wrap form-content'>
+                    <form onSubmit={onSubmit} className='col d-flex flex-column align-items-center flex-wrap form-content'>
 
                         <Login
                             email={email}
