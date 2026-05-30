@@ -48,12 +48,12 @@
 }
 
 .custom-swal-confirm {
-    background-color: var(--color-green-secondary);
+    background: var(--color-green-secondary);
     color: var(--color-white);
 }
 
 .custom-swal-confirm-timer {
-    background-color: var(--color-green-tertiary);
+    background: var(--color-green-secondary);
     color: var(--color-red-black);
     border-color: var(--color-green-secondary);
 }
@@ -105,4 +105,9 @@
 /* Cuando solo exista botón confirmar */
 .swal2-actions .custom-swal-confirm:only-child {
     min-width: 8rem;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
+    background: var(--color-green-secondary);
+    color: var(--color-white);
 }
