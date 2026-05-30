@@ -27,13 +27,12 @@
 }
 
 .custom-swal-problem {
-    background-color: var(--color-red-secondary);
-    color: var(--color-red-primary);
-    border: 2px solid var(--color-red-primary);
+    background-color: --color-green-secondary;
+    color: var(--color-white);
 }
 
 .custom-swal-problem:hover{
-    background-color: #facccc;
-    color: var(--color-red-primary);
-    border: 2px solid var(--color-red-primary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }

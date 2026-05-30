@@ -48,9 +48,8 @@
 }
 
 .custom-swal-confirm {
-    background-color: var(--color-red-secondary);
-    color: var(--color-red-primary);
-    border-color: var(--color-red-primary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
 }
 
 .custom-swal-confirm-timer {
@@ -62,16 +61,18 @@
 
 .custom-swal-confirm:hover {
     filter: brightness(0.98);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }
 
 .custom-swal-cancel {
-    background-color: var(--color-green-tertiary);
+    background-color: var(--color-white);
     color: var(--color-red-black);
     border-color: var(--color-green-secondary);
 }
 
 .custom-swal-cancel:hover {
     filter: brightness(0.98);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }
 
 /* Contenedor del mensaje con timer */

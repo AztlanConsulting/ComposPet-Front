@@ -28,13 +28,12 @@
 }
 
 .custom-swal-acept {
-    background-color: #DBFFF2;
-    color: var(--color-green-secondary);
-    border: 2px solid var(--color-green-primary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
 }
 
 .custom-swal-acept:hover{
-    background-color: #cef0e4;
-    color: var(--color-green-secondary);
-    border: 2px solid var(--color-green-primary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }
