@@ -3,6 +3,7 @@ import FormCard from "../Template/formCard";
 import { useState } from "react";
 import Icon from "../atoms/Icon";
 
+
 /**
  * Tarjeta de presentación de la información del método de pago.
  * Muestra el texto y las notas del método de pago seleccionado.
