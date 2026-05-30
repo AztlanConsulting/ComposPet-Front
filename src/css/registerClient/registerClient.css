@@ -71,6 +71,7 @@ body,
     padding: 0 0.8rem;
     margin-bottom: 0.4rem;
     box-sizing: border-box;
+    resize: none;
 }
 
 .register-input-notes::placeholder {
