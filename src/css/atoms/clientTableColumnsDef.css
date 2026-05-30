@@ -13,8 +13,9 @@
     background-color: var(--color-green-tertiary);
 }
 
-.action-button {
-    padding: 0.8rem;
+.mini-icon {
+    width: 2rem;
+    height: 2rem;
 }
 
 .edit-button {

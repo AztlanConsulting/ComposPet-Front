@@ -219,7 +219,7 @@ export function getRoutesTableColumns({
                         <div className="save-discard-div">
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='cancel' 
                             onClick={() => handleSave(params)}
                             disabled={loading}
@@ -228,7 +228,7 @@ export function getRoutesTableColumns({
                             </Button>
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='warning' 
                             onClick={() => handleCancel(params)}
                             disabled={loading}
@@ -244,7 +244,7 @@ export function getRoutesTableColumns({
                         <Button 
                         className='action-button'
                         disabled={isAnotherRowEditing || !params.data.hasRequest}
-                        size='mini' 
+                        size='mini-icon' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
                         >
