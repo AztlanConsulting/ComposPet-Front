@@ -14,6 +14,15 @@
     box-sizing: border-box;
 }
 
+.collection-request-counter-info {
+    color: var(--color-green-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
 .collection-request-buttons-left {
     display: flex;
     align-items: center;
@@ -25,8 +34,8 @@
 .collection-request-cancel-page2-button{
     background-color: var(--color-bg);
     color: var(--color-green-secondary);
-    border-width: 0.12rem;
     border: 1px solid var(--color-green-secondary);
+    box-sizing: border-box;
 }
 
 .collection-request-content {
@@ -72,14 +81,6 @@
 .collection-request-next-button {
     align-self: auto;
 }
-
-/* .collection-request-cancel-button {
-    align-self: flex-start;
-}
-
-.collection-request-next-button {
-    align-self: flex-end;
-} */
 
 /* Tablet */
 @media (max-width: 768px) {
@@ -130,22 +131,19 @@
         align-items: stretch;
     }
 
-    .collection-request-cancel-button {
-        align-self: flex-start;
-    }
-
-    .collection-request-next-button {
-        align-self: flex-end;
-    }
-
     .collection-request-buttons-left {
-        width: 100%;
-    }
+    width: 100%;
+    display: flex;
+}
 
     .collection-request-cancel-page2-button,
     .collection-request-next-button {
         width: 100% !important;
         height: 2.75rem !important;
+        min-height: 2.75rem !important;
+        box-sizing: border-box;
         font-size: var(--font-size-md) !important;
+        margin: 0 !important;
+        align-self: stretch !important;
     }
 }

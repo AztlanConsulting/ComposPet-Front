@@ -97,6 +97,13 @@ export default function FirstFormCollectionRequest({
                         disabledIncrement={Number(collectedBuckets || 0) >= MAX_LIMIT}
                         disabledDecrement={Number(collectedBuckets || 0) <= 0}
                     />
+
+                    {wantsCollection && (
+                        <p className="collection-request-counter-info">
+                        Ingresa una cantidad mayor a 0 en alguno de los contadores.
+                        </p>
+                    )}
+
                 </div>
             </div>
         </FormCard>
