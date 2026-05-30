@@ -28,7 +28,9 @@ export function getClientTableColumns({
 
     return [
         {
-            width: 150,
+            width: 100,
+            minWidth: 100,
+            maxWidth: 150,
             pinned: 'left',
             lockPinned: true,
             suppressMovable: true,

@@ -25,6 +25,17 @@ export default function ClientTable({
 }) {
 
     const gridRef = React.useRef(null);
+    const autoSizeAllColumns = (api) => {
+        if (!api) return;
+    
+        const columns = api.getColumns?.();
+    
+        if (!columns || columns.length === 0) return;
+    
+        const allColumnIds = columns.map(column => column.getId());
+    
+        api.autoSizeColumns(allColumnIds, false);
+    };
 
     React.useEffect(() => {
         const api = gridRef.current?.api;
@@ -35,6 +46,16 @@ export default function ClientTable({
             api.redrawRows();
         });
     }, [editingRowId]);
+
+    React.useEffect(() => {
+        const api = gridRef.current?.api;
+    
+        if (!api || !clientList?.length) return;
+    
+        requestAnimationFrame(() => {
+            autoSizeAllColumns(api);
+        });
+    }, [clientList]);
 
     return (
         <div className='wrapper ag-theme-alpine custom-green-theme'>
@@ -56,7 +77,7 @@ export default function ClientTable({
                     return count * 26 + 12;
                 }}
                 onFirstDataRendered={(params) => {
-                    params.api.resetRowHeights();
+                    autoSizeAllColumns(params.api);
                 }}
                 onBodyScroll={params => {
                     params.api.stopEditing(false);
