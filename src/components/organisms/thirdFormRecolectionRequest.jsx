@@ -4,6 +4,7 @@ import FormCard from '../Template/formCard';
 import "../../css/organisms/thirdFormRecolectionRequest.css"
 import PaymentElement from '../molecules/PaymentElement';
 import CollectionResume from '../molecules/CollectionResume';
+import AdditionalNotes from '../molecules/AdditionalNotes';
 /**
  * Organismo de la tercera sección:
  * - Formas de pago
@@ -53,15 +54,27 @@ export default function ThirdFormCollectionRequest({
     return (
         <div className="third-form-wrapper">
             <FormCard className='payment-container'>
-                <PaymentElement
-                paymentMethods={paymentMethods}
-                selectedMethod={selectedMethod}
-                selectedPaymentIndex={selectedPaymentIndex}
-                setSelectedPaymentIndex={setSelectedPaymentIndex}
-                notes={notes}
-                setNotes={setNotes}
-                className='payment-wrapper'
-                />
+                <div className="third-form-left-content">
+                    <PaymentElement
+                        paymentMethods={paymentMethods}
+                        selectedMethod={selectedMethod}
+                        selectedPaymentIndex={selectedPaymentIndex}
+                        setSelectedPaymentIndex={setSelectedPaymentIndex}
+                        className="payment-wrapper"
+                    />
+
+                    <section className="third-form-notes-section">
+                        <h2 className="third-form-notes-title">
+                            Notas adicionales
+                        </h2>
+
+                        <AdditionalNotes
+                            notes={notes}
+                            setNotes={setNotes}
+                            className="notes-wrapper"
+                        />
+                    </section>
+                </div>
             </FormCard>
 
             {/* DIV DERECHA (Resumen de compra) */}
@@ -75,9 +88,11 @@ export default function ThirdFormCollectionRequest({
                     collection={collection}
                 />
 
-                    <span
-                    className='balance-check'>
-                        {balance < total && selectedMethod.tipo === "Saldo" ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono." : null}</span>
+                    <span className="balance-check">
+                        {balance < total && selectedMethod?.tipo === "Saldo"
+                            ? "Tu saldo actual no cubre el total de tu compra, no olvides realizar un abono."
+                            : null}
+                    </span>
             </FormCard>
         </div>
     );

@@ -21,6 +21,11 @@ export default function CollectionResume({
         if (tipo === "Efectivo") return "bills";
 
     };
+
+    const formatCurrency = (value) => {
+        return `$${Number(value || 0).toFixed(2)}`;
+    };
+
     return (
         <>
             <h2 className="resume-title">
@@ -41,9 +46,15 @@ export default function CollectionResume({
 
             <div>
                 {/* Totales de compra e info adicional */}
-                <p className="balance-text">Saldo: ${balance}</p>
-                <hr></hr>
-                <p className="total-text">Total: ${total}</p>
+                <p className="balance-text">
+                    Saldo: {formatCurrency(balance)}
+                </p>
+
+                <hr className="resume-divider" />
+
+                <p className="total-text">
+                    Total: {formatCurrency(total)}
+                </p>
             </div>
 
         </>
