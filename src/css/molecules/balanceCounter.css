@@ -20,10 +20,16 @@
 
 /* Celular */
 @media (max-width: 768px){
+    .summary-card .balance-counter {
+        width: 100%;
+        max-width: none;
+    }
+    
     .balance-counter,
     .counters-group .counters-container{
-        width: 17rem;
-        max-width: 90%;
+        width: 100%;
+        max-width: none;
+        
     }
 
     .balance-counter-title{
