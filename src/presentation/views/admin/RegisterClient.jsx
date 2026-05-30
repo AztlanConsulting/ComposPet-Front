@@ -133,7 +133,11 @@ function RegisterClient(){
                         classNameLabel="label"
                         placeholder="Ej. Casarrubia"
                         classNameInput="register-input"
-                        onChange={(e) => setLastName2(sanitizeText(e.target.value))}
+                        onChange={(e) => {
+                            const value = sanitizeText(e.target.value);
+                            setLastName2(value);
+                            validateField("lastname2", value);
+                        }}
                     >
                         Apellido Materno
                     </InputComponent>
@@ -178,7 +182,7 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="section-title">Datos familiares</h5>
+                    <h5 className="section-title">Datos familiares</h5>
                     <hr />
 
                     <InputComponent
@@ -187,8 +191,13 @@ function RegisterClient(){
                         placeholder="Ej. 3 perros, 2 gatos."
                         value={pets}
                         classNameLabel="label"
-                        classNameInput="register-input"
-                        onChange={(e) => setPets(sanitizeText(e.target.value))}
+                        classNameInput={`register-input ${errors.pets ? "input-error" : ""}`}
+                        error={errors.pets}
+                        onChange={(e) => {
+                            const value = sanitizeText(e.target.value);
+                            setPets(value);
+                            validateField("pets", value);
+                        }}
                     >
                         Mascotas
                     </InputComponent>
@@ -199,8 +208,13 @@ function RegisterClient(){
                         placeholder="Ej. 2 adultos, 1 niño."
                         value={family}
                         classNameLabel="label"
-                        classNameInput="register-input"
-                        onChange={(e) => setFamily(sanitizeText(e.target.value))}
+                        classNameInput={`register-input ${errors.family ? "input-error" : ""}`}
+                        error={errors.family}
+                        onChange={(e) => {
+                            const value = sanitizeText(e.target.value);
+                            setFamily(value);
+                            validateField("family", value);
+                        }}
                     >
                         Familia
                     </InputComponent>
@@ -216,11 +230,21 @@ function RegisterClient(){
                     <Form.Control
                         as="textarea"
                         placeholder="Escribe cualquier nota adicional sobre el cliente."
-                        className="register-input-notes"
+                        className={`register-input-notes ${errors.notes ? "input-error" : ""}`}
                         value={notes}
-                        maxLength={1000}
-                        onChange={(e) => setNotes(e.target.value)}
+                        maxLength={500}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setNotes(value);
+                            validateField("notes", value);
+                        }}
                     />
+
+                    {errors.notes && (
+                        <span className="input-error-message">
+                            {errors.notes}
+                        </span>
+                    )}
                 </section>
 
                 <section>

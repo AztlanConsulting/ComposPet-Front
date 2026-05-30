@@ -22,35 +22,54 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
  * @returns {{ errors: Object, hasErrors: boolean }} Objeto con los mensajes de error por campo
  * y una bandera que indica si existe al menos un error.
  */
-function validateForm(name, lastname1, email, phone, address){
-    const errors = { name: "", lastname1: "", email: "", phone: "", address: "" };
+const isSafeFreeText = (value) =>
+    /^[a-zA-ZÀ-ÿ0-9\s.,#\-]*$/.test(value);
+
+function validateForm(name, lastname1, lastname2, email, phone, address, pets, family, notes) {
+    const errors = {
+        name: "",
+        lastname1: "",
+        lastname2: "",
+        email: "",
+        phone: "",
+        address: "",
+        pets: "",
+        family: "",
+        notes: "",
+    };
+
     let hasErrors = false;
 
-    if(!name){
+    if (!name) {
         errors.name = "El nombre del cliente es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(name)){
+    } else if (!/^[a-zA-ZÀ-ÿ\s]{2,80}$/.test(name)) {
         errors.name = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
-        
-    if(!lastname1){
+
+    if (!lastname1) {
         errors.lastname1 = "El primer apellido es requerido.";
         hasErrors = true;
-    } else if(!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(lastname1)){
+    } else if (!/^[a-zA-ZÀ-ÿ\s]{2,80}$/.test(lastname1)) {
         errors.lastname1 = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
 
-    if(!email){
+    if (lastname2 && !/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(lastname2)) {
+        errors.lastname2 = "Solo puedes ingresar letras mayúsculas y minúsculas.";
+        hasErrors = true;
+    }
+
+    if (!email) {
         errors.email = "El correo es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         errors.email = "Ingresa un correo válido.";
         hasErrors = true;
     }
 
-    if(!phone){
+    if (!phone) {
         errors.phone = "El teléfono es requerido.";
         hasErrors = true;
     } else if (!/^\+?\d{10,15}$/.test(phone)) {
@@ -61,8 +80,23 @@ function validateForm(name, lastname1, email, phone, address){
     if (!address) {
         errors.address = "La dirección es requerida.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ0-9\s.,#-]{5,150}$/.test(address)) {
+    } else if (!/^[a-zA-ZÀ-ÿ0-9\s.,#\-]{5,150}$/.test(address)) {
         errors.address = "Ingresa una dirección válida.";
+        hasErrors = true;
+    }
+
+    if (pets && !isSafeFreeText(pets)) {
+        errors.pets = "Mascotas contiene caracteres no permitidos.";
+        hasErrors = true;
+    }
+
+    if (family && !isSafeFreeText(family)) {
+        errors.family = "Familia contiene caracteres no permitidos.";
+        hasErrors = true;
+    }
+
+    if (notes && !isSafeFreeText(notes)) {
+        errors.notes = "Notas contiene caracteres no permitidos.";
         hasErrors = true;
     }
 
@@ -80,7 +114,17 @@ function validateForm(name, lastname1, email, phone, address){
 
 function useRegisterClientViewModel(){
 
-    const[errors, setErrors] = useState({ name: "", lastname1: "", email: "", phone: "", address: "" });
+    const [errors, setErrors] = useState({
+        name: "",
+        lastname1: "",
+        lastname2: "",
+        email: "",
+        phone: "",
+        address: "",
+        pets: "",
+        family: "",
+        notes: "",
+    });
 
     const [name, setName] = useState('');
     const [lastname1, setLastName1] = useState('');
@@ -108,18 +152,26 @@ function useRegisterClientViewModel(){
         const updatedValues = {
             name,
             lastname1,
+            lastname2,
             email,
             phone,
             address,
+            pets,
+            family,
+            notes,
             [field]: value
         };
 
         const { errors: newErrors } = validateForm(
             updatedValues.name,
             updatedValues.lastname1,
+            updatedValues.lastname2,
             updatedValues.email,
             updatedValues.phone,
-            updatedValues.address
+            updatedValues.address,
+            updatedValues.pets,
+            updatedValues.family,
+            updatedValues.notes
         );
 
         setErrors(prev => ({
@@ -158,7 +210,17 @@ function useRegisterClientViewModel(){
         
         e.preventDefault();
 
-        const validation = validateForm(name, lastname1, email, phone, address);
+        const validation = validateForm(
+            name,
+            lastname1,
+            lastname2,
+            email,
+            phone,
+            address,
+            pets,
+            family,
+            notes
+        );
         const dropdownValidation = validateDropdowns();
 
         if (validation.hasErrors || dropdownValidation.hasErrors) {
