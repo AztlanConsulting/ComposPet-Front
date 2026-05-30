@@ -220,7 +220,7 @@ describe('handleSave', () => {
         expect(mockExecuteUpdate).toHaveBeenCalledWith(
             expect.objectContaining({ name: MOCK_ROUTES[0].name })
         );
-        expect(mockExecuteFiltered).toHaveBeenCalledTimes(3);
+        expect(mockExecuteFiltered).toHaveBeenCalledTimes(2);
         expect(params.api.stopEditing).toHaveBeenCalled();
     });
 
