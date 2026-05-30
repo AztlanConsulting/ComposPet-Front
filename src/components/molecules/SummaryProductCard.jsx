@@ -19,8 +19,12 @@ export default function SummaryProductCard({
     productTotal,
     onDelete,
 }) {
+
     const formatCurrency = (value) => {
-        return `$${Number(value || 0).toFixed(2)}`;
+        return `$${new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(value)}`;
     };
 
     return (

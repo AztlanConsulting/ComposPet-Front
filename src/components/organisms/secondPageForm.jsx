@@ -43,7 +43,7 @@ function SecondPageForm({ secondSectionViewModel }) {
                 {/* Muestra mensaje cuando se alcanza el límite de productos especiales */}
                 {
                     message && (
-                        <p className="limite-mensaje">Haz alcanzado el maximo de {name.join(", ")}</p>
+                        <p className="limite-mensaje">Haz alcanzado el máximo de {name.join(", ")}</p>
                     )
                 }
 

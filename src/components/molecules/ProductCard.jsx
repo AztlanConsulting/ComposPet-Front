@@ -57,11 +57,17 @@ export default function ProductCard({
         }
     };
 
+    const formatCurrency = (value) => {
+        return `$${new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(value)}`;
+    };
 
     return (
         <Card className='product-card justify-content-center align-items-center'>
             {/* {agotado && (
-                <p className="product-agotado">Haz alcanzado el maximo de {name}</p>
+                <p className="product-agotado">Haz alcanzado el máximo de {name}</p>
             )} */}
             <div className='d-flex justify-content-center align-items-center image-back'>
                 <Image src={imageUrl} alt={name} size='image-medium' variant='normal'></Image>
@@ -72,7 +78,7 @@ export default function ProductCard({
                 {description}
                 </Card.Text>
                 <Card.Text className='m-1 product-price'>
-                Precio: {price === "Sin costo" ? price : `$${price.toFixed(2)}`}
+                {price === "Sin costo" ? price : formatCurrency(price)}
                 </Card.Text>
                 <div className='buttons'>
                     <Button 
