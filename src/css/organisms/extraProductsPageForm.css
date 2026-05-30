@@ -97,8 +97,6 @@ h2 {
     line-height: var(--line-height-normal);
 }
 
-/* OJO: mejor no sobrescribir fuerte solicitud-actions aquí */
-/* Si quieres dejarlo, mínimo hazlo compatible */
 .solicitud-actions {
     width: 100%;
     box-sizing: border-box;
