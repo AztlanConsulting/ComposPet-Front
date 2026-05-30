@@ -106,8 +106,10 @@ const ExtraProductsCellEditor = forwardRef((props, ref) => {
 
         const parsed = parseInt(rawValue);
         if (!isNaN(parsed) && parsed >= 1) {
+            const safe = Math.min(parsed, 999);
+            setInputValues(prev => ({ ...prev, [id]: String(safe) }));
             setSelected(prev => {
-                const next = { ...prev, [id]: parsed };
+                const next = { ...prev, [id]: safe };
                 selectedRef.current = next;
                 props.onSelectionChange?.(next);
                 return next;
@@ -268,7 +270,10 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("collectedBuckets", params.newValue);
+                const raw = Number(params.newValue);
+                const safe = Math.min(Math.max(Math.floor(raw), 0), 20);
+
+                const validation = validateField("collectedBuckets", safe);
 
                 if (validation !== true) {
                     params.data.collectedBuckets = params.oldValue;
@@ -284,7 +289,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.collectedBuckets = Number(params.newValue);
+                params.data.collectedBuckets = safe;
                 return true;
             },
 
@@ -312,7 +317,11 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("deliveredBuckets", params.newValue);
+
+                const raw = Number(params.newValue);
+                const safe = Math.min(Math.max(Math.floor(raw), 0), 20);
+
+                const validation = validateField("deliveredBuckets", safe);
 
                 if (validation !== true) {
                     params.data.deliveredBuckets = params.oldValue;
@@ -328,7 +337,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.deliveredBuckets = Number(params.newValue);
+                params.data.deliveredBuckets = safe;
                 return true;
             },
 
@@ -441,7 +450,12 @@ export function getRoutesTableColumns({
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("schedule", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("schedule", params.sanitized);
 
                 if(validation !== true) {
                     params.data.schedule = params.oldValue;
@@ -457,7 +471,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.schedule = params.newValue;
+                params.data.schedule = sanitized;
                 return true;
             }
         },
@@ -539,7 +553,13 @@ export function getRoutesTableColumns({
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("notes", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("notes", sanitized);
+
                 if (validation !== true) {
                     params.data.notes = params.oldValue;
 
@@ -555,7 +575,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.notes = params.newValue;
+                params.data.notes = sanitized;
                 return true;
             },
         },
