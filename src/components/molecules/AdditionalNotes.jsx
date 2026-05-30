@@ -2,7 +2,6 @@ import "../../css/molecules/additionalNotes.css"
 import FormCard from "../Template/formCard";
 import InputComponent from "./InputComponent";
 
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 /**
  * Tarjeta con input para añadir notas a la recolección.
@@ -15,26 +14,16 @@ export default function AdditionalNotes({
     className = "",
 }) {
     return (
-            <FormCard className={`
-                notes-card
-                paddings
-                ${className}
-            `}
-            >
-                <strong>
-                    Notas adicionales.
-                </strong>
-
-                <br />
-                <Form.Control
-                    as="textarea"
-                    placeholder="Escribe cualquier nota adicional que los operadores necesiten para poder entregar tus productos."
-                    className="input-notes"
-                    value={notes}
-                    onChange={(e) => {setNotes(e.target.value)}}
-                />
-
-
-            </FormCard>
+        <div className={`notes-card ${className}`}>
+            <Form.Control
+                as="textarea"
+                placeholder="Escribe cualquier nota adicional..."
+                className="input-notes"
+                value={notes}
+                onChange={(event) => {
+                    setNotes(event.target.value);
+                }}
+            />
+        </div>
     );
-}   
+}

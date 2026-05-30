@@ -1,6 +1,7 @@
 import "../../css/molecules/collectionResume.css"
 import FormCard from "../Template/formCard";
 import SummaryProductCard from "./SummaryProductCard";
+import bucketCostMap from "../../presentation/viewmodels/utils/bucketCostMap";
 
 /**
  * Elemento con la lista de productos extra y su total
@@ -21,6 +22,17 @@ export default function CollectionResume({
         if (tipo === "Efectivo") return "bills";
 
     };
+
+    let productsAmount = 0;
+
+    products.map((product, index) => {
+        productsAmount += product.cantidad;
+    });
+
+    const formatCurrency = (value) => {
+        return `$${Number(value || 0).toFixed(2)}`;
+    };
+
     return (
         <>
             <h2 className="resume-title">
@@ -41,9 +53,20 @@ export default function CollectionResume({
 
             <div>
                 {/* Totales de compra e info adicional */}
-                <p className="balance-text">Saldo: ${balance}</p>
-                <hr></hr>
-                <p className="total-text">Total: ${total}</p>
+                <p className="balance-text">
+                    Saldo: {formatCurrency(balance)}
+                </p>
+
+                Recolección {collection.cubetas_entregadas} cubeta
+                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
+                <br />
+                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
+
+                <hr className="resume-divider" />
+
+                <p className="total-text">
+                    Total: {formatCurrency(total)}
+                </p>
             </div>
 
         </>

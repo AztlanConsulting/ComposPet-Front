@@ -3,24 +3,58 @@
 @import "../tokens/typography.css";
 
 .resume-title{
-    font-weight: var(--font-weight-bold);
-    text-align: center;
-    padding-bottom: 1.5%;
-    color: var(--color-black);
+    margin: 0 0 1.5rem 0;
+    color: var(--color-green-secondary);
     font-size: var(--font-size-xl);
-    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
 }
 
-.balance-text {
-    font-family: var(--font-family-primary);
+.balance-text,
+.total-text {
+    color: var(--color-green-secondary);
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
 }
+
 
 .total-text {
-    font-family: var(--font-family-primary);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
+    font-weight: var(--font-weight-bold);
+}
+
+.resume-divider {
+    border: none;
+    border-top: 1px solid var(--color-green-secondary);
+    opacity: 0.35;
+    margin: 1rem 0;
+}
+
+.third-form-products {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 480px) {
+    .resume-title {
+        margin: 0 0 1rem 0;
+        font-size: var(--font-size-lg);
+        text-align: center;
+    }
+
+    .third-form-products {
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .balance-text,
+    .total-text {
+        font-size: var(--font-size-sm);
+    }
+
+    .resume-divider {
+        margin: 0.75rem 0;
+    }
 }
