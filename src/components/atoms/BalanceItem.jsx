@@ -6,13 +6,11 @@ import '../../css/atoms/balanceItem.css';
  *
  * @param {string} subtitle - Texto descriptivo del saldo.
  * @param {string} value - Valor monetario a mostrar.
- * @param {'positive' | 'negative'} variant - Estilo visual del valor.
  * @returns {JSX.Element}
  */
 export default function BalanceItem({
     subtitle = '',
     value = '',
-    variant = 'positive',
 }) {
 
     const numericValue = Number(
