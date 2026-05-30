@@ -15,6 +15,7 @@ import { isValidSearchText } from "./utils/searchValidation";
 import ConfirmAlert from "../../components/Template/confirmationAlert";
 import usePrompt from "./utils/usePrompt";
 import { validateField } from "./utils/clientFieldsValidations";
+import ValidationObserver from "./utils/validationObserver";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -26,6 +27,7 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
+    const [hasValidationErrors, setHasValidationErrors] = useState(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -47,6 +49,14 @@ function useClientTableViewModel() {
 
     // variable para el switcher de composta
     const [compostStatus, setCompostStatus] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = ValidationObserver.subscribe((errors) => {
+            setHasValidationErrors(errors.size > 0);
+        });
+
+        return unsubscribe;
+    }, []);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -214,6 +224,8 @@ function useClientTableViewModel() {
 
             params.node.setData({...originalRow});
 
+            ValidationObserver.clear();
+
             setEditingRowId(null);
 
             requestAnimationFrame(() => {
@@ -257,41 +269,41 @@ function useClientTableViewModel() {
         return { valid: true };
     };
 
-    const handleSave = useCallback( async (params) => {
-        try {
-            setLoading(true);
-            params.api.stopEditing(false);
+const handleSave = useCallback(async (params) => {
 
-            const validation = validateRow(params.data);
+    try {
 
-            if (!validation.valid) {
+        setLoading(true);
 
-                await ProblemAlert({
-                    title: "Error en los datos ingresados",
-                    text: validation.message,
-                });
+        params.api.stopEditing(false);
 
-                params.api.startEditingCell({
-                    rowIndex: params.node.rowIndex,
-                    colKey: validation.field,
-                });
+        if (ValidationObserver.hasErrors()) {
 
-                return;
-            }
+            await ProblemAlert({
+                title: "Error en los datos ingresados",
+                text: "Corrige los campos inválidos antes de guardar."
+            });
 
-            const updatedData = params.data;
-            const response = await updateClientUseCase.execute(updatedData);
-            getInfo();
-            
-            setEditingRowId(null);
-
-            await AceptAlert({});
-        } catch (error) {
-            console.log("Error updating client data: ", error);
-        } finally {
-            setLoading(false);
+            return;
         }
-    }, [updateClientUseCase]);
+
+        await updateClientUseCase.execute(params.data);
+
+        ValidationObserver.clear();
+
+        await getInfo();
+
+        setEditingRowId(null);
+
+        await AceptAlert({});
+
+    } catch(error) {
+        console.log(error);
+    } finally {
+        setLoading(false);
+    }
+
+}, [updateClientUseCase, getInfo]);
 
     // AG Table columns config
     const columnDefinitions = useMemo(() => 

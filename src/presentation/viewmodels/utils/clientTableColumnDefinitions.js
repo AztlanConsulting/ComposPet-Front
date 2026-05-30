@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./clientFieldsValidations";
+import ValidationObserver from "./validationObserver";
 
 export function getClientTableColumns({
     editingRowId,
@@ -106,6 +107,7 @@ export function getClientTableColumns({
                 const validation = validateField("balance", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("balance");
                     params.data.balance = params.oldValue;
 
                     setTimeout(async () => {
@@ -122,6 +124,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("balance");
                 params.data.balance = Number(params.newValue);
                 return true;
             },
@@ -138,6 +141,7 @@ export function getClientTableColumns({
 
                 if (validation !== true) {
 
+                    ValidationObserver.addError("notes");
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
@@ -154,6 +158,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("notes");
                 params.data.notes = params.newValue;
                 return true;
             },
@@ -174,6 +179,7 @@ export function getClientTableColumns({
                 const validation = validateField("cellphone", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("cellphone");
                     params.data.cellphone = params.oldValue;
 
                     setTimeout(async () => {
@@ -188,6 +194,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("cellphone");
                 params.data.cellphone = String(params.newValue);
                 return true;
             },
@@ -203,6 +210,7 @@ export function getClientTableColumns({
                 const validation = validateField("address", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("address");
                     params.data.address = params.oldValue;
 
                     setTimeout(async () => {
@@ -217,6 +225,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("address");
                 params.data.address = params.newValue;
                 return true;
             },
@@ -255,6 +264,7 @@ export function getClientTableColumns({
                 const validation = validateField("order", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("order");
                     params.data.order = params.oldValue;
 
                     setTimeout(async () => {
@@ -269,6 +279,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("order");
                 params.data.order = Number(params.newValue);
                 return true;
             },
@@ -283,6 +294,7 @@ export function getClientTableColumns({
                 const validation = validateField("pets", params.newValue);
 
                 if (validation !== true){
+                    ValidationObserver.addError("pets");
                     params.data.pets = params.oldValue;
 
                     setTimeout(async () => {
@@ -296,6 +308,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("pets");
                 params.data.pets = params.newValue;
                 return true;
             },
@@ -311,6 +324,7 @@ export function getClientTableColumns({
                 const validation = validateField("family", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("family");
                     params.data.family = params.oldValue;
 
                     setTimeout(async () => {
@@ -325,6 +339,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
             },
