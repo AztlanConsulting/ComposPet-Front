@@ -1,3 +1,14 @@
+/**
+ * Encabezado para métricas compuesto por ícono y texto.
+ *
+ * @param {string} text
+ * @param {string} iconName
+ * @param {string} className
+ * @param {string} color
+ * @param {string} iconSize
+ * @returns {JSX.Element}
+ */
+
 import React from 'react';
 import Icon from '../atoms/Icon';
 
