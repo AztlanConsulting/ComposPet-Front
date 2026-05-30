@@ -11,6 +11,18 @@
     margin: 0.4rem;
 }
 
+.button:disabled {
+    background-color: var(--color-green-tertiary);
+    color: var(--color-green-secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+}
+
+.button:disabled:hover {
+    box-shadow: none;
+}
+
 .mini {
     width: 4.25rem;
     height: 1.3rem;
