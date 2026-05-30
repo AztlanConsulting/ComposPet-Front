@@ -3,10 +3,9 @@
  * @returns {Boolean} -  valor válido / no válido
  */
 
-const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
+const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
 
 export const validateCollected = (value) => {
-    console.log(value);
     if (value === null || value === undefined) return "Las cubetas son obligatorias.";
 
     if (isNaN(value)) return "El número de cubetas debe de ser un número.";

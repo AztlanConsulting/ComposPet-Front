@@ -271,16 +271,14 @@ export function getRoutesTableColumns({
 
             valueSetter: (params) => {
                 const raw = Number(params.newValue);
-                const safe = Math.min(Math.max(Math.floor(raw), 0), 20);
 
-                const validation = validateField("collectedBuckets", safe);
+                const validation = validateField("collectedBuckets", raw);
 
                 if (validation !== true) {
                     params.data.collectedBuckets = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "collectedBuckets",
@@ -289,7 +287,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.collectedBuckets = safe;
+                params.data.collectedBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -317,18 +315,15 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-
                 const raw = Number(params.newValue);
-                const safe = Math.min(Math.max(Math.floor(raw), 0), 20);
 
-                const validation = validateField("deliveredBuckets", safe);
+                const validation = validateField("deliveredBuckets", raw);
 
                 if (validation !== true) {
                     params.data.deliveredBuckets = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "deliveredBuckets",
@@ -337,7 +332,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.deliveredBuckets = safe;
+                params.data.deliveredBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -455,7 +450,7 @@ export function getRoutesTableColumns({
                     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
                     .slice(0, 255);
 
-                const validation = validateField("schedule", params.sanitized);
+                const validation = validateField("schedule", sanitized);
 
                 if(validation !== true) {
                     params.data.schedule = params.oldValue;
