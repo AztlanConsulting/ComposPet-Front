@@ -17,7 +17,7 @@ export default function AdditionalNotes({
         <div className={`notes-card ${className}`}>
             <Form.Control
                 as="textarea"
-                placeholder="Solicita aserrín"
+                placeholder="Escribe cualquier nota adicional..."
                 className="input-notes"
                 value={notes}
                 onChange={(event) => {
