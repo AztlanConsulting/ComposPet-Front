@@ -465,20 +465,6 @@ function useClientTableViewModel() {
         }, 0);
     }, [clientList, selectedRoute]);
 
-    console.log('ANTES DE FORMATEAR:', {
-        totalAmount,
-        pendingAmount,
-        totalAmountPerRoute,
-        pendingAmountPerRoute,
-    });
-
-    console.log('Despues de formater', {
-        totalAmount: formatCurrency(totalAmount),
-        pendingAmount: formatCurrency(pendingAmount),
-        totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
-        pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
-    })
-
     return {
         clientList: filteredClientList,
         loading,
