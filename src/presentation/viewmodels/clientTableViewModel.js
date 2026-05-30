@@ -27,7 +27,6 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
-    const [hasValidationErrors, setHasValidationErrors] = useState(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -269,42 +268,42 @@ function useClientTableViewModel() {
         return { valid: true };
     };
 
-const handleSave = useCallback(async (params) => {
+    const handleSave = useCallback(async (params) => {
 
-    try {
+        try {
 
-        setLoading(true);
+            setLoading(true);
 
-        params.api.stopEditing(false);
+            params.api.stopEditing(false);
 
-        if (ValidationObserver.hasErrors()) {
+            if (ValidationObserver.hasErrors()) {
 
-            await ProblemAlert({
-                title: "Error en los datos ingresados",
-                text: "Corrige los campos inválidos antes de guardar."
-            });
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: "Corrige los campos inválidos antes de guardar."
+                });
 
-            return;
+                return;
+            }
+
+            await updateClientUseCase.execute(params.data);
+
+            ValidationObserver.clear();
+
+            await getInfo();
+
+            setEditingRowId(null);
+
+            await AceptAlert({});
+
+        } catch(error) {
+            console.log(error);
+        } finally {
+            ValidationObserver.clear();
+            setLoading(false);
         }
 
-        await updateClientUseCase.execute(params.data);
-
-        ValidationObserver.clear();
-
-        await getInfo();
-
-        setEditingRowId(null);
-
-        await AceptAlert({});
-
-    } catch(error) {
-        console.log(error);
-    } finally {
-        ValidationObserver.clear();
-        setLoading(false);
-    }
-
-}, [updateClientUseCase, getInfo]);
+    }, [updateClientUseCase, getInfo]);
 
     // AG Table columns config
     const columnDefinitions = useMemo(() => 
