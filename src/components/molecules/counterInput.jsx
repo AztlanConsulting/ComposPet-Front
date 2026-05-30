@@ -61,7 +61,7 @@ export default function CounterInput({
                 </Button>
 
                 <input
-                    type="number"
+                    type="text"
                     className="counter-input-value"
                     value={value}
                     min={MIN_COUNTER_VALUE}

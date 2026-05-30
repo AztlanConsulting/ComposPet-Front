@@ -33,12 +33,15 @@ export default function ProductCard({
     const handleQuantityChange = (event) => {
         const inputValue = event.target.value;
 
-        if (inputValue === '') {
+        // eliminar todo lo que no sea dígito
+        const onlyNumbers = inputValue.replace(/\D/g, '');
+
+        if (onlyNumbers === '') {
             onQuantityChange('');
             return;
         }
 
-        const numericValue = Number(inputValue);
+        const numericValue = parseInt(onlyNumbers, 10);
 
         if (Number.isNaN(numericValue)) {
             return;
@@ -84,7 +87,7 @@ export default function ProductCard({
                     </Button>
                     
                     <input
-                        type="number"
+                        type="text"
                         className="product-cantidad"
                         value={cantidad}
                         min="0"

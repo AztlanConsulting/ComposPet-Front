@@ -290,11 +290,13 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
             return '';
         }
 
-        const numericValue = Number(value);
+        const onlyNumbers = String(value).replace(/\D/g, '');
 
-        if (Number.isNaN(numericValue)) {
+        if (onlyNumbers === '') {
             return MIN_BUCKETS_LIMIT;
         }
+
+        const numericValue = parseInt(onlyNumbers, 10);
 
         return Math.min(
             Math.max(numericValue, MIN_BUCKETS_LIMIT),
