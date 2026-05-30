@@ -20,6 +20,7 @@ function SecondPageForm({ secondSectionViewModel }) {
         error,
         addProduct,
         removeProduct,
+        updateProductQuantity,
         message,
         name
     } = secondSectionViewModel;
@@ -37,7 +38,7 @@ function SecondPageForm({ secondSectionViewModel }) {
     return (
         <div className="secondPage">
             <FormCard className="extra-products-form-card">
-                <h2 className="adaptive">Productos Extra</h2>
+                <h2 className="extra-products-title">Productos extra</h2>
 
                 {/* Muestra mensaje cuando se alcanza el límite de productos especiales */}
                 {
@@ -63,27 +64,44 @@ function SecondPageForm({ secondSectionViewModel }) {
                         }}
                     >
                         {/* Renderiza cada producto extra dentro del carrusel */}
-                        {products.map((product) => (
+                        {products.map((product) => {
+                        const isCompostProduct =
+                            product.name === 'Composta (costal)' ||
+                            product.name === 'Composta (en costal)' ||
+                            product.idProduct === 3 ||
+                            product.name === 'Composta (cubeta)' ||
+                            product.name === 'Composta (en cubeta)' ||
+                            product.idProduct === 2;
+
+                        const maxQuantity = isCompostProduct ? 1 : 999;
+                        const currentQuantity = selectedProducts[product.idProduct] ?? 0;
+
+                        return (
                             <SwiperSlide key={product.idProduct}>
-                                <div  className="swiper-product-card" >
+                                <div className="swiper-product-card">
                                     <ProductCard
                                         imageUrl={product.imageUrl}
                                         name={product.name}
-                                        price={(product.name === "Composta (en costal)" || product.idProduct === 3) || (product.name === "Composta (en cubeta)" || product.idProduct ===  2) || (product.name === "Aserrín" || product.idProduct === 1) ? "Sin costo" : product.price}
-                                        cantidad={selectedProducts[product.idProduct] || 0}
+                                        price={
+                                            isCompostProduct ||
+                                            product.name === 'Aserrín' ||
+                                            product.idProduct === 1
+                                                ? 'Sin costo'
+                                                : product.price
+                                        }
+                                        cantidad={currentQuantity}
+                                        maxQuantity={maxQuantity}
                                         onClickAgregar={() => addProduct(product.idProduct, product.name)}
                                         onClickEliminar={() => removeProduct(product.idProduct, product.name)}
-                                        agotado={(
-                                                product.name === "Composta (en costal)" ||
-                                                product.idProduct === 3 ||
-                                                product.name === "Composta (en cubeta)" ||
-                                                product.idProduct === 2
-                                            ) && selectedProducts[product.idProduct] === 1
+                                        onQuantityChange={(newQuantity) =>
+                                            updateProductQuantity(product.idProduct, product.name, newQuantity)
                                         }
+                                        agotado={Number(currentQuantity || 0) >= maxQuantity}
                                     />
                                 </div>
                             </SwiperSlide>
-                        ))}
+                        );
+                    })}
                     </Swiper>
                 )}
             </FormCard>

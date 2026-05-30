@@ -25,8 +25,40 @@ export default function ProductCard({
     cantidad = 0,
     onClickAgregar = () => {},
     onClickEliminar = () => {},
+    onQuantityChange = () => {},
+    maxQuantity = 999,
     agotado = false
 }) {
+
+    const handleQuantityChange = (event) => {
+        const inputValue = event.target.value;
+
+        // eliminar todo lo que no sea dígito
+        const onlyNumbers = inputValue.replace(/\D/g, '');
+
+        if (onlyNumbers === '') {
+            onQuantityChange('');
+            return;
+        }
+
+        const numericValue = parseInt(onlyNumbers, 10);
+
+        if (Number.isNaN(numericValue)) {
+            return;
+        }
+
+        const limitedValue = Math.min(Math.max(numericValue, 0), maxQuantity);
+
+        onQuantityChange(limitedValue);
+    };
+
+    const handleQuantityBlur = () => {
+        if (cantidad === '') {
+            onQuantityChange(0);
+        }
+    };
+
+
     return (
         <Card className='product-card justify-content-center align-items-center'>
             {/* {agotado && (
@@ -44,12 +76,26 @@ export default function ProductCard({
                 Precio: {price === "Sin costo" ? price : `$${price.toFixed(2)}`}
                 </Card.Text>
                 <div className='buttons'>
-                     <Button size='small' csstype='delete' className='buttonDelete' onClick={onClickEliminar} disabled={cantidad === 0}>
+                    <Button 
+                        size='small' 
+                        csstype='delete' 
+                        className='buttonDelete' 
+                        onClick={onClickEliminar} 
+                        disabled={Number(cantidad || 0) === 0}
+                        >
                         -
                     </Button>
-                    {cantidad > 0 && (
-                        <p className="product-cantidad">{cantidad}</p>
-                    )}
+                    
+                    <input
+                        type="text"
+                        className="product-cantidad"
+                        value={cantidad}
+                        min="0"
+                        max={maxQuantity}
+                        onChange={handleQuantityChange}
+                        onBlur={handleQuantityBlur}
+                    />
+
                     <Button size='small' csstype='accept' className='buttonAdd' onClick={onClickAgregar} disabled={agotado}>
                         +
                     </Button>
