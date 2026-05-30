@@ -27,7 +27,7 @@
 }
 
 .custom-swal-problem {
-    background-color: --color-green-secondary;
+    background-color: var(--color-green-secondary);
     color: var(--color-white);
 }
 
