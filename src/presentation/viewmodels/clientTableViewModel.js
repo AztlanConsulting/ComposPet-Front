@@ -27,6 +27,7 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
+    const [hasValidationErrors, setHasValidationErrors] = useState(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
