@@ -355,8 +355,10 @@ function useClientTableViewModel() {
 
     const defaultColDef = useMemo(() => ({
 
-        sortable: true,
         resizable: true,
+        sortable: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
 
         tooltipValueGetter: (params) => params.value,
     }), []);

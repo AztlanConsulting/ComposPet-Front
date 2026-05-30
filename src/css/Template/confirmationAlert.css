@@ -30,13 +30,11 @@
 }
 
 .custom-swal-confirm {
-    background-color: var(--color-red-secondary);
-    color: var(--color-red-primary);
-    border-color: var(--color-red-primary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
 }
 
 .custom-swal-cancel {
-    background-color: var(--color-green-tertiary);
-    color: var(--color-red-black);
-    border-color: var(--color-green-secondary);
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
 }
