@@ -3,16 +3,9 @@
 @import "../tokens/typography.css";
 
 .notes-card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--color-green-quaternary);
-    border-radius: 0 0.5rem 0.5rem 0;
-    border: 1px solid var(--color-green-primary);
-    box-shadow: none;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    min-width: 10rem;
+    width: 100%;
+    height: 100%;
+    flex: 1;
 }
 
 .paddings {
@@ -20,14 +13,27 @@
 }
 
 .input-notes{
-    height: 13rem;
+    width: 100%;
+    height: 82%;
+    min-height: 18rem;
+    resize: none;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    border-color: var(--color-green-secondary);
+    background-color: var(--color-white);
+    color: var(--color-green-secondary);
+    text-align: center;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    padding: rem 1rem 1rem 1rem;
 }
 
 .notes-card input,
 .notes-card textarea {
     min-height: 130px;
 
-    border: none;
+    border-radius: var(--border-radius-lg);
+    border-color: var(--color-green-primary);
     outline: none;
     resize: none;
 
@@ -50,9 +56,36 @@
     white-space: pre-wrap;
 }
 
+.input-notes:focus {
+    outline: none;
+    box-shadow: none;
+    border: 2px solid var(--color-green-secondary);
+}
+
+.input-notes::placeholder {
+    color: var(--color-green-secondary);
+    opacity: 0.65;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     .notes-card {
         border-radius: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .notes-card {
+        width: 100%;
+        height: auto;
+    }
+
+    .input-notes {
+        width: 100%;
+        min-height: 9rem;
+        height: 9rem;
+        padding: 3.5rem 1rem 1rem 1rem;
+        font-size: var(--font-size-sm);
+        text-align: center;
     }
 }
