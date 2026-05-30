@@ -300,6 +300,7 @@ const handleSave = useCallback(async (params) => {
     } catch(error) {
         console.log(error);
     } finally {
+        ValidationObserver.clear();
         setLoading(false);
     }
 
