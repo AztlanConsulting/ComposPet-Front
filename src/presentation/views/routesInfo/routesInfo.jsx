@@ -10,12 +10,14 @@ import Button from "../../../components/atoms/Button";
 import Label from "../../../components/atoms/Label";
 import Divider from "../../../components/atoms/Divider";
 import ButtonActionAlert from "../../../components/Template/ButtonActionAlert";
-import IconActionBubble from '../../../components/molecules/IconActionBubble';
+import Accordion from 'react-bootstrap/Accordion';
 
 import '../../../css/routesInfo/routesInfo.css';
-import  '../../../components/atoms/Icon';
+import '../../../css/atoms/button.css';
 
-export default function RoutesInfo(){
+import '../../../components/atoms/Icon';
+
+export default function RoutesInfo() {
     const routesViewModel = useRoutesViewModel();
 
     const {
@@ -25,32 +27,47 @@ export default function RoutesInfo(){
         weeklyPayedAmount,
         weeklyPendingAmount,
     } = routesViewModel;
-    
-    const isGoogleLoggedIn = sessionStorage.getItem('authProvider') === 'google';
 
-    return(
+    const isGoogleLoggedIn =
+        sessionStorage.getItem('authProvider') === 'google';
+
+    return (
         <div className="page">
             <Navbar />
+
             <div className="main">
                 <div className="filters-container">
                     <div className="filters-dropdowns">
                         <div className="today">
-                            <Label id="Hoy" className="label-today" size="md">Hoy</Label>
-                            <Button size='medium' csstype='accept' className='button button-today'
-                                onClick={routesViewModel.resetFilters}>
+                            <Label id="Hoy" className="label-today" size="md">
+                                Hoy
+                            </Label>
+
+                            <Button
+                                size='medium'
+                                csstype='accept'
+                                className='button button-today'
+                                onClick={routesViewModel.resetFilters}
+                            >
                                 {new Date().getDate()}
                             </Button>
                         </div>
+
                         <DropdownInput
                             id="weeks"
                             size="md"
                             value={routesViewModel.selectedWeek ?? ""}
-                            onChange={(e) => routesViewModel.setSelectedWeek(Number(e.target.value))}
+                            onChange={(e) =>
+                                routesViewModel.setSelectedWeek(
+                                    Number(e.target.value)
+                                )
+                            }
                             options={
                                 routesViewModel.weeks.map((w, i) => ({
                                     value: i,
                                     label: w.label,
-                                }))}
+                                }))
+                            }
                         >
                             Semana
                         </DropdownInput>
@@ -59,29 +76,120 @@ export default function RoutesInfo(){
                             id="days"
                             size="md"
                             value={routesViewModel.selectedDay ?? ""}
-                            onChange={(e) => routesViewModel.setSelectedDay(e.target.value || null)}
-                            options={routesViewModel.daysOfRoutes.map(s => ({
-                                value: s.dia_ruta,
-                                label: s.dia_ruta,
-                            }))}
+                            onChange={(e) =>
+                                routesViewModel.setSelectedDay(
+                                    e.target.value || null
+                                )
+                            }
+                            options={
+                                routesViewModel.daysOfRoutes.map((s) => ({
+                                    value: s.dia_ruta,
+                                    label: s.dia_ruta,
+                                }))
+                            }
                         >
                             Día de ruta
                         </DropdownInput>
                     </div>
+
                     <div className="copy-link-container">
                         <CopyLink {...routesViewModel.copyLinkInfo} />
                     </div>
                 </div>
 
-                <div className="route-header-row">
+                {/* Accordion para móvil/tablet */}
+                <div className="mobile-route-accordion">
+                    <Accordion>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>
+                                Información de la ruta
+                            </Accordion.Header>
+
+                            <Accordion.Body>
+                                <div className="accordion-content">
+
+                                    <CountersGroup
+                                        counters={[
+                                            {
+                                                label: "Sumatoria total",
+                                                value: dayTotalAmount,
+                                                icon: 'moneySign',
+                                                color: 'colorsIcon',
+                                            },
+                                        ]}
+                                    />
+
+                                    <BalanceCountersGroup
+                                        counters={[
+                                            {
+                                                title: 'Saldo favor',
+                                                favorSubtitle: 'Ruta',
+                                                favorBalance: routePayedAmount,
+                                                pendingSubtitle: 'Semana',
+                                                pendingBalance: weeklyPayedAmount,
+                                                icon: 'moneyBag',
+                                                color: 'colorsIcon',
+                                            },
+                                            {
+                                                title: 'Pendiente',
+                                                favorSubtitle: 'Ruta',
+                                                favorBalance: routePendingAmount,
+                                                pendingSubtitle: 'Semana',
+                                                pendingBalance: weeklyPendingAmount,
+                                                icon: 'warning',
+                                                color: 'colorsIcon',
+                                            },
+                                        ]}
+                                    />
+
+                                    <div className="actions-section">
+                                        <Divider />
+
+                                        <div className="buttons-section-container">
+                                            <ButtonActionAlert
+                                                onAction={routesViewModel.handleGenerateMessages}
+                                                successMessage="Mensajes generados exitosamente"
+                                                errorMessage="Ocurrió un error al generar los mensajes"
+                                                className="button-actions"
+                                                disabled={!isGoogleLoggedIn}
+                                            >
+                                                Generar mensajes
+                                            </ButtonActionAlert>
+
+                                            <Button
+                                                size='medium'
+                                                csstype='accept'
+                                                className='button-actions'
+                                                onClick={routesViewModel.handleOpenRoutesSheet}
+                                                disabled={!isGoogleLoggedIn}
+                                            >
+                                                Resumen de ruta
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                </div>
+
+                {/* Layout normal escritorio */}
+                <div className="route-header-row desktop-route-header">
                     <div className="route-counters-section">
                         <div className="summary-card">
                             <CountersGroup
                                 counters={[
-                                    { label: "Sumatoria total", value: dayTotalAmount, icon:'moneySign', color:'colorsIcon'  },
+                                    {
+                                        label: "Sumatoria total",
+                                        value: dayTotalAmount,
+                                        icon: 'moneySign',
+                                        color: 'colorsIcon',
+                                    },
                                 ]}
                             />
                         </div>
+
                         <div className="center-balance-group">
                             <BalanceCountersGroup
                                 counters={[
@@ -91,8 +199,8 @@ export default function RoutesInfo(){
                                         favorBalance: routePayedAmount,
                                         pendingSubtitle: 'Semana',
                                         pendingBalance: weeklyPayedAmount,
-                                        icon:'moneyBag',
-                                        color:'colorsIcon',
+                                        icon: 'moneyBag',
+                                        color: 'colorsIcon',
                                     },
                                     {
                                         title: 'Pendiente',
@@ -100,29 +208,46 @@ export default function RoutesInfo(){
                                         favorBalance: routePendingAmount,
                                         pendingSubtitle: 'Semana',
                                         pendingBalance: weeklyPendingAmount,
-                                        icon:'warning',
-                                        color:'colorsIcon',
+                                        icon: 'warning',
+                                        color: 'colorsIcon',
                                     },
                                 ]}
                             />
                         </div>
-                    </div>
-                    <div className="copy-link-container">
-                        <CopyLink {...routesViewModel.copyLinkInfo} />
-                        <IconActionBubble
-                            text="Generar mensajes de confirmación"
-                            iconName="googleSheets"
-                            bubbleMessage="¡Mensajes generados!"
-                            errorMessage="Ups, algo salió mal"
-                            onAction={routesViewModel.handleGenerateMessages}
-                        />
+
+                        <div className="actions-section">
+                            <Divider />
+
+                            <div className="buttons-section-container">
+                                <ButtonActionAlert
+                                    onAction={routesViewModel.handleGenerateMessages}
+                                    successMessage="Mensajes generados exitosamente"
+                                    errorMessage="Ocurrió un error al generar los mensajes"
+                                    className="button-actions"
+                                    disabled={!isGoogleLoggedIn}
+                                >
+                                    Generar mensajes
+                                </ButtonActionAlert>
+
+                                <Button
+                                    size='medium'
+                                    csstype='accept'
+                                    className='button-actions'
+                                    onClick={routesViewModel.handleOpenRoutesSheet}
+                                    disabled={!isGoogleLoggedIn}
+                                >
+                                    Resumen de ruta
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            <RoutesTablePage 
-                routesViewModel={routesViewModel}
-            />
-            
-            <ColorsInfo />
+
+                <RoutesTablePage
+                    routesViewModel={routesViewModel}
+                />
+
+                <ColorsInfo />
             </div>
         </div>
     );
