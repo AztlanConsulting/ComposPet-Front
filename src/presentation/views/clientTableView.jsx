@@ -43,7 +43,7 @@ return (
     <div className="client-table-container">
         <div className="client-filters-container">
 
-                <div className="compost-switch-wrapper">
+            <div className="compost-switch-wrapper">
                 <CompostStatusSwitch
                     id="compost-status"
                     label="Entrega de composta"

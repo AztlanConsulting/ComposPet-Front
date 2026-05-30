@@ -6,7 +6,7 @@
     background-color: rgb(from var(--color-green-cards) r g b / 70%);
     padding: 1rem;
     border-radius: var(--border-radius-4xl);
-    width: 17rem;
+    width: 15rem;
     max-width: 100%;
     box-sizing: border-box;
 }
