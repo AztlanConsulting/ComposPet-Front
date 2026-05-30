@@ -47,14 +47,27 @@
 
 }
 
-/* MOBILE */
 @media (max-width: 480px) {
     .payment-card {
-        flex-shrink: 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 5rem !important;
+        padding: 0.5rem !important;
     }
 
     .payment-method {
         font-size: var(--font-size-xs);
+        text-align: center;
+        margin: 0.25rem 0 0 0;
     }
 
+    .payment-card svg {
+        max-width: 1.8rem;
+        max-height: 1.8rem;
+    }
+
+    .payment-card img {
+        max-width: 1.8rem;
+        max-height: 1.8rem;
+    }
 }

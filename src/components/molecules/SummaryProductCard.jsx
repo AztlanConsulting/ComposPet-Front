@@ -19,6 +19,10 @@ export default function SummaryProductCard({
     productTotal,
     onDelete,
 }) {
+    const formatCurrency = (value) => {
+        return `$${Number(value || 0).toFixed(2)}`;
+    };
+
     return (
         <div className="summary-product-card">
 
@@ -46,13 +50,13 @@ export default function SummaryProductCard({
 
                 <div className="summary-product-card-right">
                     <span className="summary-product-card-price">
-                        Precio ${productTotal}
+                        {formatCurrency(productTotal)}
                     </span>
 
                     <Button
                         type="button"
                         size="mini"
-                        csstype="warning"
+                        csstype="summary-product-card-delete"
                         onClick={onDelete}
                     >
                         Eliminar
