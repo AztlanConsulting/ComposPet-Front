@@ -191,8 +191,13 @@ function useClientTableViewModel() {
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
+
         if (data?.clientId === editingRowId) {
             classes.push("row-editing");
+        }
+
+        if (data?.status === false) {
+            classes.push("client-inactive");
         }
 
         return classes.join(" ");
