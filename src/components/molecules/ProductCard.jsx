@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import "../../css/molecules/productCard.css";
 import Button from '../atoms/Button';
 import Image from '../atoms/Image';
-import Producto from '../../public/img/product.png';
 
 /**
  * Tarjeta de presentación de un producto.

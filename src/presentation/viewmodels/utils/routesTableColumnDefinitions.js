@@ -107,8 +107,10 @@ const ExtraProductsCellEditor = forwardRef((props, ref) => {
 
         const parsed = parseInt(rawValue);
         if (!isNaN(parsed) && parsed >= 1) {
+            const safe = Math.min(parsed, 999);
+            setInputValues(prev => ({ ...prev, [id]: String(safe) }));
             setSelected(prev => {
-                const next = { ...prev, [id]: parsed };
+                const next = { ...prev, [id]: safe };
                 selectedRef.current = next;
                 props.onSelectionChange?.(next);
                 return next;
@@ -269,7 +271,9 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("collectedBuckets", params.newValue);
+                const raw = Number(params.newValue);
+
+                const validation = validateField("collectedBuckets", raw);
 
                 if (validation !== true) {
                     ValidationObserver.addError("collectedBuckets");
@@ -277,7 +281,6 @@ export function getRoutesTableColumns({
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "collectedBuckets",
@@ -285,8 +288,9 @@ export function getRoutesTableColumns({
                     }, 0);
                     return false;
                 }
+
                 ValidationObserver.removeError("collectedBuckets");
-                params.data.collectedBuckets = Number(params.newValue);
+                params.data.collectedBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -314,7 +318,9 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("deliveredBuckets", params.newValue);
+                const raw = Number(params.newValue);
+
+                const validation = validateField("deliveredBuckets", raw);
 
                 if (validation !== true) {
                     ValidationObserver.addError("deliveredBuckets");
@@ -322,7 +328,6 @@ export function getRoutesTableColumns({
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "deliveredBuckets",
@@ -332,7 +337,7 @@ export function getRoutesTableColumns({
                 }
 
                 ValidationObserver.removeError("deliveredBuckets");
-                params.data.deliveredBuckets = Number(params.newValue);
+                params.data.deliveredBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -445,7 +450,12 @@ export function getRoutesTableColumns({
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("schedule", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("schedule", sanitized);
 
                 if(validation !== true) {
                     ValidationObserver.addError("schedule");
@@ -462,8 +472,8 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                params.data.schedule = sanitized;
                 ValidationObserver.removeError("schedule");
-                params.data.schedule = params.newValue;
                 return true;
             }
         },
@@ -547,7 +557,13 @@ export function getRoutesTableColumns({
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("notes", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("notes", sanitized);
+
                 if (validation !== true) {
                     ValidationObserver.addError("notes");
                     params.data.notes = params.oldValue;
@@ -565,7 +581,7 @@ export function getRoutesTableColumns({
                 }
 
                 ValidationObserver.removeError("notes");
-                params.data.notes = params.newValue;
+                params.data.notes = sanitized;
                 return true;
             },
         },
