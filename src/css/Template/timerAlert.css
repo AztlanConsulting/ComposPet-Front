@@ -2,19 +2,24 @@
     border-radius: var(--border-radius-2xl);
     padding: 1.5rem;
     background-color: var(--color-bg);
+
     border: 2px solid var(--color-green-secondary);
+
     font-family: var(--font-family-primary);
 }
 
 .custom-swal-title {
     color: var(--color-green-secondary);
+
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-lg);
+
     line-height: var(--line-height-tight);
 }
 
 .custom-swal-text {
     color: var(--color-black);
+
     font-size: var(--font-size-md);
     line-height: var(--line-height-normal);
 }
@@ -25,7 +30,8 @@
     gap: 0.9rem;
 }
 
-.custom-swal-message p {
+.custom-swal-message p,
+.custom-swal-text p {
     margin: 0;
 }
 
@@ -34,80 +40,77 @@
     opacity: 0.9;
 }
 
+/* ========================= */
+/* BOTONES */
+/* ========================= */
+
 .custom-swal-confirm,
-.custom-swal-cancel,
-.custom-swal-confirm-timer {
+.custom-swal-confirm-timer,
+.custom-swal-cancel {
     border-radius: var(--border-radius-md);
-    padding: 0.6rem 1rem;
-    margin: 0 0.2rem;
+
+    padding: 0.7rem 1.2rem;
+    margin: 0 0.25rem;
+
     cursor: pointer;
+
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
+
     border: 2px solid transparent;
+
     transition: all 0.2s ease;
 }
 
-.custom-swal-confirm {
-    background: var(--color-green-secondary);
-    color: var(--color-white);
-}
+/* Confirmar */
 
+.custom-swal-confirm,
 .custom-swal-confirm-timer {
     background: var(--color-green-secondary);
-    color: var(--color-red-black);
+
+    color: var(--color-white);
+
     border-color: var(--color-green-secondary);
 }
 
+.custom-swal-confirm:hover,
+.custom-swal-confirm-timer:hover {
+    background: var(--color-green-secondary);
 
-.custom-swal-confirm:hover {
-    filter: brightness(0.98);
-    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
+    border-color: var(--color-green-secondary);
+
+    box-shadow: 0px 4px 10px rgba(21, 161, 155, .50);
+
+    transform: translateY(-1px);
 }
+
+/* Cancelar */
 
 .custom-swal-cancel {
-    background-color: var(--color-white);
-    color: var(--color-red-black);
-    border-color: var(--color-green-secondary);
+    background: var(--color-white);
+
+    color: var(--color-green-secondary);
+
+    border-color: var(--color-green-tertiary);
 }
 
 .custom-swal-cancel:hover {
-    filter: brightness(0.98);
-    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
+    background: var(--color-green-quaternary);
+
+    border-color: var(--color-green-primary);
+
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, 0.18);
 }
 
-/* Contenedor del mensaje con timer */
-.custom-swal-text p {
-    margin: 0;
-}
+/* ========================= */
+/* ACTIONS */
+/* ========================= */
 
-/* Texto del contador */
-.custom-swal-timer {
-    display: block;
-    margin-top: 0.8rem;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
-    text-align: center;
-}
-
-/* Barra de progreso del timer */
-.swal2-timer-progress-bar {
-    background: var(--color-green-secondary) !important;
-    height: 0.35rem !important;
-    border-radius: 999px;
-}
-
-/* Ajuste del contenedor de acciones */
 .swal2-actions {
     margin-top: 1rem !important;
 }
 
-/* Cuando solo exista botón confirmar */
-.swal2-actions .custom-swal-confirm:only-child {
+.swal2-actions .custom-swal-confirm:only-child,
+.swal2-actions .custom-swal-confirm-timer:only-child {
     min-width: 8rem;
-}
-
-div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
-    background: var(--color-green-secondary);
-    color: var(--color-white);
 }
