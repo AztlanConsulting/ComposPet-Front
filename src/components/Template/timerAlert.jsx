@@ -45,7 +45,7 @@ const TimerAlert = async ({
         showCancelButton: false,
         timer,
         timerProgressBar: true,
-        buttonsStyling: false,
+        buttonsStyling: true,
         customClass: {
             popup: "custom-swal-popup",
             title: "custom-swal-title",

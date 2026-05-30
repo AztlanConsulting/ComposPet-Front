@@ -1,4 +1,5 @@
 import React from 'react';
+import MetricHeader from '../../components/molecules/MetricHeader';
 import "../../css/atoms/counters.css";
 
 /**
@@ -11,10 +12,19 @@ import "../../css/atoms/counters.css";
 export default function Counters({ 
     label = '',
     value = 0,
+    icon = '',
+    color = '',
+    iconSize = 'medium',
 }) {
     return (
         <div className='counters-container'>
-            <span className="counters-label">{label}</span>
+            <MetricHeader
+                text={label}
+                iconName={icon}
+                color={color}
+                size={iconSize}
+                className='counter-label'
+            />
             <span className="counters-value">{value}</span>
         </div>
     );

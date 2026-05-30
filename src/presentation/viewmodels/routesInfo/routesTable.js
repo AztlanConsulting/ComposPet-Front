@@ -359,8 +359,10 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
      * Habilita ordenamiento, redimensionamiento y tooltips.
      */
     const defaultColDef = {
-        sortable: true,
         resizable: true,
+        sortable: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
         // Aplica estilo de negrita a toda la fila si tiene fondo rojo
         cellStyle: (params) => {
             if (hasRedBackground(params.data)) {
@@ -450,10 +452,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 setSelectedWeek(weekIdx);
                 const defaultDay = getDefaultDay(daysData);
                 setSelectedDay(defaultDay)
-
-                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
-                setRoutesList(routes);
-                setWeeklyRoutesList(routes);
 
             } catch (err) {
                 setError(err.message || "Error al inicializar");
@@ -560,11 +558,20 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     // formatea montos a moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `-$${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
 
-        return `$${amount}`;
+        return `$${formattedAmount}`;
     };
 
     // convierte valores a número

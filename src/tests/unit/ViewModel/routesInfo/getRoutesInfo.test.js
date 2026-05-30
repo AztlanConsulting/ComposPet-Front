@@ -88,7 +88,7 @@ describe('useRoutesViewModel', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(mockExecuteFiltered).toHaveBeenCalledTimes(2);
+            expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
         });
 
         expect(result.current.routesList).toEqual(mockRoutes);
@@ -106,7 +106,7 @@ describe('useRoutesViewModel', () => {
             expect(result.current.error).toBe('Error al cargar la información de rutas');
         });
 
-        expect(mockExecuteFiltered).toHaveBeenCalledTimes(2);
+        expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
         expect(result.current.routesList).toEqual([]);
     });
 

@@ -28,7 +28,9 @@ export function getClientTableColumns({
 
     return [
         {
-            width: 150,
+            width: 100,
+            minWidth: 100,
+            maxWidth: 150,
             pinned: 'left',
             lockPinned: true,
             suppressMovable: true,
@@ -47,7 +49,7 @@ export function getClientTableColumns({
                         <div className="save-discard-div">
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='cancel' 
                             onClick={() => handleSave(params)}
                             disabled={loading}
@@ -56,7 +58,7 @@ export function getClientTableColumns({
                             </Button>
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='warning' 
                             onClick={() => handleCancel(params)}
                             disabled={loading}
@@ -72,7 +74,7 @@ export function getClientTableColumns({
                         <Button 
                         className='action-button'
                         disabled={isAnotherRowEditing}
-                        size='mini' 
+                        size='mini-icon' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
                         >

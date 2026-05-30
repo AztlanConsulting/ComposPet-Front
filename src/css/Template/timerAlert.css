@@ -48,13 +48,12 @@
 }
 
 .custom-swal-confirm {
-    background-color: var(--color-red-secondary);
-    color: var(--color-red-primary);
-    border-color: var(--color-red-primary);
+    background: var(--color-green-secondary);
+    color: var(--color-white);
 }
 
 .custom-swal-confirm-timer {
-    background-color: var(--color-green-tertiary);
+    background: var(--color-green-secondary);
     color: var(--color-red-black);
     border-color: var(--color-green-secondary);
 }
@@ -62,16 +61,18 @@
 
 .custom-swal-confirm:hover {
     filter: brightness(0.98);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }
 
 .custom-swal-cancel {
-    background-color: var(--color-green-tertiary);
+    background-color: var(--color-white);
     color: var(--color-red-black);
     border-color: var(--color-green-secondary);
 }
 
 .custom-swal-cancel:hover {
     filter: brightness(0.98);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
 }
 
 /* Contenedor del mensaje con timer */
@@ -104,4 +105,9 @@
 /* Cuando solo exista botón confirmar */
 .swal2-actions .custom-swal-confirm:only-child {
     min-width: 8rem;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
+    background: var(--color-green-secondary);
+    color: var(--color-white);
 }

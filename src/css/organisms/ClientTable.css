@@ -78,6 +78,15 @@
 .ag-row.row-editing {
     background: var(--color-green-quaternary) !important;
 }
+
+.ag-row.client-inactive .ag-cell:not(.edit-cell) {
+    opacity: 0.4;
+}
+
+.ag-row.client-inactive.row-editing .ag-cell {
+    opacity: 1;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
     .wrapper{

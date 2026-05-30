@@ -53,7 +53,7 @@ export default function PaymentInfoCard({
     return (
         <FormCard className={`payment-info-card ${className}`}>
             <strong className="payment-info-reminder">
-                No olvides realizar tu pago..
+                No olvides realizar tu pago.
             </strong>
 
             <strong className="payment-info-title">

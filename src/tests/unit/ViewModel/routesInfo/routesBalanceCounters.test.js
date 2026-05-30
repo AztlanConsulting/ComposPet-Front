@@ -142,9 +142,9 @@ describe('Routes Balance Counters ViewModel', () => {
         });
 
         await waitFor(() => {
-            expect(result.current.dayTotalAmount).toBe('$700');
-            expect(result.current.routePayedAmount).toBe('$400');
-            expect(result.current.routePendingAmount).toBe('$300');
+            expect(result.current.dayTotalAmount).toBe('$700.00');
+            expect(result.current.routePayedAmount).toBe('$400.00');
+            expect(result.current.routePendingAmount).toBe('$300.00');
         });
     });
 
@@ -193,8 +193,8 @@ describe('Routes Balance Counters ViewModel', () => {
         });
 
         await waitFor(() => {
-            expect(result.current.weeklyPayedAmount).toBe('$550');
-            expect(result.current.weeklyPendingAmount).toBe('$350');
+            expect(result.current.weeklyPayedAmount).toBe('$550.00');
+            expect(result.current.weeklyPendingAmount).toBe('$350.00');
         });
     });
 
@@ -232,10 +232,10 @@ describe('Routes Balance Counters ViewModel', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(result.current.routePayedAmount).toBe('$600');
-            expect(result.current.routePendingAmount).toBe('$0');
-            expect(result.current.weeklyPayedAmount).toBe('$700');
-            expect(result.current.weeklyPendingAmount).toBe('$300');
+            expect(result.current.routePayedAmount).toBe('$600.00');
+            expect(result.current.routePendingAmount).toBe('$0.00');
+            expect(result.current.weeklyPayedAmount).toBe('$700.00');
+            expect(result.current.weeklyPendingAmount).toBe('$300.00');
         });
     });
 
@@ -273,11 +273,11 @@ describe('Routes Balance Counters ViewModel', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(result.current.dayTotalAmount).toBe('$1000');
-            expect(result.current.routePayedAmount).toBe('$700');
-            expect(result.current.routePendingAmount).toBe('$300');
-            expect(result.current.weeklyPayedAmount).toBe('$900');
-            expect(result.current.weeklyPendingAmount).toBe('$600');
+            expect(result.current.dayTotalAmount).toBe('$1,000.00');
+            expect(result.current.routePayedAmount).toBe('$700.00');
+            expect(result.current.routePendingAmount).toBe('$300.00');
+            expect(result.current.weeklyPayedAmount).toBe('$900.00');
+            expect(result.current.weeklyPendingAmount).toBe('$600.00');
         });
     });
 });

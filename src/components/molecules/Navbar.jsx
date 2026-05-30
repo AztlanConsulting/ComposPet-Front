@@ -51,7 +51,7 @@ export default function Navbar() {
         const result = await ConfirmAlert({
             title: "¿Estás seguro de que quieres cerrar sesión?",
             text: "",
-            confirmText: "Cerrar sesión",
+            confirmText: "Aceptar",
             cancelText: "Cancelar",
         });
 

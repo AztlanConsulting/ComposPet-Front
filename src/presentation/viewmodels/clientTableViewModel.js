@@ -191,8 +191,13 @@ function useClientTableViewModel() {
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
+
         if (data?.clientId === editingRowId) {
             classes.push("row-editing");
+        }
+
+        if (data?.status === false) {
+            classes.push("client-inactive");
         }
 
         return classes.join(" ");
@@ -355,8 +360,10 @@ function useClientTableViewModel() {
 
     const defaultColDef = useMemo(() => ({
 
-        sortable: true,
         resizable: true,
+        sortable: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
 
         tooltipValueGetter: (params) => params.value,
     }), []);
@@ -401,11 +408,22 @@ function useClientTableViewModel() {
 
     // Función para formatear los montos en formato de moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `- $${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
     
-        return `$${Math.abs(amount)}`;
+        return `$${formattedAmount}`;
     };
 
     // Funciones para los contadores de saldo total y saldo pendiente
@@ -453,7 +471,6 @@ function useClientTableViewModel() {
             return balance < 0 ? total + balance : total;
         }, 0);
     }, [clientList, selectedRoute]);
-
 
     return {
         clientList: filteredClientList,
