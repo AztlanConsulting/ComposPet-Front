@@ -16,6 +16,7 @@ import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
 import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
 import usePrompt from '../utils/usePrompt';
+import ValidationObserver from '../utils/validationObserver';
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -150,6 +151,8 @@ function useRoutesViewModel(){
 
             params.node.setData({...originalRow});
 
+            ValidationObserver.clear();
+
             setEditingRowId(null);
 
             requestAnimationFrame(() => {
@@ -214,6 +217,16 @@ function useRoutesViewModel(){
         try {
             setLoading(true);
             params.api.stopEditing(false);
+
+            if (ValidationObserver.hasErrors()) {
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: "Corrige los campos inválidos antes de guardar."
+                });
+
+                return;
+            }
+
             const updatedData = params.data;
             await updateRequest.execute(updatedData);
 
@@ -227,6 +240,7 @@ function useRoutesViewModel(){
                 text: error.message || "Ocurrió un error al guardar los cambios"
             });
         } finally {
+            ValidationObserver.clear();
             setLoading(false);
         }
     }, [updateRequest, refreshRoutes]);

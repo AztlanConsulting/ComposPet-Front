@@ -4,6 +4,7 @@ import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./routesFieldsValidation";
+import ValidationObserver from "./validationObserver";
 import { forwardRef, useImperativeHandle, useState, useEffect, useRef , useMemo} from "react";
 
 // Diccionario para asignar colores a los productos extra según su tipo
@@ -271,6 +272,7 @@ export function getRoutesTableColumns({
                 const validation = validateField("collectedBuckets", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("collectedBuckets");
                     params.data.collectedBuckets = params.oldValue;
 
                     setTimeout(async () => {
@@ -283,7 +285,7 @@ export function getRoutesTableColumns({
                     }, 0);
                     return false;
                 }
-
+                ValidationObserver.removeError("collectedBuckets");
                 params.data.collectedBuckets = Number(params.newValue);
                 return true;
             },
@@ -315,6 +317,7 @@ export function getRoutesTableColumns({
                 const validation = validateField("deliveredBuckets", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("deliveredBuckets");
                     params.data.deliveredBuckets = params.oldValue;
 
                     setTimeout(async () => {
@@ -328,6 +331,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("deliveredBuckets");
                 params.data.deliveredBuckets = Number(params.newValue);
                 return true;
             },
@@ -444,6 +448,7 @@ export function getRoutesTableColumns({
                 const validation = validateField("schedule", params.newValue);
 
                 if(validation !== true) {
+                    ValidationObserver.addError("schedule");
                     params.data.schedule = params.oldValue;
 
                     setTimeout(async () => {
@@ -457,6 +462,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("schedule");
                 params.data.schedule = params.newValue;
                 return true;
             }
@@ -512,6 +518,7 @@ export function getRoutesTableColumns({
                 const validation = validateField("paid", params.newValue);
 
                 if(validation !== true) {
+                    ValidationObserver.addError("totalPaid");
                     params.data.totalPaid = params.oldValue;
 
                     setTimeout(async () => {
@@ -526,6 +533,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("totalPaid");
                 params.data.totalPaid = params.newValue;
                 return true;
             }
@@ -541,6 +549,7 @@ export function getRoutesTableColumns({
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
                 if (validation !== true) {
+                    ValidationObserver.addError("notes");
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
@@ -555,6 +564,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("notes");
                 params.data.notes = params.newValue;
                 return true;
             },
