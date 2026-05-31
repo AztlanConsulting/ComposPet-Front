@@ -41,22 +41,13 @@ const InputComponent = forwardRef(({
             : type;
 
     return (
-        <div className="ml-4">
+        <div className="mt-2">
             <Label size={size} id={id} className={classNameLabel}>
                 {children}
             </Label>
 
             <div className="input-container">
 
-                {type === "password" && (
-                    <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
-                    </button>
-                )}
 
                 <Input
                     placeholder={placeholder}
@@ -68,6 +59,16 @@ const InputComponent = forwardRef(({
                     value={value}
                     ref={ref}
                 />
+
+                {type === "password" && (
+                    <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
+                    </button>
+                )}
 
             </div>
 

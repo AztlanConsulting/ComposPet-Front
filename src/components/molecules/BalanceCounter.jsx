@@ -1,5 +1,6 @@
 import React from 'react';
 import BalanceItem from '../atoms/BalanceItem';
+import MetricHeader from '../../components/molecules/MetricHeader';
 
 import '../../css/molecules/balanceCounter.css';
 
@@ -21,26 +22,30 @@ export default function BalanceCounter({
 
     pendingSubtitle = '',
     pendingBalance = 0,
+    icon="",
+    color="",
+    iconSize="",
 }) {
     return (
         <div className="balance-counter">
 
-            <h2 className="balance-counter-title">
-                {title}
-            </h2>
+            <MetricHeader
+                text={title}
+                iconName={icon}
+                color={color}
+                size={iconSize}
+            />
 
             <div className="balance-counter-items">
 
                 <BalanceItem
                     subtitle={favorSubtitle}
                     value={favorBalance}
-                    variant="positive"
                 />
 
                 <BalanceItem
                     subtitle={pendingSubtitle}
                     value={pendingBalance}
-                    variant="negative"
                 />
 
             </div>

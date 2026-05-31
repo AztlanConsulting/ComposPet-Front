@@ -1,8 +1,10 @@
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
+import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./routesFieldsValidation";
+import ValidationObserver from "./validationObserver";
 import { forwardRef, useImperativeHandle, useState, useEffect, useRef , useMemo} from "react";
 
 // Diccionario para asignar colores a los productos extra según su tipo
@@ -15,6 +17,19 @@ const PRODUCT_COLORS = {
 
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
+
+    const searchProduct = props.searchProduct || '';
+    const handleSearchProduct = props.handleSearchProduct;
+
+    const filteredProducts = useMemo(() => {
+        const query = searchProduct.trim().toLowerCase();
+
+        if (!query) return allProducts;
+
+        return allProducts.filter(product =>
+            product.nombre.toLowerCase().includes(query)
+        );
+    }, [allProducts, searchProduct]);
 
     const buildSelectedState = () => {
         const initial = {};
@@ -92,8 +107,10 @@ const ExtraProductsCellEditor = forwardRef((props, ref) => {
 
         const parsed = parseInt(rawValue);
         if (!isNaN(parsed) && parsed >= 1) {
+            const safe = Math.min(parsed, 999);
+            setInputValues(prev => ({ ...prev, [id]: String(safe) }));
             setSelected(prev => {
-                const next = { ...prev, [id]: parsed };
+                const next = { ...prev, [id]: safe };
                 selectedRef.current = next;
                 props.onSelectionChange?.(next);
                 return next;
@@ -117,7 +134,13 @@ const ExtraProductsCellEditor = forwardRef((props, ref) => {
 
     return (
         <div className="extra-products-menu">
-            {allProducts.map((product) => {
+        <SearchInput
+            value={searchProduct}
+            onChange={(e) => handleSearchProduct(e.target.value)}
+            onInput={(e) => handleSearchProduct(e.target.value)}
+            placeholder="Buscar producto extra"
+        />
+            {filteredProducts.map((product) => {
                 const isSelected = selected[product.id_producto] !== undefined;
                 return (
                     <div 
@@ -165,6 +188,8 @@ export function getRoutesTableColumns({
     payOptions,
     extraProducts,
     getRowClass,
+    handleSearchProduct,
+    searchProduct,
 }) {
 
     const modifiedClassRule = {
@@ -178,7 +203,12 @@ export function getRoutesTableColumns({
 
     return [
         {
-            width: 150,
+            width: 100,
+            minWidth: 100,
+            maxWidth: 150,
+            pinned: 'left',
+            lockPinned: true,
+            suppressMovable: true,
             headerName: "Editar",
             cellClass: 'edit-cell',
             pinned: "left",
@@ -194,7 +224,7 @@ export function getRoutesTableColumns({
                         <div className="save-discard-div">
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='cancel' 
                             onClick={() => handleSave(params)}
                             disabled={loading}
@@ -203,7 +233,7 @@ export function getRoutesTableColumns({
                             </Button>
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='warning' 
                             onClick={() => handleCancel(params)}
                             disabled={loading}
@@ -219,7 +249,7 @@ export function getRoutesTableColumns({
                         <Button 
                         className='action-button'
                         disabled={isAnotherRowEditing || !params.data.hasRequest}
-                        size='mini' 
+                        size='mini-icon' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
                         >
@@ -230,9 +260,9 @@ export function getRoutesTableColumns({
                 );
             }
         },
-        { headerName: "Nombre", field: "name", width: 300},
+        { headerName: "Nombre", field: "name", minWidth: 180},
         // Recoleccion
-        { headerName: "# Recolección", field: "collectedBuckets", width: 200,
+        { headerName: "# Recolección", field: "collectedBuckets", minWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
@@ -241,14 +271,16 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("collectedBuckets", params.newValue);
+                const raw = Number(params.newValue);
+
+                const validation = validateField("collectedBuckets", raw);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("collectedBuckets");
                     params.data.collectedBuckets = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "collectedBuckets",
@@ -257,7 +289,8 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.collectedBuckets = Number(params.newValue);
+                ValidationObserver.removeError("collectedBuckets");
+                params.data.collectedBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -276,7 +309,7 @@ export function getRoutesTableColumns({
             },
         },
         // Entrega
-        { headerName: "# Entrega", field: "deliveredBuckets", width: 200,
+        { headerName: "# Entrega", field: "deliveredBuckets", minWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
@@ -285,14 +318,16 @@ export function getRoutesTableColumns({
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("deliveredBuckets", params.newValue);
+                const raw = Number(params.newValue);
+
+                const validation = validateField("deliveredBuckets", raw);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("deliveredBuckets");
                     params.data.deliveredBuckets = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
                             colKey: "deliveredBuckets",
@@ -301,7 +336,8 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.deliveredBuckets = Number(params.newValue);
+                ValidationObserver.removeError("deliveredBuckets");
+                params.data.deliveredBuckets = Math.floor(raw);
                 return true;
             },
 
@@ -324,7 +360,9 @@ export function getRoutesTableColumns({
             headerName: "Productos Extra", 
             field: "extraProductsDetails",
             cellClass: 'multiline-cell',
-            width: 250, 
+            minWidth: 180,
+            wrapText: true,
+            autoHeight: true, 
             cellDataType: false,
             valueFormatter: () => "",
             editable: (params) => params.data.name === editingRowId,
@@ -332,36 +370,40 @@ export function getRoutesTableColumns({
             cellEditor: ExtraProductsCellEditor,
             cellEditorParams: (params) => ({
                 extraProducts,
-            onSelectionChange: (newSelected) => {
-                const selectedIds = Object.keys(newSelected).map(Number);
-                const selectedProducts = extraProducts.filter(p => selectedIds.includes(p.id_producto));
+                searchProduct,
+                handleSearchProduct,
 
-                params.data.extraProductsArray = newSelected;
-                
-                params.data.extraProductsDetails = [...selectedProducts.map(p => {
-                    return {
-                        text: newSelected[p.id_producto] > 1
-                            ? `${p.nombre} (${newSelected[p.id_producto]})`
-                            : p.nombre,
-                        color: p.color,
-                    };
-                })];
-                
-                params.data.extraProducts = params.data.extraProductsDetails
-                    .map(p => p.text)
-                    .join("\n");
+                onSelectionChange: (newSelected) => {
+                    const selectedIds = Object.keys(newSelected).map(Number);
 
+                    const selectedProducts = extraProducts.filter(p =>
+                        selectedIds.includes(p.id_producto)
+                    );
 
-                setTimeout(() => {
-                    params.api.resetRowHeights();
-                    params.api.refreshCells({
-                        rowNodes: [params.node],
-                        columns: ['extraProductsDetails'],
-                        force: true,
-                    });
-                }, 0);
+                    params.data.extraProductsArray = newSelected;
 
-            },
+                    params.data.extraProductsDetails =
+                        selectedProducts.map(p => ({
+                            text: newSelected[p.id_producto] > 1
+                                ? `${p.nombre} (${newSelected[p.id_producto]})`
+                                : p.nombre,
+                            color: p.color,
+                        }));
+
+                    params.data.extraProducts =
+                        params.data.extraProductsDetails
+                            .map(p => p.text)
+                            .join("\n");
+
+                    setTimeout(() => {
+                        params.api.resetRowHeights();
+                        params.api.refreshCells({
+                            rowNodes: [params.node],
+                            columns: ['extraProductsDetails'],
+                            force: true,
+                        });
+                    }, 0);
+                },
             }),
 
             cellEditorPopup: true,
@@ -404,13 +446,19 @@ export function getRoutesTableColumns({
         { 
             headerName: "Horario", 
             field: "schedule", 
-            width: 200,
+            minWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("schedule", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("schedule", sanitized);
 
                 if(validation !== true) {
+                    ValidationObserver.addError("schedule");
                     params.data.schedule = params.oldValue;
 
                     setTimeout(async () => {
@@ -424,14 +472,15 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.schedule = params.newValue;
+                params.data.schedule = sanitized;
+                ValidationObserver.removeError("schedule");
                 return true;
             }
         },
         { 
             headerName: "Forma de pago", 
             field: "paymentId", 
-            width: 200,
+            minWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
@@ -445,18 +494,30 @@ export function getRoutesTableColumns({
                 return params.newValue;
             }
         },
-        { headerName: "Total a pagar", field: "totalToPay", width: 200},
+        { headerName: "Total a pagar", 
+            field: "totalToPay", 
+            minWidth: 120,
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
+
+                return `$${value.toFixed(2)}`;
+            },
+        },
         { 
             headerName: "Total pagado", 
             field: "totalPaid", 
-            width: 200,
+            minWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
 
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
 
+                return `$${value.toFixed(2)}`;
+            },
             valueParser: (params) => {
                 return params.newValue;
             },
@@ -467,6 +528,7 @@ export function getRoutesTableColumns({
                 const validation = validateField("paid", params.newValue);
 
                 if(validation !== true) {
+                    ValidationObserver.addError("totalPaid");
                     params.data.totalPaid = params.oldValue;
 
                     setTimeout(async () => {
@@ -481,6 +543,7 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("totalPaid");
                 params.data.totalPaid = params.newValue;
                 return true;
             }
@@ -488,12 +551,21 @@ export function getRoutesTableColumns({
         { 
             headerName: "Notas", 
             field: "notes", 
-            width: 500,
+            minWidth: 200,
+            wrapText: true,
+            autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
-                const validation = validateField("notes", params.newValue);
+
+                const sanitized = (params.newValue ?? "")
+                    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+                    .slice(0, 255);
+
+                const validation = validateField("notes", sanitized);
+
                 if (validation !== true) {
+                    ValidationObserver.addError("notes");
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
@@ -508,7 +580,8 @@ export function getRoutesTableColumns({
                     return false;
                 }
 
-                params.data.notes = params.newValue;
+                ValidationObserver.removeError("notes");
+                params.data.notes = sanitized;
                 return true;
             },
         },

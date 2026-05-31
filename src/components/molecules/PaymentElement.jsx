@@ -2,7 +2,7 @@ import "../../css/molecules/paymentElement.css"
 import FormCard from "../Template/formCard";
 import PaymentMethod from "./PaymentMethod";
 import PaymentInfoCard from "./PaymentInfoCard";
-import AdditionalNotes from "./AdditionalNotes";
+
 
 /**
  * Elemento con los cards de formas de pago, información adicional y notas.
@@ -14,8 +14,6 @@ export default function PaymentElement({
     selectedMethod,
     selectedPaymentIndex,
     setSelectedPaymentIndex,
-    notes,
-    setNotes,
     className="",
 }) {
     const getPaymentIcon = (tipo) => {
@@ -27,40 +25,30 @@ export default function PaymentElement({
     return (
                 <>
                     {/* DIV IZQUIERDA (PAGO) */}
-                    <section className="left-pay-section">
-
+                    <section className={`left-pay-section ${className}`}>
                         <h2 className="pay-title">
-                            Formas de pago
+                            Forma de pago
                         </h2>
 
-                        {/* MÉTODOS DE PAGO */}
                         <div className="payment-list">
                             {paymentMethods.map((method, index) => (
-                            <PaymentMethod
-                                method={method}
-                                index={index}
-                                selectedPaymentIndex={selectedPaymentIndex}
-                                setSelectedPaymentIndex={setSelectedPaymentIndex}
-                                icon={getPaymentIcon(method.tipo)}
-                            />
-
-                                
+                                <PaymentMethod
+                                    key={method.id_pago}
+                                    method={method}
+                                    index={index}
+                                    selectedPaymentIndex={selectedPaymentIndex}
+                                    setSelectedPaymentIndex={setSelectedPaymentIndex}
+                                    icon={getPaymentIcon(method.tipo)}
+                                />
                             ))}
                         </div>
-                        
-                        <div className="bottom-info">
-                            <PaymentInfoCard
-                            className='payment-wrapper'
-                                text={selectedMethod.texto}
-                                notes={selectedMethod.notas}
-                            />
-                            <AdditionalNotes
-                            className='notes-wrapper'
-                                notes={notes}
-                                setNotes={setNotes}
-                            />
-                        </div>
-                        
+
+                        <PaymentInfoCard
+                            className="payment-wrapper"
+                            text={selectedMethod?.texto || ""}
+                            notes={selectedMethod?.notas || ""}
+                            paymentType={selectedMethod?.tipo || ""}
+                        />
                     </section>
                 </>
     );

@@ -3,8 +3,8 @@
 @import "../tokens/typography.css";
 
 .secondPage {
-    background-color: --var(--color-green-tertiary);
     width: 100%;
+    background-color: transparent;
 }
 
 .swiper {
@@ -16,6 +16,7 @@
 .swiper-slide {
     display: flex;
     justify-content: center;
+    color: var(--color-green-primary)
 }
 
 .swiper-button-prev,
@@ -46,12 +47,23 @@
 }
 
 .extra-products-form-card {
-    align-content: center;
-    justify-content: center;
     width: 100%;
-    padding: 2rem 1rem;
-    box-sizing: border-box;
+    min-height: 28rem;
+    padding: 2rem 3.5rem 3rem 3.5rem;
+    box-sizing: border-box; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+.extra-products-title {
+    padding-bottom: 1.5%;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    text-align: center;
+    line-height: var(--line-height-tight);
+}
+
 
 .product-disabled {
     opacity: 0.4;
@@ -71,21 +83,19 @@ h1 {
     font-weight: var(--font-weight-bold);
     text-align: center;
     padding-bottom: 1.5%;
-    color: var(--color-black);
+    color: var(--color-green-primary);
     font-size: var(--font-size-xl);
     line-height: var(--line-height-tight);
 }
 
 h2 {
     text-align: center;
-    color: var(--color-black);
+    color: var(--color-green-primary);
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-normal);
 }
 
-/* OJO: mejor no sobrescribir fuerte solicitud-actions aquí */
-/* Si quieres dejarlo, mínimo hazlo compatible */
 .solicitud-actions {
     width: 100%;
     box-sizing: border-box;

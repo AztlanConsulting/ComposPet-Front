@@ -10,6 +10,12 @@ jest.mock('../../../../di/admin/clientTableDependencies', () => ({
     updateClientUseCase: {
         execute: jest.fn(),
     },
+    getCompostStatusUseCase: {
+        execute: jest.fn(),
+    },
+    updateCompostStatusUseCase: {
+        execute: jest.fn(),
+    },
 }));
 
 jest.mock('../../../../presentation/viewmodels/utils/clientTableColumnDefinitions', () => ({
@@ -18,11 +24,13 @@ jest.mock('../../../../presentation/viewmodels/utils/clientTableColumnDefinition
 
 jest.mock('../../../../components/Template/ProblemAlert', () => jest.fn());
 jest.mock('../../../../components/Template/AceptAlert', () => jest.fn());
+jest.mock('../../../../components/Template/confirmationAlert', () => jest.fn());
 
 import useClientTableViewModel from '../../../../presentation/viewmodels/clientTableViewModel';
 import {
     getTableUseCase,
     getRoutesUseCase,
+    getCompostStatusUseCase,
 } from '../../../../di/admin/clientTableDependencies';
 
 describe('Client Balance Counters ViewModel', () => {
@@ -40,6 +48,12 @@ describe('Client Balance Counters ViewModel', () => {
                 dia_ruta: 'Martes',
             },
         ]);
+
+        getCompostStatusUseCase.execute.mockResolvedValue({
+            status: {
+                data: false,
+            },
+        });
     });
 
     it('debe calcular el saldo total positivo y el saldo pendiente negativo', async () => {
@@ -73,8 +87,8 @@ describe('Client Balance Counters ViewModel', () => {
         const { result } = renderHook(() => useClientTableViewModel());
 
         await waitFor(() => {
-            expect(result.current.totalAmount).toBe('$800');
-            expect(result.current.pendingAmount).toBe('- $300');
+            expect(result.current.totalAmount).toBe('$800.00');
+            expect(result.current.pendingAmount).toBe('-$300.00');
         });
     });
 
@@ -109,22 +123,26 @@ describe('Client Balance Counters ViewModel', () => {
         const { result } = renderHook(() => useClientTableViewModel());
 
         await waitFor(() => {
-            expect(result.current.totalAmount).toBe('$800');
+            expect(result.current.totalAmount).toBe('$800.00');
         });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(1);
         });
 
-        expect(result.current.totalAmountPerRoute).toBe('$500');
-        expect(result.current.pendingAmountPerRoute).toBe('- $200');
+        await waitFor(() => {
+            expect(result.current.totalAmountPerRoute).toBe('$500.00');
+            expect(result.current.pendingAmountPerRoute).toBe('-$200.00');
+        });
 
-        act(() => {
+        await act(() => {
             result.current.setSelectedRoute(2);
         });
 
-        expect(result.current.totalAmountPerRoute).toBe('$300');
-        expect(result.current.pendingAmountPerRoute).toBe('- $100');
+        await waitFor(() => {
+            expect(result.current.totalAmountPerRoute).toBe('$300.00');
+            expect(result.current.pendingAmountPerRoute).toBe('-$100.00');
+        });
     });
 
     it('debe regresar $0 cuando la ruta seleccionada no tiene saldos', async () => {
@@ -146,15 +164,17 @@ describe('Client Balance Counters ViewModel', () => {
         const { result } = renderHook(() => useClientTableViewModel());
 
         await waitFor(() => {
-            expect(result.current.totalAmount).toBe('$0');
-            expect(result.current.pendingAmount).toBe('$0');
+            expect(result.current.totalAmount).toBe('$0.00');
+            expect(result.current.pendingAmount).toBe('$0.00');
         });
 
         act(() => {
             result.current.setSelectedRoute(1);
         });
 
-        expect(result.current.totalAmountPerRoute).toBe('$0');
-        expect(result.current.pendingAmountPerRoute).toBe('$0');
+        await waitFor(() => {
+            expect(result.current.totalAmountPerRoute).toBe('$0.00');
+            expect(result.current.pendingAmountPerRoute).toBe('$0.00');
+        });
     });
 });

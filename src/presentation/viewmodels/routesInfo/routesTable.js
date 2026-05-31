@@ -15,6 +15,8 @@ import { isValidSearchText } from "../utils/searchValidation";
 import { getRoutesTableColumns } from '../utils/routesTableColumnDefinitions';
 import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
+import usePrompt from '../utils/usePrompt';
+import ValidationObserver from '../utils/validationObserver';
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -35,6 +37,7 @@ function useRoutesViewModel(){
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
     const [editingRowId, setEditingRowId] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
 
     const [payMethods, setPayMethods] = useState([]);
@@ -46,24 +49,28 @@ function useRoutesViewModel(){
 
     const getRowClass = useCallback((params) => {
         const data = params.data;
-
-        if(
+        const classes = [];
+        if (data?.name === editingRowId) {
+            classes.push("row-editing");
+        }
+        
+        if (
             data?.hasRequest === true &&
             data?.status === false
         ) {
-            return "row-inactive";
+            classes.push("row-inactive");
         }
 
-        if(
+        if (
             data?.hasRequest === true &&
             data?.wantsExtraProducts === false &&
             data?.wantsCollection === false
         ) {
-            return "row-neither";
+            classes.push("row-neither");
         }
 
-        return "";
-    }, []);
+        return classes.join(" ");
+    }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
         const rowId = params.data.name;
@@ -86,6 +93,8 @@ function useRoutesViewModel(){
     const hasPendingChanges = useMemo(() => {
         return editingRowId !== null;
     }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
 
     const canChangeFilters = useCallback(async () => {
         if(!hasPendingChanges){
@@ -142,9 +151,15 @@ function useRoutesViewModel(){
 
             params.node.setData({...originalRow});
 
+            ValidationObserver.clear();
+
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
         } catch (error) {
             console.log("Error discarding changes in routes table: ", error);
         } finally {
@@ -202,6 +217,16 @@ function useRoutesViewModel(){
         try {
             setLoading(true);
             params.api.stopEditing(false);
+
+            if (ValidationObserver.hasErrors()) {
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: "Corrige los campos inválidos antes de guardar."
+                });
+
+                return;
+            }
+
             const updatedData = params.data;
             await updateRequest.execute(updatedData);
 
@@ -215,6 +240,7 @@ function useRoutesViewModel(){
                 text: error.message || "Ocurrió un error al guardar los cambios"
             });
         } finally {
+            ValidationObserver.clear();
             setLoading(false);
         }
     }, [updateRequest, refreshRoutes]);
@@ -298,6 +324,12 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         return getRowClass({ data }) === "row-inactive";
     }, [getRowClass]);
 
+
+    const handleSearchProduct = (value) => {
+        if (!isValidSearchText(value)) return;
+        setSearchProduct(value);
+    };
+
     // ==================== CONFIGURACIÓN DE TABLA ====================
     const columnDefinitions = useMemo(() => 
         getRoutesTableColumns({
@@ -313,6 +345,8 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             payOptions,
             extraProducts,
             getRowClass,
+            handleSearchProduct,
+            searchProduct,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -320,15 +354,29 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 });
             },
         }),
-    [editingRowId, handleEdit, handleCancel, handleSave, isCellChanged, loading, payMap, payOptions, extraProducts, getRowClass]);
+    [editingRowId, 
+        handleEdit, 
+        handleCancel, 
+        handleSave, 
+        isCellChanged, 
+        loading, 
+        payMap, 
+        payOptions, 
+        extraProducts, 
+        getRowClass,
+        handleSearchProduct,
+        searchProduct,
+    ]);
 
     /**
      * Configuración por defecto para todas las columnas de la tabla.
      * Habilita ordenamiento, redimensionamiento y tooltips.
      */
     const defaultColDef = {
-        sortable: true,
         resizable: true,
+        sortable: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
         // Aplica estilo de negrita a toda la fila si tiene fondo rojo
         cellStyle: (params) => {
             if (hasRedBackground(params.data)) {
@@ -418,10 +466,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 setSelectedWeek(weekIdx);
                 const defaultDay = getDefaultDay(daysData);
                 setSelectedDay(defaultDay)
-
-                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
-                setRoutesList(routes);
-                setWeeklyRoutesList(routes);
 
             } catch (err) {
                 setError(err.message || "Error al inicializar");
@@ -528,11 +572,20 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     // formatea montos a moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `-$${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
 
-        return `$${amount}`;
+        return `$${formattedAmount}`;
     };
 
     // convierte valores a número

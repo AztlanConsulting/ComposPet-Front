@@ -16,11 +16,24 @@
     flex-direction: column;
     margin: 0 auto;
     box-sizing: border-box;
+    margin-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+.actions-section{
+    display: flex;
+    align-items: stretch;
+    gap: 2rem;
+}
+
+.buttons-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .route-header-row {
-    width: 100%;
-    margin: 2rem auto 0 auto;
+    margin-top: 1rem;
     box-sizing: border-box;
 
     display: flex;
@@ -41,7 +54,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.9rem;
+    gap: 3rem;
 }
 
 .table-container {
@@ -185,39 +198,126 @@
     font-size: var(--font-size-sm);
 }
 
+.divider{
+    display: block;
+}
+
+.mobile-route-accordion {
+    display: none;
+}
+
 /* tablet */
 @media (max-width: 1024px) {
-
-    .route-header-row {
-        padding: 0 3rem;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1.5rem;
+    .mobile-route-accordion .counters-group .counters-container,
+    .mobile-route-accordion .balance-counter {
+        width: 100% !important;
+        max-width: none !important;
+        flex: 1 1 auto !important;
+    }
+    .desktop-route-header {
+        display: none !important;
     }
 
-    .route-counters-section {
+    .mobile-route-accordion {
+        display: block !important;
         width: 100%;
-        justify-content: space-around;
+        max-width: 70rem;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .mobile-route-accordion .accordion {
+        width: 100%;
+    }
+
+    .mobile-route-accordion .accordion-item {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+
+    .mobile-route-accordion .accordion-button {
+        background-color: var(--color-green-tertiary);
+        color: var(--color-green-secondary);
+        font-weight: 600;
+        box-shadow: none;
+    }
+
+    .mobile-route-accordion .accordion-button:not(.collapsed) {
+        background-color: var(--color-green-tertiary);
+        color: var(--color-green-secondary);
+        box-shadow: none;
+    }
+
+    .mobile-route-accordion .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    .mobile-route-accordion .accordion-body {
+        background-color: var(--color-bg);
+        padding: 1.5rem 0 0 0 !important;
+        margin: 0 !important;
+    }
+
+    .mobile-route-accordion .accordion-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .mobile-route-accordion .counters-group,
+    .mobile-route-accordion .balance-counters-group,
+    .mobile-route-accordion .balance-counter,
+    .mobile-route-accordion .counters-container {
+        width: 100%;
+        max-width: 70rem;
+    }
+
+    .mobile-route-accordion .actions-section {
+        width: 100%;
+        max-width: 70rem;
+        display: flex;
+        align-items: stretch;
         gap: 2rem;
     }
 
-    .copy-link-container {
+    .mobile-route-accordion .buttons-section-container {
         width: 100%;
-        margin-left: 0;
-        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .mobile-route-accordion .button-actions {
+        width: 100%;
+        margin: 0;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    .divider {
+        display: none;
     }
 
     .filters-container {
-        padding: 0 3rem;
+        padding: 0 0.1rem;
         flex-direction: column;
         align-items: stretch;
+        width: 100%;
         gap: 1rem;
     }
 
     .filters-dropdowns {
         width: 100%;
-        flex-direction: column;
         gap: 1rem;
+    }
+
+    .filters-dropdowns .formField {
+        max-width: none;
+        width: 100%;
     }
 
     .day-filter-group {
@@ -242,91 +342,48 @@
         max-width: 100%;
         margin-left: 0;
     }
-
-    .colors-info-wrapper {
-        padding: 0 3rem;
-    }
 }
 
-/* celular */
-@media (max-width: 768px) {
-
-    .page {
-        padding: 0.5rem;
+@media (max-width: 960px) {
+    .main{
+        padding-bottom: 10rem;
     }
 
-    .route-header-row {
-        padding: 0 1rem;
-        gap: 1.5rem;
-    }
-
-    .route-counters-section {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    .copy-link-container {
-        align-items: stretch;
-    }
-
-    .table-container {
-        margin-top: 1.5rem;
-        padding: 0 0.5rem;
-    }
-
-    .filters-container {
-        padding: 0 1rem;
-    }
-
-    .filters-dropdowns {
+    .colors-info-grid {
+        display: flex;
         flex-direction: column;
     }
 
-    .reload-icon {
-        width: 2rem;
-    }
-
-    .custom-green-theme {
-        height: 35rem;
-        font-family: var(--font-family-primary);
-        font-size: var(--font-size-xs);
-    }
-
-    .custom-green-theme .ag-header-cell-text {
-        font-family: var(--font-family-primary);
-        font-size: var(--font-size-xs) !important;
-    }
-
-    .custom-green-theme .ag-cell {
-        font-size: var(--font-size-xs) !important;
-        line-height: 1rem !important;
-        font-size: var(--font-size-xs) !important
-    }
-
-    .custom-green-theme .ag-row {
-        height: 2rem !important;
-    }
-
-    .custom-green-theme .ag-header {
-        height: 2.5rem !important;
+    .text-colors-grid {
+        grid-template-columns: unset;
     }
 
     .colors-info-wrapper {
         padding: 0 1rem;
-    }
-
-    .text-colors-grid,
-    .background-colors-grid {
-        grid-template-columns: 1fr;
     }
 
     .color-text {
-        font-size: 12px;
-        font-size: var(--font-size-xs) !important
+        font-size: var(--font-size-xs);
     }
 
-    .day-filter-group{
-        display: block;
+    .filters-dropdowns{
+        flex-direction: column;
+    }
+
+    .filters-dropdowns .today .button-today{
+        width: 100%;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 768px){
+    .accordion-body .accordion-content .counters-group .counters-container {
+        width: 100%;
+        max-width: none;
+        margin-top: 1rem;
     }
 }

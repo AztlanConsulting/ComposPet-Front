@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 
 import { 
     getTableUseCase, 
@@ -13,6 +13,9 @@ import ProblemAlert from "../../components/Template/ProblemAlert";
 import AceptAlert from "../../components/Template/AceptAlert";
 import { isValidSearchText } from "./utils/searchValidation";
 import ConfirmAlert from "../../components/Template/confirmationAlert";
+import usePrompt from "./utils/usePrompt";
+import { validateField } from "./utils/clientFieldsValidations";
+import ValidationObserver from "./utils/validationObserver";
 
 /**
  * ViewModel para la tabla de información de clientes de Compospet
@@ -24,6 +27,7 @@ function useClientTableViewModel() {
     // Estados para manejar la edición 
     const [editingRowId, setEditingRowId] = useState(null);
     const [originalClientList, setOriginalClientList] = useState([]);
+    const [hasValidationErrors, setHasValidationErrors] = useState(false);
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -45,6 +49,14 @@ function useClientTableViewModel() {
 
     // variable para el switcher de composta
     const [compostStatus, setCompostStatus] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = ValidationObserver.subscribe((errors) => {
+            setHasValidationErrors(errors.size > 0);
+        });
+
+        return unsubscribe;
+    }, []);
 
     const getRoutes = useCallback( async () => {
         if (loading) return;
@@ -75,6 +87,25 @@ function useClientTableViewModel() {
         }
     }, [getRoutesUseCase]);
 
+    const hasPendingChanges = useMemo(() => {
+        return editingRowId !== null;
+    }, [editingRowId]);
+
+    usePrompt(hasPendingChanges);
+
+    const canChangeFilters = useCallback(async () => {
+        if(!hasPendingChanges){
+            return true;
+        }
+
+        await ProblemAlert({
+            title: "Tienes cambios pendientes",
+            text: "Guarda o descarta los cambios antes de cambiar de ruta."
+        });
+
+        return false;
+    }, [hasPendingChanges]);
+
     const getInfo = useCallback( async () => {
 
         if (loading) return;
@@ -83,7 +114,6 @@ function useClientTableViewModel() {
             setLoading(true);
 
             const response = await getTableUseCase.execute();
-            console.log("RESPONSE: ", response);
             setClientList(response);
             setOriginalClientList(JSON.parse(JSON.stringify(response)));
 
@@ -168,6 +198,21 @@ function useClientTableViewModel() {
         });
     }, [editingRowId]);
 
+    const getRowClass = useCallback((params) => {
+        const data = params.data;
+        const classes = [];
+
+        if (data?.clientId === editingRowId) {
+            classes.push("row-editing");
+        }
+
+        if (data?.status === false) {
+            classes.push("client-inactive");
+        }
+
+        return classes.join(" ");
+    }, [editingRowId])
+
     const handleCancel = useCallback((params) => {
         
         try {
@@ -184,9 +229,15 @@ function useClientTableViewModel() {
 
             params.node.setData({...originalRow});
 
+            ValidationObserver.clear();
+
             setEditingRowId(null);
 
-            params.api.refreshCells({force: true});
+            requestAnimationFrame(() => {
+                params.api.redrawRows({
+                    rowNodes: [params.node]
+                });
+            });
 
         } catch (error) {
             console.log("Error discarding changes in client data: ", error);
@@ -195,23 +246,70 @@ function useClientTableViewModel() {
         }
     }, [originalClientList]);
 
-    const handleSave = useCallback( async (params) => {
+    const validateRow = (data) => {
+
+        const fieldsToValidate = [
+            "balance",
+            "notes",
+            "cellphone",
+            "address",
+            "order",
+            "pets",
+            "family",
+        ];
+
+        for (const field of fieldsToValidate) {
+
+            const result = validateField(field, data[field]);
+
+            if (result !== true) {
+                return {
+                    valid: false,
+                    field,
+                    message: result,
+                };
+            }
+        }
+
+        return { valid: true };
+    };
+
+    const handleSave = useCallback(async (params) => {
+
         try {
+
             setLoading(true);
+
             params.api.stopEditing(false);
-            const updatedData = params.data;
-            const response = await updateClientUseCase.execute(updatedData);
-            getInfo();
-            
+
+            if (ValidationObserver.hasErrors()) {
+
+                await ProblemAlert({
+                    title: "Error en los datos ingresados",
+                    text: "Corrige los campos inválidos antes de guardar."
+                });
+
+                return;
+            }
+
+            await updateClientUseCase.execute(params.data);
+
+            ValidationObserver.clear();
+
+            await getInfo();
+
             setEditingRowId(null);
 
             await AceptAlert({});
-        } catch (error) {
-            console.log("Error updating client data: ", error);
+
+        } catch(error) {
+            console.log(error);
         } finally {
+            ValidationObserver.clear();
             setLoading(false);
         }
-    }, [updateClientUseCase]);
+
+    }, [updateClientUseCase, getInfo]);
 
     // AG Table columns config
     const columnDefinitions = useMemo(() => 
@@ -265,10 +363,20 @@ function useClientTableViewModel() {
         setSearchText(value);
     };
 
+    const handleRouteChange = useCallback(async (route) => {
+        const canChange = await canChangeFilters();
+
+        if (!canChange) return;
+
+        setSelectedRoute(route);
+    }, [canChangeFilters]);
+
     const defaultColDef = useMemo(() => ({
 
-        sortable: true,
         resizable: true,
+        sortable: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
 
         tooltipValueGetter: (params) => params.value,
     }), []);
@@ -313,11 +421,22 @@ function useClientTableViewModel() {
 
     // Función para formatear los montos en formato de moneda
     const formatCurrency = (amount) => {
-        if (amount < 0) {
-            return `- $${Math.abs(amount)}`;
+        const numericAmount = Number(amount) || 0;
+
+        const formattedAmount = Math.abs(numericAmount).toLocaleString(
+            'es-MX',
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+        );
+
+
+        if (numericAmount < 0) {
+            return `-$${formattedAmount}`;
         }
     
-        return `$${Math.abs(amount)}`;
+        return `$${formattedAmount}`;
     };
 
     // Funciones para los contadores de saldo total y saldo pendiente
@@ -366,7 +485,6 @@ function useClientTableViewModel() {
         }, 0);
     }, [clientList, selectedRoute]);
 
-
     return {
         clientList: filteredClientList,
         loading,
@@ -375,7 +493,7 @@ function useClientTableViewModel() {
         editingRowId,
         routesDropdown,
         selectedRoute,
-        setSelectedRoute,
+        setSelectedRoute: handleRouteChange,
         searchText,
         setSearchText,
         handleSearchText,
@@ -388,6 +506,7 @@ function useClientTableViewModel() {
         pendingAmount: formatCurrency(pendingAmount),
         totalAmountPerRoute: formatCurrency(totalAmountPerRoute),
         pendingAmountPerRoute: formatCurrency(pendingAmountPerRoute),
+        getRowClass,
     };
 }
 

@@ -66,6 +66,7 @@ api.interceptors.response.use(
         if (originalRequest.url.includes('/refresh')) {
             accessToken = null;
             sessionStorage.removeItem('user');
+            sessionStorage.removeItem('authProvider');
             if (window.location.pathname !== '/inicio-sesion') {
                 window.location.href = '/inicio-sesion';
             }
@@ -98,8 +99,6 @@ api.interceptors.response.use(
                 processQueue(err, null); // Rechazar todas las peticiones encoladas
                 accessToken = null;
                 sessionStorage.removeItem('user');
-                window.location.href = '/inicio-sesion';
-                return Promise.reject(err);
             } finally {
                 isRefreshing = false;
             }

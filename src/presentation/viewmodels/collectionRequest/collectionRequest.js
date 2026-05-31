@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { redirect, useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
-//import useCollectionRequestSecondSectionViewModel from './secondFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
-//import useCollectionRequestFourthSectionViewModel from './fourthFormViewModel';
-//import useCollectionRequestFifthSectionViewModel from './fifthFormViewModel';
+
 
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
@@ -84,7 +82,7 @@ function theClientIsInTime(routeDay) {
     routeDate.setHours(0, 0, 0, 0);
 
     const limitDate = new Date(routeDate);
-    limitDate.setHours(limitDate.getHours() - 6);
+    limitDate.setHours(limitDate.getHours() - 1);
 
     const weekStartDate = new Date(today);
     weekStartDate.setDate(today.getDate() - currentDay);
@@ -101,7 +99,8 @@ function theClientIsInTime(routeDay) {
  * @returns {object} Estado general del formulario y acciones de navegación.
  */
 function useCollectionRequestViewModel() {
-    const totalSteps = 3;
+    const progressSteps = ['Recolección', 'Productos', 'Carrito'];
+    const totalSteps = progressSteps.length;
     const [currentStep, setCurrentStep] = useState(1);
     const [debtAccess, setDebtAccess] = useState(false)
 
@@ -199,11 +198,37 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-    const goBackStep = () => {
-        
-        if (currentStep > 1) {
-            setCurrentStep((prev) => prev - 1);
+    /**
+     * Regresa al formulario a un paso anterior desde la barra de progreso.
+     *
+     * Solo permite ir hacia atrás, evitando avanzar
+     * desde la barra. Antes de cambiar de paso, recarga la
+     * información correspondiente para mantener actualizados los datos
+     *
+     * @param {number} targetStep - Número del paso al que se desea regresar.
+     * @returns {Promise<void>} No retorna ningún valor.
+     */
+
+    const goToPreviousStep = async (targetStep) => {
+        if (targetStep >= currentStep) return;
+
+        if (targetStep < 1 || targetStep > totalSteps) return;
+
+        if (currentStep === 2 && targetStep === 1) {
+            await firstSectionViewModel.loadCurrentCollectionRequest();
         }
+
+        if (currentStep === 3) {
+            if (targetStep === 2) {
+                await secondSectionViewModel.loadData();
+            }
+
+            if (targetStep === 1) {
+                await firstSectionViewModel.loadCurrentCollectionRequest();
+            }
+        }
+
+        setCurrentStep(targetStep);
     };
 
     const cancelForm = async () => {
@@ -219,21 +244,13 @@ function useCollectionRequestViewModel() {
         }
     };
 
-    const onSecondaryAction = () => {
+    const onSecondaryAction = async () => {
         if (currentStep === 1) {
-            cancelForm();
+            await cancelForm();
             return;
         }
 
-        if (currentStep === 2){
-            firstSectionViewModel.loadCurrentCollectionRequest();
-        }
-
-        if (currentStep === 3){
-            secondSectionViewModel.loadData();
-        }
-
-        goBackStep();
+        await goToPreviousStep(currentStep - 1);
     };
 
     const onPrimaryAction = async () => {
@@ -287,21 +304,20 @@ function useCollectionRequestViewModel() {
         }
 
         if (currentStep === 3) {
-            const result = await thirdSectionViewModel.saveThirdSection();
-            if (result.success && result.nextStep) {
-                const result = await ConfirmAlert({
-                    title: "¿Estás seguro que deseas enviar tu solicitud?",
-                    text: "Una vez enviada, no podrás hacer cambios en tu solicitud.",
-                    confirmText: "Sí, enviar solicitud",
-                    cancelText: "No, quedarme aquí",
-                });
-                console.log("Result from confirmation alert:", result.isConfirmed);
-                if (result.isConfirmed) {
-                    navigate("/")
-                }
-            }
-            return;
+            const result = await ConfirmAlert({
+                title: "¿Estás seguro que deseas enviar tu solicitud?",
+                text: "Una vez enviada, no podrás hacer cambios en tu solicitud.",
+                confirmText: "Sí, enviar solicitud",
+                cancelText: "No, quedarme aquí",
+            });
 
+            if (!result.isConfirmed) return;
+
+            const saveResult = await thirdSectionViewModel.saveThirdSection();
+
+            if (saveResult.success && saveResult.nextStep) {
+                navigate("/");
+            }
         }
 
     };
@@ -311,10 +327,11 @@ function useCollectionRequestViewModel() {
 
     return {
         currentStep,
-        totalSteps,
+        progressSteps,
         onPrimaryAction,
         onSecondaryAction,
         cancelForm,
+        goToPreviousStep,
         primaryButtonText,
         secondaryButtonText,
         firstSectionViewModel,

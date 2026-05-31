@@ -10,6 +10,9 @@ import '../../css/organisms/balanceCountersGroup.css';
  */
 export default function BalanceCountersGroup({
     counters = [],
+    icon='',
+    color="",
+    iconSize="",
 }) {
     return (
         <div className="balance-counters-group">
@@ -21,6 +24,9 @@ export default function BalanceCountersGroup({
                     favorBalance={counter.favorBalance}
                     pendingSubtitle={counter.pendingSubtitle}
                     pendingBalance={counter.pendingBalance}
+                    icon={counter.icon}
+                    color={counter.color}
+                    iconSize={counter.iconSize}
                 />
             ))}
         </div>

@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 
 import { validateField } from "./clientFieldsValidations";
+import ValidationObserver from "./validationObserver";
 
 export function getClientTableColumns({
     editingRowId,
@@ -28,7 +29,12 @@ export function getClientTableColumns({
 
     return [
         {
-            width: 150,
+            width: 100,
+            minWidth: 100,
+            maxWidth: 150,
+            pinned: 'left',
+            lockPinned: true,
+            suppressMovable: true,
             headerName: "Editar",
             cellClass: 'edit-cell',
             pinned: "left",
@@ -44,7 +50,7 @@ export function getClientTableColumns({
                         <div className="save-discard-div">
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='cancel' 
                             onClick={() => handleSave(params)}
                             disabled={loading}
@@ -53,7 +59,7 @@ export function getClientTableColumns({
                             </Button>
                             <Button 
                             className='action-button'
-                            size='mini' 
+                            size='mini-icon' 
                             csstype='warning' 
                             onClick={() => handleCancel(params)}
                             disabled={loading}
@@ -69,7 +75,7 @@ export function getClientTableColumns({
                         <Button 
                         className='action-button'
                         disabled={isAnotherRowEditing}
-                        size='mini' 
+                        size='mini-icon' 
                         csstype='accept' 
                         onClick={() => handleEdit(params)}
                         >
@@ -94,25 +100,33 @@ export function getClientTableColumns({
             },
 
             cellClassRules: modifiedClassRule,
+            valueFormatter: (params) => {
+                const value = Number(params.value ?? 0);
 
+                return `$${value.toFixed(2)}`;
+            },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("balance");
                     params.data.balance = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "balance",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "balance",
+                            });
+                        }
                     }, 0);
 
                     return false;
                 }
 
+                ValidationObserver.removeError("balance");
                 params.data.balance = Number(params.newValue);
                 return true;
             },
@@ -128,20 +142,25 @@ export function getClientTableColumns({
                 const validation = validateField("notes", params.newValue);
 
                 if (validation !== true) {
+
+                    ValidationObserver.addError("notes");
                     params.data.notes = params.oldValue;
 
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
 
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "notes",
-                        });
+                        if(!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "notes",
+                            });
+                        }
                     }, 0);
 
                     return false;
                 }
 
+                ValidationObserver.removeError("notes");
                 params.data.notes = params.newValue;
                 return true;
             },
@@ -162,6 +181,7 @@ export function getClientTableColumns({
                 const validation = validateField("cellphone", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("cellphone");
                     params.data.cellphone = params.oldValue;
 
                     setTimeout(async () => {
@@ -176,6 +196,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("cellphone");
                 params.data.cellphone = String(params.newValue);
                 return true;
             },
@@ -191,6 +212,7 @@ export function getClientTableColumns({
                 const validation = validateField("address", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("address");
                     params.data.address = params.oldValue;
 
                     setTimeout(async () => {
@@ -205,6 +227,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("address");
                 params.data.address = params.newValue;
                 return true;
             },
@@ -243,6 +266,7 @@ export function getClientTableColumns({
                 const validation = validateField("order", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("order");
                     params.data.order = params.oldValue;
 
                     setTimeout(async () => {
@@ -257,6 +281,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("order");
                 params.data.order = Number(params.newValue);
                 return true;
             },
@@ -271,10 +296,21 @@ export function getClientTableColumns({
                 const validation = validateField("pets", params.newValue);
 
                 if (validation !== true){
-                    alert(validation);
+                    ValidationObserver.addError("pets");
+                    params.data.pets = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "pets",
+                        });
+                    }, 0);
                     return false;
                 }
 
+                ValidationObserver.removeError("pets");
                 params.data.pets = params.newValue;
                 return true;
             },
@@ -290,6 +326,7 @@ export function getClientTableColumns({
                 const validation = validateField("family", params.newValue);
 
                 if (validation !== true) {
+                    ValidationObserver.addError("family");
                     params.data.family = params.oldValue;
 
                     setTimeout(async () => {
@@ -304,6 +341,7 @@ export function getClientTableColumns({
                     return false;
                 }
 
+                ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
             },

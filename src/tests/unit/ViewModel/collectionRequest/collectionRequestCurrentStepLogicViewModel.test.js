@@ -88,7 +88,7 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         //Afirmar
         expect(result.current.currentStep).toBe(1);
-        expect(result.current.totalSteps).toBe(3);
+        expect(result.current.progressSteps.length).toBe(3);
         expect(result.current.primaryButtonText).toBe("Siguiente");
         expect(result.current.secondaryButtonText).toBe("Cancelar");
     });
@@ -150,8 +150,8 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         expect(result.current.currentStep).toBe(2);
 
         //Actuar
-        act(() => {
-            result.current.onSecondaryAction();
+        await act(async () => {
+            await result.current.onSecondaryAction();
         });
 
         //Afirmar

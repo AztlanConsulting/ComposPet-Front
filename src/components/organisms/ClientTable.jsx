@@ -1,19 +1,11 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { AgGridReact } from "ag-grid-react";
 import { AG_GRID_LOCALE_ES } from '@ag-grid-community/locale';
 
 import '../../css/organisms/ClientTable.css';
 
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-ModuleRegistry.registerModules([ AllCommunityModule ]);
-/**
- * Organismo de la tabla de información de clientes
- *
- * @param {List<ClientInfo>} clientList
- * @param {List<Object>} columnDefinitions
- * @param {Object} defaultColDef
- *
- */
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function ClientTable({
     clientList,
@@ -23,10 +15,43 @@ export default function ClientTable({
     editingRowId,
     getRowClass,
 }) {
+    const gridRef = React.useRef(null);
+
+    const autoSizeAllColumns = useCallback((api) => {
+        if (!api) return;
+
+        const columns = api.getColumns();
+        if (!columns) return;
+
+        const allColumnIds = columns.map(column => column.getId());
+
+        api.autoSizeColumns(allColumnIds);
+    }, []);
+
+    useEffect(() => {
+        const api = gridRef.current?.api;
+
+        if (!api) return;
+
+        requestAnimationFrame(() => {
+            api.redrawRows();
+        });
+    }, [editingRowId]);
+
+    useEffect(() => {
+        const api = gridRef.current?.api;
+
+        if (!api || !clientList.length) return;
+
+        requestAnimationFrame(() => {
+            autoSizeAllColumns(api);
+        });
+    }, [clientList, autoSizeAllColumns]);
 
     return (
         <div className='wrapper ag-theme-alpine custom-green-theme'>
             <AgGridReact
+                ref={gridRef}
                 rowData={clientList}
                 columnDefs={columnDefinitions}
                 defaultColDef={defaultColDef}
@@ -41,9 +66,6 @@ export default function ClientTable({
                     const count = products.length;
                     if (count <= 1) return 42;
                     return count * 26 + 12;
-                }}
-                onFirstDataRendered={(params) => {
-                    params.api.resetRowHeights();
                 }}
                 onBodyScroll={params => {
                     params.api.stopEditing(false);

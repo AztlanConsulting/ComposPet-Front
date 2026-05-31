@@ -16,13 +16,20 @@
 
 .counters-row {
     width: 100%;
-    margin: 2rem auto 0 auto;
+    margin: 1rem auto 0 auto;
     box-sizing: border-box;
-
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 3rem;
+    justify-content: stretch;
+    align-items: stretch;
+    gap: 6rem;
+    padding-bottom: 1rem;
+}
+
+.counters-row .counters-group,
+.counters-row .balance-counters-group {
+    display: flex;
+    flex-direction: row;
+    gap: 6.3rem;
 }
 
 .client-filters-container{
@@ -77,7 +84,7 @@
 }
 
 .client-filter .formSelect {
-    background-color: rgba(196, 222, 221, .64);
+    background-color: var(--color-green-tertiary);
     border: none;
 }
 
@@ -105,6 +112,20 @@
     height: 30rem;
 }
 
+.colorsIcon{
+    color: var(--color-green-secondary);
+}
+
+.mobile-client-accordion {
+    display: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.desktop-client-counters {
+    display: flex;
+}
+
 /* Tablet */
  @media (max-width: 1024px) {
     .client-filters-container{
@@ -130,16 +151,107 @@
     .client-search-wrapper {
         width: 100%;
     }
-    .counters-row {
-        padding: 0 3rem;
+    .counters-row{
+        display: flex;
         flex-direction: column;
-        align-items: stretch;
-        gap: 1.5rem;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+    }
+}
+
+@media(max-width: 960px){
+    .desktop-client-counters {
+        display: none;
+    }
+
+    .mobile-client-accordion {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .mobile-client-accordion .accordion,
+    .mobile-client-accordion .accordion-item,
+    .mobile-client-accordion .accordion-collapse,
+    .mobile-client-accordion .accordion-body,
+    .mobile-client-accordion .client-accordion-content {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .client-accordion-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .client-accordion-content .counters-group,
+    .client-accordion-content .balance-counters-group {
+        width: 100%;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .client-accordion-content .counters-container,
+    .client-accordion-content .balance-counter {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .mobile-client-accordion .accordion-item {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;   
+        padding: 0 !important;
+    }
+    
+    .mobile-client-accordion .accordion-button {
+        background-color: var(--color-green-tertiary);
+        color: var(--color-green-secondary);
+        font-weight: 600;
+    }
+    
+    .mobile-client-accordion .accordion-button:not(.collapsed) {
+        background-color: var(--color-green-tertiary);
+        color: var(--color-green-secondary);
+        box-shadow: none;
+    }
+    
+    .mobile-client-accordion .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+    
+    .mobile-client-accordion .accordion-body {
+        background-color: var(--color-bg);
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .accordion-content .summary-card,
+    .accordion-content .center-balance-group,
+    .accordion-content .balance-counters-group,
+    .accordion-content .balance-counter,
+    .accordion-content .counters-group,
+    .accordion-content .counters-container {
+        width: 100%;
+        max-width: none;
     }
 }
 
 /* Móvil */
 @media (max-width: 768px) {
+    .client-filter .formField{
+        max-width: none;
+    }
     .client-filters-container{
         display: flex;
         flex-direction: column;
@@ -165,5 +277,25 @@
 
     .main{
         padding: 0 2rem 0 2rem;
+    }
+
+    .counters-row .counters-group{
+        gap:1rem;
+    }
+
+    .counters-row .counters-group .counters-container{
+        width: 100%;
+    }
+
+    .counters-row .balance-counters-group{
+        gap:1rem;
+    }
+    .counters-row{
+        gap:1rem;
+    }
+    .accordion-body .accordion-content .counters-group .counters-container {
+        width: 100%;
+        max-width: none;
+        margin-top: 1rem;
     }
 }
