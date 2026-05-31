@@ -16,7 +16,8 @@ import ClientInfo from './presentation/views/clientInfoView';
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 import ComponentMock from './components/componentMock';
-import RegisterProduct from './presentation/views/admin/RegisterProduct';
+// import RegisterProduct from './presentation/views/admin/RegisterProduct';
+
 function App() {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -36,7 +37,7 @@ function App() {
                         <Route path="/tabla-clientes" element={<ClientInfo />} />
                         <Route path="/registrar-cliente" element={<RegisterClient />} />
                         <Route path="/ruta" element={<RoutesInfo />} />
-                        <Route path="/inventario/agregar-producto" element={<RegisterProduct />} />
+                        {/* <Route path="/inventario/agregar-producto" element={<RegisterProduct />} /> */}
                     </Route>
 
                     {/* Rutas de clientes - Protegidas por Rol */}
