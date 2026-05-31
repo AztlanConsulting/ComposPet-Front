@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import "../../css/molecules/productCard.css";
 import Button from '../atoms/Button';
 import Image from '../atoms/Image';
+import formatCurrency from '../../utilities/formatCurrency';
 
 /**
  * Tarjeta de presentación de un producto.
@@ -55,13 +56,6 @@ export default function ProductCard({
         if (cantidad === '') {
             onQuantityChange(0);
         }
-    };
-
-    const formatCurrency = (value) => {
-        return `$${new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        }).format(value)}`;
     };
 
     return (

@@ -4,6 +4,7 @@ import "../../css/molecules/summaryProductCard.css";
 import Button from '../atoms/Button';
 import Image from '../atoms/Image';
 import Producto from '../../public/img/product.png';
+import formatCurrency from '../../utilities/formatCurrency';
 
 /**
  * Tarjeta de presentación de un producto seleccionado en la solicitud.
@@ -19,13 +20,6 @@ export default function SummaryProductCard({
     productTotal,
     onDelete,
 }) {
-
-    const formatCurrency = (value) => {
-        return `$${new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        }).format(value)}`;
-    };
 
     return (
         <div className="summary-product-card">
