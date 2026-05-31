@@ -156,9 +156,6 @@ function useRegisterClientViewModel(){
             email,
             phone,
             address,
-            pets,
-            family,
-            notes,
             [field]: value
         };
 
@@ -169,9 +166,6 @@ function useRegisterClientViewModel(){
             updatedValues.email,
             updatedValues.phone,
             updatedValues.address,
-            updatedValues.pets,
-            updatedValues.family,
-            updatedValues.notes
         );
 
         setErrors(prev => ({
@@ -217,9 +211,6 @@ function useRegisterClientViewModel(){
             email,
             phone,
             address,
-            pets,
-            family,
-            notes
         );
         const dropdownValidation = validateDropdowns();
 
