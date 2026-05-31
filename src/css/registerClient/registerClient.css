@@ -127,6 +127,7 @@ body,
 
     .buttons-container {
         flex-direction: column-reverse;
+        gap: 0.75rem;
     }
 
     .buttons-container > * {
@@ -164,5 +165,6 @@ body,
 
     .buttons-container {
         margin: 2rem 0;
+        gap: 0.75rem;
     }
 }
