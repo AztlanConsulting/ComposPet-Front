@@ -2,6 +2,7 @@ import "../../css/molecules/collectionResume.css"
 import FormCard from "../Template/formCard";
 import SummaryProductCard from "./SummaryProductCard";
 import bucketCostMap from "../../presentation/viewmodels/utils/bucketCostMap";
+import formatCurrency from '../../utilities/formatCurrency';
 
 /**
  * Elemento con la lista de productos extra y su total
@@ -28,10 +29,6 @@ export default function CollectionResume({
     products.map((product, index) => {
         productsAmount += product.cantidad;
     });
-
-    const formatCurrency = (value) => {
-        return `$${Number(value || 0).toFixed(2)}`;
-    };
 
     return (
         <>
