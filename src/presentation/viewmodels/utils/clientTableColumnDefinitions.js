@@ -86,6 +86,59 @@ export function getClientTableColumns({
                 );
             }
         },
+        {
+            field: "routeId",
+            headerName: "Ruta",
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: routeOptions,
+            },
+            valueFormatter: (params) => {
+                return routeMap[params.value] || params.value;
+            },
+            valueParser: (params) => {
+                return params.newValue;
+            },
+
+        },
+        {
+            field: "order",
+            headerName: "Orden",
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agNumberCellEditor",
+
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("order", params.newValue);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("order");
+                    params.data.order = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "order",
+                        });
+                    }, 0);
+
+                    return false;
+                }
+
+                ValidationObserver.removeError("order");
+                params.data.order = Number(params.newValue);
+                return true;
+            },
+        },
         { field: "name", headerName: "Nombre" },
         { field: "lastRequest", headerName: "Última recolección" },
 
@@ -229,60 +282,6 @@ export function getClientTableColumns({
 
                 ValidationObserver.removeError("address");
                 params.data.address = params.newValue;
-                return true;
-            },
-        },
-
-        {
-            field: "routeId",
-            headerName: "Ruta",
-            editable: (params) => params.data.clientId === editingRowId,
-            cellClassRules: modifiedClassRule,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: routeOptions,
-            },
-            valueFormatter: (params) => {
-                return routeMap[params.value] || params.value;
-            },
-            valueParser: (params) => {
-                return params.newValue;
-            },
-
-        },
-        {
-            field: "order",
-            headerName: "Orden",
-            editable: (params) => params.data.clientId === editingRowId,
-            cellEditor: "agNumberCellEditor",
-
-            cellEditorParams: {
-                suppressKeyboardEvent: blockInvalidNumberKeys
-            },
-
-            cellClassRules: modifiedClassRule,
-
-            valueSetter: (params) => {
-                const validation = validateField("order", params.newValue);
-
-                if (validation !== true) {
-                    ValidationObserver.addError("order");
-                    params.data.order = params.oldValue;
-
-                    setTimeout(async () => {
-                        await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "order",
-                        });
-                    }, 0);
-
-                    return false;
-                }
-
-                ValidationObserver.removeError("order");
-                params.data.order = Number(params.newValue);
                 return true;
             },
         },
