@@ -303,7 +303,10 @@ function useClientTableViewModel() {
             await AceptAlert({});
 
         } catch(error) {
-            console.log(error);
+            await ProblemAlert({
+                title: "Error al actualizar",
+                text: error.message || "No se pudo actualizar la información del cliente."
+            });
         } finally {
             ValidationObserver.clear();
             setLoading(false);

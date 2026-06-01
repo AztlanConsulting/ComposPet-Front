@@ -86,6 +86,63 @@ export function getClientTableColumns({
                 );
             }
         },
+        {
+            field: "routeId",
+            headerName: "Ruta",
+            minWidth: 150,
+            maxWidth: 220,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: routeOptions,
+            },
+            valueFormatter: (params) => {
+                return routeMap[params.value] || params.value;
+            },
+            valueParser: (params) => {
+                return params.newValue;
+            },
+
+        },
+        {
+            field: "order",
+            headerName: "Orden",
+            minWidth: 80,
+            maxWidth: 120,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agNumberCellEditor",
+
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("order", params.newValue);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("order");
+                    params.data.order = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "order",
+                        });
+                    }, 0);
+
+                    return false;
+                }
+
+                ValidationObserver.removeError("order");
+                params.data.order = Number(params.newValue);
+                return true;
+            },
+        },
         { 
             field: "name", 
             headerName: "Nombre",
@@ -250,62 +307,35 @@ export function getClientTableColumns({
         },
 
         {
-            field: "routeId",
-            headerName: "Ruta",
-            minWidth: 100,
-            maxWidth: 180,
+            field: "email",
+            headerName: "Correo",
             editable: (params) => params.data.clientId === editingRowId,
-            cellClassRules: modifiedClassRule,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: routeOptions,
-            },
-            valueFormatter: (params) => {
-                return routeMap[params.value] || params.value;
-            },
-            valueParser: (params) => {
-                return params.newValue;
-            },
-
-        },
-        {
-            field: "order",
-            headerName: "Orden",
-            minWidth: 80,
-            maxWidth: 120,
-            editable: (params) => params.data.clientId === editingRowId,
-            cellEditor: "agNumberCellEditor",
-
-            cellEditorParams: {
-                suppressKeyboardEvent: blockInvalidNumberKeys
-            },
-
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
-                const validation = validateField("order", params.newValue);
+                const validation = validateField("email", params.newValue);
 
-                if (validation !== true) {
-                    ValidationObserver.addError("order");
-                    params.data.order = params.oldValue;
-
+                if(validation !== true) {
+                    ValidationObserver.addError("email");
+                    params.data.email = params.oldValue;
+                    
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
-                            colKey: "order",
+                            colKey: "email",
                         });
                     }, 0);
-
+                    
                     return false;
                 }
 
-                ValidationObserver.removeError("order");
-                params.data.order = Number(params.newValue);
+                ValidationObserver.removeError("email");
+                params.data.email = params.newValue;
                 return true;
-            },
+            }
         },
+
         {
             field: "pets",
             headerName: "Mascotas",

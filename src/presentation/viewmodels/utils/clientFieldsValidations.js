@@ -62,6 +62,15 @@ export const validateOrder = (value) => {
     return true;
 }
 
+export const validateEmail = (value) => {
+    if (!value) return "El correo electrónico es requerido.";
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) return "Ingresa un correo electrónico válido.";
+    
+    return true;
+}
+
 export const validateField = (field, value) => {
 
     switch (field) {
@@ -85,6 +94,9 @@ export const validateField = (field, value) => {
 
         case "order":
             return validateOrder(value);
+
+        case "email":
+            return validateEmail(value);
 
         default:
             return true;
