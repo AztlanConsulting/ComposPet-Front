@@ -47,7 +47,6 @@
 
 .third-form-left-content {
     width: 100%;
-    height: 100%;
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
@@ -76,7 +75,7 @@
 
 @media (max-width: 480px) {
     .third-form-wrapper {
-        width: 92%;
+        width: 100%;
         min-height: auto;
         margin: 1rem auto 0 auto;
         display: flex;
