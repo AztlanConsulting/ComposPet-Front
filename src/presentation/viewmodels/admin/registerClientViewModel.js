@@ -7,6 +7,11 @@ import ProblemAlert from '../../../components/Template/ProblemAlert';
 
 import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
 
+const ONLY_LETTERS_REGEX = /^[a-zA-ZÀ-ÿ\s]{1,80}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_REGEX = /^\+?\d{10,15}$/;
+const ADDRESS_REGEX = /^[a-zA-ZÀ-ÿ0-9\s.,#\-]{5,150}$/;
+
 /**
  * Valida los campos de texto obligatorios del formulario de registro de clientes.
  * No valida los campos de tipo dropdown; éstos son validados por `validateDropdowns`
@@ -39,7 +44,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
     if (!name) {
         errors.name = "El nombre del cliente es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(name)) {
+    } else if (!ONLY_LETTERS_REGEX.test(name)) {
         errors.name = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
@@ -47,12 +52,12 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
     if (!lastname1) {
         errors.lastname1 = "El primer apellido es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(lastname1)) {
+    } else if (!ONLY_LETTERS_REGEX.test(lastname1)) {
         errors.lastname1 = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
 
-    if (lastname2 && !/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(lastname2)) {
+    if (lastname2 && !ONLY_LETTERS_REGEX.test(lastname2)) {
         errors.lastname2 = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
@@ -60,7 +65,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
     if (!email) {
         errors.email = "El correo es requerido.";
         hasErrors = true;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    } else if (!EMAIL_REGEX.test(email)) {
         errors.email = "Ingresa un correo válido.";
         hasErrors = true;
     }
@@ -68,7 +73,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
     if (!phone) {
         errors.phone = "El teléfono es requerido.";
         hasErrors = true;
-    } else if (!/^\+?\d{10,15}$/.test(phone)) {
+    } else if (!PHONE_REGEX.test(phone)) {
         errors.phone = "Ingresa un teléfono válido.";
         hasErrors = true;
     }
@@ -76,7 +81,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
     if (!address) {
         errors.address = "La dirección es requerida.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ0-9\s.,#\-]{5,150}$/.test(address)) {
+    } else if (!ADDRESS_REGEX.test(address)) {
         errors.address = "Ingresa una dirección válida.";
         hasErrors = true;
     }
