@@ -14,19 +14,20 @@
     box-sizing: border-box;
 }
 
-.collection-request-buttons-left {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 1rem;
-    flex-wrap: nowrap;
+.collection-request-counter-info {
+    color: var(--color-green-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .collection-request-cancel-page2-button{
     background-color: var(--color-bg);
     color: var(--color-green-secondary);
-    border-width: 0.12rem;
     border: 1px solid var(--color-green-secondary);
+    box-sizing: border-box;
 }
 
 .collection-request-content {
@@ -57,7 +58,7 @@
 
 .collection-request-actions {
     width: 100%;
-    max-width: 71rem;
+    max-width: 71.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,20 +66,16 @@
     box-sizing: border-box;
 }
 
+.collection-request-cancel-page2-button,
+.collection-request-next-button {
+    margin: 0;
+}
 
 .collection-request-cancel-button,
 .collection-request-back-button,
 .collection-request-next-button {
     align-self: auto;
 }
-
-/* .collection-request-cancel-button {
-    align-self: flex-start;
-}
-
-.collection-request-next-button {
-    align-self: flex-end;
-} */
 
 /* Tablet */
 @media (max-width: 768px) {
@@ -94,6 +91,11 @@
     .collection-request-title {
         /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 2.2rem;
+    }
+
+    .collection-request-actions {
+        width: 100%;
+        max-width: 62rem;
     }
 }
 
@@ -120,7 +122,6 @@
     }
 
     .collection-request-actions {
-        width: 92%;
         margin: 1.5rem auto 0 auto;
         display: flex;
         flex-direction: column-reverse;
@@ -128,22 +129,19 @@
         align-items: stretch;
     }
 
-    .collection-request-cancel-button {
-        align-self: flex-start;
-    }
-
-    .collection-request-next-button {
-        align-self: flex-end;
-    }
-
     .collection-request-buttons-left {
-        width: 100%;
-    }
+    width: 100%;
+    display: flex;
+}
 
     .collection-request-cancel-page2-button,
     .collection-request-next-button {
         width: 100% !important;
         height: 2.75rem !important;
+        min-height: 2.75rem !important;
+        box-sizing: border-box;
         font-size: var(--font-size-md) !important;
+        margin: 0 !important;
+        align-self: stretch !important;
     }
 }

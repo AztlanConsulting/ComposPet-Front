@@ -70,8 +70,8 @@ function validateCollectionRequestFirstSection({
 
     // Si el desea recolección, la cantidad de cubetas no pueden ser 0 al mismo tiempo.
     if (wantsCollection && (collectedBuckets <= 0 && deliveredBuckets <= 0)) {
-        errors.collectedBuckets = 'Las dos cantidades no pueden ser 0.';
-        errors.deliveredBuckets = 'Las dos cantidades no pueden ser 0.';
+        errors.collectedBuckets = 'No puede ser 0.';
+        errors.deliveredBuckets = 'No puede ser 0.';
         hasErrors = true;
     }
 
