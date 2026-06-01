@@ -290,7 +290,12 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
             return '';
         }
 
+<<<<<<< Updated upstream
         const onlyNumbers = String(value).replace(/\D/g, '');
+=======
+        const numericValue = parseInt(inputValue, 10);
+
+>>>>>>> Stashed changes
 
         if (onlyNumbers === '') {
             return MIN_BUCKETS_LIMIT;
