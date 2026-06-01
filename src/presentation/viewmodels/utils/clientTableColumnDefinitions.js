@@ -285,6 +285,37 @@ export function getClientTableColumns({
                 return true;
             },
         },
+
+        {
+            field: "email",
+            headerName: "Correo",
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("email", params.newValue);
+
+                if(validation !== true) {
+                    ValidationObserver.addError("email");
+                    params.data.email = params.oldValue;
+                    
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "email",
+                        });
+                    }, 0);
+                    
+                    return false;
+                }
+
+                ValidationObserver.removeError("email");
+                params.data.email = params.newValue;
+                return true;
+            }
+        },
+
         {
             field: "pets",
             headerName: "Mascotas",
