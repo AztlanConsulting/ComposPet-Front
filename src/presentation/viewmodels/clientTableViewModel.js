@@ -332,7 +332,16 @@ function useClientTableViewModel() {
             },
             loading,
         }),
-    [editingRowId, handleEdit, handleSave, handleCancel, isCellChanged]);
+    [
+        editingRowId,
+        handleEdit,
+        handleSave,
+        handleCancel,
+        isCellChanged,
+        routeMap,
+        routeOptions,
+        loading,
+    ]);
 
     // *********************************************************************
     // Variable que obtiene la lista de clientes filtrada de acuerdo a:
