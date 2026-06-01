@@ -28,18 +28,26 @@ describe('validateForm', () => {
         const result = validateForm(
             "Juan",
             "Pérez",
+            "",
             "juan@test.com",
             "4421234567",
-            "Calle 123 #45"
+            "Calle 123 #45",
+            "",
+            "",
+            ""
         );
 
         expect(result.hasErrors).toBe(false);
         expect(result.errors).toEqual({
             name: "",
             lastname1: "",
+            lastname2: "",
             email: "",
             phone: "",
-            address: ""
+            address: "",
+            pets: "",
+            family: "",
+            notes: "",
         });
     });
 
@@ -47,9 +55,13 @@ describe('validateForm', () => {
         const result = validateForm(
             "",
             "Pérez",
+            "",
             "juan@test.com",
             "4421234567",
-            "Calle 123"
+            "Calle 123",
+            "",
+            "",
+            ""
         );
 
         expect(result.hasErrors).toBe(true);
@@ -84,9 +96,13 @@ describe('validateForm', () => {
         const result = validateForm(
             "Juan",
             "Pérez",
+            "",
             "juan@test.com",
             "4421234567",
-            "x"
+            "x",
+            "",
+            "",
+            ""
         );
 
         expect(result.errors.address).toBe("Ingresa una dirección válida.");
