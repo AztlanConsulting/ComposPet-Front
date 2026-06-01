@@ -260,9 +260,18 @@ export function getRoutesTableColumns({
                 );
             }
         },
-        { headerName: "Nombre", field: "name", minWidth: 180},
+        { 
+            headerName: "Nombre", 
+            field: "name", 
+            minWidth: 200,
+            maxWidth: 300,
+        },
         // Recoleccion
-        { headerName: "# Recolección", field: "collectedBuckets", minWidth: 120,
+        { 
+            headerName: "# Recolección", 
+            field: "collectedBuckets", 
+            minWidth: 130,
+            maxWidth: 150,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
@@ -309,7 +318,11 @@ export function getRoutesTableColumns({
             },
         },
         // Entrega
-        { headerName: "# Entrega", field: "deliveredBuckets", minWidth: 120,
+        { 
+            headerName: "# Entrega", 
+            field: "deliveredBuckets", 
+            minWidth: 130,
+            maxWidth: 150,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
@@ -359,8 +372,10 @@ export function getRoutesTableColumns({
         {
             headerName: "Productos Extra", 
             field: "extraProductsDetails",
+            suppressClickEdit: true,
             cellClass: 'multiline-cell',
             minWidth: 180,
+            maxWidth: 300,
             wrapText: true,
             autoHeight: true, 
             cellDataType: false,
@@ -447,6 +462,7 @@ export function getRoutesTableColumns({
             headerName: "Horario", 
             field: "schedule", 
             minWidth: 120,
+            maxWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
@@ -480,7 +496,8 @@ export function getRoutesTableColumns({
         { 
             headerName: "Forma de pago", 
             field: "paymentId", 
-            minWidth: 120,
+            minWidth: 180,
+            maxWidth: 200,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
@@ -496,7 +513,8 @@ export function getRoutesTableColumns({
         },
         { headerName: "Total a pagar", 
             field: "totalToPay", 
-            minWidth: 120,
+            minWidth: 150,
+            maxWidth: 180,
             valueFormatter: (params) => {
                 const value = Number(params.value ?? 0);
 
@@ -506,7 +524,8 @@ export function getRoutesTableColumns({
         { 
             headerName: "Total pagado", 
             field: "totalPaid", 
-            minWidth: 120,
+            minWidth: 150,
+            maxWidth: 180,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
 
@@ -552,6 +571,7 @@ export function getRoutesTableColumns({
             headerName: "Notas", 
             field: "notes", 
             minWidth: 200,
+            maxWidth: 350,
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,

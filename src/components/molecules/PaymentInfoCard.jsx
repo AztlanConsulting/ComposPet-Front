@@ -78,7 +78,7 @@ export default function PaymentInfoCard({
                         onClick={handleCopyPaymentInfo}
                     >
                         <span>Copiar</span>
-                        <Icon name="copy" size="small" color="primary" />
+                        <Icon name="copy" size="medium" color="secondary" />
                     </button>
                 </div>
             )}

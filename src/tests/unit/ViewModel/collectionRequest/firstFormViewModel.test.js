@@ -277,10 +277,10 @@ describe("useFirstFormViewModel", () => {
         //Afirmar
         expect(response).toEqual({ success: false });
         expect(result.current.errors.collectedBuckets).toBe(
-            "Las dos cantidades no pueden ser 0.",
+            "No puede ser 0.",
         );
         expect(result.current.errors.deliveredBuckets).toBe(
-            "Las dos cantidades no pueden ser 0.",
+            "No puede ser 0.",
         );
         expect(saveFirstSectionExecuteMock).not.toHaveBeenCalled();
     });
