@@ -146,25 +146,41 @@ export default function RoutesInfo() {
                                         <Divider />
 
                                         <div className="buttons-section-container">
-                                            <ButtonActionAlert
-                                                onAction={routesViewModel.handleGenerateMessages}
-                                                successMessage="Mensajes generados exitosamente"
-                                                errorMessage="Ocurrió un error al generar los mensajes"
-                                                className="button-actions"
-                                                disabled={!isGoogleLoggedIn}
-                                            >
-                                                Generar mensajes
-                                            </ButtonActionAlert>
+                                            <div className="disabled-tooltip-container">
+                                                <ButtonActionAlert
+                                                    onAction={routesViewModel.handleGenerateMessages}
+                                                    successMessage="Mensajes generados exitosamente"
+                                                    errorMessage="Ocurrió un error al generar los mensajes"
+                                                    className="button-actions"
+                                                    disabled={!isGoogleLoggedIn}
+                                                >
+                                                    Generar mensajes
+                                                </ButtonActionAlert>
 
-                                            <Button
-                                                size='medium'
-                                                csstype='accept'
-                                                className='button-actions'
-                                                onClick={routesViewModel.handleOpenRoutesSheet}
-                                                disabled={!isGoogleLoggedIn}
-                                            >
-                                                Resumen de ruta
-                                            </Button>
+                                                {!isGoogleLoggedIn && (
+                                                    <span className="disabled-tooltip-text">
+                                                        Requieres iniciar sesión por Google
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="disabled-tooltip-container">
+                                                <Button
+                                                    size="medium"
+                                                    csstype="accept"
+                                                    className="button-actions"
+                                                    onClick={routesViewModel.handleOpenRoutesSheet}
+                                                    disabled={!isGoogleLoggedIn}
+                                                >
+                                                    Resumen de ruta
+                                                </Button>
+
+                                                {!isGoogleLoggedIn && (
+                                                    <span className="disabled-tooltip-text">
+                                                        Requieres iniciar sesión por Google
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -219,25 +235,41 @@ export default function RoutesInfo() {
                             <Divider />
 
                             <div className="buttons-section-container">
-                                <ButtonActionAlert
-                                    onAction={routesViewModel.handleGenerateMessages}
-                                    successMessage="Mensajes generados exitosamente"
-                                    errorMessage="Ocurrió un error al generar los mensajes"
-                                    className="button-actions"
-                                    disabled={!isGoogleLoggedIn}
-                                >
-                                    Generar mensajes
-                                </ButtonActionAlert>
+                                <div className="disabled-tooltip-container">
+                                    <ButtonActionAlert
+                                        onAction={routesViewModel.handleGenerateMessages}
+                                        successMessage="Mensajes generados exitosamente"
+                                        errorMessage="Ocurrió un error al generar los mensajes"
+                                        className="button-actions"
+                                        disabled={!isGoogleLoggedIn}
+                                    >
+                                        Generar mensajes
+                                    </ButtonActionAlert>
 
-                                <Button
-                                    size='medium'
-                                    csstype='accept'
-                                    className='button-actions'
-                                    onClick={routesViewModel.handleOpenRoutesSheet}
-                                    disabled={!isGoogleLoggedIn}
-                                >
-                                    Resumen de ruta
-                                </Button>
+                                    {!isGoogleLoggedIn && (
+                                        <span className="disabled-tooltip-text">
+                                            Requieres iniciar sesión por Google
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="disabled-tooltip-container">
+                                    <Button
+                                        size="medium"
+                                        csstype="accept"
+                                        className="button-actions"
+                                        onClick={routesViewModel.handleOpenRoutesSheet}
+                                        disabled={!isGoogleLoggedIn}
+                                    >
+                                        Resumen de ruta
+                                    </Button>
+
+                                    {!isGoogleLoggedIn && (
+                                        <span className="disabled-tooltip-text">
+                                            Requieres iniciar sesión por Google
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
