@@ -78,9 +78,12 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
         hasErrors = true;
     }
 
+    // Validación de dirección: se requiere al menos una letra, puede contener números, letras, espacios y algunos caracteres especiales comunes en direcciones.
     const trimmedAddress = address.trim();
+    // Reemplaza múltiples espacios por uno solo para evitar que direcciones con espacios excesivos sean consideradas válidas.
     const cleanedAddress = trimmedAddress.replace(/\s+/g, ' '); // Reemplaza múltiples espacios por uno solo
 
+    // Validación de dirección
     if (!trimmedAddress) {
         errors.address = "La dirección es requerida.";
         hasErrors = true;
