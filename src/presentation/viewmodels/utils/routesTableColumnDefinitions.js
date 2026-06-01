@@ -372,6 +372,7 @@ export function getRoutesTableColumns({
         {
             headerName: "Productos Extra", 
             field: "extraProductsDetails",
+            suppressClickEdit: true,
             cellClass: 'multiline-cell',
             minWidth: 180,
             maxWidth: 300,
