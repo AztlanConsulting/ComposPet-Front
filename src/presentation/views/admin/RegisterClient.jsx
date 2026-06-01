@@ -132,8 +132,13 @@ function RegisterClient(){
                         value={lastname2}
                         classNameLabel="label"
                         placeholder="Ej. Casarrubia"
-                        classNameInput="register-input"
-                        onChange={(e) => setLastName2(sanitizeText(e.target.value))}
+                        classNameInput={`register-input ${errors.lastname2 ? "input-error" : ""}`}
+                        error={errors.lastname2}
+                        onChange={(e) => {
+                            const value = sanitizeText(e.target.value);
+                            setLastName2(value);
+                            validateField("lastname2", value);
+                        }}
                     >
                         Apellido Materno
                     </InputComponent>
@@ -178,7 +183,7 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="section-title">Datos familiares</h5>
+                    <h5 className="section-title">Datos familiares</h5>
                     <hr />
 
                     <InputComponent
@@ -187,7 +192,6 @@ function RegisterClient(){
                         placeholder="Ej. 3 perros, 2 gatos."
                         value={pets}
                         classNameLabel="label"
-                        classNameInput="register-input"
                         onChange={(e) => setPets(sanitizeText(e.target.value))}
                     >
                         Mascotas
@@ -199,7 +203,6 @@ function RegisterClient(){
                         placeholder="Ej. 2 adultos, 1 niño."
                         value={family}
                         classNameLabel="label"
-                        classNameInput="register-input"
                         onChange={(e) => setFamily(sanitizeText(e.target.value))}
                     >
                         Familia
@@ -221,10 +224,11 @@ function RegisterClient(){
                         maxLength={1000}
                         onChange={(e) => setNotes(e.target.value)}
                     />
+
                 </section>
 
                 <section>
-                    <h5 class="section-title">Ubicación</h5>
+                    <h5 className="section-title">Ubicación</h5>
                     <hr />
 
                     <InputComponent
@@ -249,7 +253,7 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="section-title">Asignación de ruta</h5>
+                    <h5 className="section-title">Asignación de ruta</h5>
                     <hr />
                     <div className='route-dropdowns-containers'>
                         <DropdownInput
