@@ -89,6 +89,8 @@ export function getClientTableColumns({
         {
             field: "routeId",
             headerName: "Ruta",
+            minWidth: 150,
+            maxWidth: 220,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
@@ -106,6 +108,8 @@ export function getClientTableColumns({
         {
             field: "order",
             headerName: "Orden",
+            minWidth: 80,
+            maxWidth: 120,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
 
@@ -139,8 +143,6 @@ export function getClientTableColumns({
                 return true;
             },
         },
-        { field: "name", headerName: "Nombre" },
-        { field: "lastRequest", headerName: "Última recolección" },
         { 
             field: "name", 
             headerName: "Nombre",
