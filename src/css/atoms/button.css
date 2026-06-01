@@ -192,3 +192,32 @@
     font-weight: var(--font-weight-semibold);
     width: 12rem;
 }
+
+.disabled-tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.disabled-tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: var(--color-green-primary);
+    color: white;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.disabled-tooltip-container:hover .disabled-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
