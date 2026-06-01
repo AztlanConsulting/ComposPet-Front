@@ -30,6 +30,7 @@
 
 .notes-card input,
 .notes-card textarea {
+    height: 100%;
     min-height: 130px;
 
     border-radius: var(--border-radius-lg);
