@@ -10,7 +10,7 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
 const ONLY_LETTERS_REGEX = /^[a-zA-ZÀ-ÿ\s]{1,80}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+?\d{10,15}$/;
-const ADDRESS_REGEX = /^[a-zA-ZÀ-ÿ0-9\s.,#\-]{5,150}$/;
+const ADDRESS_REGEX =  /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
 
 /**
  * Valida los campos de texto obligatorios del formulario de registro de clientes.
@@ -78,10 +78,22 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
         hasErrors = true;
     }
 
-    if (!address) {
+    const trimmedAddress = address.trim();
+    const cleanedAddress = trimmedAddress.replace(/\s+/g, ' '); // Reemplaza múltiples espacios por uno solo
+
+    if (!trimmedAddress) {
         errors.address = "La dirección es requerida.";
         hasErrors = true;
-    } else if (!ADDRESS_REGEX.test(address)) {
+
+    } else if (cleanedAddress.length < 5) {
+        errors.address = "La dirección es muy corta.";
+        hasErrors = true;
+
+    } else if (cleanedAddress.split(' ').length < 2) {
+        errors.address = "Ingresa una dirección más específica.";
+        hasErrors = true;
+
+    } else if (!ADDRESS_REGEX.test(cleanedAddress)) {
         errors.address = "Ingresa una dirección válida.";
         hasErrors = true;
     }
@@ -226,9 +238,16 @@ function useRegisterClientViewModel(){
         }
 
         const data = {
-            name, lastname1, lastname2, email, phone,
-            pets, family, notes,
-            address, selectedDay,
+            name: name.trim(),
+            lastname1: lastname1.trim(),
+            lastname2: lastname2.trim(),
+            email: email.trim(),
+            phone: phone.trim(),
+            pets,
+            family,
+            notes,
+            address: address.trim(),
+            selectedDay,
         };
 
         try {
