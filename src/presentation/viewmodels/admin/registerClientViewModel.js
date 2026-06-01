@@ -16,7 +16,7 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
  *
  * @param {string} name - Nombre del cliente.
  * @param {string} lastname1 - Primer apellido del cliente.
- * @param {string} lastname2 - Primer apellido del cliente.
+ * @param {string} lastname2 - Segundo apellido del cliente.
  * @param {string} email - Correo electrónico del cliente.
  * @param {string} phone - Teléfono de contacto. Acepta formato mexicano con o sin prefijo +52.
  * @param {string} address - Dirección de entrega del cliente.

@@ -132,7 +132,8 @@ function RegisterClient(){
                         value={lastname2}
                         classNameLabel="label"
                         placeholder="Ej. Casarrubia"
-                        classNameInput="register-input"
+                        classNameInput={`register-input ${errors.lastname2 ? "input-error" : ""}`}
+                        error={errors.lastname2}
                         onChange={(e) => {
                             const value = sanitizeText(e.target.value);
                             setLastName2(value);
@@ -191,8 +192,6 @@ function RegisterClient(){
                         placeholder="Ej. 3 perros, 2 gatos."
                         value={pets}
                         classNameLabel="label"
-                        classNameInput={`register-input ${errors.pets ? "input-error" : ""}`}
-                        error={errors.pets}
                         onChange={(e) => setPets(sanitizeText(e.target.value))}
                     >
                         Mascotas
@@ -204,8 +203,6 @@ function RegisterClient(){
                         placeholder="Ej. 2 adultos, 1 niño."
                         value={family}
                         classNameLabel="label"
-                        classNameInput={`register-input ${errors.family ? "input-error" : ""}`}
-                        error={errors.family}
                         onChange={(e) => setFamily(sanitizeText(e.target.value))}
                     >
                         Familia
@@ -222,17 +219,16 @@ function RegisterClient(){
                     <Form.Control
                         as="textarea"
                         placeholder="Escribe cualquier nota adicional sobre el cliente."
-                        className={`register-input-notes ${errors.notes ? "input-error" : ""}`}
+                        className="register-input-notes"
                         value={notes}
                         maxLength={1000}
-                        error={errors.notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
 
                 </section>
 
                 <section>
-                    <h5 class="section-title">Ubicación</h5>
+                    <h5 className="section-title">Ubicación</h5>
                     <hr />
 
                     <InputComponent
@@ -257,7 +253,7 @@ function RegisterClient(){
                 </section>
 
                 <section>
-                    <h5 class="section-title">Asignación de ruta</h5>
+                    <h5 className="section-title">Asignación de ruta</h5>
                     <hr />
                     <div className='route-dropdowns-containers'>
                         <DropdownInput
