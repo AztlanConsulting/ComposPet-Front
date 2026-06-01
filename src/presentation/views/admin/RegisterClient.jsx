@@ -193,11 +193,7 @@ function RegisterClient(){
                         classNameLabel="label"
                         classNameInput={`register-input ${errors.pets ? "input-error" : ""}`}
                         error={errors.pets}
-                        onChange={(e) => {
-                            const value = sanitizeText(e.target.value);
-                            setPets(value);
-                            validateField("pets", value);
-                        }}
+                        onChange={(e) => setPets(sanitizeText(e.target.value))}
                     >
                         Mascotas
                     </InputComponent>
@@ -210,11 +206,7 @@ function RegisterClient(){
                         classNameLabel="label"
                         classNameInput={`register-input ${errors.family ? "input-error" : ""}`}
                         error={errors.family}
-                        onChange={(e) => {
-                            const value = sanitizeText(e.target.value);
-                            setFamily(value);
-                            validateField("family", value);
-                        }}
+                        onChange={(e) => setFamily(sanitizeText(e.target.value))}
                     >
                         Familia
                     </InputComponent>
@@ -232,19 +224,11 @@ function RegisterClient(){
                         placeholder="Escribe cualquier nota adicional sobre el cliente."
                         className={`register-input-notes ${errors.notes ? "input-error" : ""}`}
                         value={notes}
-                        maxLength={500}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            setNotes(value);
-                            validateField("notes", value);
-                        }}
+                        maxLength={1000}
+                        error={errors.notes}
+                        onChange={(e) => setNotes(e.target.value)}
                     />
 
-                    {errors.notes && (
-                        <span className="input-error-message">
-                            {errors.notes}
-                        </span>
-                    )}
                 </section>
 
                 <section>

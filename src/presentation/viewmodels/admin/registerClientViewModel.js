@@ -11,21 +11,20 @@ import { registerClientUseCase } from '../../../di/admin/registerClientDependenc
  * Valida los campos de texto obligatorios del formulario de registro de clientes.
  * No valida los campos de tipo dropdown; éstos son validados por `validateDropdowns`
  * en el ViewModel del catálogo.
- * Los campos opcionales (segundo apellido, mascotas, familia, notas)
+ * Los campos opcionales (mascotas, familia, notas)
  * quedan excluidos de esta validación.
  *
  * @param {string} name - Nombre del cliente.
  * @param {string} lastname1 - Primer apellido del cliente.
+ * @param {string} lastname2 - Primer apellido del cliente.
  * @param {string} email - Correo electrónico del cliente.
  * @param {string} phone - Teléfono de contacto. Acepta formato mexicano con o sin prefijo +52.
  * @param {string} address - Dirección de entrega del cliente.
  * @returns {{ errors: Object, hasErrors: boolean }} Objeto con los mensajes de error por campo
  * y una bandera que indica si existe al menos un error.
  */
-const isSafeFreeText = (value) =>
-    /^[a-zA-ZÀ-ÿ0-9\s.,#\-]*$/.test(value);
 
-function validateForm(name, lastname1, lastname2, email, phone, address, pets, family, notes) {
+function validateForm(name, lastname1, lastname2, email, phone, address) {
     const errors = {
         name: "",
         lastname1: "",
@@ -33,9 +32,6 @@ function validateForm(name, lastname1, lastname2, email, phone, address, pets, f
         email: "",
         phone: "",
         address: "",
-        pets: "",
-        family: "",
-        notes: "",
     };
 
     let hasErrors = false;
@@ -43,7 +39,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address, pets, f
     if (!name) {
         errors.name = "El nombre del cliente es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ\s]{2,80}$/.test(name)) {
+    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(name)) {
         errors.name = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
@@ -51,7 +47,7 @@ function validateForm(name, lastname1, lastname2, email, phone, address, pets, f
     if (!lastname1) {
         errors.lastname1 = "El primer apellido es requerido.";
         hasErrors = true;
-    } else if (!/^[a-zA-ZÀ-ÿ\s]{2,80}$/.test(lastname1)) {
+    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,80}$/.test(lastname1)) {
         errors.lastname1 = "Solo puedes ingresar letras mayúsculas y minúsculas.";
         hasErrors = true;
     }
@@ -82,21 +78,6 @@ function validateForm(name, lastname1, lastname2, email, phone, address, pets, f
         hasErrors = true;
     } else if (!/^[a-zA-ZÀ-ÿ0-9\s.,#\-]{5,150}$/.test(address)) {
         errors.address = "Ingresa una dirección válida.";
-        hasErrors = true;
-    }
-
-    if (pets && !isSafeFreeText(pets)) {
-        errors.pets = "Mascotas contiene caracteres no permitidos.";
-        hasErrors = true;
-    }
-
-    if (family && !isSafeFreeText(family)) {
-        errors.family = "Familia contiene caracteres no permitidos.";
-        hasErrors = true;
-    }
-
-    if (notes && !isSafeFreeText(notes)) {
-        errors.notes = "Notas contiene caracteres no permitidos.";
         hasErrors = true;
     }
 

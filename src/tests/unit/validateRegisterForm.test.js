@@ -45,9 +45,6 @@ describe('validateForm', () => {
             email: "",
             phone: "",
             address: "",
-            pets: "",
-            family: "",
-            notes: "",
         });
     });
 
@@ -66,6 +63,40 @@ describe('validateForm', () => {
 
         expect(result.hasErrors).toBe(true);
         expect(result.errors.name).toBe("El nombre del cliente es requerido.");
+    });
+
+    test('Debe fallar si el apellido 1 es inválido', () => {
+        const result = validateForm(
+            "Alejandra",
+            "Arredondo❓",
+            "",
+            "juan@test.com",
+            "4421234567",
+            "Calle 123",
+            "",
+            "",
+            ""
+        );
+
+        expect(result.hasErrors).toBe(true);
+        expect(result.errors.lastname1).toBe("Solo puedes ingresar letras mayúsculas y minúsculas.");
+    });
+
+    test('Debe fallar si el apellido 2 es inválido', () => {
+        const result = validateForm(
+            "Alejandra",
+            "Arredondo  ",
+            "García❓",
+            "juan@test.com",
+            "4421234567",
+            "Calle 123",
+            "",
+            "",
+            ""
+        );
+
+        expect(result.hasErrors).toBe(true);
+        expect(result.errors.lastname2).toBe("Solo puedes ingresar letras mayúsculas y minúsculas.");
     });
 
     test('Debe fallar con email inválido', () => {
