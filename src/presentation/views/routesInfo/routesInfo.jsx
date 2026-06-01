@@ -122,7 +122,7 @@ export default function RoutesInfo() {
                                     <BalanceCountersGroup
                                         counters={[
                                             {
-                                                title: 'Saldo favor',
+                                                title: 'Saldo a favor',
                                                 favorSubtitle: 'Ruta',
                                                 favorBalance: routePayedAmount,
                                                 pendingSubtitle: 'Semana',
@@ -210,7 +210,7 @@ export default function RoutesInfo() {
                             <BalanceCountersGroup
                                 counters={[
                                     {
-                                        title: 'Saldo favor',
+                                        title: 'Saldo a favor',
                                         favorSubtitle: 'Ruta',
                                         favorBalance: routePayedAmount,
                                         pendingSubtitle: 'Semana',

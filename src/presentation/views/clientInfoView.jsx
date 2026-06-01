@@ -28,7 +28,7 @@ export default function ClientInfo(){
 
     const balanceCounters = [
         {
-            title: 'Saldo favor',
+            title: 'Saldo a favor',
             favorSubtitle: 'Ruta',
             favorBalance: viewModel.totalAmountPerRoute,
             pendingSubtitle: 'Total',
