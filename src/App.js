@@ -44,9 +44,9 @@ function App() {
                         <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
                         <Route path="/" element={<TemporaryView navbarStatus={true} message={
                             <>
+                                ¡Bienvenido a ComposPage!
+                                <br /> <br />
                                 Gracias por ser parte de nuestra comunidad.
-                                <br />
-                                Próximamente podrás ver más información en la aplicación.
                             </>
                             }
                             img={false}
