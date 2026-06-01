@@ -128,6 +128,13 @@
     border-radius: var(--border-radius-sm);
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 17rem;
+    height: 2rem;
+}
+
 /* Tablet */
 @media (max-width: 768px) {
     .large {
@@ -221,3 +228,5 @@
     visibility: visible;
     opacity: 1;
 }
+
+
