@@ -23,14 +23,6 @@
     margin-bottom: 1rem;
 }
 
-.collection-request-buttons-left {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 1rem;
-    flex-wrap: nowrap;
-}
-
 .collection-request-cancel-page2-button{
     background-color: var(--color-bg);
     color: var(--color-green-secondary);
@@ -67,7 +59,7 @@
 
 .collection-request-actions {
     width: 100%;
-    max-width: 71rem;
+    max-width: 71.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,6 +67,10 @@
     box-sizing: border-box;
 }
 
+.collection-request-cancel-page2-button,
+.collection-request-next-button {
+    margin: 0;
+}
 
 .collection-request-cancel-button,
 .collection-request-back-button,
@@ -96,6 +92,11 @@
     .collection-request-title {
         /* Se mantiene tamaño específico por ajuste visual responsivo */
         font-size: 2.2rem;
+    }
+
+    .collection-request-actions {
+        width: 100%;
+        max-width: 62rem;
     }
 }
 
@@ -123,7 +124,6 @@
     }
 
     .collection-request-actions {
-        width: 92%;
         margin: 1.5rem auto 0 auto;
         display: flex;
         flex-direction: column-reverse;

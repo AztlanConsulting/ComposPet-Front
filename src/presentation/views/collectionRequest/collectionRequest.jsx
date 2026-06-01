@@ -116,8 +116,8 @@ export default function CollectionRequestView() {
                 )}
 
                 <div className="collection-request-actions">
-                    <div className="collection-request-buttons-left">
-                        <Button
+
+                    <Button
                             type="button"
                             size="medium"
                             csstype="cancel"
@@ -125,8 +125,7 @@ export default function CollectionRequestView() {
                             onClick={cancelForm}
                         >
                             Cancelar
-                        </Button>
-                    </div>
+                    </Button>
 
                     <Button
                         type="button"
