@@ -10,6 +10,10 @@
     text-align: center;
 }
 
+.recoleccion-title{
+    padding: 0 0 2rem;
+}
+
 .balance-text,
 .total-text {
     color: var(--color-green-secondary);

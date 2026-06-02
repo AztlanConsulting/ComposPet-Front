@@ -36,6 +36,10 @@ export default function CollectionResume({
                 Resumen de compra
             </h2>
 
+            <div className="recoleccion-title">
+                Recolección {collection.cubetas_entregadas} cubeta
+                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
+            </div>
             {/* Lista de productos extra */}
             <div className="third-form-products">
                 {products.map((product, index) => (
@@ -49,23 +53,20 @@ export default function CollectionResume({
             </div>
 
             <div>
-                {/* Totales de compra e info adicional */}
+                <hr className="resume-divider" />
                 <p className="balance-text">
-                    Saldo: {formatCurrency(balance)}
+                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
                 </p>
 
-                Recolección {collection.cubetas_entregadas} cubeta
-                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
-                <br />
-                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
-
-                <hr className="resume-divider" />
+                {/* Totales de compra e info adicional */}
+                <p className="balance-text">
+                                    Saldo: {formatCurrency(balance)}
+                </p>
 
                 <p className="total-text">
                     Total: {formatCurrency(total)}
                 </p>
             </div>
-
         </>
     );
 }   
