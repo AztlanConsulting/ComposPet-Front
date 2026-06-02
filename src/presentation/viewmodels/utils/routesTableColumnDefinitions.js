@@ -268,11 +268,21 @@ export function getRoutesTableColumns({
         },
         // Recoleccion
         { 
-            headerName: "# Recolección", 
+            headerName: "# Recolección",
             field: "collectedBuckets", 
             minWidth: 130,
-            maxWidth: 150,
+            maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: () => (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                    <span># Recolección</span>
+                    <Icon
+                        name="edit"
+                        size="icon-small"
+                        color="primary"
+                    />
+                </div>
+            ),
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
@@ -322,12 +332,22 @@ export function getRoutesTableColumns({
             headerName: "# Entrega", 
             field: "deliveredBuckets", 
             minWidth: 130,
-            maxWidth: 150,
+            maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
+            headerComponent: () => (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                    <span># Entrega</span>
+                    <Icon
+                        name="edit"
+                        size="icon-small"
+                        color="primary"
+                    />
+                </div>
+            ),
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
@@ -379,6 +399,16 @@ export function getRoutesTableColumns({
             wrapText: true,
             autoHeight: true, 
             cellDataType: false,
+            headerComponent: () => (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                    <span># Productos Extra</span>
+                    <Icon
+                        name="edit"
+                        size="icon-small"
+                        color="primary"
+                    />
+                </div>
+            ),
             valueFormatter: () => "",
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,

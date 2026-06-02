@@ -1,6 +1,7 @@
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
+import '../../../css/tokens/colors.css';
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
@@ -97,6 +98,22 @@ export function getClientTableColumns({
             cellEditorParams: {
                 values: routeOptions,
             },
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Ruta</span>
+
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueFormatter: (params) => {
                 return routeMap[params.value] || params.value;
             },
@@ -112,7 +129,22 @@ export function getClientTableColumns({
             maxWidth: 120,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Orden</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -163,7 +195,22 @@ export function getClientTableColumns({
             maxWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Saldo</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -207,7 +254,22 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Notas</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
 
@@ -242,6 +304,22 @@ export function getClientTableColumns({
             minWidth: 150,
             maxWidth: 200,
             editable: (params) => params.data.clientId === editingRowId,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Teléfono</span>
+
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             cellClassRules: modifiedClassRule,
             cellDataType: false,
             cellEditor: "agNumberCellEditor",
@@ -280,7 +358,22 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Dirección</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueSetter: (params) => {
                 const validation = validateField("address", params.newValue);
 
@@ -311,7 +404,22 @@ export function getClientTableColumns({
             headerName: "Correo",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Correo</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueSetter: (params) => {
                 const validation = validateField("email", params.newValue);
 
@@ -343,7 +451,22 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Mascotas</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
 
@@ -375,7 +498,22 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Familia</span>
 
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
 
@@ -405,9 +543,25 @@ export function getClientTableColumns({
             field: "status",
             headerName: "Estatus",
             minWidth: 100,
-            maxWidth: 100,
+            maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Estatus</span>
+
+                    <span style={{ color: "var(--color-gray-bg)" }}>
+                        <Icon name="edit" size="icon-mini" />
+                    </span>
+                </div>
+            ),
         },
     ];
 }
