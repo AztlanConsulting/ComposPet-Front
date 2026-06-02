@@ -27,4 +27,8 @@ export class InventoryIRepository {
     async registerProduct(productData) {
         throw new Error('InventoryIRepository.registerProduct() not implemented');
     }
+
+    async getInventory() {
+        throw new Error('InventoryIRepository.getInventory() not implemented');
+    }
 }

@@ -46,4 +46,25 @@ export class InventoryRepository extends InventoryIRepository {
             status: data.status,
         });
     }
+
+    async getInventory() {
+        const response = await this.apiClient.getExtraProducts();
+
+        if (!response || !Array.isArray(response.data)) {
+            throw new Error('No se recibió información válida del inventario.');
+        }
+
+        return response.data.map(item => {
+            return new InventoryProduct({
+                productId: item.productId,
+                name: item.name,
+                price: item.price,
+                description: item.description,
+                quantity: item.quantity,
+                color: item.color,
+                status: item.status,
+                imageUrl: item.imageUrl,
+            });
+        });
+    }
 }

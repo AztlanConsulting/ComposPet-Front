@@ -1,0 +1,53 @@
+.inventory-card {
+    width: 100%;
+    min-height: 65px;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.inventory-card-accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px;
+    height: 100%;
+}
+
+.inventory-card-image {
+    width: 90px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 0.4rem;
+    margin-left: 0.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.inventory-card-content {
+    min-width: 0;
+    padding-left: 0.5rem;
+}
+
+.inventory-card-name {
+    font-weight: 500;
+}
+
+.inventory-card-price {
+    font-weight: 700;
+}
+
+.inventory-card-toggle-text {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+
+@media (min-width: 768px) {
+    .inventory-card {
+        min-height: 130px;
+    }
+}

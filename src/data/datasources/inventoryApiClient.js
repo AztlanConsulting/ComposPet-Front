@@ -24,5 +24,20 @@ export class InventoryApiClient {
             handleHttpError(error);
         }
     }; 
-    
+
+    /**
+     * Obtiene los productos extra disponibles para la solicitud de recolección actual.
+     *
+     * @async
+     * @returns {Promise<Object>} Respuesta de la API con la lista de productos extra.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async getExtraProducts() {
+        try {
+            const response = await api.get('/inventario/obtener-inventario');
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

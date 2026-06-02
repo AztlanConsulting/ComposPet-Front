@@ -1,0 +1,106 @@
+.inventory-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.inventory-modal {
+    width: min(90%, 700px);
+    min-height: 260px;
+
+    position: relative;
+    display: flex;
+    gap: 2rem;
+
+    padding: 2rem 3rem 2rem 2.5rem;
+
+    background: var(--color-bg);
+    border: 2px solid;
+    border-radius: 0.5rem;
+
+    overflow: hidden;
+}
+
+.inventory-modal-accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1rem;
+    height: 100%;
+}
+
+.inventory-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    border: none;
+    background: transparent;
+
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.inventory-modal-image {
+    width: 180px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+.inventory-modal-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.inventory-modal-actions {
+    margin-top: auto;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.inventory-modal-actions button {
+    border: none;
+    border-radius: 0.3rem;
+    background: var(--color-green-secondary);
+    color: white;
+
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+}
+
+
+@media (max-width: 767px) {
+    .inventory-modal {
+        width: 90%;
+        max-height: 85vh;
+
+        flex-direction: column;
+        gap: 1rem;
+
+        padding: 2rem;
+        overflow-y: auto;
+    }
+
+    .inventory-modal-image {
+        width: 100%;
+        height: 180px;
+        margin-top: 1rem;
+    }
+
+    .inventory-modal-actions {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
