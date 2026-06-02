@@ -102,11 +102,27 @@ body,
     width: 100%;
     justify-content:flex-end;
     gap: 3rem;
-    margin: 2rem 0;
+    margin: 4rem 0 4rem 0;
+}
+
+.character-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--color-green-secondary);
+    margin-top: 4px;
 }
 
 .input-container .md {
     width: 100%;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none !important;
+    position: relative;
+
 }
 
 .formSelect {
@@ -117,6 +133,7 @@ body,
     width: 100%;
     box-sizing: border-box;
 }
+
 
 /* ── Tablet (≤ 768px) ── */
 @media (max-width: 768px) {

@@ -18,7 +18,6 @@ export default function RequestOtpForm({
         <div className='col d-flex flex-column align-items-center flex-wrap'>
             <InputComponent
                 id="activation-email"
-                type="email"
                 size="xl"
                 value={email}
                 classNameLabel="label"
