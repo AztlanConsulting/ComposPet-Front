@@ -124,3 +124,19 @@
 .extra-products-menu input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.schedule-header .ag-header-cell-text::after {
+    content: "";
+}
+
+.header-title {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.header-subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.75;
+    color: var(--color-black);
+}

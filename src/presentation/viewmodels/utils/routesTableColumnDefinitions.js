@@ -15,6 +15,20 @@ const PRODUCT_COLORS = {
     verde: "var(--color-green-products)",
 }
 
+function ScheduleHeader() {
+    return (
+        <div className="custom-header">
+            <span className="header-title">
+                Horario
+            </span>
+            <br />
+            <span className="header-subtitle">
+                (HH:MM)
+            </span>
+        </div>
+    );
+}
+
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
 
@@ -461,7 +475,7 @@ export function getRoutesTableColumns({
             },
         },
         { 
-            headerName: "Horario", 
+            headerComponent: ScheduleHeader,
             field: "schedule", 
             minWidth: 120,
             maxWidth: 120,
