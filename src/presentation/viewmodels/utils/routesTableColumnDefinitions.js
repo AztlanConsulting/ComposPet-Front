@@ -220,10 +220,7 @@ export function getRoutesTableColumns({
                     return "No hay registros para editar";
                 }
             
-                if (
-                    editingRowId !== null &&
-                    params.data?.name !== editingRowId
-                ) {
+                if (editingRowId !== null && params.data?.name !== editingRowId) {
                     return "Termina de editar la fila actual";
                 }
             
@@ -268,14 +265,11 @@ export function getRoutesTableColumns({
                 return (
                     <div className="edit-div">
                         <Button
-                            className={`action-button ${isEditDisabled ? "button-disabled-fake" : ""}`}
-                            disabled={false}
+                            className="action-button"
+                            disabled={isEditDisabled}
                             size="mini-icon"
                             csstype="accept"
-                            onClick={() => {
-                                if (isEditDisabled) return;
-                                handleEdit(params);
-                            }}
+                            onClick={() => handleEdit(params)}
                         >
                             <Icon name="edit" size="icon-medium" color="primary" />
                         </Button>
