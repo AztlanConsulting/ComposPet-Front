@@ -10,6 +10,8 @@ export const validateCollected = (value) => {
 
     if (isNaN(value)) return "El número de cubetas debe de ser un número.";
 
+    if(value < 0) return "El número de cubetas debe de ser positivo.";
+
     if(value > 100) return "Las cubetas recolectadas no pueden ser más de 100.";
 
     if(isNaN(value)) return "El número de cubetas debe de ser un número.";
