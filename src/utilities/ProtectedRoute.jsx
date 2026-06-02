@@ -1,36 +1,96 @@
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated } from "../api/axiosConfig";
+import {
+    isAuthenticated,
+    refreshAccessToken,
+    clearAccessToken,
+} from "../api/axiosConfig";
 
 /**
  * Componente de ruta protegida que actúa como guardia de navegación.
- * Restringe el acceso a rutas basándose en el estado de autenticación
- * y en el rol del usuario autenticado.
  *
- * Si el usuario no está autenticado, redirige a `/inicio-sesion`.
- * Si el usuario está autenticado pero su rol no está incluido en los roles
- * permitidos, redirige a `/error`.
+ * Primero intenta validar/restaurar la sesión antes de renderizar las rutas hijas.
+ * Esto evita que las vistas protegidas lancen peticiones sin accessToken.
  *
  * @param {Object} props - Propiedades del componente.
- * @param {string[]} [props.roles] - Lista de roles con acceso permitido a las sub-rutas.
- * Si no se proporciona, cualquier usuario autenticado puede acceder.
- * @returns {JSX.Element} Renderiza las rutas hijas mediante `<Outlet />` si el usuario
- * es válido y tiene el rol requerido; de lo contrario, redirige según el caso.
- * @see isAuthenticated
+ * @param {string[]} [props.roles] - Lista de roles con acceso permitido.
+ * @returns {JSX.Element}
  */
-export default function ProtectedRoute({roles}) {
+export default function ProtectedRoute({ roles }) {
+    const [isCheckingSession, setIsCheckingSession] = useState(true);
+    const [hasValidSession, setHasValidSession] = useState(false);
 
     const userRaw = sessionStorage.getItem("user");
-    const user = userRaw ? JSON.parse(userRaw) : null;
+
+    let user = null;
+
+    try {
+        user = userRaw ? JSON.parse(userRaw) : null;
+    } catch (error) {
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("authProvider");
+        user = null;
+    }
+
     const userRole = user?.rol;
 
-    if (!isAuthenticated() && !user) {
+    useEffect(() => {
+        let isMounted = true;
+
+        const validateSession = async () => {
+            try {
+                if (isAuthenticated()) {
+                    if (isMounted) {
+                        setHasValidSession(true);
+                    }
+                    return;
+                }
+
+                if (!userRaw) {
+                    if (isMounted) {
+                        setHasValidSession(false);
+                    }
+                    return;
+                }
+
+                await refreshAccessToken();
+
+                if (isMounted) {
+                    setHasValidSession(true);
+                }
+            } catch (error) {
+                clearAccessToken();
+                sessionStorage.removeItem("user");
+                sessionStorage.removeItem("authProvider");
+
+                if (isMounted) {
+                    setHasValidSession(false);
+                }
+            } finally {
+                if (isMounted) {
+                    setIsCheckingSession(false);
+                }
+            }
+        };
+
+        validateSession();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [userRaw]);
+
+    if (isCheckingSession) {
+        return <div>Cargando sesión...</div>;
+    }
+
+    if (!hasValidSession) {
         return <Navigate to="/inicio-sesion" replace />;
     }
 
-    if (roles && !roles.includes(userRole)){
+    if (roles && !roles.includes(userRole)) {
         return <Navigate to="/error" replace />;
     }
 
     return <Outlet />;
 }
-
