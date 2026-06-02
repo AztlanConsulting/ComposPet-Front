@@ -2,6 +2,7 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
+import '../../../css/atoms/button.css';
 
 import { validateField } from "./routesFieldsValidation";
 import ValidationObserver from "./validationObserver";
@@ -210,53 +211,69 @@ export function getRoutesTableColumns({
             lockPinned: true,
             suppressMovable: true,
             headerName: "Editar",
-            cellClass: 'edit-cell',
+            cellClass: 'edit-cell edit-cell-front',
             pinned: "left",
             lockPinned: true,
+
+            tooltipValueGetter: (params) => {
+                if (!params.data?.hasRequest) {
+                    return "No hay registros para editar";
+                }
+            
+                if (editingRowId !== null && params.data?.name !== editingRowId) {
+                    return "Termina de editar la fila actual";
+                }
+            
+                return null;
+            },
+
             cellRenderer: (params) => {
                 const isEditing = params.data.name === editingRowId;
-
-                const isAnotherRowEditing = 
+            
+                const isAnotherRowEditing =
                     editingRowId !== null && params.data.name !== editingRowId;
-
+            
+                const isEditDisabled =
+                    isAnotherRowEditing || !params.data.hasRequest;
+            
                 if (isEditing) {
                     return (
                         <div className="save-discard-div">
-                            <Button 
-                            className='action-button'
-                            size='mini-icon' 
-                            csstype='cancel' 
-                            onClick={() => handleSave(params)}
-                            disabled={loading}
+                            <Button
+                                className="action-button"
+                                size="mini-icon"
+                                csstype="cancel"
+                                onClick={() => handleSave(params)}
+                                disabled={loading}
                             >
-                                <Icon name="save" size="icon-medium" color="primary"/>
+                                <Icon name="save" size="icon-medium" color="primary" />
                             </Button>
-                            <Button 
-                            className='action-button'
-                            size='mini-icon' 
-                            csstype='warning' 
-                            onClick={() => handleCancel(params)}
-                            disabled={loading}
+            
+                            <Button
+                                className="action-button"
+                                size="mini-icon"
+                                csstype="warning"
+                                onClick={() => handleCancel(params)}
+                                disabled={loading}
                             >
-                                <Icon name="cancel" size="icon-medium" color="primary"/>
+                                <Icon name="cancel" size="icon-medium" color="primary" />
                             </Button>
                         </div>
                     );
                 }
-
+            
                 return (
                     <div className="edit-div">
-                        <Button 
-                        className='action-button'
-                        disabled={isAnotherRowEditing || !params.data.hasRequest}
-                        size='mini-icon' 
-                        csstype='accept' 
-                        onClick={() => handleEdit(params)}
+                        <Button
+                            className="action-button"
+                            disabled={isEditDisabled}
+                            size="mini-icon"
+                            csstype="accept"
+                            onClick={() => handleEdit(params)}
                         >
                             <Icon name="edit" size="icon-medium" color="primary" />
                         </Button>
                     </div>
-
                 );
             }
         },

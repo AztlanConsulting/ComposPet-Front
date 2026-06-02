@@ -205,6 +205,28 @@
     display: inline-block;
 }
 
+.button-disabled-fake {
+    background-color: var(--color-green-tertiary) !important;
+    color: var(--color-green-secondary) !important;
+    cursor: not-allowed !important;
+    opacity: 0.7;
+    box-shadow: none !important;
+}
+
+.edit-cell-front {
+    position: relative;
+    z-index: 10;
+    overflow: visible !important;
+}
+
+.edit-cell-front .ag-cell-wrapper {
+    overflow: visible !important;
+}
+
+.edit-div {
+    position: relative;
+    z-index: 20;
+}
 .disabled-tooltip-text {
     visibility: hidden;
     opacity: 0;
