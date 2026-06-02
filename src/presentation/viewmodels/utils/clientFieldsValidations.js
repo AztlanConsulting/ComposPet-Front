@@ -3,12 +3,18 @@
  * @returns {Boolean} -  valor válido / no válido
  */
 
+const MAX_BALANCE = 1000000;
+const MIN_BALANCE = -1000000;
+const MAX_TEXT_LENGTH = 255;
+
 export const validateBalance = (value) => {
     if (value === null || value === undefined) return "El saldo es obligatorio.";
 
     if (isNaN(value)) return "El saldo debe ser un número.";
 
-    if(value > 1000000) return "El saldo es mayor al máximo permitido";
+    if(value > MAX_BALANCE) return "El saldo es mayor al máximo permitido";
+
+    if(value < MIN_BALANCE) return "El saldo es menor al mínimo permitido";
 
     return true;
 };
@@ -17,7 +23,7 @@ export const validateNotes = (value) => {
 
     if (value === null) return true;
 
-    if (value.length > 255) return "Ingresa máximo 255 caracteres.";
+    if (value.length > MAX_TEXT_LENGTH) return `Ingresa máximo ${MAX_TEXT_LENGTH} caracteres.`;
 
     return true;
 };
@@ -25,7 +31,7 @@ export const validateNotes = (value) => {
 export const validatePhone = (value) => {
     if (!value) return "El teléfono es requerido.";
 
-    const phoneRegex = /^(\+52[\s-]?)?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{4}$/;
+    const phoneRegex = /^\+?\d{10,15}$/;
 
     if (!phoneRegex.test(value)) return "Ingresa un teléfono válido.";
 
@@ -35,7 +41,7 @@ export const validatePhone = (value) => {
 export const validateAddress = (value) => {
     if (!value) return "La dirección es requerida.";
 
-    const addressRegex = /^[a-zA-ZÀ-ÿ0-9\s.,#-]{5,150}$/;
+    const addressRegex = /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
 
     if (!addressRegex.test(value)) return "Ingresa una dirección válida";
 
