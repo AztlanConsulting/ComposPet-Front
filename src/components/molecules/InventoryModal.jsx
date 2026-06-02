@@ -1,23 +1,16 @@
 import '../../css/molecules/inventoryModal.css';
 import Icon from '../atoms/Icon';
 
-const colorMap = {
-    verde: '#00A99D',
-    amarillo: '#F4B400',
-    naranja: '#F57C00',
-    morado: '#6C2DFF',
-    azul: '#4DB6E8',
-    rosa: '#D96BC6',
-    lila: '#A58BE8',
-};
-
-const getProductColor = (color) => {
-    if (!color) return '#00A99D';
-    if (color.startsWith('#')) return color;
-
-    return colorMap[color.toLowerCase()] || '#00A99D';
-};
-
+/**
+ * Modal para mostrar detalles de un producto en el inventario.
+ *
+ * @param {Object} product - Objeto con los datos del producto
+ * @param {Function} onClose - Callback para cerrar el modal
+ * @param {Function} onEdit - Callback para editar el producto
+ * @param {Function} onDelete - Callback para eliminar el producto
+ * @param {Function} onToggleStatus - Callback para cambiar el estado del producto
+ * @returns {JSX.Element}
+ */
 export default function InventoryModal({
     product,
     onClose,
@@ -25,8 +18,39 @@ export default function InventoryModal({
     onDelete,
     onToggleStatus,
 }) {
-    const modalColor = getProductColor(product.color);
+    // si no hay producto, no renderiza el modal
     if (!product) return null;
+
+    // Mapeo de colores predefinidos a códigos hexadecimales
+    const colorMap = {
+        verde: '#00A99D',
+        amarillo: '#F4B400',
+        naranja: '#F57C00',
+        morado: '#6C2DFF',
+        azul: '#4DB6E8',
+        rosa: '#D96BC6',
+        lila: '#A58BE8',
+    };
+
+    // Función para obtener el color del producto,
+    // acepta nombres de colores o códigos hexadecimales
+    const getProductColor = (color) => {
+        if (!color) return '#00A99D';
+        if (color.startsWith('#')) return color;
+
+        return colorMap[color.toLowerCase()] || '#00A99D';
+    };
+
+
+    const getQuantityColor = (quantity) => {
+        if (quantity < 0) return 'text-danger';
+        return '';
+    }
+
+
+    // Obtiene el color para el borde y acento del modal
+    const modalColor = getProductColor(product.color);
+
 
     return (
         <div className="inventory-modal-overlay" onClick={onClose}>
@@ -35,11 +59,13 @@ export default function InventoryModal({
                 style={{ borderColor: modalColor }}
                 onClick={(e) => e.stopPropagation()}
             >
+                {/* Acento de color en el borde del modal */}
                 <div
                     className="inventory-modal-accent"
                     style={{ backgroundColor: modalColor }}
                 />
 
+                {/* Botón de cierre */}
                 <button
                     type="button"
                     className="inventory-modal-close"
@@ -48,16 +74,18 @@ export default function InventoryModal({
                     ×
                 </button>
 
+                {/* Imagen del producto */}
                 <img
                     src={product.imageUrl}
                     alt={product.name}
                     className="inventory-modal-image"
                 />
 
+                {/* Contenido del modal */}
                 <div className="inventory-modal-content">
-                    <h3 className="inventory-modal-title">
+                    <h4 className="inventory-modal-title">
                         {product.name}
-                    </h3>
+                    </h4>
 
                     <p className="inventory-modal-description">
                         {product.description}
@@ -67,7 +95,7 @@ export default function InventoryModal({
                         ${Number(product.price).toFixed(2)}
                     </p>
 
-                    <p className="inventory-modal-quantity bo">
+                    <p className={getQuantityColor(product.quantity)}>
                         {product.quantity} piezas
                     </p>
 

@@ -1,32 +1,33 @@
+/*
+   Overlay que cubre toda la pantalla para enfocar
+   la atención del usuario en el modal.
+*/
 .inventory-modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.45);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     z-index: 9999;
 }
-
+/*
+   Contenedor principal del modal.
+   Define layout, espaciado y tamaño base.
+*/
 .inventory-modal {
     width: min(90%, 700px);
     min-height: 260px;
-
     position: relative;
     display: flex;
     gap: 2rem;
-
     padding: 2rem 3rem 2rem 2.5rem;
-
     background: var(--color-bg);
     border: 2px solid;
     border-radius: 0.5rem;
-
     overflow: hidden;
 }
-
+/* Barra lateral decorativa para representar estado o categoría */
 .inventory-modal-accent {
     position: absolute;
     left: 0;
@@ -34,20 +35,19 @@
     width: 1rem;
     height: 100%;
 }
-
+/* Botón de cierre posicionado dentro del modal */
 .inventory-modal-close {
     position: absolute;
     top: 1rem;
     right: 1rem;
-
     border: none;
     background: transparent;
-
     font-size: 2rem;
     line-height: 1;
     cursor: pointer;
 }
 
+/* Imagen principal del producto */
 .inventory-modal-image {
     width: 180px;
     height: 220px;
@@ -55,7 +55,7 @@
     border-radius: 0.4rem;
     flex-shrink: 0;
 }
-
+/* Contenedor del contenido textual y elementos informativos */
 .inventory-modal-content {
     flex: 1;
     display: flex;
@@ -64,23 +64,33 @@
 
 .inventory-modal-actions {
     margin-top: auto;
-
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
 }
 
+/* Estilos base para botones de acción */
 .inventory-modal-actions button {
     border: none;
     border-radius: 0.3rem;
     background: var(--color-green-secondary);
     color: white;
-
     padding: 0.4rem 0.6rem;
     cursor: pointer;
 }
-
-
+/* Colores reutilizables para estados */
+.red-text{
+    color: var(--color-red-primary)
+}
+.text-success{
+    color: var(--color-green-secondary);
+}
+/*
+   Adaptaciones para pantallas pequeñas:
+   - Convierte el layout horizontal a vertical
+   - Habilita scroll si el contenido excede altura
+   - Reduce tamaños para mejorar legibilidad
+*/
 @media (max-width: 767px) {
     .inventory-modal {
         width: 90%;
@@ -102,5 +112,25 @@
     .inventory-modal-actions {
         justify-content: center;
         margin-top: 1rem;
+    }
+
+    .inventory-modal-title {
+        font-size: 1.2rem;
+    }
+
+    .inventory-modal-description {
+        font-size: 0.85rem;
+    }
+
+    .inventory-modal-price {
+        font-size: 1rem;
+    }
+
+    .inventory-modal-quantity {
+        font-size: 0.85rem;
+    }
+
+    .inventory-modal-close {
+        font-size: 1.5rem;
     }
 }

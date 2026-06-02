@@ -1,3 +1,8 @@
+/*
+   Tarjeta principal del producto.
+   Ocupa todo el ancho disponible y mantiene
+   un tamaño mínimo para consistencia visual.
+*/
 .inventory-card {
     width: 100%;
     min-height: 65px;
@@ -8,7 +13,8 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-
+/* Barra lateral decorativa para representar
+   visualmente el estado o categoría del producto */
 .inventory-card-accent {
     position: absolute;
     left: 0;
@@ -16,7 +22,8 @@
     width: 12px;
     height: 100%;
 }
-
+/* Imagen del producto con tamaño fijo para
+   mantener uniformidad entre tarjetas */
 .inventory-card-image {
     width: 90px;
     height: 110px;
@@ -26,26 +33,37 @@
     margin-right: 1rem;
     flex-shrink: 0;
 }
-
+/* Contenedor del contenido textual de la tarjeta.
+   Evita overflow en layouts flexibles */
 .inventory-card-content {
     min-width: 0;
     padding-left: 0.5rem;
 }
-
+/* Resalta visualmente el nombre del producto */
 .inventory-card-name {
     font-weight: 500;
 }
-
+/* Hace más visible el precio del producto */
 .inventory-card-price {
     font-weight: 700;
 }
-
+/* Texto secundario para estados o acciones */
 .inventory-card-toggle-text {
     font-size: 0.75rem;
     opacity: 0.7;
 }
+/* Colores semánticos reutilizables */
+.text-success{
+    color: var(--color-green-secondary);
+}
 
-
+.red-text{
+    color: var(--color-red-primary);
+}
+/*
+   En pantallas más grandes incrementa la altura
+   mínima para aprovechar mejor el espacio disponible.
+*/
 @media (min-width: 768px) {
     .inventory-card {
         min-height: 130px;

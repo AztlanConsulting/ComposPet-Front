@@ -47,13 +47,26 @@ export class InventoryRepository extends InventoryIRepository {
         });
     }
 
+    /**
+     * Obtiene los productos del inventario desde el API
+     * y transforma la respuesta en entidades de dominio.
+     *
+     * @returns {Promise<InventoryProduct[]>} Lista de productos del inventario.
+     * @throws {Error} Si la respuesta del API no contiene información válida.
+     */
     async getInventory() {
+         // Obtiene la información de productos desde el cliente API
         const response = await this.apiClient.getExtraProducts();
 
+        // Valida que la respuesta exista y contenga
+        // una lista válida de productos
         if (!response || !Array.isArray(response.data)) {
             throw new Error('No se recibió información válida del inventario.');
         }
 
+        // Convierte los datos recibidos del API en
+        // entidades InventoryProduct para mantener
+        // consistencia dentro de la capa de dominio
         return response.data.map(item => {
             return new InventoryProduct({
                 productId: item.productId,

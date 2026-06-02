@@ -5,6 +5,9 @@ import Loading from "../../../components/Template/loading";
 import Error from '../../../components/Template/error';
 import Navbar from '../../../components/molecules/Navbar';
 
+/**
+ *
+ */
 export default function InventoryProductsView({
     viewModel = GetInventoryViewModel(),
 }) {
@@ -15,36 +18,60 @@ export default function InventoryProductsView({
         error,
         setSelectedProduct,
         onClickCard,
+        isSmall
     } = viewModel;
 
+    // Si el estado es cargando muestra la pantalla
+    // de carga
     if (loading) {
         return <Loading />;
     }
 
+    // Si el estado es de error muestra la pantalla
+    // de error
     if (error){
         return <Error message={"Error al obtener el inventario"} />;
     }
 
     return (
-        <div className="container-fluid h-100 d-flex flex-column">
-            <Navbar />
-            {/* Contenedor con scroll */}
+        <div className="container-fluid h-100 d-flex flex-column px-0">
+            {/*
+                Contenedor principal del listado.
+                Ajusta el padding dependiendo del tamaño
+                de pantalla y permite scroll vertical.
+            */}
             <div
-                className="row g-4 overflow-auto flex-grow-1 px-xxl-5 py-4 margin-top-navbar"
-                style={{ maxHeight: "75vh" }}
+                className="overflow-auto flex-grow-1 py-4 inventory-content-wrapper"
+                style={{
+                    maxHeight: "75vh",
+                    paddingLeft: isSmall ? "1rem" : "4.5rem",
+                    paddingRight: isSmall ? "1rem" : "4.5rem"
+                }}
             >
-                {inventory.map((product) => (
-                    <div
-                        key={product.productId}
-                        className="col-12 col-md-6 col-lg-4 col-xl-3"
-                    >
-                        <InventoryCard
-                            product={product}
-                            onClick={onClickCard}
-                        />
-                    </div>
-                ))}
+                <div className="row g-4 mx-0">
+                    {inventory.map((product) => (
+                        <div
+                            key={product.productId}
+                            className="col-12 col-md-6 col-lg-4 col-xl-3"
+                        >
+                            {/*
+                                Tarjeta individual del producto.
+                                Al seleccionarla ejecuta la acción
+                                definida en el ViewModel.
+                            */}
+                            <InventoryCard
+                                product={product}
+                                onClick={onClickCard}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
+
+            {/*
+                Modal mostrado únicamente cuando existe
+                un producto seleccionado.
+            */}
             {selectedProduct && (
                 <InventoryModal
                     product={selectedProduct}
@@ -54,7 +81,6 @@ export default function InventoryProductsView({
                     onToggleStatus={(product) => console.log('Cambiar estado:', product)}
                 />
             )}
-
         </div>
-    )
+    );
 }
