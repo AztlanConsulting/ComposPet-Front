@@ -56,6 +56,7 @@ export default function RoutesInfo() {
                         <DropdownInput
                             id="weeks"
                             size="md"
+                            className="dropdown formField"
                             value={routesViewModel.selectedWeek ?? ""}
                             onChange={(e) =>
                                 routesViewModel.setSelectedWeek(
@@ -75,6 +76,7 @@ export default function RoutesInfo() {
                         <DropdownInput
                             id="days"
                             size="md"
+                            className="dropdown formField"
                             value={routesViewModel.selectedDay ?? ""}
                             onChange={(e) =>
                                 routesViewModel.setSelectedDay(
