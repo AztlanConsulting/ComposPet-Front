@@ -29,7 +29,6 @@ export default function Login({
         <div className='col d-flex flex-column align-items-center flex-wrap'>
             <InputComponent
                 id="email-input"
-                type="email"
                 size="xl"
                 value={email}
                 classNameLabel="label"
