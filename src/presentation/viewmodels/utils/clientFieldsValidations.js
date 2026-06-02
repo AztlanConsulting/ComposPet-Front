@@ -25,7 +25,7 @@ export const validateNotes = (value) => {
 export const validatePhone = (value) => {
     if (!value) return "El teléfono es requerido.";
 
-    const phoneRegex = /^(\+52[\s-]?)?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{4}$/;
+    const phoneRegex = /^\+?\d{10,15}$/;
 
     if (!phoneRegex.test(value)) return "Ingresa un teléfono válido.";
 
@@ -35,7 +35,7 @@ export const validatePhone = (value) => {
 export const validateAddress = (value) => {
     if (!value) return "La dirección es requerida.";
 
-    const addressRegex = /^[a-zA-ZÀ-ÿ0-9\s.,#-]{5,150}$/;
+    const addressRegex = /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
 
     if (!addressRegex.test(value)) return "Ingresa una dirección válida";
 
