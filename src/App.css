@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.button-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;  
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
