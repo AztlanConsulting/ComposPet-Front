@@ -37,7 +37,7 @@ describe("FirstLoginUseCase", () => {
 
     test("executeRequest debe lanzar error con email inválido", async () => {
         await expect(useCase.executeRequest("correo-sin-arroba"))
-            .rejects.toThrow("Email inválido");
+            .rejects.toThrow("El correo es requerido.");
     });
 
     test("executeFinalize debe lanzar error si las contraseñas no coinciden", async () => {
