@@ -27,6 +27,8 @@ import { ReactComponent as Warning } from '../../public/icons/warning.svg';
 import { ReactComponent as MoneyBag } from '../../public/icons/moneyBag.svg';
 import { ReactComponent as Car } from '../../public/icons/car.svg';
 import { ReactComponent as Money } from '../../public/icons/moneySign.svg';
+import { ReactComponent as CloseIcon } from '../../public/icons/x-lg.svg';
+import { ReactComponent as UploadIcon } from '../../public/icons/upload.svg';
 
 /**
  * Mapa de nombres de icono a sus componentes SVG correspondientes.
@@ -62,6 +64,8 @@ const icons = {
     moneyBag: MoneyBag,
     car: Car,
     moneySign: Money,
+    close: CloseIcon,
+    upload: UploadIcon,
 };
 
 /**

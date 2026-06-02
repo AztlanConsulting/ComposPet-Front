@@ -70,6 +70,9 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     } else if (numericPrice <= 0) {
         errors.price = "El precio debe ser mayor a 0.";
         hasErrors = true;
+    } else if (numericPrice > 100000) {
+        errors.price = "El precio no puede exceder $100,000.00.";
+        hasErrors = true;
     }
 
     if (quantity === "" || quantity === null || quantity === undefined) {

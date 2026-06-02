@@ -127,15 +127,25 @@ function RegisterProduct({
                     onFocus={() => setIsPriceFocused(true)}
                     onBlur={() => setIsPriceFocused(false)}
                     onChange={(e) => {
-                        const rawValue = e.target.value.replace(/[^0-9.]/g, '');
-                        const parts = rawValue.split('.');
+                        let value = e.target.value.replace(/[^0-9.]/g, '');
+                    
+                        const parts = value.split('.');
+                    
+                        if (parts.length > 2) {
+                            value = `${parts[0]}.${parts.slice(1).join('')}`;
+                        }
+                    
+                        if (parts[1]) {
+                            value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+                        }
 
-                        const cleanValue = parts.length > 2
-                            ? `${parts[0]}.${parts.slice(1).join('')}`
-                            : rawValue;
+                        const numericValue = Number(value);
+                        if (!Number.isNaN(numericValue) && numericValue > 100000) {
+                            return;
+                        }
 
-                        setPrice(cleanValue);
-                        validateField('price', cleanValue);
+                        setPrice(value);
+                        validateField('price', value);
                     }}
                     error={errors.price}
                     required

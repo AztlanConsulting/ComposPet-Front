@@ -19,7 +19,7 @@ const ImageUploader = forwardRef(({
                 className="image-uploader-input"
             />
 
-            <Icon name="arrow" size="large" className="image-uploader-icon" />
+            <Icon name="upload" size="large" className="image-uploader-icon" />
 
             {selectedFile && (
                 <span className="image-uploader-file-name">

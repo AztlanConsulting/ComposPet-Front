@@ -29,13 +29,6 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-
-    border: none;
-    background: transparent;
-    cursor: pointer;
-
-    font-size: 1.5rem;
-    color: var(--color-black);
 }
 
 .modal-close-button:hover {
