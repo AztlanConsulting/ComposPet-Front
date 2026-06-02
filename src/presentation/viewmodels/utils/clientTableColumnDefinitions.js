@@ -111,6 +111,7 @@ export function getClientTableColumns({
         {
             field: "routeId",
             headerName: "Ruta",
+            tooltipValueGetter: () => null,
             minWidth: 150,
             maxWidth: 220,
             editable: (params) => params.data.clientId === editingRowId,
@@ -428,6 +429,7 @@ export function getClientTableColumns({
         {
             field: "status",
             headerName: "Estatus",
+            tooltipValueGetter: () => null,
             minWidth: 100,
             maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
