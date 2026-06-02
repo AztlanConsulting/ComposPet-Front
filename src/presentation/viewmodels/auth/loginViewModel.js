@@ -131,7 +131,6 @@ function useLoginViewModel(loginUseCase){
         e.preventDefault();
 
         const { errors: validationErrors, hasErrors } = validateLoginForm(email, password); 
-        console.log(errors);
 
         if (hasErrors){
             setErrors(validationErrors);
