@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 
+import useCollectionRequestFirstSectionViewModel from "../../../../presentation/viewmodels/collectionRequest/firstFormViewModel";
 import useCollectionRequestViewModel from "../../../../presentation/viewmodels/collectionRequest/collectionRequest";
 import useAuthenticatedClient from "../../../../presentation/viewmodels/utils/useAuthenticatedClient";
 import useCreditBalance from "../../../../presentation/viewmodels/utils/useCreditBalance";
@@ -31,31 +32,50 @@ jest.mock("../../../../presentation/viewmodels/utils/useCreditBalance");
 // Mockea TimerAlert.
 jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
 
-// Mockea el ViewModel de la primera sección.
-jest.mock("../../../../presentation/viewmodels/collectionRequest/firstFormViewModel", () => {
-    return jest.fn(() => ({
-        saveFirstSection: jest.fn(),
-        loadCurrentCollectionRequest: jest.fn(),
-    }));
-});
+jest.mock("../../../../presentation/viewmodels/collectionRequest/firstFormViewModel");
 
 // Mockea el ViewModel de la segunda página.
-jest.mock("../../../../presentation/viewmodels/collectionRequest/secondPageViewModel", () => {
-    return jest.fn(() => ({
+jest.mock("../../../../presentation/viewmodels/collectionRequest/secondPageViewModel", () => ({
+    __esModule: true,
+    default: jest.fn(() => ({
         selectedProducts: {},
         saveSecondSection: jest.fn(),
         loadData: jest.fn(),
-    }));
-});
+    })),
+}));
 
-jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewModel", () => {
-    return jest.fn(() => ({
+jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewModel", () => ({
+    __esModule: true,
+    default: jest.fn(() => ({
         loadSummary: jest.fn(),
         saveThirdSection: jest.fn(),
-    }));
-});
+    })),
+}));
 
 jest.mock("../../../../components/Template/confirmationAlert", () => jest.fn());
+
+const createFirstSectionViewModelMock = (overrides = {}) => ({
+    requestId: "requestId",
+    wantsCollection: true,
+    wantsExtraProducts: false,
+    collectedBuckets: 1,
+    deliveredBuckets: 1,
+    status: false,
+    loading: false,
+    loadError: null,
+    errors: {},
+    setWantsCollection: jest.fn(),
+    setWantsExtraProducts: jest.fn(),
+    handleDeliveredBucketsChange: jest.fn(),
+    handleCollectedBucketsChange: jest.fn(),
+    incrementDeliveredBuckets: jest.fn(),
+    decrementDeliveredBuckets: jest.fn(),
+    incrementCollectedBuckets: jest.fn(),
+    decrementCollectedBuckets: jest.fn(),
+    saveFirstSection: jest.fn(),
+    loadCurrentCollectionRequest: jest.fn(),
+    ...overrides,
+});
 
 beforeAll(() => {
     jest.useFakeTimers();
@@ -72,21 +92,28 @@ afterAll(() => {
 describe("useCollectionRequestViewModel - balance del cliente", () => {
     // Se ejecuta antes de cada prueba.
     beforeEach(() => {
-        // Limpia llamadas y configuraciones previas de mocks.
         jest.clearAllMocks();
 
-        // Simula que hay un cliente autenticado clientId".
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
             routeDay: "Sábado",
+            loading: false,
+            error: null,
         });
+
+        useCollectionRequestFirstSectionViewModel.mockReturnValue(
+            createFirstSectionViewModelMock()
+        );
     });
+
 
     // Caso 1: Saldo permitido.
     it("debe permitir acceso si el balance es mayor a -500", async () => {
         // Arrange
         useCreditBalance.mockReturnValue({
             balance: -100,
+            loading: false,
+            error: null,
         });
 
         // Actuar
@@ -111,6 +138,8 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         // Arrange
         useCreditBalance.mockReturnValue({
             balance: -600,
+            loading: false,
+            error: null,
         });
 
         // Simula que el usuario confirmó o cerró la alerta.
@@ -146,6 +175,8 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         // Arrange
         useCreditBalance.mockReturnValue({
             balance: -1500,
+            loading: false,
+            error: null,
         });
 
         // Simula que le dieron click a confirmar
@@ -180,6 +211,8 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
         // Arrange
         useCreditBalance.mockReturnValue({
             balance: null,
+            loading: false,
+            error: null,
         });
 
         // Actuar
