@@ -76,7 +76,7 @@ function SignInForm(){
                             size="large" 
                             type="submit" 
                             csstype="accept" 
-                            className='auxiliar-button signin mb-02' 
+                            className='auxiliar-button signin' 
                             disabled={loading}
                         >
                             {loading ? "Ingresando..." : "Iniciar sesión"}
