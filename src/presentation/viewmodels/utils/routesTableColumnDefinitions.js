@@ -656,6 +656,10 @@ export function getRoutesTableColumns({
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
+            cellEditor: "agTextCellEditor",
+            cellEditorParams: {
+                maxLength: 255,
+            },
             headerComponent: editableHeader("Notas"),
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
