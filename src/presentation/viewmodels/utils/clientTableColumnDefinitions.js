@@ -431,7 +431,11 @@ export function getClientTableColumns({
             minWidth: 100,
             maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
-            cellClassRules: modifiedClassRule,
+            cellClassRules: {
+                ...modifiedClassRule,
+                "cell-not-editable": (params) =>
+                    params.data.clientId !== editingRowId,
+            },
             headerComponent: editableHeader("Estatus"),
         },
     ];
