@@ -1,9 +1,11 @@
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
+import '../../../css/tokens/colors.css';
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
+
 
 export function getClientTableColumns({
     editingRowId,
@@ -27,6 +29,25 @@ export function getClientTableColumns({
         return forbiddenKeys.includes(params.event.key);
     }
 
+    const EditableHeader = ({ title, isEditing }) => (
+        <div className="editable-header">
+            <span>{title}</span>
+
+            {isEditing && (
+                <span className="editable-header-icon">
+                    <Icon name="edit" size="icon-mini" />
+                </span>
+            )}
+        </div>
+    );
+
+    const editableHeader = (title) => () => (
+        <EditableHeader
+            title={title}
+            isEditing={editingRowId !== null}
+        />
+    );
+
     return [
         {
             width: 100,
@@ -40,6 +61,7 @@ export function getClientTableColumns({
             pinned: "left",
             lockPinned: true,
             cellRenderer: (params) => {
+
                 const isEditing = params.data.clientId === editingRowId;
 
                 const isAnotherRowEditing = 
@@ -97,6 +119,7 @@ export function getClientTableColumns({
             cellEditorParams: {
                 values: routeOptions,
             },
+            headerComponent: editableHeader("Ruta"),
             valueFormatter: (params) => {
                 return routeMap[params.value] || params.value;
             },
@@ -112,7 +135,7 @@ export function getClientTableColumns({
             maxWidth: 120,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
-
+            headerComponent: editableHeader("Orden"),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -163,7 +186,7 @@ export function getClientTableColumns({
             maxWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
-
+            headerComponent: editableHeader("Saldo"),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -207,7 +230,7 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Notas"),
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
 
@@ -242,6 +265,7 @@ export function getClientTableColumns({
             minWidth: 150,
             maxWidth: 200,
             editable: (params) => params.data.clientId === editingRowId,
+            headerComponent: editableHeader("Teléfono"),
             cellClassRules: modifiedClassRule,
             cellDataType: false,
             cellEditor: "agNumberCellEditor",
@@ -280,7 +304,7 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Dirección"),
             valueSetter: (params) => {
                 const validation = validateField("address", params.newValue);
 
@@ -311,7 +335,7 @@ export function getClientTableColumns({
             headerName: "Correo",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
                 const validation = validateField("email", params.newValue);
 
@@ -343,7 +367,7 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Mascotas"),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
 
@@ -375,7 +399,7 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Familia"),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
 
@@ -405,13 +429,14 @@ export function getClientTableColumns({
             field: "status",
             headerName: "Estatus",
             minWidth: 100,
-            maxWidth: 100,
+            maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: {
                 ...modifiedClassRule,
                 "cell-not-editable": (params) =>
                     params.data.clientId !== editingRowId,
             },
+            headerComponent: editableHeader("Estatus"),
         },
     ];
 }

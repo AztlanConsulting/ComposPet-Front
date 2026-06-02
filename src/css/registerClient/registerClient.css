@@ -105,6 +105,19 @@ body,
     margin: 2rem 0;
 }
 
+.input-container .md {
+    width: 100%;
+}
+
+.formSelect {
+    width: 100%;
+}
+
+.formSelect select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* ── Tablet (≤ 768px) ── */
 @media (max-width: 768px) {
     .register-client-background {
