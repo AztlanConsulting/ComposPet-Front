@@ -34,7 +34,7 @@ export const validatePaid = (value) => {
 
     if (value < 0) return "El total pagado debe de ser positivo.";
 
-    if (value > 1000000) return "Ingrese un valor real.";
+    if (value > 1000000) return "El valor es mayor al máximo permitido (1,000,000).";
 
     return true;
 }

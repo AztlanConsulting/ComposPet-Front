@@ -57,7 +57,7 @@ export default function ClientTable({
                 defaultColDef={defaultColDef}
                 loading={loading}
                 pagination={true}
-                enableBrowserTooltips={true}
+                tooltipShowDelay={0}
                 localeText={AG_GRID_LOCALE_ES}
                 getRowClass={getRowClass}
                 suppressDragLeaveHidesColumns={true}

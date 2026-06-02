@@ -207,6 +207,7 @@ export function getRoutesTableColumns({
             minWidth: 100,
             maxWidth: 150,
             pinned: 'left',
+            tooltipValueGetter: (params) => params.value || "",
             lockPinned: true,
             suppressMovable: true,
             headerName: "Editar",
@@ -265,6 +266,7 @@ export function getRoutesTableColumns({
             field: "name", 
             minWidth: 200,
             maxWidth: 300,
+            tooltipValueGetter: (params) => params.value || "",
         },
         // Recoleccion
         { 
@@ -463,6 +465,7 @@ export function getRoutesTableColumns({
             field: "schedule", 
             minWidth: 120,
             maxWidth: 120,
+            tooltipValueGetter: (params) => params.value || "",
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
@@ -572,6 +575,7 @@ export function getRoutesTableColumns({
             field: "notes", 
             minWidth: 200,
             maxWidth: 350,
+            tooltipValueGetter: (params) => params.value || "",
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
