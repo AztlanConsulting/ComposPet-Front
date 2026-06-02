@@ -5,27 +5,34 @@ import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
 import ProblemAlert from '../../../components/Template/ProblemAlert';
 
-import { registerProductUseCase } from '../../../di/inventory/registerProductDependencies';
+import { RegisterProductUseCase } from '../../../domain/useCases/registerProductUseCase';
 
 /**
- * Valida los campos del formulario de registro de productos.
- *
- * @param {string} name - Nombre del producto.
- * @param {string|number} price - Precio del producto.
- * @param {string|number} quantity - Cantidad disponible.
- * @param {string} color - Color hexadecimal del producto.
- * @param {string} description - Descripción opcional del producto.
- * @param {string} imageUrl - URL opcional de imagen.
- * @returns {{ errors: Object, hasErrors: boolean }} Errores del formulario.
+ * Valida los campos del formulario de registro de producto.
+ * - name: requerido, máximo 60 caracteres, sin caracteres especiales ni emojis.
+ * - price: requerido, número válido mayor a 0.
+ * - quantity: requerido, número entero no negativo.
+ * - color: requerido, formato hexadecimal (#RRGGBB).
+ * - description: opcional, máximo 255 caracteres, sin caracteres especiales ni emojis.
+ * - imageFile: opcional, tipo JPG/PNG/WEBP, máximo 2 MB.
+ * 
+ * @param {string} name - El nombre del producto.
+ * @param {string} price - El precio del producto.
+ * @param {string} quantity - La cantidad del producto.
+ * @param {string} color - El color del producto en formato hexadecimal.
+ * @param {string} description - La descripción del producto.
+ * @param {File} imageFile - El archivo de imagen del producto.
+ * 
+ * @return {Object} Un objeto con los errores de validación y un booleano indicando si hay errores.
  */
-function validateForm(name, price, quantity, color, description, imageUrl) {
+function validateForm(name, price, quantity, color, description, imageFile) {
     const errors = {
         name: "",
         price: "",
         quantity: "",
         color: "",
         description: "",
-        imageUrl: "",
+        imageFile: "",
     };
 
     let hasErrors = false;
@@ -33,6 +40,9 @@ function validateForm(name, price, quantity, color, description, imageUrl) {
     const invalidCharacters = /[<>"'%;()&+]/;
     const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
     const hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
+
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
     const numericPrice = Number(price);
     const numericQuantity = Number(quantity);
@@ -59,6 +69,9 @@ function validateForm(name, price, quantity, color, description, imageUrl) {
         hasErrors = true;
     } else if (numericPrice <= 0) {
         errors.price = "El precio debe ser mayor a 0.";
+        hasErrors = true;
+    } else if (numericPrice > 100000) {
+        errors.price = "El precio no puede exceder $100,000.00.";
         hasErrors = true;
     }
 
@@ -94,11 +107,12 @@ function validateForm(name, price, quantity, color, description, imageUrl) {
         }
     }
 
-    if (imageUrl) {
-        try {
-            new URL(imageUrl);
-        } catch {
-            errors.imageUrl = "Ingresa una URL de imagen válida.";
+    if (imageFile) {
+        if (!allowedImageTypes.includes(imageFile.type)) {
+            errors.imageFile = "La imagen debe ser JPG, PNG o WEBP.";
+            hasErrors = true;
+        } else if (imageFile.size > MAX_IMAGE_SIZE) {
+            errors.imageFile = "La imagen no puede exceder 2 MB.";
             hasErrors = true;
         }
     }
@@ -106,11 +120,6 @@ function validateForm(name, price, quantity, color, description, imageUrl) {
     return { errors, hasErrors };
 }
 
-/**
- * ViewModel para el formulario de registro de un nuevo producto.
- * Gestiona el estado de los campos, la validación, el envío de datos
- * y las alertas de confirmación, éxito y error.
- */
 function useRegisterProductViewModel() {
     const [errors, setErrors] = useState({
         name: "",
@@ -118,27 +127,28 @@ function useRegisterProductViewModel() {
         quantity: "",
         color: "",
         description: "",
-        imageUrl: "",
+        imageFile: "",
     });
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [color, setColor] = useState('');
+    const [color, setColor] = useState('#169B49');
     const [description, setDescription] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageFile, setImageFile] = useState(null);
+    const [isPriceFocused, setIsPriceFocused] = useState(false);
 
     const nameRef = useRef(null);
     const priceRef = useRef(null);
     const quantityRef = useRef(null);
     const colorRef = useRef(null);
     const descriptionRef = useRef(null);
-    const imageUrlRef = useRef(null);
+    const imageFileRef = useRef(null);
 
     const navigate = useNavigate();
 
     const hasUnsavedChanges =
-        name || price || quantity || color || description || imageUrl;
+        name || price || quantity || color || description || imageFile;
 
     const validateField = (field, value) => {
         const updatedValues = {
@@ -147,7 +157,7 @@ function useRegisterProductViewModel() {
             quantity,
             color,
             description,
-            imageUrl,
+            imageFile,
             [field]: value,
         };
 
@@ -157,13 +167,20 @@ function useRegisterProductViewModel() {
             updatedValues.quantity,
             updatedValues.color,
             updatedValues.description,
-            updatedValues.imageUrl
+            updatedValues.imageFile
         );
 
         setErrors(prev => ({
             ...prev,
             [field]: newErrors[field],
         }));
+    };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files?.[0] || null;
+
+        setImageFile(file);
+        validateField('imageFile', file);
     };
 
     useEffect(() => {
@@ -184,7 +201,6 @@ function useRegisterProductViewModel() {
         const trimmedName = name.trim();
         const trimmedColor = color.trim();
         const trimmedDescription = description.trim();
-        const trimmedImageUrl = imageUrl.trim();
 
         const validation = validateForm(
             trimmedName,
@@ -192,7 +208,7 @@ function useRegisterProductViewModel() {
             quantity,
             trimmedColor,
             trimmedDescription,
-            trimmedImageUrl
+            imageFile
         );
 
         if (validation.hasErrors) {
@@ -213,9 +229,9 @@ function useRegisterProductViewModel() {
             } else if (validation.errors.description && descriptionRef.current) {
                 descriptionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 descriptionRef.current.focus();
-            } else if (validation.errors.imageUrl && imageUrlRef.current) {
-                imageUrlRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                imageUrlRef.current.focus();
+            } else if (validation.errors.imageFile && imageFileRef.current) {
+                imageFileRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                imageFileRef.current.focus();
             }
 
             return;
@@ -227,11 +243,11 @@ function useRegisterProductViewModel() {
             quantity: Number(quantity),
             color: trimmedColor,
             description: trimmedDescription || null,
-            imageUrl: trimmedImageUrl || null,
+            imageFile,
         };
 
         try {
-            await registerProductUseCase.execute(data);
+            await RegisterProductUseCase.execute(data);
             await confirmForm();
         } catch (error) {
             const status = error?.status;
@@ -290,20 +306,24 @@ function useRegisterProductViewModel() {
         setColor,
         description,
         setDescription,
-        imageUrl,
-        setImageUrl,
+        imageFile,
+        setImageFile,
 
         nameRef,
         priceRef,
         quantityRef,
         colorRef,
         descriptionRef,
-        imageUrlRef,
+        imageFileRef,
 
         validateField,
+        handleImageChange,
         handleSubmit,
         cancelForm,
         confirmForm,
+
+        isPriceFocused,
+        setIsPriceFocused,
     };
 }
 

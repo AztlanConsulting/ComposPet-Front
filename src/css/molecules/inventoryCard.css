@@ -38,6 +38,7 @@
 .inventory-card-content {
     min-width: 0;
     padding-left: 0.5rem;
+    pointer-events: none;
 }
 /* Resalta visualmente el nombre del producto */
 .inventory-card-name {
@@ -52,6 +53,11 @@
     font-size: 0.75rem;
     opacity: 0.7;
 }
+.inventory-card-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(50%);
+}
 /* Colores semánticos reutilizables */
 .text-success{
     color: var(--color-green-secondary);
@@ -59,6 +65,26 @@
 
 .red-text{
     color: var(--color-red-primary);
+}
+.inventory-card-image-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.inventory-card-inactive-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 0.4rem;
+    color: white;
+}
+
+.inventory-card-disabled {
+    opacity: 0.4;
+    filter: grayscale(50%);
 }
 /*
    En pantallas más grandes incrementa la altura

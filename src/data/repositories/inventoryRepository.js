@@ -44,6 +44,7 @@ export class InventoryRepository extends InventoryIRepository {
             quantity: data.quantity,
             color: data.color,
             status: data.status,
+            deleted: data.deleted,
         });
     }
 

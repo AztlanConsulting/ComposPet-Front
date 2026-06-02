@@ -8,6 +8,7 @@ export class InventoryProduct {
         color,
         status,
         imageUrl,
+        deleted,
     }) {
         this.productId = productId;
         this.name = name;
@@ -17,5 +18,6 @@ export class InventoryProduct {
         this.color = color;
         this.status = status;
         this.imageUrl = imageUrl;
+        this.deleted = deleted;
     }
 }

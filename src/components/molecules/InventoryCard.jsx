@@ -1,5 +1,6 @@
 import '../../css/molecules/inventoryCard.css';
 import Image from '../atoms/Image';
+import Icon from '../../components/atoms/Icon';
 
 /**
  * Tarjeta de producto para el inventario.
@@ -30,7 +31,10 @@ export default function InventoryCard({
         quantity = 0,
         color = '#00A99D',
         imageUrl,
+        status,
     } = product || {};
+
+    const isInactive = status === false; 
 
     // Mapeo de colores predefinidos a códigos hexadecimales
     const colorMap = {
@@ -72,6 +76,8 @@ export default function InventoryCard({
         ? 'd-none d-md-block'
         : '';
 
+    console.log("Product: ", product);
+
     return (
         <div
             className={`
@@ -80,6 +86,7 @@ export default function InventoryCard({
                 d-flex
                 align-items-center
                 position-relative
+                ${isInactive ? 'inventory-card-disabled' : ''}
             `}
             style={{ borderColor: cardColor }}
             onClick={handleCardClick}

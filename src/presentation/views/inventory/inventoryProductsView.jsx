@@ -1,15 +1,13 @@
 import InventoryCard from "../../../components/molecules/InventoryCard";
 import InventoryModal from "../../../components/molecules/InventoryModal";
-import GetInventoryViewModel from "../../viewmodels/inventory/getInventoryViewModel";
 import Loading from "../../../components/Template/loading";
 import Error from '../../../components/Template/error';
-import Navbar from '../../../components/molecules/Navbar';
 
 /**
  *
  */
 export default function InventoryProductsView({
-    viewModel = GetInventoryViewModel(),
+    viewModel,
 }) {
     const {
         inventory = [],
@@ -18,7 +16,6 @@ export default function InventoryProductsView({
         error,
         setSelectedProduct,
         onClickCard,
-        isSmall
     } = viewModel;
 
     // Si el estado es cargando muestra la pantalla
@@ -44,8 +41,6 @@ export default function InventoryProductsView({
                 className="overflow-auto flex-grow-1 py-4 inventory-content-wrapper"
                 style={{
                     maxHeight: "75vh",
-                    paddingLeft: isSmall ? "1rem" : "4.5rem",
-                    paddingRight: isSmall ? "1rem" : "4.5rem"
                 }}
             >
                 <div className="row g-4 mx-0">
