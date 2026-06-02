@@ -199,7 +199,7 @@ function useLoginViewModel(loginUseCase){
                 handleRedirect(userEntity);
             } catch (error) {
                 console.error("CLIC 3: Error en el bloque try/catch del VM", error);
-                setErrors({ general: "Este correo no está registrado en ComposPet" });
+                setErrors({ general: "Credenciales incorrectas" });
             } finally {
                 setLoadingAction(null);
             }
