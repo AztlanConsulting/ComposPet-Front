@@ -111,6 +111,19 @@ body,
     color: var(--color-green-secondary);
     margin-top: 4px;
 }
+    
+.input-container .md {
+    width: 100%;
+}
+
+.formSelect {
+    width: 100%;
+}
+
+.formSelect select {
+    width: 100%;
+    box-sizing: border-box;
+}
 
 /* ── Tablet (≤ 768px) ── */
 @media (max-width: 768px) {

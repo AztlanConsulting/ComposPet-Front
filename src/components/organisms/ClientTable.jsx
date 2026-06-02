@@ -51,16 +51,18 @@ export default function ClientTable({
     return (
         <div className='wrapper ag-theme-alpine custom-green-theme'>
             <AgGridReact
+                headerHeight={52}
                 ref={gridRef}
                 rowData={clientList}
                 columnDefs={columnDefinitions}
                 defaultColDef={defaultColDef}
                 loading={loading}
                 pagination={true}
-                enableBrowserTooltips={true}
+                tooltipShowDelay={0}
                 localeText={AG_GRID_LOCALE_ES}
                 getRowClass={getRowClass}
                 suppressDragLeaveHidesColumns={true}
+                tooltipShowDelay={0}
                 getRowHeight={(params) => {
                     const products = params.data?.extraProductsDetails || [];
                     const count = products.length;

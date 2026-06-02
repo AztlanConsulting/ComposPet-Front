@@ -11,3 +11,9 @@
     position: relative;
     display: inline-flex;
 }
+
+.link-formulario {
+    display: flex;
+    align-items: top;
+    gap: 1rem;
+}
