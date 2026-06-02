@@ -129,6 +129,8 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         }
     }
 
+    const selectedPaymentType = paymentMethods[selectedPaymentIndex]?.tipo;
+
     return {
         collection,
         products,
@@ -147,6 +149,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         removeProduct,
         saveThirdSection,
         loadSummary,
+        selectedPaymentType,
     };
 
 }

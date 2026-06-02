@@ -5,6 +5,7 @@ import "../../css/organisms/thirdFormRecolectionRequest.css"
 import PaymentElement from '../molecules/PaymentElement';
 import CollectionResume from '../molecules/CollectionResume';
 import AdditionalNotes from '../molecules/AdditionalNotes';
+
 /**
  * Organismo de la tercera sección:
  * - Formas de pago
@@ -86,6 +87,7 @@ export default function ThirdFormCollectionRequest({
                     balance={balance}
                     total={total}
                     collection={collection}
+                    paymentType={selectedMethod?.tipo}
                 />
 
                     <span className="balance-check">

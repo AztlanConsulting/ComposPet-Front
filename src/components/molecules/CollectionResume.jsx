@@ -15,8 +15,14 @@ export default function CollectionResume({
     balance,
     total,
     collection,
+    paymentType,
     className="",
 }) {
+    const useBalance = paymentType === "Saldo";
+
+    const balanceToDiscount = useBalance ? Math.abs(balance) : 0;
+    const finalTotal = useBalance ? total - balanceToDiscount : total;
+
     const getPaymentIcon = (tipo) => {
         if (tipo === "Saldo") return "piggy";
         if (tipo === "Transferencia") return "card";
@@ -60,11 +66,19 @@ export default function CollectionResume({
 
                 {/* Totales de compra e info adicional */}
                 <p className="balance-text">
-                                    Saldo: {formatCurrency(balance)}
+                    Saldo: {formatCurrency(balance)}
                 </p>
 
                 <p className="total-text">
                     Total: {formatCurrency(total)}
+                    {useBalance && (
+                        <>
+                            {" - "}
+                            {formatCurrency(balanceToDiscount)}
+                            {" = "}
+                            {formatCurrency(finalTotal)}
+                        </>
+                    )}
                 </p>
             </div>
         </>
