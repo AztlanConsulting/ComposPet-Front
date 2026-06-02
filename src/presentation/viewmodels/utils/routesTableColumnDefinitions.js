@@ -16,6 +16,7 @@ const PRODUCT_COLORS = {
     verde: "var(--color-green-products)",
 }
 
+
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
 
@@ -202,6 +203,26 @@ export function getRoutesTableColumns({
         return forbiddenKeys.includes(params.event.key);
     }
 
+
+    const EditableHeader = ({ title, isEditing }) => (
+        <div className="editable-header">
+            <span>{title}</span>
+
+            {isEditing && (
+                <span className="editable-header-icon">
+                    <Icon name="edit" size="icon-mini" />
+                </span>
+            )}
+        </div>
+    );
+
+    const editableHeader = (title) => () => (
+        <EditableHeader
+            title={title}
+            isEditing={editingRowId !== null}
+        />
+    );
+
     return [
         {
             width: 100,
@@ -290,27 +311,7 @@ export function getRoutesTableColumns({
             minWidth: 130,
             maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span># Recolección</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("# Recolección"),
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
@@ -366,27 +367,7 @@ export function getRoutesTableColumns({
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span># Entrega</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("# Entrega"),
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
@@ -438,27 +419,7 @@ export function getRoutesTableColumns({
             wrapText: true,
             autoHeight: true, 
             cellDataType: false,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Productos Extra</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Productos Extra"),
             valueFormatter: () => "",
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
@@ -545,27 +506,7 @@ export function getRoutesTableColumns({
             maxWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Horario</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Horario"),
             valueSetter: (params) => {
 
                 const sanitized = (params.newValue ?? "")
@@ -600,27 +541,7 @@ export function getRoutesTableColumns({
             minWidth: 180,
             maxWidth: 200,
             editable: (params) => params.data.name === editingRowId,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Forma de pago</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Forma de pago"),
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
             cellEditorParams: {
@@ -649,27 +570,7 @@ export function getRoutesTableColumns({
             minWidth: 150,
             maxWidth: 180,
             editable: (params) => params.data.name === editingRowId,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Total pagado</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Total pagado"),
             cellEditor: "agNumberCellEditor",
 
             cellEditorParams: {
@@ -718,27 +619,7 @@ export function getRoutesTableColumns({
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Notas</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Total pagado"),
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
 

@@ -125,3 +125,14 @@
 .extra-products-menu input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.editable-header {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--color-black);
+}
+
+.editable-header-icon {
+    color: var(--color-green-secondary);
+}

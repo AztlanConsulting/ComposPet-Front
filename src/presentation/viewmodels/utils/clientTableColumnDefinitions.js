@@ -6,6 +6,7 @@ import '../../../css/tokens/colors.css';
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
 
+
 export function getClientTableColumns({
     editingRowId,
     handleEdit,
@@ -28,6 +29,25 @@ export function getClientTableColumns({
         return forbiddenKeys.includes(params.event.key);
     }
 
+    const EditableHeader = ({ title, isEditing }) => (
+        <div className="editable-header">
+            <span>{title}</span>
+
+            {isEditing && (
+                <span className="editable-header-icon">
+                    <Icon name="edit" size="icon-mini" />
+                </span>
+            )}
+        </div>
+    );
+
+    const editableHeader = (title) => () => (
+        <EditableHeader
+            title={title}
+            isEditing={editingRowId !== null}
+        />
+    );
+
     return [
         {
             width: 100,
@@ -41,6 +61,7 @@ export function getClientTableColumns({
             pinned: "left",
             lockPinned: true,
             cellRenderer: (params) => {
+
                 const isEditing = params.data.clientId === editingRowId;
 
                 const isAnotherRowEditing = 
@@ -98,27 +119,7 @@ export function getClientTableColumns({
             cellEditorParams: {
                 values: routeOptions,
             },
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Ruta</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Ruta"),
             valueFormatter: (params) => {
                 return routeMap[params.value] || params.value;
             },
@@ -134,27 +135,7 @@ export function getClientTableColumns({
             maxWidth: 120,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Orden</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Orden"),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -205,27 +186,7 @@ export function getClientTableColumns({
             maxWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Saldo</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Saldo"),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
@@ -269,27 +230,7 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Notas</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Notas"),
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
 
@@ -324,27 +265,7 @@ export function getClientTableColumns({
             minWidth: 150,
             maxWidth: 200,
             editable: (params) => params.data.clientId === editingRowId,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Teléfono</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Teléfono"),
             cellClassRules: modifiedClassRule,
             cellDataType: false,
             cellEditor: "agNumberCellEditor",
@@ -383,27 +304,7 @@ export function getClientTableColumns({
             minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Dirección</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Dirección"),
             valueSetter: (params) => {
                 const validation = validateField("address", params.newValue);
 
@@ -434,27 +335,7 @@ export function getClientTableColumns({
             headerName: "Correo",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Correo</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
                 const validation = validateField("email", params.newValue);
 
@@ -486,27 +367,7 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Mascotas</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Mascotas"),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
 
@@ -538,27 +399,7 @@ export function getClientTableColumns({
             maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Familia</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Familia"),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
 
@@ -591,27 +432,7 @@ export function getClientTableColumns({
             maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: () => (
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        color: 'var(--color-black)'
-                    }}
-                >
-                    <span>Estatus</span>
-
-                    {editingRowId !== null && (
-                        <span style={{ color: "var(--color-green-secondary)" }}>
-                            <Icon
-                                name="edit"
-                                size="icon-mini"
-                            />
-                        </span>
-                    )}
-                </div>
-            ),
+            headerComponent: editableHeader("Estatus"),
         },
     ];
 }
