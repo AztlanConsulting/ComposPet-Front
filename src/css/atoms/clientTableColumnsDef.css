@@ -140,3 +140,17 @@
     opacity: 0.75;
     color: var(--color-black);
 }
+
+.cell-not-editable {
+    cursor: default !important;
+}
+
+.cell-not-editable * {
+    cursor: default !important;
+}
+
+.cell-not-editable:active,
+.cell-not-editable:focus,
+.cell-not-editable:focus-within {
+    outline: none !important;
+}
