@@ -54,8 +54,7 @@ function useCreditBalance(clientId){
     }, [clientId]);
 
     //Usa el método de la entidad para sacar el saldo; 
-    const balance = credit?.getCreditBalance()|| null;
-
+    const balance = credit?.getCreditBalance();
     return{
         credit,
         balance,

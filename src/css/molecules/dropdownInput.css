@@ -10,6 +10,14 @@
     position: relative;
 }
 
+.formField-registrar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    position: relative;
+}
+
 .label-dropdown {
     font-family: var(--font-family-primary);
     font-weight: var(--font-weight-normal);

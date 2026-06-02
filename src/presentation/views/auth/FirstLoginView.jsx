@@ -140,7 +140,6 @@ function FirstLoginView({ isRecovery = false}) {
                                         <PrivacyModal
                                             show={showPrivacy}
                                             onHide={() => setShowPrivacy(false)}
-                                            content={<p>Aquí irá el aviso de privacidad real...</p>}
                                         />
                                     </>
                                 )}

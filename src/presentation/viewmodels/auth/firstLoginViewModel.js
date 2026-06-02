@@ -5,6 +5,16 @@ import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import { FirstLoginUseCase } from '../../../domain/useCases/firstLoginUseCase';
 
 /**
+ * Valida formato de correo electrónico.
+ * @param {string} email - Correo a validar.
+ * @returns {boolean} true si el formato es válido.
+ */
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+/**
  * Valida los criterios de seguridad de la nueva contraseña en el Frontend.
  * Sincronizado con la política de seguridad de 12 caracteres y complejidad.
  * * @param {string} p1 - Nueva contraseña.
@@ -101,6 +111,16 @@ export function useFirstLoginViewModel( isFirstLogin = false, injectedUseCase = 
      */
     const onRequestOTP = async (e) => {
         if(e) e.preventDefault();
+
+    if (!email.trim()) {
+        setError("Debes ingresar un correo electrónico.");
+        return;
+    }
+
+    if (!isValidEmail(email.trim())) {
+        setError("Ingresa un correo electrónico válido.");
+        return;
+    }
 
         if (isFirstLogin && !privacyAccepted) {
             setError("Debes aceptar el Aviso de privacidad para continuar.");

@@ -30,6 +30,7 @@ const InputComponent = forwardRef(({
     classNameInput = "",
     onChange = () => {},
     value = "",
+    maxLength,
     error = "",
     children,
 }, ref) => { 
@@ -47,31 +48,38 @@ const InputComponent = forwardRef(({
             </Label>
 
             <div className="input-container">
+                <div className='gap-1'>
+                    <Input
+                        placeholder={placeholder}
+                        id={id}
+                        size={size}
+                        type={inputType}
+                        onChange={onChange}
+                        className={`
+                            ${classNameInput}
+                            ${type === "password" ? "password-input" : ""}
+                        `}
+                        value={value}
+                        maxLength={maxLength}
+                        ref={ref}
+                    />
+                </div>
+                <div>
+                    {type === "password" && (
+                    <div>
+                        <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
+                        </button>
+                    </div>
+                )}  
+                </div>                
 
-
-                <Input
-                    placeholder={placeholder}
-                    id={id}
-                    size={size}
-                    type={inputType}
-                    onChange={onChange}
-                    className={classNameInput}
-                    value={value}
-                    ref={ref}
-                />
-
-                {type === "password" && (
-                    <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
-                    </button>
-                )}
 
             </div>
-
             {error && (
                 <p className="error-message">
                     {error}

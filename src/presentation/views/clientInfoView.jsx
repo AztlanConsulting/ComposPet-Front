@@ -54,11 +54,11 @@ export default function ClientInfo(){
 
                 <div className="client-filter">
                     <DropdownInput
+                        className="dropdown formField"
                         id="routeFilter"
                         value={viewModel.selectedRoute}
                         onChange={(e) => viewModel.setSelectedRoute(e.target.value)}
                         options={viewModel.routesDropdown}
-                        className="dropdown"
                     >
                         <span className="dropdown-label">Filtrar por ruta</span>
                     </DropdownInput>
