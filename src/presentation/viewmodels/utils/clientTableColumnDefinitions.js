@@ -109,9 +109,14 @@ export function getClientTableColumns({
                 >
                     <span>Ruta</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueFormatter: (params) => {
@@ -140,9 +145,14 @@ export function getClientTableColumns({
                 >
                     <span>Orden</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             cellEditorParams: {
@@ -206,9 +216,14 @@ export function getClientTableColumns({
                 >
                     <span>Saldo</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             cellEditorParams: {
@@ -265,9 +280,14 @@ export function getClientTableColumns({
                 >
                     <span>Notas</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueSetter: (params) => {
@@ -315,9 +335,14 @@ export function getClientTableColumns({
                 >
                     <span>Teléfono</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             cellClassRules: modifiedClassRule,
@@ -369,9 +394,14 @@ export function getClientTableColumns({
                 >
                     <span>Dirección</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueSetter: (params) => {
@@ -415,9 +445,14 @@ export function getClientTableColumns({
                 >
                     <span>Correo</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueSetter: (params) => {
@@ -462,9 +497,14 @@ export function getClientTableColumns({
                 >
                     <span>Mascotas</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueSetter: (params) => {
@@ -509,9 +549,14 @@ export function getClientTableColumns({
                 >
                     <span>Familia</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueSetter: (params) => {
@@ -557,9 +602,14 @@ export function getClientTableColumns({
                 >
                     <span>Estatus</span>
 
-                    <span style={{ color: "var(--color-gray-bg)" }}>
-                        <Icon name="edit" size="icon-mini" />
-                    </span>
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
         },

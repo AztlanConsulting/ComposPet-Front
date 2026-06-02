@@ -291,13 +291,24 @@ export function getRoutesTableColumns({
             maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
             headerComponent: () => (
-                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
                     <span># Recolección</span>
-                    <Icon
-                        name="edit"
-                        size="icon-small"
-                        color="primary"
-                    />
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             cellEditor: "agNumberCellEditor",
@@ -356,13 +367,24 @@ export function getRoutesTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
             headerComponent: () => (
-                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
                     <span># Entrega</span>
-                    <Icon
-                        name="edit"
-                        size="icon-small"
-                        color="primary"
-                    />
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             cellClassRules: modifiedClassRule,
@@ -417,13 +439,24 @@ export function getRoutesTableColumns({
             autoHeight: true, 
             cellDataType: false,
             headerComponent: () => (
-                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                    <span># Productos Extra</span>
-                    <Icon
-                        name="edit"
-                        size="icon-small"
-                        color="primary"
-                    />
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Productos Extra</span>
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
                 </div>
             ),
             valueFormatter: () => "",
@@ -512,6 +545,27 @@ export function getRoutesTableColumns({
             maxWidth: 120,
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Horario</span>
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
+                </div>
+            ),
             valueSetter: (params) => {
 
                 const sanitized = (params.newValue ?? "")
@@ -546,6 +600,27 @@ export function getRoutesTableColumns({
             minWidth: 180,
             maxWidth: 200,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Forma de pago</span>
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
+                </div>
+            ),
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
             cellEditorParams: {
@@ -574,6 +649,27 @@ export function getRoutesTableColumns({
             minWidth: 150,
             maxWidth: 180,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Total pagado</span>
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
+                </div>
+            ),
             cellEditor: "agNumberCellEditor",
 
             cellEditorParams: {
@@ -622,6 +718,27 @@ export function getRoutesTableColumns({
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: () => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.3rem",
+                        color: 'var(--color-black)'
+                    }}
+                >
+                    <span>Notas</span>
+
+                    {editingRowId !== null && (
+                        <span style={{ color: "var(--color-green-secondary)" }}>
+                            <Icon
+                                name="edit"
+                                size="icon-mini"
+                            />
+                        </span>
+                    )}
+                </div>
+            ),
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
 
