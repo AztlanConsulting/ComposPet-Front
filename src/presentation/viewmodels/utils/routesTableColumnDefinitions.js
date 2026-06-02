@@ -15,6 +15,14 @@ const PRODUCT_COLORS = {
     verde: "var(--color-green-products)",
 }
 
+/**
+ * Renderiza el encabezado personalizado de la columna de horario
+ * en la tabla, mostrando el título principal y el formato esperado
+ * de la hora (HH:MM) como subtítulo.
+ *
+ * @component
+ * @returns {JSX.Element} Encabezado visual para la columna de horario.
+ */
 function ScheduleHeader() {
     return (
         <div className="custom-header">
