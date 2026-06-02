@@ -37,7 +37,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
 
     let hasErrors = false;
 
-    const invalidCharacters = /[<>"'%;()&+]/;
+    const invalidCharacters = /[<>"'%;()&+=&/¿?!¡]/;
     const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
     const hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
 
@@ -83,6 +83,9 @@ function validateForm(name, price, quantity, color, description, imageFile) {
         hasErrors = true;
     } else if (numericQuantity < 0) {
         errors.quantity = "La cantidad no puede ser negativa.";
+        hasErrors = true;
+    } else if (numericQuantity > 999) {
+        errors.quantity = "La cantidad no puede ser mayor a 999.";
         hasErrors = true;
     }
 

@@ -79,7 +79,12 @@ function RegisterProduct({
                     placeholder="Ej. Aserrín"
                     classNameInput={`register-input ${errors.name ? 'input-error' : ''}`}
                     onChange={(e) => {
-                        const value = e.target.value;
+                        let value = e.target.value;
+                    
+                        value = value.replace(/[^\p{L}\p{N}\s.,;:()\-]/gu, '');
+                        value = value.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '');
+                        value = value.slice(0, 60);
+                    
                         setName(value);
                         validateField('name', value);
                     }}
@@ -88,6 +93,11 @@ function RegisterProduct({
                 >
                     Nombre <Icon name="requiredInput" size="mini" color="icon-required" />
                 </InputComponent>
+                {!errors.name && (
+                    <p className="helper-message">
+                        {name.length}/60 caracteres
+                    </p>
+                )}
 
                 <Label id="product-description" size="lg" className="label">
                     Descripción
@@ -100,7 +110,13 @@ function RegisterProduct({
                     value={description}
                     maxLength={255}
                     onChange={(e) => {
-                        const value = e.target.value;
+                        let value = e.target.value;
+                    
+                        value = value.replace(/[<>"'%;()&+]/g, '');
+                        value = value.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '');
+                        value = value.replace(/^\s+/, '');
+                        value = value.slice(0, 255);
+                    
                         setDescription(value);
                         validateField('description', value);
                     }}
@@ -109,6 +125,12 @@ function RegisterProduct({
                 {errors.description && (
                     <p className="input-error-message">
                         {errors.description}
+                    </p>
+                )}
+                
+                {!errors.description && (
+                    <p className="helper-message">
+                        {description.length}/255 caracteres
                     </p>
                 )}
 
@@ -153,6 +175,12 @@ function RegisterProduct({
                     Precio <Icon name="requiredInput" size="mini" color="icon-required" />
                 </InputComponent>
 
+                {!errors.price && (
+                    <p className="helper-message">
+                        Máximo permitido: $100,000.00
+                    </p>
+                )}
+
                 <InputComponent
                     id="product-quantity"
                     type="text"
@@ -163,6 +191,11 @@ function RegisterProduct({
                     classNameInput={`register-input no-number-arrows ${errors.quantity ? 'input-error' : ''}`}
                     onChange={(e) => {
                         const value = e.target.value.replace(/\D/g, '');
+                    
+                        if (Number(value) > 999) {
+                            return;
+                        }
+                    
                         setQuantity(value);
                         validateField('quantity', value);
                     }}
@@ -171,6 +204,12 @@ function RegisterProduct({
                 >
                     Cantidad <Icon name="requiredInput" size="mini" color="icon-required" />
                 </InputComponent>
+
+                {!errors.quantity && (
+                    <p className="helper-message">
+                        Máximo permitido: 999 unidades.
+                    </p>
+                )}
 
                 <div className="register-product-color-container" ref={colorRef}>
                     <Label id="product-color" size="lg" className="label">
