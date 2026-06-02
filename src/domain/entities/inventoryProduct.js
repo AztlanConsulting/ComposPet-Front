@@ -6,6 +6,7 @@ export class InventoryProduct {
         quantity,
         color,
         status,
+        deleted,
     }) {
         this.productId = productId;
         this.name = name;
@@ -13,5 +14,6 @@ export class InventoryProduct {
         this.quantity = quantity;
         this.color = color;
         this.status = status;
+        this.deleted = deleted;
     }
 }

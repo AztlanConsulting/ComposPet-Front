@@ -22,16 +22,19 @@ const Input = forwardRef(({
     id = "",
     type = "text",
     onChange = () => {},
+    onFocus = () => {},
+    onBlur = () => {},
     value = "",
 }, ref) => {
     return (
         <input
-        
             type={type}
             placeholder={placeholder}
             id={id}
             className={`input ${size} ${className}`}
             onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
             value={value}
             maxLength={80}
             ref={ref}

@@ -32,6 +32,8 @@ const InputComponent = forwardRef(({
     value = "",
     error = "",
     children,
+    onFocus = () => {},
+    onBlur = () => {},
 }, ref) => { 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -49,16 +51,18 @@ const InputComponent = forwardRef(({
             <div className="input-container">
 
 
-                <Input
-                    placeholder={placeholder}
-                    id={id}
-                    size={size}
-                    type={inputType}
-                    onChange={onChange}
-                    className={classNameInput}
-                    value={value}
-                    ref={ref}
-                />
+            <Input
+                placeholder={placeholder}
+                id={id}
+                size={size}
+                type={inputType}
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                className={classNameInput}
+                value={value}
+                ref={ref}
+            />
 
                 {type === "password" && (
                     <button
