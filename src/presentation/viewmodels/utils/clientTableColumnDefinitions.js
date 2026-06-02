@@ -407,7 +407,11 @@ export function getClientTableColumns({
             minWidth: 100,
             maxWidth: 100,
             editable: (params) => params.data.clientId === editingRowId,
-            cellClassRules: modifiedClassRule,
+            cellClassRules: {
+                ...modifiedClassRule,
+                "cell-not-editable": (params) =>
+                    params.data.clientId !== editingRowId,
+            },
         },
     ];
 }

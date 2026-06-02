@@ -16,6 +16,28 @@ const PRODUCT_COLORS = {
     verde: "var(--color-green-products)",
 }
 
+/**
+ * Renderiza el encabezado personalizado de la columna de horario
+ * en la tabla, mostrando el título principal y el formato esperado
+ * de la hora (HH:MM) como subtítulo.
+ *
+ * @component
+ * @returns {JSX.Element} Encabezado visual para la columna de horario.
+ */
+function ScheduleHeader() {
+    return (
+        <div className="custom-header">
+            <span className="header-title">
+                Horario
+            </span>
+            <br />
+            <span className="header-subtitle">
+                (HH:MM)
+            </span>
+        </div>
+    );
+}
+
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
     const allProducts = props.extraProducts || [];
 
@@ -208,6 +230,7 @@ export function getRoutesTableColumns({
             minWidth: 100,
             maxWidth: 150,
             pinned: 'left',
+            tooltipValueGetter: (params) => params.value || "",
             lockPinned: true,
             suppressMovable: true,
             headerName: "Editar",
@@ -282,6 +305,7 @@ export function getRoutesTableColumns({
             field: "name", 
             minWidth: 200,
             maxWidth: 300,
+            tooltipValueGetter: (params) => params.value || "",
         },
         // Recoleccion
         { 
@@ -476,10 +500,11 @@ export function getRoutesTableColumns({
             },
         },
         { 
-            headerName: "Horario", 
+            headerComponent: ScheduleHeader,
             field: "schedule", 
             minWidth: 120,
             maxWidth: 120,
+            tooltipValueGetter: (params) => params.value || "",
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
@@ -589,6 +614,7 @@ export function getRoutesTableColumns({
             field: "notes", 
             minWidth: 200,
             maxWidth: 350,
+            tooltipValueGetter: (params) => params.value || "",
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
