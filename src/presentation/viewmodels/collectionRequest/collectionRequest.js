@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { redirect, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
 
@@ -101,8 +101,16 @@ function theClientIsInTime(routeDay) {
 function useCollectionRequestViewModel() {
     const progressSteps = ['Recolección', 'Productos', 'Carrito'];
     const totalSteps = progressSteps.length;
+
     const [currentStep, setCurrentStep] = useState(1);
     const [debtAccess, setDebtAccess] = useState(false)
+    const [accessValidated, setAccessValidated] = useState(false);
+
+    const accessValidationStartedRef = useRef(false);
+    const debtAlertShownRef = useRef(false);
+    const completedAlertShownRef = useRef(false);
+    const outOfTimeAlertShownRef = useRef(false);
+    const blockedDebtAlertShownRef = useRef(false);
 
     const navigate = useNavigate();
     
@@ -120,20 +128,53 @@ function useCollectionRequestViewModel() {
     const loading = clientloading || creditLoading;
     const error = clientError || creditError;
 
+    const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
+
+    //Aqui se llama a el firsrtFormViewModel, recibe la info de la request
+    const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(
+        clientId,
+        weekStartDate,
+        weekEndDate,
+    );
+
+    const secondSectionViewModel = useSecondPageViewModel(clientId);
+
+    const thirdSectionViewModel = useCollectionRequestThirdSectionViewModel(
+        clientId,
+        weekStartDate,
+        weekEndDate,
+    );
+
+
     useEffect(() => {
         const validateFormAccess = async () => {
+        
+        if (
+            balance === null ||
+            balance === undefined ||
+            !routeDay ||
+            firstSectionViewModel.loading ||
+            firstSectionViewModel.status === null
+        ) {
+            return;
+        }
 
-        if (balance === null || balance === undefined || !routeDay) return;
+        if (accessValidated || accessValidationStartedRef.current) {
+            return;
+        }
 
-        const isInTimeToRequest = theClientIsInTime(routeDay);
+        accessValidationStartedRef.current = true;
 
-        if (isInTimeToRequest === false){
+        const requestIsCompleted = firstSectionViewModel.status === true;
+
+
+        if (requestIsCompleted) {
             const result = await TimerAlert({
-                title: "Solicitud no disponible",
-                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta." ,
-                secondaryText: "Si es una urgencia, contáctanos a través de WhatsApp.",
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
                 confirmText: "Continuar",
-                timer:10000,
+                timer: 10000,
             });
 
             if (result.isConfirmed || result.dismiss) {
@@ -142,9 +183,30 @@ function useCollectionRequestViewModel() {
 
             return;
         }
+
+        const isInTimeToRequest = theClientIsInTime(routeDay);
+
+
+        if (!isInTimeToRequest) {
+            const result = await TimerAlert({
+                title: "Solicitud no disponible",
+                text: "Ya no te encuentras dentro del horario permitido para generar una solicitud, antes de tu día de recolecta.",
+                secondaryText: "Si es una urgencia, contáctanos a través de WhatsApp.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+
+            return;
+        }
+
         
         if (balance > -500){
             setDebtAccess(true);
+            setAccessValidated(true);
             return;
         }
 
@@ -159,6 +221,7 @@ function useCollectionRequestViewModel() {
 
             if (result.isConfirmed || result.dismiss){
                 setDebtAccess(true);
+                setAccessValidated(true);
             }
 
             return;
@@ -179,25 +242,15 @@ function useCollectionRequestViewModel() {
     };
 
     validateFormAccess();
-    }, [balance, navigate]);
+    }, [
+        balance,
+        routeDay,
+        firstSectionViewModel.status,
+        firstSectionViewModel.loading,
+        navigate,
+    ]);
     
-    const { weekStartDate, weekEndDate } = calculateCurrentWeekRange();
-
-    //Aqui se llama a el firsrtFormViewModel, recibe la info de la request
-    const firstSectionViewModel = useCollectionRequestFirstSectionViewModel(
-        clientId,
-        weekStartDate,
-        weekEndDate,
-    );
-
-    const secondSectionViewModel = useSecondPageViewModel(clientId);
-
-    const thirdSectionViewModel = useCollectionRequestThirdSectionViewModel(
-        clientId,
-        weekStartDate,
-        weekEndDate,
-    );
-
+    
     /**
      * Regresa al formulario a un paso anterior desde la barra de progreso.
      *
@@ -254,7 +307,31 @@ function useCollectionRequestViewModel() {
     };
 
     const onPrimaryAction = async () => {
-        //if(debtAccess) return;
+
+        if (!accessValidated) return;
+
+        if (loading || firstSectionViewModel.loading) return;
+
+        if (firstSectionViewModel.status === true) {
+
+            if (completedAlertShownRef.current) return;
+
+            completedAlertShownRef.current = true;
+
+            const result = await TimerAlert({
+                title: "Solicitud ya completada",
+                text: "Ya completaste tu solicitud de recolección de esta semana.",
+                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
+                confirmText: "Continuar",
+                timer: 10000,
+            });
+
+            if (result.isConfirmed || result.dismiss) {
+                navigate("/");
+            }
+
+            return;
+        }
 
         if (currentStep === 1) {
             const result = await firstSectionViewModel.saveFirstSection();

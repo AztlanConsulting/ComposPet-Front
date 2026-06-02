@@ -59,10 +59,11 @@
     border: 0.3rem solid var(--color-green-tertiary);
     border-radius: var(--border-radius-lg);
     padding: 0.2rem;
-    overflow: auto;
-    z-index: 1000;
-    max-width: 200;
-    max-height: 200;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 300px;
+    max-width: 400px;
+    z-index: 1000px;
 }
 
 .extra-products-menu input[type="checkbox"] {

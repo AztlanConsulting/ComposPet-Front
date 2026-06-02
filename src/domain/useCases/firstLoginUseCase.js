@@ -23,7 +23,7 @@ export class FirstLoginUseCase{
      * @returns {Promise<FirstLogin>} Entidad con el estado inicial del flujo.
      */
     async executeRequest(email, isFirstLogin = false) {
-        if (!email.includes('@')) throw new Error("Email inválido");
+        if (!email.includes('@')) throw new Error("El correo es requerido.");
         return await this.repository.requestOTP(email, isFirstLogin);
     }
 

@@ -53,25 +53,26 @@ export default function CopyLink({
     };
 
     return (
-        <div className="icon-button">
+        <div className='link-formulario'>
             <span className="copy-link-text">{text}</span>
+            <div className="icon-button">
+                <div className="copy-icon-wrapper">
 
-            <div className="copy-icon-wrapper">
+                    {copied && (
+                        <CopyBubble
+                            bubbleMessage={currentBubbleMessage}
+                            type={bubbleType}
+                        />
+                    )}
 
-                {copied && (
-                    <CopyBubble
-                        bubbleMessage={currentBubbleMessage}
-                        type={bubbleType}
+                    <Icon
+                        className="icon-primary"
+                        name="copy"
+                        size="medium"
+                        color="secondary"
+                        onClick={handleCopy}
                     />
-                )}
-
-                <Icon
-                    className="icon-primary"
-                    name="copy"
-                    size="medium"
-                    color="secondary"
-                    onClick={handleCopy}
-                />
+                </div>
             </div>
         </div>
     );

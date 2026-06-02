@@ -26,9 +26,6 @@ export default function RoutesTablePage({
     return (
         <div className="table-container">
             <div className="filters-container">
-                
-
-
 
                 <div className="search-wrapper">
                     <SearchInput
