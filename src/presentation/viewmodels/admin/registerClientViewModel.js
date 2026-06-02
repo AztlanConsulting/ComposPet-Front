@@ -7,10 +7,10 @@ import ProblemAlert from '../../../components/Template/ProblemAlert';
 
 import { registerClientUseCase } from '../../../di/admin/registerClientDependencies';
 
-const ONLY_LETTERS_REGEX = /^[a-zA-ZÀ-ÿ\s]{1,80}$/;
+const ONLY_LETTERS_REGEX = /^[a-zA-ZÀ-ÿ\s]{1,100}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+?\d{10,15}$/;
-const ADDRESS_REGEX =  /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
+const ADDRESS_REGEX =  /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,255}$/;
 const HAS_LETTERS = /[A-Za-zÀ-ÿ]/;
 const HAS_NUMBERS = /\d/;
 

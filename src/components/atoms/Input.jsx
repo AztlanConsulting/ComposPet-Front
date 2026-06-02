@@ -23,6 +23,7 @@ const Input = forwardRef(({
     type = "text",
     onChange = () => {},
     value = "",
+    maxLength,
 }, ref) => {
     return (
         <input
@@ -33,7 +34,7 @@ const Input = forwardRef(({
             className={`input ${size} ${className}`}
             onChange={onChange}
             value={value}
-            maxLength={80}
+            maxLength={maxLength}
             ref={ref}
         />
     );
