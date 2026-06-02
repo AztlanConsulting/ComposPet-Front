@@ -3,14 +3,18 @@
  * @returns {Boolean} -  valor válido / no válido
  */
 
+const MAX_BALANCE = 1000000;
+const MIN_BALANCE = -1000000;
+const MAX_TEXT_LENGTH = 255;
+
 export const validateBalance = (value) => {
     if (value === null || value === undefined) return "El saldo es obligatorio.";
 
     if (isNaN(value)) return "El saldo debe ser un número.";
 
-    if(value > 1000000) return "El saldo es mayor al máximo permitido";
+    if(value > MAX_BALANCE) return "El saldo es mayor al máximo permitido";
 
-    if(value < -1000000) return "El saldo es menor al mínimo permitido";
+    if(value < MIN_BALANCE) return "El saldo es menor al mínimo permitido";
 
     return true;
 };
@@ -19,7 +23,7 @@ export const validateNotes = (value) => {
 
     if (value === null) return true;
 
-    if (value.length > 255) return "Ingresa máximo 255 caracteres.";
+    if (value.length > MAX_TEXT_LENGTH) return `Ingresa máximo ${MAX_TEXT_LENGTH} caracteres.`;
 
     return true;
 };
