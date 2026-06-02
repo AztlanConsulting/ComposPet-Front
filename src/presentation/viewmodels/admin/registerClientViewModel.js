@@ -11,6 +11,8 @@ const ONLY_LETTERS_REGEX = /^[a-zA-ZÀ-ÿ\s]{1,80}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+?\d{10,15}$/;
 const ADDRESS_REGEX =  /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
+const HAS_LETTERS = /[A-Za-zÀ-ÿ]/;
+const HAS_NUMBERS = /\d/;
 
 /**
  * Valida los campos de texto obligatorios del formulario de registro de clientes.
@@ -92,8 +94,8 @@ function validateForm(name, lastname1, lastname2, email, phone, address) {
         errors.address = "La dirección es muy corta.";
         hasErrors = true;
 
-    } else if (cleanedAddress.split(' ').length < 2) {
-        errors.address = "Ingresa una dirección más específica.";
+    } else if (!HAS_LETTERS.test(cleanedAddress) || !HAS_NUMBERS.test(cleanedAddress)) {
+        errors.address = "Incluye al menos la calle y el número.";
         hasErrors = true;
 
     } else if (!ADDRESS_REGEX.test(cleanedAddress)) {
