@@ -10,7 +10,7 @@ export const validateBalance = (value) => {
 
     if(value > 1000000) return "El saldo es mayor al máximo permitido";
 
-    if(value < 1000000) return "El saldo es menor al mínimo permitido";
+    if(value < -1000000) return "El saldo es menor al mínimo permitido";
 
     return true;
 };
