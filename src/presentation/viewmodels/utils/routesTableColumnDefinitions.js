@@ -225,10 +225,20 @@ export function getRoutesTableColumns({
     }
 
 
-    const EditableHeader = ({ title, isEditing }) => (
+    const EditableHeader = ({ title, subtitle, isEditing }) => (
         <div className="editable-header">
-            <span>{title}</span>
-
+            <div>
+                <span>{title}</span>
+                {subtitle && (
+                    <>
+                        <br />
+                        <span className="header-subtitle">
+                            {subtitle}
+                        </span>
+                    </>
+                )}
+            </div>
+            
             {isEditing && (
                 <span className="editable-header-icon">
                     <Icon name="edit" size="icon-mini" />
@@ -237,9 +247,10 @@ export function getRoutesTableColumns({
         </div>
     );
 
-    const editableHeader = (title) => () => (
+    const editableHeader = (title, subtitle) => () => (
         <EditableHeader
             title={title}
+            subtitle={subtitle}
             isEditing={editingRowId !== null}
         />
     );
@@ -536,14 +547,13 @@ export function getRoutesTableColumns({
             },
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: editableHeader("Horario"),
+            headerComponent: editableHeader("Horario", "HH:MM"),
             valueSetter: (params) => {
-
                 const sanitized = (params.newValue ?? "")
                     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
-                    .slice(0, 255);
+                    .slice(0, 255).trim();
 
-                const validation = validateField("schedule", sanitized);
+                const validation = validateField("schedule", sanitized.trim());
 
                 if(validation !== true) {
                     ValidationObserver.addError("schedule");
