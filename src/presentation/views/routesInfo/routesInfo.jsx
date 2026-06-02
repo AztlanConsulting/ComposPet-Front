@@ -193,47 +193,50 @@ export default function RoutesInfo() {
                 {/* Layout normal escritorio */}
                 <div className="route-header-row desktop-route-header">
                     <div className="route-counters-section">
-                        <div className="summary-card">
-                            <CountersGroup
-                                counters={[
-                                    {
-                                        label: "Sumatoria total",
-                                        value: dayTotalAmount,
-                                        icon: 'moneySign',
-                                        color: 'colorsIcon',
-                                    },
-                                ]}
-                            />
-                        </div>
+                        <CountersGroup
+                            counters={[
+                                {
+                                    label: "Sumatoria total",
+                                    value: dayTotalAmount,
+                                    icon: 'moneySign',
+                                    color: 'colorsIcon',
+                                },
+                            ]}
+                        />
 
-                        <div className="center-balance-group">
-                            <BalanceCountersGroup
-                                counters={[
-                                    {
-                                        title: 'Saldo a favor',
-                                        favorSubtitle: 'Ruta',
-                                        favorBalance: routePayedAmount,
-                                        pendingSubtitle: 'Semana',
-                                        pendingBalance: weeklyPayedAmount,
-                                        icon: 'moneyBag',
-                                        color: 'colorsIcon',
-                                    },
-                                    {
-                                        title: 'Pendiente',
-                                        favorSubtitle: 'Ruta',
-                                        favorBalance: routePendingAmount,
-                                        pendingSubtitle: 'Semana',
-                                        pendingBalance: weeklyPendingAmount,
-                                        icon: 'warning',
-                                        color: 'colorsIcon',
-                                    },
-                                ]}
-                            />
-                        </div>
+                        <BalanceCountersGroup
+                            counters={[
+                                {
+                                    title: 'Saldo a favor',
+                                    favorSubtitle: 'Ruta',
+                                    favorBalance: routePayedAmount,
+                                    pendingSubtitle: 'Semana',
+                                    pendingBalance: weeklyPayedAmount,
+                                    icon: 'moneyBag',
+                                    color: 'colorsIcon',
+                                },
+                            ]}
+                        />
+
+                        <BalanceCountersGroup
+                            counters={[
+                                {
+                                    title: 'Pendiente',
+                                    favorSubtitle: 'Ruta',
+                                    favorBalance: routePendingAmount,
+                                    pendingSubtitle: 'Semana',
+                                    pendingBalance: weeklyPendingAmount,
+                                    icon: 'warning',
+                                    color: 'colorsIcon',
+                                },
+                            ]}
+                        />
+
+                        <Divider
+                            className="min-height-100"
+                        />
 
                         <div className="actions-section">
-                            <Divider />
-
                             <div className="buttons-section-container">
                                 <div className="disabled-tooltip-container">
                                     <ButtonActionAlert
