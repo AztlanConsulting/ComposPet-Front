@@ -5,6 +5,7 @@ import {
     refreshAccessToken,
     clearAccessToken,
 } from "../api/axiosConfig";
+import Loading from "../components/Template/loading";
 
 /**
  * Componente de ruta protegida que actúa como guardia de navegación.
@@ -81,7 +82,7 @@ export default function ProtectedRoute({ roles }) {
     }, [userRaw]);
 
     if (isCheckingSession) {
-        return <div>Cargando sesión...</div>;
+        return <Loading />;
     }
 
     if (!hasValidSession) {
