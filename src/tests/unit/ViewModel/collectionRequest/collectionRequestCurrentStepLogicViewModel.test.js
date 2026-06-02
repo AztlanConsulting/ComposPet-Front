@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import useCollectionRequestViewModel from "../../../../presentation/viewmodels/collectionRequest/collectionRequest";
 
 import useAuthenticatedClient from "../../../../presentation/viewmodels/utils/useAuthenticatedClient";
@@ -54,16 +54,23 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
+            routeDay: "Sábado",
+            loading: false,
+            error: null,
         });
 
         useCreditBalance.mockReturnValue({
             balance: 0,
+            loading: false,
+            error: null,
         });
 
         useCollectionRequestFirstSectionViewModel.mockReturnValue({
             saveFirstSection: saveFirstSectionMock,
             loadCurrentCollectionRequest: loadCurrentCollectionRequestMock,
+            status: false,
             loading: false,
+            loadError: null,
         });
 
         useSecondPageViewModel.mockReturnValue({
@@ -104,6 +111,11 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         const { result } = renderHook(() => useCollectionRequestViewModel());
 
         //Actuar
+
+        await waitFor(() => {
+            expect(result.current.debtAccess).toBe(true);
+        });
+
         await act(async () => {
             await result.current.onPrimaryAction();
         });
@@ -123,6 +135,10 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         const { result } = renderHook(() => useCollectionRequestViewModel());
 
         //Actuar
+        await waitFor(() => {
+            expect(result.current.debtAccess).toBe(true);
+        });
+
         await act(async () => {
             await result.current.onPrimaryAction();
         });
@@ -142,6 +158,11 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         const { result } = renderHook(() => useCollectionRequestViewModel());
 
         //Actuar
+
+        await waitFor(() => {
+            expect(result.current.debtAccess).toBe(true);
+        });
+
         await act(async () => {
             await result.current.onPrimaryAction();
         });
@@ -174,6 +195,11 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         const { result } = renderHook(() => useCollectionRequestViewModel());
 
         //Actuar
+
+        await waitFor(() => {
+            expect(result.current.debtAccess).toBe(true);
+        });
+
         await act(async () => {
             await result.current.onPrimaryAction();
         });
@@ -182,6 +208,11 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
         expect(result.current.currentStep).toBe(2);
 
         //Actuar
+
+        await waitFor(() => {
+            expect(result.current.debtAccess).toBe(true);
+        });
+
         await act(async () => {
             await result.current.onPrimaryAction();
         });
