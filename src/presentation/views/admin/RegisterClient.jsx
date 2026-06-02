@@ -89,6 +89,7 @@ function RegisterClient(){
                         id="name"
                         type="text"
                         ref={nameRef}
+                        maxLength={100}
                         value={name}
                         classNameLabel="label"
                         placeholder="Ej. Alejandro Sebastián"
@@ -104,11 +105,15 @@ function RegisterClient(){
                     >
                         Nombre <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent> 
+                    <p className="character-counter">
+                        {name.length}/100 caracteres
+                    </p>
 
                     <InputComponent
                         id="lastname_1"
                         type="text"
                         ref={lastname1Ref}
+                        maxLength={100}
                         value={lastname1}
                         classNameLabel="label"
                         placeholder="Ej. Villavicencio"
@@ -125,11 +130,15 @@ function RegisterClient(){
                     >
                         Apellido Paterno <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
+                    <p className="character-counter">
+                        {lastname1.length}/100 caracteres
+                    </p>
 
                     <InputComponent
                         id="lastname_2"
                         type="text"
                         value={lastname2}
+                        maxLength={100}
                         classNameLabel="label"
                         placeholder="Ej. Casarrubia"
                         classNameInput={`register-input ${errors.lastname2 ? "input-error" : ""}`}
@@ -142,11 +151,15 @@ function RegisterClient(){
                     >
                         Apellido Materno
                     </InputComponent>
+                    <p className="character-counter">
+                        {lastname2.length}/100 caracteres
+                    </p>
 
                     <InputComponent
                         id="email"
                         type="text"
                         ref={emailRef}
+                        maxLength={150}
                         value={email}
                         classNameLabel="label"
                         placeholder="Ej. carlos.mendez@soluciones.com.mx"
@@ -161,6 +174,9 @@ function RegisterClient(){
                     >
                         Correo <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
+                    <p className="character-counter">
+                        {email.length}/150 caracteres
+                    </p>
 
                     <InputComponent
                         id="phone"
@@ -180,6 +196,10 @@ function RegisterClient(){
                     >
                         Número de teléfono <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
+
+                    <p className="character-counter">
+                        {phone.length}/15 caracteres
+                    </p>
                 </section>
 
                 <section>
@@ -191,22 +211,30 @@ function RegisterClient(){
                         type="text"
                         placeholder="Ej. 3 perros, 2 gatos."
                         value={pets}
+                        maxLength={50}
                         classNameLabel="label"
                         onChange={(e) => setPets(sanitizeText(e.target.value))}
                     >
                         Mascotas
                     </InputComponent>
+                    <p className="character-counter">
+                        {pets.length}/50 caracteres
+                    </p>
 
                     <InputComponent
                         id="family"
                         type="text"
                         placeholder="Ej. 2 adultos, 1 niño."
                         value={family}
+                        maxLength={50}
                         classNameLabel="label"
                         onChange={(e) => setFamily(sanitizeText(e.target.value))}
                     >
                         Familia
                     </InputComponent>
+                    <p className="character-counter">
+                        {family.length}/50 caracteres
+                    </p>
 
                     <Label
                         id="notas-adicionales"
@@ -221,9 +249,12 @@ function RegisterClient(){
                         placeholder="Escribe cualquier nota adicional sobre el cliente."
                         className="register-input-notes"
                         value={notes}
-                        maxLength={1000}
+                        maxLength={500}
                         onChange={(e) => setNotes(e.target.value)}
                     />
+                    <p className="character-counter">
+                        {notes.length}/500 caracteres
+                    </p>
 
                 </section>
 
@@ -242,6 +273,7 @@ function RegisterClient(){
                             `register-input ${errors.address ? "input-error" : ""}`
                         }
                         error={errors.address}
+                        maxLength={255}
                         onChange={(e) => {const value =sanitizeText(e.target.value);
                             setAddress(value);
                             validateField("address", value);
@@ -249,6 +281,9 @@ function RegisterClient(){
                     >
                         Dirección <Icon name="requiredInput" size="mini" color="icon-required" />
                     </InputComponent>
+                    <p className="character-counter">
+                        {address.length}/255 caracteres
+                    </p>
 
                 </section>
 

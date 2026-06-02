@@ -30,6 +30,7 @@ const InputComponent = forwardRef(({
     classNameInput = "",
     onChange = () => {},
     value = "",
+    maxLength,
     error = "",
     children,
 }, ref) => { 
@@ -48,7 +49,6 @@ const InputComponent = forwardRef(({
 
             <div className="input-container">
 
-
                 <Input
                     placeholder={placeholder}
                     id={id}
@@ -57,6 +57,7 @@ const InputComponent = forwardRef(({
                     onChange={onChange}
                     className={classNameInput}
                     value={value}
+                    maxLength={maxLength}
                     ref={ref}
                 />
 
