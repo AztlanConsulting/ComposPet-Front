@@ -527,7 +527,13 @@ export function getRoutesTableColumns({
             field: "schedule", 
             minWidth: 120,
             maxWidth: 120,
-            tooltipValueGetter: (params) => params.value || "",
+            tooltipValueGetter: (params) => {
+                const value = params.value == null
+                    ? ""
+                    : String(params.value).trim();
+
+                return value || null;
+            },
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
             headerComponent: editableHeader("Horario"),
@@ -640,11 +646,21 @@ export function getRoutesTableColumns({
             field: "notes", 
             minWidth: 200,
             maxWidth: 350,
-            tooltipValueGetter: (params) => params.value || "",
+            tooltipValueGetter: (params) => {
+                const value = params.value == null
+                    ? ""
+                    : String(params.value).trim();
+
+                return value || null;
+            },
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
-            headerComponent: editableHeader("Total pagado"),
+            cellEditor: "agTextCellEditor",
+            cellEditorParams: {
+                maxLength: 255,
+            },
+            headerComponent: editableHeader("Notas"),
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
 
