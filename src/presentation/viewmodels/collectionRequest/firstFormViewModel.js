@@ -70,8 +70,8 @@ function validateCollectionRequestFirstSection({
 
     // Si el desea recolección, la cantidad de cubetas no pueden ser 0 al mismo tiempo.
     if (wantsCollection && (collectedBuckets <= 0 && deliveredBuckets <= 0)) {
-        errors.collectedBuckets = 'Las dos cantidades no pueden ser 0.';
-        errors.deliveredBuckets = 'Las dos cantidades no pueden ser 0.';
+        errors.collectedBuckets = 'No puede ser 0.';
+        errors.deliveredBuckets = 'No puede ser 0.';
         hasErrors = true;
     }
 
@@ -131,7 +131,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
     const [wantsExtraProducts, setWantsExtraProducts] = useState(null);
     const [collectedBuckets, setCollectedBuckets] = useState(0);
     const [deliveredBuckets, setDeliveredBuckets] = useState(0);
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState(null);
 
     //Estado inicial de los errores
     //Puede que no sea necesario, por que nunca tendria error inicial
@@ -205,28 +205,28 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         loadCurrentCollectionRequest();
     }, [clientId, weekStartDate, weekEndDate]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const validateCompletedRequest = async () => {
+    //     const validateCompletedRequest = async () => {
 
-            if (status !== true) return;
+    //         if (status !== true) return;
 
-            const result = await TimerAlert({
-                title: "Solicitud ya completada",
-                text: "Ya completaste tu solicitud de recolección de esta semana.",
-                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
-                confirmText: "Continuar",
-                timer: 10000,
-            });
+    //         const result = await TimerAlert({
+    //             title: "Solicitud ya completada",
+    //             text: "Ya completaste tu solicitud de recolección de esta semana.",
+    //             secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
+    //             confirmText: "Continuar",
+    //             timer: 10000,
+    //         });
 
-            if (result.isConfirmed || result.dismiss) {
-                navigate("/");
-            }
-        };
+    //         if (result.isConfirmed || result.dismiss) {
+    //             navigate("/");
+    //         }
+    //     };
 
-        validateCompletedRequest();
+    //     validateCompletedRequest();
 
-    }, [status, navigate]);
+    // }, [status, navigate]);
 
     // Efectos ajustar a 0 las cubetas recolectadas y entregadas si el cliente no quiere recolección.
     useEffect(() => {
@@ -427,6 +427,7 @@ function useCollectionRequestFirstSectionViewModel(clientId, weekStartDate, week
         wantsExtraProducts,
         collectedBuckets,
         deliveredBuckets,
+        status,
         errors,
         loading,
         loadError,

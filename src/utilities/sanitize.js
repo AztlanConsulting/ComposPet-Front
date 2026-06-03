@@ -10,5 +10,5 @@ export const sanitizePhone = (value) => {
     return value
         .replace(/[^\d+]/g, '')
         .replace(/(?!^)\+/g, '')
-        .slice(0, 16);
+        .slice(0, 15);
 };

@@ -1,9 +1,12 @@
 import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
+import '../../../css/tokens/colors.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
+
 
 export function getClientTableColumns({
     editingRowId,
@@ -16,6 +19,7 @@ export function getClientTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
+    emails,
 }) {
 
     const modifiedClassRule = {
@@ -26,6 +30,25 @@ export function getClientTableColumns({
         const forbiddenKeys = ["e", "E"];
         return forbiddenKeys.includes(params.event.key);
     }
+
+    const EditableHeader = ({ title, isEditing }) => (
+        <div className="editable-header">
+            <span>{title}</span>
+
+            {isEditing && (
+                <span className="editable-header-icon">
+                    <Icon name="edit" size="icon-mini" />
+                </span>
+            )}
+        </div>
+    );
+
+    const editableHeader = (title) => () => (
+        <EditableHeader
+            title={title}
+            isEditing={editingRowId !== null}
+        />
+    );
 
     return [
         {
@@ -40,6 +63,7 @@ export function getClientTableColumns({
             pinned: "left",
             lockPinned: true,
             cellRenderer: (params) => {
+
                 const isEditing = params.data.clientId === editingRowId;
 
                 const isAnotherRowEditing = 
@@ -86,24 +110,93 @@ export function getClientTableColumns({
                 );
             }
         },
-        { field: "name", headerName: "Nombre" },
-        { field: "lastRequest", headerName: "Última recolección" },
+        {
+            field: "routeId",
+            headerName: "Ruta",
+            tooltipValueGetter: () => null,
+            minWidth: 150,
+            maxWidth: 220,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: routeOptions,
+            },
+            headerComponent: editableHeader("Ruta"),
+            valueFormatter: (params) => {
+                return routeMap[params.value] || params.value;
+            },
+            valueParser: (params) => {
+                return params.newValue;
+            },
+
+        },
+        {
+            field: "order",
+            headerName: "Orden",
+            minWidth: 80,
+            maxWidth: 120,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agNumberCellEditor",
+            headerComponent: editableHeader("Orden"),
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const validation = validateField("order", params.newValue);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("order");
+                    params.data.order = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "order",
+                        });
+                    }, 0);
+
+                    return false;
+                }
+
+                ValidationObserver.removeError("order");
+                params.data.order = Number(params.newValue);
+                return true;
+            },
+        },
+        { 
+            field: "name", 
+            headerName: "Nombre",
+            minWidth: 200,
+            maxWidth: 300,
+         },
+        { 
+            field: "lastRequest", 
+            headerName: "Última recolección",
+            minWidth: 130,
+            maxWidth: 180,
+        },
 
         {
             field: "balance",
             headerName: "Saldo",
+            minWidth: 100,
+            maxWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellEditor: "agNumberCellEditor",
-
+            headerComponent: editableHeader("Saldo"),
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
 
             cellClassRules: modifiedClassRule,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
@@ -135,9 +228,10 @@ export function getClientTableColumns({
         {
             field: "notes",
             headerName: "Notas",
+            minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Notas"),
             valueSetter: (params) => {
                 const validation = validateField("notes", params.newValue);
 
@@ -169,7 +263,10 @@ export function getClientTableColumns({
         {
             field: "cellphone",
             headerName: "Teléfono",
+            minWidth: 150,
+            maxWidth: 200,
             editable: (params) => params.data.clientId === editingRowId,
+            headerComponent: editableHeader("Teléfono"),
             cellClassRules: modifiedClassRule,
             cellDataType: false,
             cellEditor: "agNumberCellEditor",
@@ -205,9 +302,10 @@ export function getClientTableColumns({
         {
             field: "address",
             headerName: "Dirección",
+            minWidth: 150,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Dirección"),
             valueSetter: (params) => {
                 const validation = validateField("address", params.newValue);
 
@@ -234,82 +332,63 @@ export function getClientTableColumns({
         },
 
         {
-            field: "routeId",
-            headerName: "Ruta",
+            field: "email",
+            headerName: "Correo",
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: routeOptions,
-            },
-            valueFormatter: (params) => {
-                return routeMap[params.value] || params.value;
-            },
-            valueParser: (params) => {
-                return params.newValue;
-            },
-
-        },
-        {
-            field: "order",
-            headerName: "Orden",
-            editable: (params) => params.data.clientId === editingRowId,
-            cellEditor: "agNumberCellEditor",
-
-            cellEditorParams: {
-                suppressKeyboardEvent: blockInvalidNumberKeys
-            },
-
-            cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
-                const validation = validateField("order", params.newValue);
+                const validation = validateField("email", params.newValue, emails, params.data.userId);
 
-                if (validation !== true) {
-                    ValidationObserver.addError("order");
-                    params.data.order = params.oldValue;
-
+                if(validation !== true) {
+                    ValidationObserver.addError("email");
+                    params.data.email = params.oldValue;
+                    
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
                         params.api.startEditingCell({
                             rowIndex: params.node.rowIndex,
-                            colKey: "order",
+                            colKey: "email",
                         });
                     }, 0);
-
+                    
                     return false;
                 }
 
-                ValidationObserver.removeError("order");
-                params.data.order = Number(params.newValue);
+                ValidationObserver.removeError("email");
+                params.data.email = params.newValue;
                 return true;
-            },
+            }
         },
+
         {
             field: "pets",
             headerName: "Mascotas",
+            minWidth: 150,
+            maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Mascotas"),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
-
-                if (validation !== true){
+            
+                if (validation !== true) {
                     ValidationObserver.addError("pets");
-                    params.data.pets = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "pets",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "pets",
+                            });
+                        }
                     }, 0);
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("pets");
                 params.data.pets = params.newValue;
                 return true;
@@ -319,28 +398,31 @@ export function getClientTableColumns({
         {
             field: "family",
             headerName: "Familia",
+            minWidth: 150,
+            maxWidth: 250,
             editable: (params) => params.data.clientId === editingRowId,
             cellClassRules: modifiedClassRule,
-
+            headerComponent: editableHeader("Familia"),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
-
+            
                 if (validation !== true) {
                     ValidationObserver.addError("family");
-                    params.data.family = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "family",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "family",
+                            });
+                        }
                     }, 0);
-
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
@@ -350,8 +432,16 @@ export function getClientTableColumns({
         {
             field: "status",
             headerName: "Estatus",
+            tooltipValueGetter: () => null,
+            minWidth: 100,
+            maxWidth: 140,
             editable: (params) => params.data.clientId === editingRowId,
-            cellClassRules: modifiedClassRule,
+            cellClassRules: {
+                ...modifiedClassRule,
+                "cell-not-editable": (params) =>
+                    params.data.clientId !== editingRowId,
+            },
+            headerComponent: editableHeader("Estatus"),
         },
     ];
 }

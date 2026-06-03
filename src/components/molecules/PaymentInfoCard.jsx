@@ -1,8 +1,6 @@
 import "../../css/molecules/paymentInfoCard.css"
 import FormCard from "../Template/formCard";
-import { useState } from "react";
-import Icon from "../atoms/Icon";
-
+import CopyLink from "../molecules/CopyLink";
 
 /**
  * Tarjeta de presentación de la información del método de pago.
@@ -17,8 +15,6 @@ export default function PaymentInfoCard({
     className = "",
 }) {
 
-    const [copied, setCopied] = useState(false);
-
     const formattedNotes = notes.replace(/\\n/g, "\n");
 
     const getAccountNumber = () => {
@@ -29,26 +25,7 @@ export default function PaymentInfoCard({
         return numbers[0].replace(/\s/g, "");
     };
 
-    const handleCopyPaymentInfo = async () => {
-        const accountNumber = getAccountNumber();
-
-        if (!accountNumber) return;
-
-        try {
-            await navigator.clipboard.writeText(accountNumber);
-
-            setCopied(true);
-
-            setTimeout(() => {
-                setCopied(false);
-            }, 1500);
-        } catch (error) {
-            console.error("Error copying payment information:", error);
-        }
-    };
-
     const shouldShowCopyButton = paymentType === "Transferencia";
-
 
     return (
         <FormCard className={`payment-info-card ${className}`}>
@@ -66,20 +43,11 @@ export default function PaymentInfoCard({
 
             {shouldShowCopyButton && (
                 <div className="payment-copy-wrapper">
-                    {copied && (
-                        <span className="payment-copy-bubble">
-                            ¡Copiado!
-                        </span>
-                    )}
-
-                    <button
-                        type="button"
-                        className="payment-copy-button"
-                        onClick={handleCopyPaymentInfo}
-                    >
-                        <span>Copiar</span>
-                        <Icon name="copy" size="small" color="primary" />
-                    </button>
+                    <CopyLink
+                        link={getAccountNumber()}
+                        text="Copiar"
+                        bubbleMessage="¡Copiado!"
+                    />
                 </div>
             )}
         </FormCard>

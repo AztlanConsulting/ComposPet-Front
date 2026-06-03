@@ -6,6 +6,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 250px;
+    position: relative;
+}
+
+.formField-registrar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
     position: relative;
 }
 
@@ -104,4 +113,34 @@
 
 .dropdown-error {
     border-color: red !important;
+}
+
+@media (max-width: 960px) {
+    .formField {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        position: relative;
+    }
+}
+
+@media (max-width: 768px) {
+    .formField {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        position: relative;
+    }
+}
+
+@media (max-width: 480px) {
+    .formField {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        position: relative;
+    }
 }

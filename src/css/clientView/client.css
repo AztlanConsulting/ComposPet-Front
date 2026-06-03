@@ -21,7 +21,7 @@
     display: flex;
     justify-content: stretch;
     align-items: stretch;
-    gap: 6rem;
+    gap: 5rem;
     padding-bottom: 1rem;
 }
 
@@ -62,8 +62,6 @@
 
 .compost-switch-wrapper{
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex: 1;
 }
 
@@ -123,11 +121,54 @@
 }
 
 .desktop-client-counters {
+    width: 100%;
     display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    gap: 2rem;
+}
+
+.desktop-client-counters > .counters-group,
+.desktop-client-counters > .balance-counters-group {
+    display: contents;
+}
+
+@media (max-width: 1400px) {
+    .client-filters-container{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.5rem;
+    }
+
+    .route-filter,
+    .compost-switch-wrapper,
+    .client-search-wrapper {
+        width: 100%;
+        flex: none;
+    }
+
+    .compost-switch-wrapper {
+        flex: 0 1 auto;
+        justify-content: flex-start;
+    }
+
+    .client-search-wrapper {
+        width: 100%;
+    }
+    
+    .counters-row{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+    }
+
 }
 
 /* Tablet */
- @media (max-width: 1024px) {
+@media (max-width: 1024px) {
     .client-filters-container{
         display: flex;
         flex-direction: column;
@@ -160,7 +201,39 @@
     }
 }
 
+@media (min-width: 961px) and (max-width: 1400px) {
+    .desktop-client-counters {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 2rem;
+    }
+
+    .desktop-client-counters > .counters-group,
+    .desktop-client-counters > .balance-counters-group {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 2rem;
+    }
+}
+
 @media(max-width: 960px){
+
+    .client-filters-container{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .client-filter{
+        width: 100%;
+    }
+
     .desktop-client-counters {
         display: none;
     }

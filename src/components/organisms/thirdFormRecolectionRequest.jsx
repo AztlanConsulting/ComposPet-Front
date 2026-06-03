@@ -73,6 +73,9 @@ export default function ThirdFormCollectionRequest({
                             setNotes={setNotes}
                             className="notes-wrapper"
                         />
+                        <p className="character-counter">
+                            {notes?.length || 0}/500 caracteres
+                        </p>
                     </section>
                 </div>
             </FormCard>

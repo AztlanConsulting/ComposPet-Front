@@ -33,11 +33,11 @@ describe("GenerateRouteMessagesUseCase", () => {
         expect(result).toEqual(mockResponse);
     });
 
-    test("debe retornar success false cuando no hay solicitudes para generar mensajes", async () => {
+    test("debe retornar success false cuando Revisa que las solicitudes estén completas y agrega un horario a cada una", async () => {
         // Arrange
         const mockResponse = {
             success: false,
-            message: "No hay solicitudes para generar mensajes",
+            message: "Revisa que las solicitudes estén completas y agrega un horario a cada una",
         };
 
         const mockRepo = {

@@ -34,6 +34,7 @@ export class ClientInfo {
         route,
         status,
         order,
+        email,
     }) {
         this.clientId = clientId;
         this.userId = userId;
@@ -49,6 +50,7 @@ export class ClientInfo {
         this.route = route;
         this.status = status;
         this.order = order;
+        this.email = email;
     }
     
 }

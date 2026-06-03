@@ -25,6 +25,7 @@ const Input = forwardRef(({
     onFocus = () => {},
     onBlur = () => {},
     value = "",
+    maxLength,
 }, ref) => {
     return (
         <input
@@ -36,7 +37,7 @@ const Input = forwardRef(({
             onFocus={onFocus}
             onBlur={onBlur}
             value={value}
-            maxLength={80}
+            maxLength={maxLength}
             ref={ref}
         />
     );

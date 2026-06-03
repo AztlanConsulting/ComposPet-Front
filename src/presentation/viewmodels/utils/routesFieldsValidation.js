@@ -10,7 +10,9 @@ export const validateCollected = (value) => {
 
     if (isNaN(value)) return "El número de cubetas debe de ser un número.";
 
-    if(value > 100) return "Las cubetas recolectadas no pueden ser más de 100.";
+    if (value < 0) return "El número de cubetas debe de ser positivo.";
+
+    if(value > 20) return "Las cubetas recolectadas no pueden ser más de 20.";
 
     if(isNaN(value)) return "El número de cubetas debe de ser un número.";
 
@@ -34,7 +36,7 @@ export const validatePaid = (value) => {
 
     if (value < 0) return "El total pagado debe de ser positivo.";
 
-    if (value > 1000000) return "Ingrese un valor real.";
+    if (value > 1000000) return "El valor es mayor al máximo permitido (1,000,000).";
 
     return true;
 }
@@ -44,7 +46,7 @@ export const validateNotes = (value) => {
 
     if (emojiRegex.test(value)) return "Las notas no pueden contener emojis.";
 
-    if (value.length > 255) return "Ingresa máximo 255 caracteres.";
+    if (value.length > 500) return "Ingresa máximo 500 caracteres.";
 
     return true;
 };

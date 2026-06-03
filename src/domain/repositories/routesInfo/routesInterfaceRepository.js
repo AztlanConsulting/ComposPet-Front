@@ -48,4 +48,8 @@ export class RoutesIRepository {
   async updateRequest(){
     throw new Error('Error al actualizar la información de la solicitud de recolección');
   }
+
+  async getEmails(){
+    throw new Error('Error al obtener los correos registrados en el sistema');
+  }
 }

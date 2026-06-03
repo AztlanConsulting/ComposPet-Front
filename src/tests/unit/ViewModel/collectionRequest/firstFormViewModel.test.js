@@ -69,8 +69,8 @@ describe("useFirstFormViewModel", () => {
         }));
     });
 
-    it("Redirecciona al inicio si la solicitud semanal ya está completada", async () => {
-        //Arrange
+    it("Carga el estatus de la solicitud semanal completada", async () => {
+        // Arrange
         getCurrentExecuteMock.mockResolvedValue({
             id: "requestId",
             wantsPickup: () => true,
@@ -80,8 +80,8 @@ describe("useFirstFormViewModel", () => {
             getStatus: () => true,
         });
 
-        //Actuar
-        renderHook(() =>
+        // Act
+        const { result } = renderHook(() =>
             useFirstFormViewModel(
                 clientId,
                 weekStartDate,
@@ -89,20 +89,13 @@ describe("useFirstFormViewModel", () => {
             ),
         );
 
-        //Afirmar
+        // Assert
         await waitFor(() => {
-            expect(TimerAlert).toHaveBeenCalledWith({
-                title: "Solicitud ya completada",
-                text: "Ya completaste tu solicitud de recolección de esta semana.",
-                secondaryText: "Si deseas hacer una modificación urgente, contáctanos a través de WhatsApp.",
-                confirmText: "Continuar",
-                timer: 10000,
-            });
+            expect(result.current.status).toBe(true);
         });
 
-        await waitFor(() => {
-            expect(mockNavigate).toHaveBeenCalledWith("/");
-        });
+        expect(TimerAlert).not.toHaveBeenCalled();
+        expect(mockNavigate).not.toHaveBeenCalled();
     });
 
     it("Carga la solicitud actual correctamente", async () => {
@@ -277,10 +270,10 @@ describe("useFirstFormViewModel", () => {
         //Afirmar
         expect(response).toEqual({ success: false });
         expect(result.current.errors.collectedBuckets).toBe(
-            "Las dos cantidades no pueden ser 0.",
+            "No puede ser 0.",
         );
         expect(result.current.errors.deliveredBuckets).toBe(
-            "Las dos cantidades no pueden ser 0.",
+            "No puede ser 0.",
         );
         expect(saveFirstSectionExecuteMock).not.toHaveBeenCalled();
     });

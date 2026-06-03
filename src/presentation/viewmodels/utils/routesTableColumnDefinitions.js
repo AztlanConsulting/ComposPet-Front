@@ -2,6 +2,8 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
+import '../../../css/atoms/button.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./routesFieldsValidation";
 import ValidationObserver from "./validationObserver";
@@ -13,6 +15,28 @@ const PRODUCT_COLORS = {
     naranja: "var(--color-orange-primary)",
     morado: "var(--color-purple-primary)",
     verde: "var(--color-green-products)",
+}
+
+/**
+ * Renderiza el encabezado personalizado de la columna de horario
+ * en la tabla, mostrando el título principal y el formato esperado
+ * de la hora (HH:MM) como subtítulo.
+ *
+ * @component
+ * @returns {JSX.Element} Encabezado visual para la columna de horario.
+ */
+function ScheduleHeader() {
+    return (
+        <div className="custom-header">
+            <span className="header-title">
+                Horario
+            </span>
+            <br />
+            <span className="header-subtitle">
+                (HH:MM)
+            </span>
+        </div>
+    );
 }
 
 const ExtraProductsCellEditor = forwardRef((props, ref) => {
@@ -201,69 +225,128 @@ export function getRoutesTableColumns({
         return forbiddenKeys.includes(params.event.key);
     }
 
+
+    const EditableHeader = ({ title, subtitle, isEditing }) => (
+        <div className="editable-header">
+            <div>
+                <span>{title}</span>
+                {subtitle && (
+                    <>
+                        <br />
+                        <span className="header-subtitle">
+                            {subtitle}
+                        </span>
+                    </>
+                )}
+            </div>
+            
+            {isEditing && (
+                <span className="editable-header-icon">
+                    <Icon name="edit" size="icon-mini" />
+                </span>
+            )}
+        </div>
+    );
+
+    const editableHeader = (title, subtitle) => () => (
+        <EditableHeader
+            title={title}
+            subtitle={subtitle}
+            isEditing={editingRowId !== null}
+        />
+    );
+
     return [
         {
             width: 100,
             minWidth: 100,
             maxWidth: 150,
             pinned: 'left',
+            tooltipValueGetter: (params) => params.value || "",
             lockPinned: true,
             suppressMovable: true,
             headerName: "Editar",
-            cellClass: 'edit-cell',
+            cellClass: 'edit-cell edit-cell-front',
             pinned: "left",
             lockPinned: true,
+
+            tooltipValueGetter: (params) => {
+                if (!params.data?.hasRequest) {
+                    return "No hay registros para editar";
+                }
+            
+                if (editingRowId !== null && params.data?.name !== editingRowId) {
+                    return "Termina de editar la fila actual";
+                }
+            
+                return null;
+            },
+
             cellRenderer: (params) => {
                 const isEditing = params.data.name === editingRowId;
-
-                const isAnotherRowEditing = 
+            
+                const isAnotherRowEditing =
                     editingRowId !== null && params.data.name !== editingRowId;
-
+            
+                const isEditDisabled =
+                    isAnotherRowEditing || !params.data.hasRequest;
+            
                 if (isEditing) {
                     return (
                         <div className="save-discard-div">
-                            <Button 
-                            className='action-button'
-                            size='mini-icon' 
-                            csstype='cancel' 
-                            onClick={() => handleSave(params)}
-                            disabled={loading}
+                            <Button
+                                className="action-button"
+                                size="mini-icon"
+                                csstype="cancel"
+                                onClick={() => handleSave(params)}
+                                disabled={loading}
                             >
-                                <Icon name="save" size="icon-medium" color="primary"/>
+                                <Icon name="save" size="icon-medium" color="primary" />
                             </Button>
-                            <Button 
-                            className='action-button'
-                            size='mini-icon' 
-                            csstype='warning' 
-                            onClick={() => handleCancel(params)}
-                            disabled={loading}
+            
+                            <Button
+                                className="action-button"
+                                size="mini-icon"
+                                csstype="warning"
+                                onClick={() => handleCancel(params)}
+                                disabled={loading}
                             >
-                                <Icon name="cancel" size="icon-medium" color="primary"/>
+                                <Icon name="cancel" size="icon-medium" color="primary" />
                             </Button>
                         </div>
                     );
                 }
-
+            
                 return (
                     <div className="edit-div">
-                        <Button 
-                        className='action-button'
-                        disabled={isAnotherRowEditing || !params.data.hasRequest}
-                        size='mini-icon' 
-                        csstype='accept' 
-                        onClick={() => handleEdit(params)}
+                        <Button
+                            className="action-button"
+                            disabled={isEditDisabled}
+                            size="mini-icon"
+                            csstype="accept"
+                            onClick={() => handleEdit(params)}
                         >
                             <Icon name="edit" size="icon-medium" color="primary" />
                         </Button>
                     </div>
-
                 );
             }
         },
-        { headerName: "Nombre", field: "name", minWidth: 180},
+        { 
+            headerName: "Nombre", 
+            field: "name", 
+            minWidth: 200,
+            maxWidth: 300,
+            tooltipValueGetter: (params) => params.value || "",
+        },
         // Recoleccion
-        { headerName: "# Recolección", field: "collectedBuckets", minWidth: 120,
+        { 
+            headerName: "# Recolección",
+            field: "collectedBuckets", 
+            minWidth: 130,
+            maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: editableHeader("# Recolección"),
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
@@ -309,12 +392,17 @@ export function getRoutesTableColumns({
             },
         },
         // Entrega
-        { headerName: "# Entrega", field: "deliveredBuckets", minWidth: 120,
+        { 
+            headerName: "# Entrega", 
+            field: "deliveredBuckets", 
+            minWidth: 130,
+            maxWidth: 170,
             editable: (params) => params.data.name === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
+            headerComponent: editableHeader("# Entrega"),
             cellClassRules: modifiedClassRule,
 
             valueSetter: (params) => {
@@ -359,11 +447,13 @@ export function getRoutesTableColumns({
         {
             headerName: "Productos Extra", 
             field: "extraProductsDetails",
+            suppressClickEdit: true,
             cellClass: 'multiline-cell',
             minWidth: 180,
+            maxWidth: 300,
             wrapText: true,
-            autoHeight: true, 
             cellDataType: false,
+            headerComponent: editableHeader("Productos Extra"),
             valueFormatter: () => "",
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
@@ -396,7 +486,12 @@ export function getRoutesTableColumns({
                             .join("\n");
 
                     setTimeout(() => {
-                        params.api.resetRowHeights();
+                        const products = params.data.extraProductsDetails || [];
+                        const count = products.length;
+                        const newHeight = count <= 1 ? 42 : count * 26 + 12;
+
+                        params.node.setRowHeight(newHeight);
+                        params.api.onRowHeightChanged();
                         params.api.refreshCells({
                             rowNodes: [params.node],
                             columns: ['extraProductsDetails'],
@@ -444,18 +539,26 @@ export function getRoutesTableColumns({
             },
         },
         { 
-            headerName: "Horario", 
+            headerComponent: ScheduleHeader,
             field: "schedule", 
             minWidth: 120,
+            maxWidth: 120,
+            tooltipValueGetter: (params) => {
+                const value = params.value == null
+                    ? ""
+                    : String(params.value).trim();
+
+                return value || null;
+            },
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
+            headerComponent: editableHeader("Horario", "HH:MM"),
             valueSetter: (params) => {
-
                 const sanitized = (params.newValue ?? "")
                     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
-                    .slice(0, 255);
+                    .slice(0, 255).trim();
 
-                const validation = validateField("schedule", sanitized);
+                const validation = validateField("schedule", sanitized.trim());
 
                 if(validation !== true) {
                     ValidationObserver.addError("schedule");
@@ -480,8 +583,10 @@ export function getRoutesTableColumns({
         { 
             headerName: "Forma de pago", 
             field: "paymentId", 
-            minWidth: 120,
+            minWidth: 180,
+            maxWidth: 200,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: editableHeader("Forma de pago"),
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
             cellEditorParams: {
@@ -496,27 +601,26 @@ export function getRoutesTableColumns({
         },
         { headerName: "Total a pagar", 
             field: "totalToPay", 
-            minWidth: 120,
+            minWidth: 150,
+            maxWidth: 180,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
         },
         { 
             headerName: "Total pagado", 
             field: "totalPaid", 
-            minWidth: 120,
+            minWidth: 150,
+            maxWidth: 180,
             editable: (params) => params.data.name === editingRowId,
+            headerComponent: editableHeader("Total pagado"),
             cellEditor: "agNumberCellEditor",
 
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueParser: (params) => {
                 return params.newValue;
@@ -552,9 +656,22 @@ export function getRoutesTableColumns({
             headerName: "Notas", 
             field: "notes", 
             minWidth: 200,
+            maxWidth: 350,
+            tooltipValueGetter: (params) => {
+                const value = params.value == null
+                    ? ""
+                    : String(params.value).trim();
+
+                return value || null;
+            },
             wrapText: true,
             autoHeight: true,
             editable: (params) => params.data.name === editingRowId,
+            cellEditor: "agTextCellEditor",
+            cellEditorParams: {
+                maxLength: 255,
+            },
+            headerComponent: editableHeader("Notas"),
             cellClassRules: modifiedClassRule,
             valueSetter: (params) => {
 

@@ -22,7 +22,7 @@ export default function IconActionBubble({
     text = "Generar mensajes de confirmación",
     iconName = "googleSheets",
     bubbleMessage = "Mensajes generados exitosamente",
-    errorMessage = "Ocurrió un error al generar los mensajes",
+    errorMessage = "Revisa que las solicitudes estén completas y agrega un horario a cada una",
     onAction,
 }) {
     const [showBubble, setShowBubble] = useState(false);
@@ -46,7 +46,7 @@ export default function IconActionBubble({
         } catch (error) {
 
             const message = 
-                error.message === "No hay solicitudes para generar mensajes"
+                error.message === "Revisa que las solicitudes estén completas y agrega un horario a cada una"
                     ? error.message
                     : errorMessage;
 
