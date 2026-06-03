@@ -57,11 +57,19 @@ export const validateAddress = (value) => {
 };
 
 export const validateText = (value, fieldName) => {
-    const text = normalize(value);
+    if (value === null || value === undefined || value === '') {
+        return true;
+    }
 
-    if (!text) return `El campo ${fieldName} es requerido.`;
+    const text = String(value);
 
-    if (text.length > 100) return `El campo ${fieldName} es demasiado largo.`;
+    if (text.trim() === '') {
+        return `El campo ${fieldName} no puede contener solo espacios.`;
+    }
+
+    if (text.trim().length > 100) {
+        return `El campo ${fieldName} es demasiado largo.`;
+    }
 
     return true;
 };
