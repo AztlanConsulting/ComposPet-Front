@@ -31,7 +31,7 @@ export default function RoutesTablePage({
                     <SearchInput
                         value={routesViewModel.searchText}
                         onChange={(e) => routesViewModel.handleSearchText(e.target.value)}
-                        placeholder="Buscar a un cliente por nombre"
+                        placeholder="Buscar por nombre"
                     />
                 </div>
 
