@@ -18,6 +18,7 @@ export function getClientTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
+    emails,
 }) {
 
     const modifiedClassRule = {
@@ -338,7 +339,7 @@ export function getClientTableColumns({
             cellClassRules: modifiedClassRule,
             headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
-                const validation = validateField("email", params.newValue);
+                const validation = validateField("email", params.newValue, emails, params.data.userId);
 
                 if(validation !== true) {
                     ValidationObserver.addError("email");

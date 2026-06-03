@@ -7,11 +7,17 @@ import { ClientApiClient } from "../../data/datasources/clientApiClient";
 // CLI-07
 import { GetRoutesUseCase } from "../../domain/useCases/getRoutesUseCase";
 import { UpdateClientUseCase } from "../../domain/useCases/updateClientUseCase";
+import { RoutesApiClient } from "../../data/datasources/routesApiClient";
+import { RoutesRepository } from "../../data/repositories/routesInfo/routesRepository";
+import { GetEmailsUseCase } from "../../domain/useCases/routesInfo/routesTableUseCase";
 
 // CLI-06
 import { GetCompostStatusUseCase } from "../../domain/useCases/getCompostStatusUseCase";
 import { UpdateCompostStatusUseCase } from "../../domain/useCases/updateCompostStatusUseCase";
 
+const emailApiClient = new RoutesApiClient();
+const emailRepository = new RoutesRepository(emailApiClient);
+export const getEmailsUseCase = new GetEmailsUseCase(emailRepository);
 
 const apiClient = new ClientApiClient();
 const getRepository = new ClientTableRepository(apiClient);
