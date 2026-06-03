@@ -77,10 +77,10 @@ describe("ButtonActionAlert", () => {
         });
     });
 
-    test("usa el mensaje específico cuando no hay solicitudes para generar mensajes", async () => {
+    test("usa el mensaje específico cuando Revisa que las solicitudes estén completas y agrega un horario a cada una", async () => {
         const onAction = jest
             .fn()
-            .mockRejectedValue(new Error("No hay solicitudes para generar mensajes"));
+            .mockRejectedValue(new Error("Revisa que las solicitudes estén completas y agrega un horario a cada una"));
 
         render(
             <ButtonActionAlert
@@ -96,7 +96,7 @@ describe("ButtonActionAlert", () => {
         await waitFor(() => {
             expect(ConfirmAlert).toHaveBeenCalledWith({
                 title: "No se pudo completar la acción",
-                text: "No hay solicitudes para generar mensajes",
+                text: "Revisa que las solicitudes estén completas y agrega un horario a cada una",
                 icon: "error",
                 confirmText: "Aceptar",
                 showCancelButton: false,
