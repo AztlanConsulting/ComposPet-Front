@@ -6,6 +6,7 @@ import {
     updateClientUseCase,
     getCompostStatusUseCase,
     updateCompostStatusUseCase,
+    getEmailsUseCase,
 } from '../../di/admin/clientTableDependencies';
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
@@ -31,6 +32,7 @@ function useClientTableViewModel() {
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [emails, setEmails] = useState([]);
     
     const [routeList, setRouteList] = useState([]);
     
@@ -184,9 +186,22 @@ function useClientTableViewModel() {
         return originalRow[field] !== params.value;
     }, [originalClientList]);
 
-    const handleEdit = useCallback((params) => {
+    const getEmails = useCallback(async () => {
+        try {
+            const response = await getEmailsUseCase.execute();
+
+            setEmails(response);
+        } catch (error) {
+            console.log("Error loading emails:", error);
+            setEmails([]);
+        }
+    }, []);
+
+    const handleEdit = useCallback(async (params) => {
 
         if (editingRowId !== null) return;
+
+        await getEmails();
 
         setEditingRowId(params.data.clientId);
 
@@ -243,6 +258,7 @@ function useClientTableViewModel() {
             console.log("Error discarding changes in client data: ", error);
         } finally {
             setLoading(false);
+            setEmails([]);
         }
     }, [originalClientList]);
 
@@ -310,6 +326,7 @@ function useClientTableViewModel() {
         } finally {
             ValidationObserver.clear();
             setLoading(false);
+            setEmails([]);
         }
 
     }, [updateClientUseCase, getInfo]);
@@ -324,6 +341,7 @@ function useClientTableViewModel() {
             isCellChanged,
             routeMap,
             routeOptions,
+            emails,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -341,6 +359,7 @@ function useClientTableViewModel() {
         routeMap,
         routeOptions,
         loading,
+        emails,
     ]);
 
     // *********************************************************************

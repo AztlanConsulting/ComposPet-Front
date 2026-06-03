@@ -169,4 +169,18 @@ export class RoutesRepository{
         const response = await this.apiClient.updateRequest(data);
         return response;
     }
+
+    /**
+     * Recupera los correos registrados en el sistema.
+     *
+     * @async
+     * @returns {Promise<Array<String>>} Promesa.
+     * @throws {Error} Lanza un error si la petición al API falla o si hay problemas
+     * al transformar los datos.
+     * 
+     */
+    async getEmails(){
+        const response = await this.apiClient.getEmails();
+        return response.data;
+    }
 }

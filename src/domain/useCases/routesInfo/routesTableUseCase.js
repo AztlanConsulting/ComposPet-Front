@@ -78,3 +78,12 @@ export class UpdateRequestUseCase {
         return await this.routesRepository.updateRequest(data);
     }
 }
+
+export class GetEmailsUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+    async execute() {
+        return await this.routesRepository.getEmails();
+    }
+}
