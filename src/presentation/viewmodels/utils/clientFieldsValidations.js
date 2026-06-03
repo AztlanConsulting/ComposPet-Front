@@ -5,7 +5,7 @@
 
 const MAX_BALANCE = 1000000;
 const MIN_BALANCE = -1000000;
-const MAX_TEXT_LENGTH = 255;
+const MAX_TEXT_LENGTH = 500;
 const normalize = (value) => String(value ?? '').trim();
 
 export const validateBalance = (value) => {

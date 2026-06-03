@@ -46,7 +46,7 @@ export const validateNotes = (value) => {
 
     if (emojiRegex.test(value)) return "Las notas no pueden contener emojis.";
 
-    if (value.length > 255) return "Ingresa máximo 255 caracteres.";
+    if (value.length > 500) return "Ingresa máximo 500 caracteres.";
 
     return true;
 };
