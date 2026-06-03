@@ -152,7 +152,7 @@ export default function RoutesInfo() {
                                                 <ButtonActionAlert
                                                     onAction={routesViewModel.handleGenerateMessages}
                                                     successMessage="Mensajes generados exitosamente"
-                                                    errorMessage="Ocurrió un error al generar los mensajes"
+                                                    errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
                                                     className="button-actions"
                                                     disabled={!isGoogleLoggedIn}
                                                 >
@@ -244,7 +244,7 @@ export default function RoutesInfo() {
                                     <ButtonActionAlert
                                         onAction={routesViewModel.handleGenerateMessages}
                                         successMessage="Mensajes generados exitosamente"
-                                        errorMessage="Ocurrió un error al generar los mensajes"
+                                        errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
                                         className="button-actions"
                                         disabled={!isGoogleLoggedIn}
                                     >

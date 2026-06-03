@@ -9,7 +9,7 @@ import Button from "../atoms/Button";
 export default function ButtonActionAlert({
     children = "Generar mensajes",
     successMessage = "",
-    errorMessage = "Ocurrió un error al generar los mensajes",
+    errorMessage = "Revisa que las solicitudes estén completas y agrega un horario a cada una",
     onAction,
     disabled = false,
     size = "medium",
