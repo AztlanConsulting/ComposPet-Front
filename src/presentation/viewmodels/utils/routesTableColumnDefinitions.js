@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/atoms/button.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./routesFieldsValidation";
 import ValidationObserver from "./validationObserver";
@@ -603,9 +604,7 @@ export function getRoutesTableColumns({
             minWidth: 150,
             maxWidth: 180,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
         },
         { 
@@ -621,9 +620,7 @@ export function getRoutesTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueParser: (params) => {
                 return params.newValue;

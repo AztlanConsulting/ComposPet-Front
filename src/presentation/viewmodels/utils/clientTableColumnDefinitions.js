@@ -2,6 +2,7 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/tokens/colors.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
@@ -195,9 +196,7 @@ export function getClientTableColumns({
 
             cellClassRules: modifiedClassRule,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
