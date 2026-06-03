@@ -31,7 +31,6 @@ function useClientTableViewModel() {
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(clientList)
     const [routeList, setRouteList] = useState([]);
     
     const routeOptions = routeList.map(r => r.id_ruta);
