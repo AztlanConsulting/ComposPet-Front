@@ -5,7 +5,7 @@
 
 const MAX_BALANCE = 1000000;
 const MIN_BALANCE = -1000000;
-const MAX_TEXT_LENGTH = 255;
+const MAX_TEXT_LENGTH = 500;
 
 export const validateBalance = (value) => {
     if (value === null || value === undefined) return "El saldo es obligatorio.";
