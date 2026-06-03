@@ -146,7 +146,6 @@ export default function RoutesInfo() {
                                         <div className="actions-section">
                                             <Divider />
 
-<<<<<<< HEAD
                                         <div className="buttons-section-container">
                                             <div className="disabled-tooltip-container">
                                                 <ButtonActionAlert
@@ -158,19 +157,6 @@ export default function RoutesInfo() {
                                                 >
                                                     Generar mensajes
                                                 </ButtonActionAlert>
-=======
-                                            <div className="buttons-section-container">
-                                                <div className="disabled-tooltip-container">
-                                                    <ButtonActionAlert
-                                                        onAction={routesViewModel.handleGenerateMessages}
-                                                        successMessage="Mensajes generados exitosamente"
-                                                        errorMessage="Ocurrió un error al generar los mensajes"
-                                                        className="button-actions"
-                                                        disabled={!isGoogleLoggedIn}
-                                                    >
-                                                        Generar mensajes
-                                                    </ButtonActionAlert>
->>>>>>> 200cfd8410ff900f082dea0b8070f4eb91510f71
 
                                                     {!isGoogleLoggedIn && (
                                                         <span className="disabled-tooltip-text">
