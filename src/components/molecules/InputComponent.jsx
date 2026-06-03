@@ -41,6 +41,14 @@ const InputComponent = forwardRef(({
             ? (showPassword ? "text" : "password")
             : type;
 
+    const handleChange = (e) => {
+        if (type === "password") {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        }
+    
+        onChange(e);
+    };
+
     return (
         <div className="mt-2">
             <Label size={size} id={id} className={classNameLabel}>
@@ -54,7 +62,7 @@ const InputComponent = forwardRef(({
                         id={id}
                         size={size}
                         type={inputType}
-                        onChange={onChange}
+                        onChange={handleChange}
                         className={`
                             ${classNameInput}
                             ${type === "password" ? "password-input" : ""}
