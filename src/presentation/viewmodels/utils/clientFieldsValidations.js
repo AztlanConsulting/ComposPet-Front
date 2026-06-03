@@ -6,6 +6,7 @@
 const MAX_BALANCE = 1000000;
 const MIN_BALANCE = -1000000;
 const MAX_TEXT_LENGTH = 500;
+const normalize = (value) => String(value ?? '').trim();
 
 export const validateBalance = (value) => {
     if (value === null || value === undefined) return "El saldo es obligatorio.";
@@ -20,63 +21,85 @@ export const validateBalance = (value) => {
 };
 
 export const validateNotes = (value) => {
+    const text = normalize(value);
 
-    if (value === null) return true;
+    if (!text) return true;
 
-    if (value.length > MAX_TEXT_LENGTH) return `Ingresa máximo ${MAX_TEXT_LENGTH} caracteres.`;
+    if (text.length > MAX_TEXT_LENGTH) {
+        return `El campo notas permite máximo ${MAX_TEXT_LENGTH} caracteres.`;
+    }
 
     return true;
 };
 
 export const validatePhone = (value) => {
-    if (!value) return "El teléfono es requerido.";
+    const text = normalize(value);
+
+    if (!text) return "El campo teléfono es requerido.";
 
     const phoneRegex = /^\+?\d{10,15}$/;
 
-    if (!phoneRegex.test(value)) return "Ingresa un teléfono válido.";
+    if (!phoneRegex.test(text)) return "El campo teléfono debe ser válido.";
 
     return true;
 };
 
 export const validateAddress = (value) => {
-    if (!value) return "La dirección es requerida.";
+    const text = normalize(value);
+
+    if (!text) return "El campo dirección es requerido.";
 
     const addressRegex = /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9.,#\-\s]{5,150}$/;
 
-    if (!addressRegex.test(value)) return "Ingresa una dirección válida";
+    if (!addressRegex.test(text)) return "El campo dirección debe ser válido.";
 
     return true;
 };
 
 export const validateText = (value, fieldName) => {
-    if (!value) return ` Campo ${fieldName} es requerido.`;
+    if (value === null || value === undefined || value === '') {
+        return true;
+    }
 
-    if (value.length > 100) return `${fieldName} demasiado largo.`;
+    const text = String(value);
+
+    if (text.trim() === '') {
+        return `El campo ${fieldName} no puede contener solo espacios.`;
+    }
+
+    if (text.trim().length > 100) {
+        return `El campo ${fieldName} es demasiado largo.`;
+    }
 
     return true;
 };
 
 export const validateOrder = (value) => {
-    if (!value) return "El orden es requerido.";
+    const text = normalize(value);
 
-    if(value < 0) return "El orden no puede ser negativo.";
+    if (!text) return "El campo orden es requerido.";
 
-    if(value == 0) return "El orden no puede ser 0.";
+    const order = Number(text);
 
-    if(value >= 100) return "El orden es demasiado grande.";
+    if (isNaN(order)) return "El campo orden debe ser un número.";
+    if (order < 0) return "El campo orden no puede ser negativo.";
+    if (order === 0) return "El campo orden no puede ser 0.";
+    if (order >= 100) return "El campo orden es demasiado grande.";
 
     return true;
-}
+};
 
 export const validateEmail = (value) => {
-    if (!value) return "El correo electrónico es requerido.";
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(value)) return "Ingresa un correo electrónico válido.";
-    
-    return true;
-}
+    const text = normalize(value);
 
+    if (!text) return "El campo correo electrónico es requerido.";
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(text)) return "El campo correo electrónico debe ser válido.";
+
+    return true;
+};
 export const validateField = (field, value) => {
 
     switch (field) {
@@ -93,10 +116,10 @@ export const validateField = (field, value) => {
             return validateAddress(value);
 
         case "pets":
-            return validateText(value, "Mascotas");
-
+            return validateText(value, "mascotas");
+        
         case "family":
-            return validateText(value, "Familia");
+            return validateText(value, "familia");
 
         case "order":
             return validateOrder(value);

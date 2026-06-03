@@ -62,7 +62,6 @@ export default function ClientTable({
                 localeText={AG_GRID_LOCALE_ES}
                 getRowClass={getRowClass}
                 suppressDragLeaveHidesColumns={true}
-                tooltipShowDelay={0}
                 getRowHeight={(params) => {
                     const products = params.data?.extraProductsDetails || [];
                     const count = products.length;
