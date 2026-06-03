@@ -108,8 +108,9 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    gap: 1rem;
+    gap: 2rem;
 }
+
 
 .filters-dropdowns {
     display: flex;
@@ -342,6 +343,7 @@
         padding: 0 0.1rem;
         flex-direction: column;
         align-items: stretch;
+        padding: 0 3rem 0 3rem;
         width: 100%;
         gap: 1rem;
     }

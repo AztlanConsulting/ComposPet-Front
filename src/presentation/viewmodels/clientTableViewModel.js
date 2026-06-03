@@ -263,7 +263,6 @@ function useClientTableViewModel() {
     }, [originalClientList]);
 
     const validateRow = (data) => {
-
         const fieldsToValidate = [
             "balance",
             "notes",
@@ -272,12 +271,12 @@ function useClientTableViewModel() {
             "order",
             "pets",
             "family",
+            "email",
         ];
-
+    
         for (const field of fieldsToValidate) {
-
             const result = validateField(field, data[field]);
-
+    
             if (result !== true) {
                 return {
                     valid: false,
@@ -286,39 +285,47 @@ function useClientTableViewModel() {
                 };
             }
         }
-
-        return { valid: true };
+    
+        return {
+            valid: true,
+            field: null,
+            message: null,
+        };
     };
 
     const handleSave = useCallback(async (params) => {
 
         try {
-
             setLoading(true);
-
+    
             params.api.stopEditing(false);
-
-            if (ValidationObserver.hasErrors()) {
-
+    
+            ValidationObserver.clear();
+    
+            const validation = validateRow(params.data);
+    
+            if (!validation.valid) {
+                ValidationObserver.addError(validation.field);
+    
                 await ProblemAlert({
                     title: "Error en los datos ingresados",
-                    text: "Corrige los campos inválidos antes de guardar."
+                    text: validation.message
                 });
-
+    
                 return;
             }
-
+    
             await updateClientUseCase.execute(params.data);
-
+    
             ValidationObserver.clear();
-
+    
             await getInfo();
-
+    
             setEditingRowId(null);
-
+    
             await AceptAlert({});
-
-        } catch(error) {
+    
+        } catch (error) {
             await ProblemAlert({
                 title: "Error al actualizar",
                 text: error.message || "No se pudo actualizar la información del cliente."
@@ -328,7 +335,7 @@ function useClientTableViewModel() {
             setLoading(false);
             setEmails([]);
         }
-
+    
     }, [updateClientUseCase, getInfo]);
 
     // AG Table columns config

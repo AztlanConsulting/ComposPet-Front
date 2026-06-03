@@ -372,22 +372,24 @@ export function getClientTableColumns({
             headerComponent: editableHeader("Mascotas"),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
-
-                if (validation !== true){
+            
+                if (validation !== true) {
                     ValidationObserver.addError("pets");
-                    params.data.pets = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "pets",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "pets",
+                            });
+                        }
                     }, 0);
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("pets");
                 params.data.pets = params.newValue;
                 return true;
@@ -404,23 +406,24 @@ export function getClientTableColumns({
             headerComponent: editableHeader("Familia"),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
-
+            
                 if (validation !== true) {
                     ValidationObserver.addError("family");
-                    params.data.family = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "family",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "family",
+                            });
+                        }
                     }, 0);
-
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
