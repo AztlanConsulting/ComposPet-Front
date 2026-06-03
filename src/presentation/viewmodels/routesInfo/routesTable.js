@@ -218,6 +218,8 @@ function useRoutesViewModel(){
             setLoading(true);
             params.api.stopEditing(false);
 
+            ValidationObserver.clear();
+
             if (ValidationObserver.hasErrors()) {
                 await ProblemAlert({
                     title: "Error en los datos ingresados",
