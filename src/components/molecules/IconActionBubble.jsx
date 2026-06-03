@@ -46,7 +46,7 @@ export default function IconActionBubble({
         } catch (error) {
 
             const message = 
-                error.message === "No hay solicitudes para generar mensajes"
+                error.message === "Revisa que las solicitudes estén completas y agrega un horario a cada una"
                     ? error.message
                     : errorMessage;
 
