@@ -121,7 +121,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
 }
 
 .privacy-link {
@@ -291,5 +291,4 @@
         gap: 0.75rem;
         margin: 0.25rem 0;
     }
-
 }

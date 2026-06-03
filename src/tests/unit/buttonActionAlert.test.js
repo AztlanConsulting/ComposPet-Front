@@ -58,7 +58,7 @@ describe("ButtonActionAlert", () => {
         render(
             <ButtonActionAlert
                 onAction={onAction}
-                errorMessage="Ocurrió un error al generar los mensajes"
+                errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
             >
                 Generar mensajes
             </ButtonActionAlert>
@@ -69,7 +69,7 @@ describe("ButtonActionAlert", () => {
         await waitFor(() => {
             expect(ConfirmAlert).toHaveBeenCalledWith({
                 title: "No se pudo completar la acción",
-                text: "Ocurrió un error al generar los mensajes",
+                text: "Revisa que las solicitudes estén completas y agrega un horario a cada una",
                 icon: "error",
                 confirmText: "Aceptar",
                 showCancelButton: false,
@@ -85,7 +85,7 @@ describe("ButtonActionAlert", () => {
         render(
             <ButtonActionAlert
                 onAction={onAction}
-                errorMessage="Ocurrió un error al generar los mensajes"
+                errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
             >
                 Generar mensajes
             </ButtonActionAlert>
