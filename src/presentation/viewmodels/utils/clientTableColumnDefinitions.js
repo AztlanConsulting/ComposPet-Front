@@ -339,7 +339,7 @@ export function getClientTableColumns({
             cellClassRules: modifiedClassRule,
             headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
-                const validation = validateField("email", params.newValue, emails);
+                const validation = validateField("email", params.newValue, emails, params.data.userId);
 
                 if(validation !== true) {
                     ValidationObserver.addError("email");
