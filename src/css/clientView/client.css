@@ -62,8 +62,6 @@
 
 .compost-switch-wrapper{
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex: 1;
 }
 
