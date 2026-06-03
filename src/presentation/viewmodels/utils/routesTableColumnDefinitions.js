@@ -451,7 +451,6 @@ export function getRoutesTableColumns({
             minWidth: 180,
             maxWidth: 300,
             wrapText: true,
-            autoHeight: true, 
             cellDataType: false,
             headerComponent: editableHeader("Productos Extra"),
             valueFormatter: () => "",
@@ -486,7 +485,12 @@ export function getRoutesTableColumns({
                             .join("\n");
 
                     setTimeout(() => {
-                        params.api.resetRowHeights();
+                        const products = params.data.extraProductsDetails || [];
+                        const count = products.length;
+                        const newHeight = count <= 1 ? 42 : count * 26 + 12;
+
+                        params.node.setRowHeight(newHeight);
+                        params.api.onRowHeightChanged();
                         params.api.refreshCells({
                             rowNodes: [params.node],
                             columns: ['extraProductsDetails'],
