@@ -1,0 +1,90 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.payment-info-card{
+    width: 100%;
+    min-height: 13.5rem;
+    border: 1px solid var(--color-green-primary);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--color-green-quaternary);
+    color: var(--color-green-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    position: relative;
+    text-align: center;
+}
+
+.payment-info-reminder {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-secondary);
+}
+
+.payment-info-title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-secondary);
+}
+
+.notes-info {
+    white-space: pre-line;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-secondary);
+    line-height: var(--line-height-normal);
+}
+
+.payment-copy-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-copy-button {
+    border: none;
+    background-color: transparent;
+    color: var(--color-green-secondary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.payment-copy-bubble {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+
+    padding: 0.5rem 0.5rem;
+
+    border: solid var(--color-green-primary);
+    border-width: 0.12rem;
+
+    border-radius: var(--border-radius-lg);
+
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+
+    white-space: nowrap;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+}
+
+@media (max-width: 768px) {
+    .payment-info-card {
+        border-radius: 0.5rem;
+    }
+}
+

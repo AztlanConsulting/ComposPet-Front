@@ -1,0 +1,92 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.notes-card{
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+.paddings {
+    padding: 2rem 3.7rem;
+}
+
+.input-notes{
+    width: 100%;
+    height: 82%;
+    min-height: 18rem;
+    resize: none;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    border-color: var(--color-green-secondary);
+    background-color: var(--color-white);
+    color: var(--color-green-secondary);
+    text-align: center;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.notes-card input,
+.notes-card textarea {
+    height: 100%;
+    min-height: 130px;
+
+    border-radius: var(--border-radius-lg);
+    border-color: var(--color-green-primary);
+    outline: none;
+    resize: none;
+
+    background-color: white;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-black);
+
+    text-align: center;
+    padding: 1rem;
+}
+
+.notes-card input::placeholder,
+.notes-card textarea::placeholder {
+    color: var(--color-green-secondary);
+    opacity: .8;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+.input-notes:focus {
+    outline: none;
+    box-shadow: none;
+    border: 2px solid var(--color-green-secondary);
+}
+
+.input-notes::placeholder {
+    color: var(--color-green-secondary);
+    opacity: 0.65;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .notes-card {
+        border-radius: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .notes-card {
+        width: 100%;
+        height: auto;
+    }
+
+    .input-notes {
+        width: 100%;
+        min-height: 9rem;
+        height: 9rem;
+        padding: 3.5rem 1rem 1rem 1rem;
+        font-size: var(--font-size-sm);
+        text-align: center;
+    }
+}

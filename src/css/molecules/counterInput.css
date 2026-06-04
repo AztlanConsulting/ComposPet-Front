@@ -1,0 +1,128 @@
+@import '../tokens/colors.css';
+@import '../tokens/layout.css';
+@import '../tokens/typography.css';
+
+.counter-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.counter-input-title {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-black);
+    text-align: center;
+    line-height: var(--line-height-normal);
+}
+
+.counter-input-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.counter-input-value {
+    width: 6.5rem;
+    height: 2.1rem;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-black);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-green-secondary);
+    border-radius: var(--border-radius-lg);
+    line-height: 2.1rem;
+    text-align: center;
+    appearance: textfield;
+}
+
+.counter-input-disabled .counter-input-controls button {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.counter-input-disabled .counter-input-title,
+.counter-input-disabled .counter-input-value {
+    opacity: 0.2;
+}
+
+.counter-input-error {
+    margin-top: 0.25rem;
+    color: var(--color-red-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-normal);
+    
+}
+
+.counter-input-limit-button {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .counter-input-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .counter-input-value {
+        width: 6.5rem;
+        height: 2.1rem;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-normal);
+        color: var(--color-black);
+        background-color: var(--color-bg);
+        border: 1px solid var(--color-green-secondary);
+        border-radius: var(--border-radius-lg);
+        line-height: var(--line-height-normal);
+        text-align: center;
+    }
+}
+
+.counter-input-value:focus {
+    outline: none;
+    border: 2px solid var(--color-green-secondary);
+}
+
+.counter-input-value:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Quita las flechitas nativas del input number */
+.counter-input-value::-webkit-outer-spin-button,
+.counter-input-value::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.counter-input-value[type='number'] {
+    appearance: textfield;
+}
+
+@media (max-width: 480px) {
+    .counter-input-title {
+        font-size: var(--font-size-lg);
+        text-align: center;
+    }
+
+    .counter-input-controls {
+        gap: 0.65rem;
+        justify-content: center;
+    }
+
+    .counter-input-value {
+        width: 3.8rem;
+        height: 1.9rem;
+        font-size: var(--font-size-sm);
+    }
+}

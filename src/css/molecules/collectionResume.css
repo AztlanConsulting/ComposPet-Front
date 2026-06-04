@@ -1,0 +1,63 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.resume-title{
+    margin: 0 0 1.5rem 0;
+    color: var(--color-green-secondary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+}
+
+.balance-text,
+.total-text {
+    color: var(--color-green-secondary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+}
+
+
+.total-text {
+    font-weight: var(--font-weight-bold);
+}
+
+.resume-divider {
+    border: none;
+    border-top: 1px solid var(--color-green-secondary);
+    opacity: 0.35;
+    margin: 1rem 0;
+}
+
+.third-form-products {
+    display: flex;
+    height: 30rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    .resume-title {
+        margin: 0 0 1rem 0;
+        font-size: var(--font-size-lg);
+        text-align: center;
+    }
+
+    .third-form-products {
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        overflow-y: auto;
+    }
+
+    .balance-text,
+    .total-text {
+        font-size: var(--font-size-sm);
+    }
+
+    .resume-divider {
+        margin: 0.75rem 0;
+    }
+}

@@ -1,0 +1,196 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+html,
+body,
+#root {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+}
+
+.icon-required{
+    color: var(--color-red-primary);
+    padding-top: 0.2rem;
+}
+
+.register-client-background {
+    background-color: var(--color-bg);
+    padding: 0 3rem;
+}
+
+.register-client-title {
+    font-size: var(--font-size-2xl);;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    margin-top: 2rem;
+}
+
+.register-input::placeholder {
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+.register-client-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.section-title {
+    text-align: left;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    margin-top: 1rem;
+}
+
+.register-input {
+    width: 100%;
+    height: 2.5rem;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+}
+
+.register-input-notes {
+    width: 100%;
+    height: 10rem;
+    border-radius: var(--border-radius-lg) !important;
+    background-color: var(--color-bg) !important;
+    border: 1px solid var(--color-green-secondary) !important;
+    color: var(--color-green-secondary) !important;
+    caret-color: var(--color-green-secondary) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    margin-bottom: 0.4rem;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.register-input-notes::placeholder {
+    color: var(--color-green-secondary) !important;
+    opacity: .8 !important;
+    white-space: pre-wrap;
+}
+
+.register-input-notes:focus {
+    outline-style: solid !important;
+    outline-width: 1px !important;
+    outline-color: var(--color-green-primary) !important;
+    background-color: var(--color-bg) !important;
+    font-size: 16px;
+    caret-color: var(--color-green-primary) !important;
+    box-shadow: none !important;
+}
+
+.register-input-notes:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-bg) inset !important;
+    -webkit-text-fill-color: var(--color-green-secondary) !important;
+    transition: background-color 9999s ease-in-out 0s;
+    caret-color: var(--color-green-secondary) !important;
+}
+
+.buttons-container {
+    display: flex;
+    width: 100%;
+    justify-content:flex-end;
+    gap: 3rem;
+    margin: 4rem 0 4rem 0;
+}
+
+.character-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--color-green-secondary);
+    margin-top: 4px;
+}
+
+.input-container .md {
+    width: 100%;
+}
+
+.route-dropdowns-containers{
+    width: 100%;
+    max-width: none !important;
+}
+
+.formSelect {
+    width: 100%;
+}
+
+.formSelect select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* ── Tablet (≤ 768px) ── */
+@media (max-width: 768px) {
+    .register-client-background {
+        padding: 0 3rem;
+    }
+
+    .register-client-title {
+        font-size: var(--font-size-2xl, 1.75rem);
+    }
+
+    .lastname-container {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Al apilarse, cada apellido vuelve a ser independiente */
+    .lastname-container > * {
+        flex: unset;
+    }
+
+    .buttons-container {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+    }
+
+    .buttons-container > * {
+        width: 100%;
+    }
+}
+
+/* ── Móvil (≤ 480px) ── */
+@media (max-width: 480px) {
+    .register-client-background {
+        padding: 0 1.5rem;
+    }
+
+    .register-client-title {
+        font-size: var(--font-size-xl, 1.25rem);
+        margin-top: 1rem;
+    }
+
+    .register-input::placeholder {
+        font-size: var(--font-size-sm);
+    }
+
+    .section-title {
+        font-size: var(--font-size-lg, 1rem);
+    }
+
+    .register-input{
+        height: 3.5rem;
+    }
+
+
+    .register-input-notes {
+        height: 8rem;
+    }
+
+    .buttons-container {
+        margin: 2rem 0;
+        gap: 0.75rem;
+    }
+}

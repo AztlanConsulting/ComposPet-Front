@@ -1,0 +1,10 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.progress-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+

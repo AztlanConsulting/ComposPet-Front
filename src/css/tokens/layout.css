@@ -8,5 +8,6 @@
     --border-radius-xl: 0.75rem;    /* 12px */
     --border-radius-2xl: 1rem;      /* 16px */
     --border-radius-3xl: 1.5rem;    /* 24px */
+    --border-radius-4xl: 30px;
     --border-radius-full: 9999px;
 }

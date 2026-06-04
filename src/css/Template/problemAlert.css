@@ -1,0 +1,38 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.custom-swal-popup {
+    border-radius: var(--border-radius-2xl);
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+}
+
+.custom-swal-title {
+    color: var(--color-green-secondary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+}
+
+.custom-swal-problem {
+    border-radius: var(--border-radius-md);
+    padding: 0.6rem 1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.custom-swal-problem {
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+}
+
+.custom-swal-problem:hover{
+    background-color: var(--color-green-secondary);
+    color: var(--color-white);
+    box-shadow: 0px 4px 10px rgba(3, 80, 77, .50);
+}

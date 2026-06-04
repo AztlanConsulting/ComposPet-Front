@@ -1,0 +1,43 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+/**
+ * Elemento de navegación de la barra lateral o menú principal.
+ * Renderiza un enlace de navegación con un ícono y etiqueta de texto.
+ * Soporta una variante de cierre de sesión con estilos diferenciados.
+ *
+ * @param {string} [route="/"] - Ruta de destino del enlace.
+ * @param {React.ReactNode} [icon=<></>] - Elemento de ícono a mostrar junto al texto.
+ * @param {boolean} [logout=false] - Si es `true`, aplica la clase `logout` en lugar de `navbarItem`.
+ * @param {React.ReactNode} children - Texto descriptivo del ítem de navegación.
+ * @returns {JSX.Element} Enlace de navegación estilizado según su tipo.
+ */
+
+export default function NavbarItem({ 
+    route = "/", 
+    icon = <></>, 
+    logout = false, 
+    active = false,
+    onClick,
+    children 
+}) {
+    const handleClick = (e) => {
+        if (onClick) {
+            e.preventDefault(); 
+            onClick(e);
+        }
+    };
+    return (
+        <Link
+            to={route}
+            onClick={handleClick}
+            className={`
+                ${logout ? "logout" : "navbarItem"}
+                ${active ? "navbarItemActive" : ""}
+            `}
+        >
+            <span>{icon}</span>
+            {children}
+        </Link>
+    );
+}

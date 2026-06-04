@@ -1,0 +1,31 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.metricRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.metricText {
+    font-size: var(--font-size-lg);
+    margin: 0;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .metricRow {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .metricText {
+        font-size: 1.3rem;
+    }
+}

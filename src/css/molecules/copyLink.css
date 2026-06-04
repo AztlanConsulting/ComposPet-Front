@@ -1,0 +1,19 @@
+@import "../tokens/typography.css";
+
+.copy-link-text {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-normal);
+}
+
+.copy-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.link-formulario {
+    display: flex;
+    align-items: top;
+    gap: 1rem;
+}

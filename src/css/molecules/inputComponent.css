@@ -1,0 +1,43 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.error-message{
+    color: var(--color-red-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+}
+
+.input-error {
+    border: 1px solid var(--color-red-primary)!important;
+    background-color: var(--color-red-secondary) !important;
+}
+
+.input-error:focus {
+    background-color: var(--color-red-secondary) !important;
+    outline-color: var(--color-red-primary)  !important;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.password-toggle:hover {
+    opacity: 0.7;
+}
