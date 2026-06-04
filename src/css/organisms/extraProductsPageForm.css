@@ -1,0 +1,124 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.secondPage {
+    width: 100%;
+    background-color: transparent;
+}
+
+.swiper {
+    padding: 0 3.75rem !important;
+    margin-top: 0.3rem;
+    box-sizing: border-box;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    color: var(--color-green-primary)
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: var(--color-green-primary);
+    top: 40%;
+}
+
+.swiper-button-prev {
+    left: 0;
+}
+
+.swiper-button-next {
+    right: 0;
+}
+
+.swiper-product-card .product-card {
+    width: 100%;
+    height: auto !important;
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-bg);
+}
+
+.swiper-product-card .image-back {
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.extra-products-form-card {
+    width: 100%;
+    min-height: 28rem;
+    padding: 2rem 3.5rem 3rem 3.5rem;
+    box-sizing: border-box; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.extra-products-title {
+    padding-bottom: 1.5%;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    text-align: center;
+    line-height: var(--line-height-tight);
+}
+
+
+.product-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: blur(1px);
+}
+
+.limite-mensaje {
+    color: var(--color-red-primary);
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+}
+
+h1 {
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    padding-bottom: 1.5%;
+    color: var(--color-green-primary);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-tight);
+}
+
+h2 {
+    text-align: center;
+    color: var(--color-green-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+}
+
+.solicitud-actions {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Tablet / móvil */
+@media (max-width: 600px) {
+    .swiper {
+        padding: 0 40px !important;
+        margin-top: 20px;
+    }
+
+    h1 {
+        padding-top: 8%;
+        padding-bottom: 7%;
+    }
+
+    .extra-products-form-card {
+        padding: 1rem !important;
+    }
+
+    .solicitud-actions {
+        padding: 0;
+        margin-top: 0.5rem;
+    }
+}

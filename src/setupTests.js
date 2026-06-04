@@ -3,3 +3,36 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+jest.mock("axios", () => ({
+    create: jest.fn(() => ({
+        interceptors: {
+            request: {
+                use: jest.fn(),
+            },
+            response: {
+                use: jest.fn(),
+            },
+        },
+        get: jest.fn(),
+        post: jest.fn(),
+        put: jest.fn(),
+        delete: jest.fn(),
+    })),
+}));
+
+jest.mock("sweetalert2", () => ({
+    fire: jest.fn(),
+}));
+
+jest.mock('swiper/react', () => ({
+  Swiper: ({ children }) => children,
+  SwiperSlide: ({ children }) => children,
+}), { virtual: true });
+
+jest.mock('swiper/modules', () => ({
+  Navigation: jest.fn(),
+}), { virtual: true });
+
+jest.mock('swiper/css', () => ({}), { virtual: true });
+jest.mock('swiper/css/navigation', () => ({}), { virtual: true });

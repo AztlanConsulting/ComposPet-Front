@@ -1,0 +1,66 @@
+@import "../tokens/colors.css";
+@import "../tokens/typography.css";
+
+.copy-bubble {
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+
+    padding: 0.5rem 0.5rem;
+
+    border: solid var(--color-green-primary);
+    border-width: 0.12rem;
+
+    border-radius: var(--border-radius-lg);
+
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+
+    white-space: nowrap;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+}
+
+.copy-bubble.success {
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+    border-color: var(--color-green-primary);
+}
+
+.copy-bubble.error {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}
+
+.copy-bubble::after {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+    bottom: -0.45rem;
+
+    width: 0.8rem;
+    height: 0.8rem;
+
+    border-right: 0.12rem solid;
+    border-bottom: 0.12rem solid;
+
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.copy-bubble.success::after {
+    background-color: var(--color-green-quintiary);
+    color: var(--color-green-primary);
+    border-color: var(--color-green-primary);
+}
+
+.copy-bubble.error::after {
+    background-color: var(--color-red-secondary);
+    color: var(--color-red-primary);
+    border-color: var(--color-red-primary);
+}

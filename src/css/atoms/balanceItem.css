@@ -1,0 +1,69 @@
+@import "../tokens/colors.css";
+@import "../tokens/typography.css";
+
+.balance-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width:0;
+    text-align: center;
+}
+
+.balance-item-subtitle{
+    font-family: var(--font-family-primary);
+    font-size: clamp(0.8rem, 1.5vw, var(--font-size-sm));
+    font-weight: var(--font-weight-normal);
+    color: var(--color-black);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.balance-item-value{
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.balance-item-value-positive{
+    color: var(--color-green-secondary);
+}
+
+.balance-item-value-negative{
+    color: var(--color-red-primary);
+}
+
+.balance-item-value-neutral{
+    color: var(--color-black);
+}
+
+/* celular */
+@media (max-width: 768px){
+
+    .balance-item{
+        gap: 0.3rem;
+    }
+
+    .balance-item-subtitle{
+        font-size: clamp(
+            0.85rem,
+            2vw,
+            var(--font-size-xs)
+        );
+    }
+
+    .balance-item-value{
+        font-size: clamp(
+            1rem,
+            3vw,
+            var(--font-size-xl)
+        );
+    }
+
+}

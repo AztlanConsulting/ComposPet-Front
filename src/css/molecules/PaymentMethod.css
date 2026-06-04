@@ -1,0 +1,73 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.payment-method{
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-green-secondary);
+    margin: 0.5rem 0 0 0;
+}
+
+.payment-card-selected{
+
+    background-color: rgba(21, 161, 155, 0.67) !important;
+    
+}
+
+.payment-card-selected p {
+    color: white;
+}
+
+.payment-card {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 5.5rem;
+    background-color: rgb(196, 235, 233, 64);
+    border: 1px solid var(--color-green-primary);
+    border-radius: var(--border-radius-lg);
+    margin-left: 0.2rem !important;
+}
+
+.icon-selected {
+    color: white;
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+    .payment-card {
+        flex-shrink: 0 !important;
+    }
+
+    .payment-method {
+        font-size: var(--font-size-xs);
+    }
+
+}
+
+@media (max-width: 480px) {
+    .payment-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 5rem !important;
+        padding: 0.5rem !important;
+    }
+
+    .payment-method {
+        font-size: var(--font-size-xs);
+        text-align: center;
+        margin: 0.25rem 0 0 0;
+    }
+
+    .payment-card svg {
+        max-width: 1.8rem;
+        max-height: 1.8rem;
+    }
+
+    .payment-card img {
+        max-width: 1.8rem;
+        max-height: 1.8rem;
+    }
+}

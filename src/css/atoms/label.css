@@ -1,0 +1,41 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.label {
+    display: flex;
+    color: var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    margin-bottom: -0.6rem;
+}
+
+.sm {
+    height: 2rem;
+    width: 6rem;
+    border-radius: var(--border-radius-lg);
+    font-size: 12px;
+}
+
+.md {
+    font-size: 16px;
+    width: 15rem;
+    height: 2rem;
+}
+
+.lg {
+    font-size: 16px;
+    width: 24.5rem;
+    height: 2.5rem;
+}
+
+.xl {
+    font-size: 16px;
+    width: 28rem;
+    height: 2.5rem;
+}
+
+.label-today {
+    width: 4.5rem;
+}
