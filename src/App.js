@@ -38,6 +38,7 @@ function AppRoutes() {
                 <Route path="/tabla-clientes" element={<ClientInfo />} />
                 <Route path="/registrar-cliente" element={<RegisterClient />} />
                 <Route path="/ruta" element={<RoutesInfo />} />
+                <Route path="/inventario" element={<Inventory />} />
             </Route>
 
             {/* Rutas de clientes - Protegidas por Rol */}

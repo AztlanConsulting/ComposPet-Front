@@ -29,6 +29,7 @@ const InputComponent = forwardRef(({
     classNameLabel = "",
     classNameInput = "",
     onChange = () => {},
+    onKeyDown = () => {},
     value = "",
     maxLength,
     error = "",

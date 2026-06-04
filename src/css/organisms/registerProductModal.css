@@ -39,4 +39,5 @@
     margin-bottom: 0.75rem;
     font-size: 0.85rem;
     color: var(--color-gray-medium);
+    text-align: right;
 }

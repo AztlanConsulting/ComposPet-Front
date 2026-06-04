@@ -78,10 +78,22 @@ function RegisterProduct({
                     classNameLabel="label"
                     placeholder="Ej. Aserrín"
                     classNameInput={`register-input ${errors.name ? 'input-error' : ''}`}
+
+                    onKeyDown={(e) => {
+                        const allowed = /^[\p{L}\p{N}\s.()-]$/u;
+                
+                        if (
+                            e.key.length === 1 &&
+                            !allowed.test(e.key)
+                        ) {
+                            e.preventDefault();
+                        }
+                    }}
+
                     onChange={(e) => {
                         let value = e.target.value;
                     
-                        value = value.replace(/[^\p{L}\p{N}\s.,;:()\-]/gu, '');
+                        value = value.replace(/[^\p{L}\p{N}\s.()\-]/gu, '');
                         value = value.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '');
                         value = value.slice(0, 60);
                     
@@ -112,7 +124,7 @@ function RegisterProduct({
                     onChange={(e) => {
                         let value = e.target.value;
                     
-                        value = value.replace(/[<>"'%;()&+]/g, '');
+                        value = value.replace(/[^\p{L}\p{N}\s.,;:()\-]/gu, '');
                         value = value.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '');
                         value = value.replace(/^\s+/, '');
                         value = value.slice(0, 255);

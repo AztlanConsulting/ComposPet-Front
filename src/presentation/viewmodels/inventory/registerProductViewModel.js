@@ -37,7 +37,8 @@ function validateForm(name, price, quantity, color, description, imageFile) {
 
     let hasErrors = false;
 
-    const invalidCharacters = /[<>"'%;()&+=&/¿?!¡]/;
+    const validNameRegex = /^[\p{L}\p{N}\s]+$/u;
+    const validDescriptionRegex = /^[\p{L}\p{N}\s.,;:()\-]+$/u;    
     const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
     const hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
 
@@ -53,7 +54,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     } else if (name.length > 60) {
         errors.name = "El nombre no puede exceder 60 caracteres.";
         hasErrors = true;
-    } else if (invalidCharacters.test(name)) {
+    } else if (!validNameRegex.test(name)) {
         errors.name = "El nombre contiene caracteres inválidos.";
         hasErrors = true;
     } else if (emojiRegex.test(name)) {
@@ -101,7 +102,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
         if (description.length > 255) {
             errors.description = "La descripción no puede exceder 255 caracteres.";
             hasErrors = true;
-        } else if (invalidCharacters.test(description)) {
+        } else if (!validDescriptionRegex.test(description)) {
             errors.description = "La descripción contiene caracteres inválidos.";
             hasErrors = true;
         } else if (emojiRegex.test(description)) {
