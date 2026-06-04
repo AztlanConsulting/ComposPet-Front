@@ -23,6 +23,7 @@ export default function InventoryCard({
     responsiveCompact = true,
     variant = 'default',
     onClick,
+    onActivate,
 }) {
     // Valores por defecto
     const {
@@ -65,6 +66,13 @@ export default function InventoryCard({
         onClick?.(product);
     };
 
+    // Maneja la activación del producto desde el ícono
+    const handleActivateClick = (e) => {
+        console.log("Activo este producto");
+        e.stopPropagation();
+        onActivate?.(product);
+    };
+
     // maneja el color dependiendo de la cantidad que tiene
     const getQuantityColor = (quantity) => {
         if (quantity < 0) return 'text-danger';
@@ -76,8 +84,6 @@ export default function InventoryCard({
         ? 'd-none d-md-block'
         : '';
 
-    console.log("Product: ", product);
-
     return (
         <div
             className={`
@@ -88,11 +94,11 @@ export default function InventoryCard({
                 position-relative
                 ${isInactive ? 'inventory-card-disabled' : ''}
             `}
-            style={{ borderColor: cardColor }}
-            onClick={handleCardClick}
-            role="button"
-            tabIndex={0}
-        >
+                style={{ borderColor: cardColor }}
+                onClick={handleCardClick}
+                role="button"
+                tabIndex={0}
+            >
             <div
                 className="inventory-card-accent"
                 style={{ backgroundColor: cardColor }}
@@ -132,6 +138,18 @@ export default function InventoryCard({
                     </span>
                 )}
             </div>
+
+            {isInactive && (
+                <div
+                    className="inventory-card-inactive-icon"
+                    onClick={handleActivateClick}
+                    role="button"
+                    tabIndex={0}
+                    title="Activar producto"
+                >
+                    <Icon name="eyeClosed" size="small" />
+                </div>
+            )}
         </div>
     );
 }

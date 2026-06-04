@@ -73,13 +73,20 @@
 
 .inventory-card-inactive-icon {
     position: absolute;
-    inset: 0;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.35);
-    border-radius: 0.4rem;
-    color: white;
+    background: var(--color-green-secondary);
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    color: var(--color-white);
+    pointer-events: auto;
+    opacity: calc(1 / 0.4);
+    cursor: pointer;
 }
 
 .inventory-card-disabled {
