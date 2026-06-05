@@ -5,6 +5,9 @@ import Button from '../../../components/atoms/Button';
 import RegisterProductModal from '../../../components/organisms/RegisterProduct';
 import useRegisterProductViewModel from '../../viewmodels/inventory/registerProductViewModel';
 
+import InventoryProductsView from './inventoryProductsView';
+import GetInventoryViewModel from '../../viewmodels/inventory/getInventoryViewModel';
+
 import '../../../css/inventory/inventory.css';
 
 export default function InventoryView() {
@@ -37,7 +40,7 @@ export default function InventoryView() {
                 </section>
 
                 <section className="inventory-content">
-                    {/* Aquí después va buscador y cards de productos */}
+                    <InventoryProductsView viewModel={GetInventoryViewModel()}/>
                 </section>
             </main>
 

@@ -27,4 +27,18 @@ export class InventoryIRepository {
     async registerProduct(productData) {
         throw new Error('InventoryIRepository.registerProduct() not implemented');
     }
+
+    /**
+     * Obtiene la lista de productos disponibles en inventario.
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @returns {Promise<InventoryProduct[]>} Lista de productos del inventario.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async getInventory() {
+        throw new Error('InventoryIRepository.getInventory() not implemented');
+    }
 }
