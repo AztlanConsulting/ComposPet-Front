@@ -101,7 +101,7 @@ body,
     width: 100%;
     justify-content:flex-end;
     gap: 3rem;
-    margin: 4rem 0 4rem 0;
+    margin: 2rem 0 0rem 0;
 }
 
 .character-counter {

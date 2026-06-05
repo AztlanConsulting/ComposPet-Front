@@ -1,3 +1,6 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
 /*
    Overlay que cubre toda la pantalla para enfocar
    la atención del usuario en el modal.
@@ -16,12 +19,12 @@
    Define layout, espaciado y tamaño base.
 */
 .inventory-modal {
-    width: min(90%, 700px);
+    width: 60rem;
     min-height: 260px;
     position: relative;
     display: flex;
     gap: 2rem;
-    padding: 1rem 3rem 2rem 2.5rem;
+    padding: 1.5rem 3rem 1.5rem 2.5rem;
     background: var(--color-bg);
     border: 2px solid;
     border-radius: 0.5rem;
@@ -60,6 +63,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .inventory-modal-actions {
@@ -113,7 +118,8 @@
     }
 
     .inventory-modal-title {
-        font-size: 1.2rem;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-bold);
     }
 
     .inventory-modal-description {

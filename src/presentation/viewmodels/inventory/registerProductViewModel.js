@@ -204,8 +204,6 @@ function useRegisterProductViewModel(onClose = () => {}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("SUBMIT");
-
         const trimmedName = name.trim();
         const trimmedColor = color.trim();
         const trimmedDescription = description.trim();
@@ -304,6 +302,25 @@ function useRegisterProductViewModel(onClose = () => {}) {
         }
     };
 
+    const resetForm = () => {
+        setErrors({
+            name: "",
+            price: "",
+            quantity: "",
+            color: "#169B49",
+            description: "",
+            imageFile: "",
+        });
+    
+        setName('');
+        setPrice('');
+        setQuantity('');
+        setColor('#169B49');
+        setDescription('');
+        setImageFile(null);
+        setIsPriceFocused(false);
+    };
+
     return {
         errors,
 
@@ -332,6 +349,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
         handleSubmit,
         cancelForm,
         confirmForm,
+        resetForm,
 
         isPriceFocused,
         setIsPriceFocused,

@@ -1,3 +1,5 @@
+@import "../tokens/typography.css";
+
 /*
    Tarjeta principal del producto.
    Ocupa todo el ancho disponible y mantiene
@@ -5,7 +7,7 @@
 */
 .inventory-card {
     width: 100%;
-    min-height: 65px;
+    min-height: 10rem;
     padding: 1rem;
     border: 1px solid;
     border-radius: 0.5rem;
@@ -39,10 +41,12 @@
     min-width: 0;
     padding-left: 0.5rem;
     pointer-events: none;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 /* Resalta visualmente el nombre del producto */
 .inventory-card-name {
-    font-weight: 500;
+    font-size: var(--font-size-sm);
 }
 /* Hace más visible el precio del producto */
 .inventory-card-price {
@@ -93,12 +97,16 @@
     pointer-events: auto;
     cursor: pointer;
 }
+.p {
+    font-size: var(--font-size-sm);
+
+}
 /*
    En pantallas más grandes incrementa la altura
    mínima para aprovechar mejor el espacio disponible.
 */
 @media (min-width: 768px) {
     .inventory-card {
-        min-height: 130px;
+        min-height: 10rem;
     }
 }

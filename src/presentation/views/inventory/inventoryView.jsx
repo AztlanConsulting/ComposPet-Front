@@ -18,6 +18,7 @@ export default function InventoryView() {
     };
 
     const closeRegisterProductModal = () => {
+        registerProductViewModel.resetForm();
         setIsRegisterProductModalOpen(false);
     };
 

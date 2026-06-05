@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from './Icon';
 import '../../css/atoms/modal.css';
 
 export default function Modal({
@@ -13,14 +12,13 @@ export default function Modal({
     return (
         <div className="modal-overlay">
             <section className={`modal-card ${className}`}>
-                <Icon
-                    name="close"
-                    size="small"
-                    className="modal-close-button"
+                <button
+                    type="button"
+                    className="inventory-modal-close"
                     onClick={onClose}
-                    label="Cerrar modal"
-                />
-
+                >
+                    ×
+                </button>
                 {children}
             </section>
         </div>

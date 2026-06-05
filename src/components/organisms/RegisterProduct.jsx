@@ -60,6 +60,18 @@ function RegisterProduct({
         '#9D7BE0',
     ];
 
+    const isFormInvalid =
+    !name.trim() ||
+    !price ||
+    !quantity ||
+    !color ||
+    errors.name ||
+    errors.price ||
+    errors.quantity ||
+    errors.color ||
+    errors.description ||
+    errors.imageFile;
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} className="register-product-modal">
             <form
@@ -242,13 +254,7 @@ function RegisterProduct({
                             setColor(selectedColor);
                             validateField('color', selectedColor);
                         }}
-                    />
-
-                    {errors.color && (
-                        <p className="input-error-message">
-                            {errors.color}
-                        </p>
-                    )}
+                    /> 
                 </div>
 
                 <div className="register-product-image-container">
@@ -265,15 +271,14 @@ function RegisterProduct({
                     />
 
                     {errors.imageFile && (
-                        <p className="input-error-message">
+                        <p className="error-message">
                             {errors.imageFile}
                         </p>
                     )}
 
                     {!errors.imageFile && (
                         <p className="helper-message">
-                            Formatos permitidos: JPG, PNG o WEBP. 
-                            Tamaño máximo: 2 MB.
+                            Formatos permitidos: JPG, PNG o WEBP. Tamaño máximo: 2 MB.
                         </p>
                     )}
                 </div>
@@ -284,6 +289,7 @@ function RegisterProduct({
                         type="submit"
                         csstype="accept"
                         className="button"
+                        disabled={Boolean(isFormInvalid)}
                     >
                         Guardar
                     </Button>

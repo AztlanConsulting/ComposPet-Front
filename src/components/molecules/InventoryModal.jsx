@@ -84,9 +84,9 @@ export default function InventoryModal({
 
                 {/* Contenido del modal */}
                 <div className="inventory-modal-content">
-                    <h4 className="inventory-modal-title">
+                    <p className="inventory-modal-title">
                         {product.name}
-                    </h4>
+                    </p>
 
                     <p className="inventory-modal-description">
                         {product.description}
