@@ -43,6 +43,14 @@ const InputComponent = forwardRef(({
             ? (showPassword ? "text" : "password")
             : type;
 
+    const handleChange = (e) => {
+        if (type === "password") {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        }
+    
+        onChange(e);
+    };
+
     return (
         <div className="mt-2">
             <Label size={size} id={id} className={classNameLabel}>
@@ -50,33 +58,36 @@ const InputComponent = forwardRef(({
             </Label>
 
             <div className="input-container">
-
-
-            <Input
-                placeholder={placeholder}
-                id={id}
-                size={size}
-                type={inputType}
-                onChange={onChange}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                className={classNameInput}
-                value={value}
-                ref={ref}
-            />
-
-                {type === "password" && (
-                    <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
-                    </button>
-                )}
-
+                <div className='gap-1'>
+                    <Input
+                        placeholder={placeholder}
+                        id={id}
+                        size={size}
+                        type={inputType}
+                        onChange={handleChange}
+                        className={`
+                            ${classNameInput}
+                            ${type === "password" ? "password-input" : ""}
+                        `}
+                        value={value}
+                        maxLength={maxLength}
+                        ref={ref}
+                    />
+                </div>
+                <div>
+                    {type === "password" && (
+                    <div>
+                        <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ?  <Icon name="eyeOpened" size="small" /> : <Icon name="eyeClosed" size="small" />}
+                        </button>
+                    </div>
+                )}  
+                </div>                
             </div>
-
             {error && (
                 <p className="error-message">
                     {error}

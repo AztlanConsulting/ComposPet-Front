@@ -2,6 +2,7 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/tokens/colors.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
@@ -18,6 +19,7 @@ export function getClientTableColumns({
     showProblemAlert,
     setAlertInfo,
     loading,
+    emails,
 }) {
 
     const modifiedClassRule = {
@@ -194,9 +196,7 @@ export function getClientTableColumns({
 
             cellClassRules: modifiedClassRule,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueSetter: (params) => {
                 const validation = validateField("balance", params.newValue);
@@ -338,7 +338,7 @@ export function getClientTableColumns({
             cellClassRules: modifiedClassRule,
             headerComponent: editableHeader("Correo"),
             valueSetter: (params) => {
-                const validation = validateField("email", params.newValue);
+                const validation = validateField("email", params.newValue, emails, params.data.userId);
 
                 if(validation !== true) {
                     ValidationObserver.addError("email");
@@ -371,22 +371,24 @@ export function getClientTableColumns({
             headerComponent: editableHeader("Mascotas"),
             valueSetter: (params) => {
                 const validation = validateField("pets", params.newValue);
-
-                if (validation !== true){
+            
+                if (validation !== true) {
                     ValidationObserver.addError("pets");
-                    params.data.pets = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "pets",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "pets",
+                            });
+                        }
                     }, 0);
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("pets");
                 params.data.pets = params.newValue;
                 return true;
@@ -403,23 +405,24 @@ export function getClientTableColumns({
             headerComponent: editableHeader("Familia"),
             valueSetter: (params) => {
                 const validation = validateField("family", params.newValue);
-
+            
                 if (validation !== true) {
                     ValidationObserver.addError("family");
-                    params.data.family = params.oldValue;
-
+            
                     setTimeout(async () => {
                         await showProblemAlert("Error en los datos ingresados", validation);
-
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "family",
-                        });
+            
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "family",
+                            });
+                        }
                     }, 0);
-
+            
                     return false;
                 }
-
+            
                 ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;

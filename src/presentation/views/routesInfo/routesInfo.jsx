@@ -56,6 +56,7 @@ export default function RoutesInfo() {
                         <DropdownInput
                             id="weeks"
                             size="md"
+                            className="dropdown formField"
                             value={routesViewModel.selectedWeek ?? ""}
                             onChange={(e) =>
                                 routesViewModel.setSelectedWeek(
@@ -75,6 +76,7 @@ export default function RoutesInfo() {
                         <DropdownInput
                             id="days"
                             size="md"
+                            className="dropdown formField"
                             value={routesViewModel.selectedDay ?? ""}
                             onChange={(e) =>
                                 routesViewModel.setSelectedDay(
@@ -95,99 +97,99 @@ export default function RoutesInfo() {
                     <div className="copy-link-container">
                         <CopyLink {...routesViewModel.copyLinkInfo} />
                     </div>
-                </div>
 
-                {/* Accordion para móvil/tablet */}
-                <div className="mobile-route-accordion">
-                    <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>
-                                Información de la ruta
-                            </Accordion.Header>
+                    {/* Accordion para móvil/tablet */}
+                    <div className="mobile-route-accordion">
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>
+                                    Información de la ruta
+                                </Accordion.Header>
 
-                            <Accordion.Body>
-                                <div className="accordion-content">
+                                <Accordion.Body>
+                                    <div className="accordion-content">
 
-                                    <CountersGroup
-                                        counters={[
-                                            {
-                                                label: "Sumatoria total",
-                                                value: dayTotalAmount,
-                                                icon: 'moneySign',
-                                                color: 'colorsIcon',
-                                            },
-                                        ]}
-                                    />
+                                        <CountersGroup
+                                            counters={[
+                                                {
+                                                    label: "Sumatoria total",
+                                                    value: dayTotalAmount,
+                                                    icon: 'moneySign',
+                                                    color: 'colorsIcon',
+                                                },
+                                            ]}
+                                        />
 
-                                    <BalanceCountersGroup
-                                        counters={[
-                                            {
-                                                title: 'Saldo a favor',
-                                                favorSubtitle: 'Ruta',
-                                                favorBalance: routePayedAmount,
-                                                pendingSubtitle: 'Semana',
-                                                pendingBalance: weeklyPayedAmount,
-                                                icon: 'moneyBag',
-                                                color: 'colorsIcon',
-                                            },
-                                            {
-                                                title: 'Pendiente',
-                                                favorSubtitle: 'Ruta',
-                                                favorBalance: routePendingAmount,
-                                                pendingSubtitle: 'Semana',
-                                                pendingBalance: weeklyPendingAmount,
-                                                icon: 'warning',
-                                                color: 'colorsIcon',
-                                            },
-                                        ]}
-                                    />
+                                        <BalanceCountersGroup
+                                            counters={[
+                                                {
+                                                    title: 'Saldo a favor',
+                                                    favorSubtitle: 'Ruta',
+                                                    favorBalance: routePayedAmount,
+                                                    pendingSubtitle: 'Semana',
+                                                    pendingBalance: weeklyPayedAmount,
+                                                    icon: 'moneyBag',
+                                                    color: 'colorsIcon',
+                                                },
+                                                {
+                                                    title: 'Pendiente',
+                                                    favorSubtitle: 'Ruta',
+                                                    favorBalance: routePendingAmount,
+                                                    pendingSubtitle: 'Semana',
+                                                    pendingBalance: weeklyPendingAmount,
+                                                    icon: 'warning',
+                                                    color: 'colorsIcon',
+                                                },
+                                            ]}
+                                        />
 
-                                    <div className="actions-section">
-                                        <Divider />
+                                        <div className="actions-section">
+                                            <Divider />
 
                                         <div className="buttons-section-container">
                                             <div className="disabled-tooltip-container">
                                                 <ButtonActionAlert
                                                     onAction={routesViewModel.handleGenerateMessages}
                                                     successMessage="Mensajes generados exitosamente"
-                                                    errorMessage="Ocurrió un error al generar los mensajes"
+                                                    errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
                                                     className="button-actions"
                                                     disabled={!isGoogleLoggedIn}
                                                 >
                                                     Generar mensajes
                                                 </ButtonActionAlert>
 
-                                                {!isGoogleLoggedIn && (
-                                                    <span className="disabled-tooltip-text">
-                                                        Requieres iniciar sesión por Google
-                                                    </span>
-                                                )}
-                                            </div>
+                                                    {!isGoogleLoggedIn && (
+                                                        <span className="disabled-tooltip-text">
+                                                            Requieres iniciar sesión por Google
+                                                        </span>
+                                                    )}
+                                                </div>
 
-                                            <div className="disabled-tooltip-container">
-                                                <Button
-                                                    size="medium"
-                                                    csstype="accept"
-                                                    className="button-actions"
-                                                    onClick={routesViewModel.handleOpenRoutesSheet}
-                                                    disabled={!isGoogleLoggedIn}
-                                                >
-                                                    Resumen de ruta
-                                                </Button>
+                                                <div className="disabled-tooltip-container">
+                                                    <Button
+                                                        size="medium"
+                                                        csstype="accept"
+                                                        className="button-actions"
+                                                        onClick={routesViewModel.handleOpenRoutesSheet}
+                                                        disabled={!isGoogleLoggedIn}
+                                                    >
+                                                        Resumen de ruta
+                                                    </Button>
 
-                                                {!isGoogleLoggedIn && (
-                                                    <span className="disabled-tooltip-text">
-                                                        Requieres iniciar sesión por Google
-                                                    </span>
-                                                )}
+                                                    {!isGoogleLoggedIn && (
+                                                        <span className="disabled-tooltip-text">
+                                                            Requieres iniciar sesión por Google
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
                 </div>
 
                 {/* Layout normal escritorio */}
@@ -242,7 +244,7 @@ export default function RoutesInfo() {
                                     <ButtonActionAlert
                                         onAction={routesViewModel.handleGenerateMessages}
                                         successMessage="Mensajes generados exitosamente"
-                                        errorMessage="Ocurrió un error al generar los mensajes"
+                                        errorMessage="Revisa que las solicitudes estén completas y agrega un horario a cada una"
                                         className="button-actions"
                                         disabled={!isGoogleLoggedIn}
                                     >

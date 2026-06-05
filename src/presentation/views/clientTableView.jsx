@@ -53,12 +53,12 @@ return (
                 />
             </div>
 
-            <div className="client-search-wrapper">
+            <div className="search-wrapper">
                 <SearchInput
                     value={searchText}
                     onChange={(e) => handleSearchText(e.target.value)}
                     onInput={(e) => handleSearchText(e.target.value)}
-                    placeholder="Buscar a un cliente por nombre"
+                    placeholder="Buscar por nombre"
                 />
             </div>
         </div>

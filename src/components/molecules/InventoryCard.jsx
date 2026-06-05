@@ -139,7 +139,7 @@ export default function InventoryCard({
                 )}
             </div>
 
-            {isInactive && (
+            {/* {isInactive && (
                 <div
                     className="inventory-card-inactive-icon"
                     onClick={handleActivateClick}
@@ -147,9 +147,9 @@ export default function InventoryCard({
                     tabIndex={0}
                     title="Activar producto"
                 >
-                    <Icon name="eyeClosed" size="small" />
+                    <Icon name="eyeOpened" size="small" />
                 </div>
-            )}
+            )} */}
         </div>
     );
 }

@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import SearchInput from "../../../components/molecules/searchInput";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/atoms/button.css';
+import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./routesFieldsValidation";
 import ValidationObserver from "./validationObserver";
@@ -225,10 +226,20 @@ export function getRoutesTableColumns({
     }
 
 
-    const EditableHeader = ({ title, isEditing }) => (
+    const EditableHeader = ({ title, subtitle, isEditing }) => (
         <div className="editable-header">
-            <span>{title}</span>
-
+            <div>
+                <span>{title}</span>
+                {subtitle && (
+                    <>
+                        <br />
+                        <span className="header-subtitle">
+                            {subtitle}
+                        </span>
+                    </>
+                )}
+            </div>
+            
             {isEditing && (
                 <span className="editable-header-icon">
                     <Icon name="edit" size="icon-mini" />
@@ -237,9 +248,10 @@ export function getRoutesTableColumns({
         </div>
     );
 
-    const editableHeader = (title) => () => (
+    const editableHeader = (title, subtitle) => () => (
         <EditableHeader
             title={title}
+            subtitle={subtitle}
             isEditing={editingRowId !== null}
         />
     );
@@ -440,7 +452,6 @@ export function getRoutesTableColumns({
             minWidth: 180,
             maxWidth: 300,
             wrapText: true,
-            autoHeight: true, 
             cellDataType: false,
             headerComponent: editableHeader("Productos Extra"),
             valueFormatter: () => "",
@@ -475,7 +486,12 @@ export function getRoutesTableColumns({
                             .join("\n");
 
                     setTimeout(() => {
-                        params.api.resetRowHeights();
+                        const products = params.data.extraProductsDetails || [];
+                        const count = products.length;
+                        const newHeight = count <= 1 ? 42 : count * 26 + 12;
+
+                        params.node.setRowHeight(newHeight);
+                        params.api.onRowHeightChanged();
                         params.api.refreshCells({
                             rowNodes: [params.node],
                             columns: ['extraProductsDetails'],
@@ -536,14 +552,13 @@ export function getRoutesTableColumns({
             },
             editable: (params) => params.data.name === editingRowId,
             cellClassRules: modifiedClassRule,
-            headerComponent: editableHeader("Horario"),
+            headerComponent: editableHeader("Horario", "HH:MM"),
             valueSetter: (params) => {
-
                 const sanitized = (params.newValue ?? "")
                     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
-                    .slice(0, 255);
+                    .slice(0, 255).trim();
 
-                const validation = validateField("schedule", sanitized);
+                const validation = validateField("schedule", sanitized.trim());
 
                 if(validation !== true) {
                     ValidationObserver.addError("schedule");
@@ -589,9 +604,7 @@ export function getRoutesTableColumns({
             minWidth: 150,
             maxWidth: 180,
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
         },
         { 
@@ -607,9 +620,7 @@ export function getRoutesTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
             valueFormatter: (params) => {
-                const value = Number(params.value ?? 0);
-
-                return `$${value.toFixed(2)}`;
+                return formatCurrency(params.value);
             },
             valueParser: (params) => {
                 return params.newValue;

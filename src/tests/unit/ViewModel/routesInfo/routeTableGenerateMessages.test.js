@@ -171,7 +171,7 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         // Arrange
         mockGenerateMessagesExecute.mockResolvedValue({
             success: false,
-            message: "No hay solicitudes para generar mensajes",
+            message: "Revisa que las solicitudes estén completas y agrega un horario a cada una",
         });
 
         const { result } = renderHook(() => useRoutesViewModel());
@@ -184,7 +184,7 @@ describe("useRoutesViewModel - generar mensajes de confirmación", () => {
         // Actuar y afirmar
         await expect(
             result.current.handleGenerateMessages()
-        ).rejects.toThrow("No hay solicitudes para generar mensajes");
+        ).rejects.toThrow("Revisa que las solicitudes estén completas y agrega un horario a cada una");
 
         expect(mockGenerateMessagesExecute).toHaveBeenCalledWith(
             0,

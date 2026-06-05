@@ -15,8 +15,14 @@ export default function CollectionResume({
     balance,
     total,
     collection,
+    paymentType,
     className="",
 }) {
+    const useBalance = paymentType === "Saldo";
+
+    const balanceToDiscount = useBalance ? Math.abs(balance) : 0;
+    const finalTotal = useBalance ? total - balanceToDiscount : total;
+
     const getPaymentIcon = (tipo) => {
         if (tipo === "Saldo") return "piggy";
         if (tipo === "Transferencia") return "card";
@@ -36,6 +42,10 @@ export default function CollectionResume({
                 Resumen de compra
             </h2>
 
+            <div className="recoleccion-title">
+                Recolección {collection.cubetas_entregadas} cubeta
+                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
+            </div>
             {/* Lista de productos extra */}
             <div className="third-form-products">
                 {products.map((product, index) => (
@@ -49,23 +59,28 @@ export default function CollectionResume({
             </div>
 
             <div>
+                <hr className="resume-divider" />
+                <p className="balance-text">
+                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
+                </p>
+
                 {/* Totales de compra e info adicional */}
                 <p className="balance-text">
                     Saldo: {formatCurrency(balance)}
                 </p>
 
-                Recolección {collection.cubetas_entregadas} cubeta
-                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
-                <br />
-                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
-
-                <hr className="resume-divider" />
-
                 <p className="total-text">
                     Total: {formatCurrency(total)}
+                    {useBalance && (
+                        <>
+                            {" - "}
+                            {formatCurrency(balanceToDiscount)}
+                            {" = "}
+                            {formatCurrency(finalTotal)}
+                        </>
+                    )}
                 </p>
             </div>
-
         </>
     );
-}   
+}

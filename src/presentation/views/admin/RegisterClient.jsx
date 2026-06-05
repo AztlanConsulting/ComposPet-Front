@@ -294,6 +294,7 @@ function RegisterClient(){
                         <DropdownInput
                             id="daysOfRoutes"
                             size="md"
+                            className="formField-registrar"
                             value={selectedDay}
                             onChange={(e) => handleDayOfRouteChange(Number(e.target.value))}
                             options={

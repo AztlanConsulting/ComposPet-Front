@@ -52,35 +52,38 @@ export default function ClientInfo(){
             <Navbar />
             <div className="main">
 
-                <div className="client-filter">
-                    <DropdownInput
-                        id="routeFilter"
-                        value={viewModel.selectedRoute}
-                        onChange={(e) => viewModel.setSelectedRoute(e.target.value)}
-                        options={viewModel.routesDropdown}
-                        className="dropdown"
-                    >
-                        <span className="dropdown-label">Filtrar por ruta</span>
-                    </DropdownInput>
-                </div>
+                <div className="client-filters-container">           
+                    <div className="client-filter">
+                        <DropdownInput
+                            className="dropdown formField"
+                            id="routeFilter"
+                            value={viewModel.selectedRoute}
+                            onChange={(e) => viewModel.setSelectedRoute(e.target.value)}
+                            options={viewModel.routesDropdown}
+                        >
+                            <span className="dropdown-label">Filtrar por ruta</span>
+                        </DropdownInput>
+                    </div>
 
-                {/* Accordion mobile */}
-                <div className="mobile-client-accordion">
-                    <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>
-                                Información de clientes
-                            </Accordion.Header>
+                    {/* Accordion mobile */}
+                    <div className="mobile-client-accordion">
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>
+                                    Información de clientes
+                                </Accordion.Header>
 
-                            <Accordion.Body>
-                                <div className="client-accordion-content">
-                                    <CountersGroup counters={familyCounters} />
+                                <Accordion.Body>
+                                    <div className="client-accordion-content">
+                                        <CountersGroup counters={familyCounters} />
 
-                                    <BalanceCountersGroup counters={balanceCounters} />
-                                </div>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
+                                        <BalanceCountersGroup counters={balanceCounters} />
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
+
                 </div>
 
                 {/* Layout desktop */}

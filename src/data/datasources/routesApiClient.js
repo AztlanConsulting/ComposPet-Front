@@ -154,4 +154,21 @@ export class RoutesApiClient {
             console.error("Error en updateRequest: ", error.response?.data || error.message);
         }
     }
+
+    /**
+     * Recupera los correos registrados.
+     * @async
+     * @returns {Array<String>} Lista con los correos registrados.
+     * @throws {Error} Lanza un error si la petición HTTP falla o el servidor retorna un error.
+     * 
+     */
+    async getEmails(){
+        try {
+            const response = await api.get('/admin/correos');
+            return response.data;
+        } catch (error) {
+            console.error("Error en getEmails: ", error.response?.data || error.message);
+            throw error;
+        }
+    }
 }

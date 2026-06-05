@@ -11,7 +11,7 @@ export default function TemporaryView ({ navbarStatus, message, img=true, }) {
             {navbarStatus === true && <Navbar />}
 
             <div className="temporary-container">
-                <p className="temporary-text">{message}</p>
+                <div className="temporary-text">{message}</div>
 
                 {img === true && (
                     <img

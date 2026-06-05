@@ -10,6 +10,7 @@ export default function DropdownInput({
     value, 
     onChange, 
     options,
+    className="",
     error 
 }) {
     const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function DropdownInput({
     }
 
     return (
-        <div className="formField" ref={ref}>
+        <div className={className} ref={ref}>
             <Label id={id} size={size} className="label-dropdown">
                 {children}
             </Label>

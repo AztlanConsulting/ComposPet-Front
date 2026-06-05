@@ -6,6 +6,7 @@ import {
     updateClientUseCase,
     getCompostStatusUseCase,
     updateCompostStatusUseCase,
+    getEmailsUseCase,
 } from '../../di/admin/clientTableDependencies';
 
 import { getClientTableColumns } from "./utils/clientTableColumnDefinitions";
@@ -31,6 +32,7 @@ function useClientTableViewModel() {
     
     const [clientList, setClientList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [emails, setEmails] = useState([]);
     
     const [routeList, setRouteList] = useState([]);
     
@@ -184,9 +186,22 @@ function useClientTableViewModel() {
         return originalRow[field] !== params.value;
     }, [originalClientList]);
 
-    const handleEdit = useCallback((params) => {
+    const getEmails = useCallback(async () => {
+        try {
+            const response = await getEmailsUseCase.execute();
+
+            setEmails(response);
+        } catch (error) {
+            console.log("Error loading emails:", error);
+            setEmails([]);
+        }
+    }, []);
+
+    const handleEdit = useCallback(async (params) => {
 
         if (editingRowId !== null) return;
+
+        await getEmails();
 
         setEditingRowId(params.data.clientId);
 
@@ -243,11 +258,11 @@ function useClientTableViewModel() {
             console.log("Error discarding changes in client data: ", error);
         } finally {
             setLoading(false);
+            setEmails([]);
         }
     }, [originalClientList]);
 
     const validateRow = (data) => {
-
         const fieldsToValidate = [
             "balance",
             "notes",
@@ -256,12 +271,12 @@ function useClientTableViewModel() {
             "order",
             "pets",
             "family",
+            "email",
         ];
-
+    
         for (const field of fieldsToValidate) {
-
             const result = validateField(field, data[field]);
-
+    
             if (result !== true) {
                 return {
                     valid: false,
@@ -270,39 +285,47 @@ function useClientTableViewModel() {
                 };
             }
         }
-
-        return { valid: true };
+    
+        return {
+            valid: true,
+            field: null,
+            message: null,
+        };
     };
 
     const handleSave = useCallback(async (params) => {
 
         try {
-
             setLoading(true);
-
+    
             params.api.stopEditing(false);
-
-            if (ValidationObserver.hasErrors()) {
-
+    
+            ValidationObserver.clear();
+    
+            const validation = validateRow(params.data);
+    
+            if (!validation.valid) {
+                ValidationObserver.addError(validation.field);
+    
                 await ProblemAlert({
                     title: "Error en los datos ingresados",
-                    text: "Corrige los campos inválidos antes de guardar."
+                    text: validation.message
                 });
-
+    
                 return;
             }
-
+    
             await updateClientUseCase.execute(params.data);
-
+    
             ValidationObserver.clear();
-
+    
             await getInfo();
-
+    
             setEditingRowId(null);
-
+    
             await AceptAlert({});
-
-        } catch(error) {
+    
+        } catch (error) {
             await ProblemAlert({
                 title: "Error al actualizar",
                 text: error.message || "No se pudo actualizar la información del cliente."
@@ -310,8 +333,9 @@ function useClientTableViewModel() {
         } finally {
             ValidationObserver.clear();
             setLoading(false);
+            setEmails([]);
         }
-
+    
     }, [updateClientUseCase, getInfo]);
 
     // AG Table columns config
@@ -324,6 +348,7 @@ function useClientTableViewModel() {
             isCellChanged,
             routeMap,
             routeOptions,
+            emails,
             showProblemAlert: async (title, text) => {
                 await ProblemAlert({
                     title,
@@ -341,6 +366,7 @@ function useClientTableViewModel() {
         routeMap,
         routeOptions,
         loading,
+        emails,
     ]);
 
     // *********************************************************************
