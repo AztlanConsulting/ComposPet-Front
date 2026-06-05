@@ -75,7 +75,7 @@ function useClientTableViewModel() {
                 .map(route => ({
                     value: route.id_ruta,
                     label: route.dia_ruta
-             }));
+            }));
 
             setRoutesDropdown([
                 { value: '', label: 'Sin filtro' },
