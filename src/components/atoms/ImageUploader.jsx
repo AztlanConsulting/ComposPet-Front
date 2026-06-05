@@ -14,7 +14,7 @@ const ImageUploader = forwardRef(({
                 ref={ref}
                 id={id}
                 type="file"
-                accept="image/png, image/jpeg, image/webp"
+                accept="image/png, image/jpeg, image/webp, image/svg, image/avif, image/jpg, image/heic"
                 onChange={onChange}
                 className="image-uploader-input"
             />

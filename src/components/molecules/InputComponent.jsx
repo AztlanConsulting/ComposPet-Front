@@ -60,20 +60,23 @@ const InputComponent = forwardRef(({
 
             <div className="input-container">
                 <div className='gap-1'>
-                    <Input
-                        placeholder={placeholder}
-                        id={id}
-                        size={size}
-                        type={inputType}
-                        onChange={handleChange}
-                        className={`
-                            ${classNameInput}
-                            ${type === "password" ? "password-input" : ""}
-                        `}
-                        value={value}
-                        maxLength={maxLength}
-                        ref={ref}
-                    />
+                <Input
+                    placeholder={placeholder}
+                    id={id}
+                    size={size}
+                    type={inputType}
+                    onChange={handleChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onKeyDown={onKeyDown}
+                    className={`
+                        ${classNameInput}
+                        ${type === "password" ? "password-input" : ""}
+                    `}
+                    value={value}
+                    maxLength={maxLength}
+                    ref={ref}
+                />
                 </div>
                 <div>
                     {type === "password" && (

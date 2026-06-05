@@ -9,6 +9,7 @@ import ColorPicker from '../molecules/ColorPicker';
 import ImageUploader from '../atoms/ImageUploader';
 
 import formatCurrency from '../../utilities/formatCurrency';
+import ALLOWED_PRODUCT_COLORS from '../../utilities/productColors';
 
 import '../../css/organisms/registerProductModal.css';
 import '../../css/molecules/inputComponent.css';
@@ -161,7 +162,10 @@ function RegisterProduct({
                     onFocus={() => setIsPriceFocused(true)}
                     onBlur={() => setIsPriceFocused(false)}
                     onChange={(e) => {
-                        let value = e.target.value.replace(/[^0-9.]/g, '');
+                        let value = e.target.value;
+                    
+                        value = value.replace(/[$,]/g, '');
+                        value = value.replace(/[^0-9.]/g, '');
                     
                         const parts = value.split('.');
                     
@@ -169,15 +173,16 @@ function RegisterProduct({
                             value = `${parts[0]}.${parts.slice(1).join('')}`;
                         }
                     
-                        if (parts[1]) {
-                            value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+                        const [integerPart, decimalPart] = value.split('.');
+                    
+                        if (decimalPart !== undefined) {
+                            value = `${integerPart}.${decimalPart.slice(0, 2)}`;
                         }
-
-                        const numericValue = Number(value);
-                        if (!Number.isNaN(numericValue) && numericValue > 100000) {
-                            return;
+                    
+                        if (value !== '' && Number(value) > 100000) {
+                            value = '100000';
                         }
-
+                    
                         setPrice(value);
                         validateField('price', value);
                     }}
@@ -232,6 +237,8 @@ function RegisterProduct({
                         colors={colors}
                         selectedColor={color}
                         onSelectColor={(selectedColor) => {
+                            if (!ALLOWED_PRODUCT_COLORS.includes(selectedColor)) return;
+                        
                             setColor(selectedColor);
                             validateField('color', selectedColor);
                         }}
@@ -260,6 +267,13 @@ function RegisterProduct({
                     {errors.imageFile && (
                         <p className="input-error-message">
                             {errors.imageFile}
+                        </p>
+                    )}
+
+                    {!errors.imageFile && (
+                        <p className="helper-message">
+                            Formatos permitidos: JPG, PNG o WEBP. 
+                            Tamaño máximo: 2 MB.
                         </p>
                     )}
                 </div>

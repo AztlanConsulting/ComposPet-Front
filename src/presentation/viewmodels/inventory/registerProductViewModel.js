@@ -5,7 +5,8 @@ import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
 import ProblemAlert from '../../../components/Template/ProblemAlert';
 
-import { RegisterProductUseCase } from '../../../domain/useCases/registerProductUseCase';
+import { registerProductUseCase } from '../../../di/inventory/registerProductDependencies';
+import ALLOWED_PRODUCT_COLORS from '../../../utilities/productColors';
 
 /**
  * Valida los campos del formulario de registro de producto.
@@ -37,12 +38,13 @@ function validateForm(name, price, quantity, color, description, imageFile) {
 
     let hasErrors = false;
 
-    const validNameRegex = /^[\p{L}\p{N}\s]+$/u;
+    const validNameRegex = /^[\p{L}\p{N}\s.()\-]+$/u;
     const validDescriptionRegex = /^[\p{L}\p{N}\s.,;:()\-]+$/u;    
     const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
     const hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
 
-    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp', 
+    'image/svg', 'image/avif', 'image/jpg', 'image/heic'];
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
     const numericPrice = Number(price);
@@ -93,8 +95,8 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     if (!color) {
         errors.color = "El color es requerido.";
         hasErrors = true;
-    } else if (!hexColorRegex.test(color)) {
-        errors.color = "El color debe tener formato hexadecimal.";
+    } else if (!ALLOWED_PRODUCT_COLORS.includes(color)) {
+        errors.color = "El color seleccionado no es válido.";
         hasErrors = true;
     }
 
@@ -124,7 +126,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     return { errors, hasErrors };
 }
 
-function useRegisterProductViewModel() {
+function useRegisterProductViewModel(onClose = () => {}) {
     const [errors, setErrors] = useState({
         name: "",
         price: "",
@@ -202,6 +204,8 @@ function useRegisterProductViewModel() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("SUBMIT");
+
         const trimmedName = name.trim();
         const trimmedColor = color.trim();
         const trimmedDescription = description.trim();
@@ -251,9 +255,11 @@ function useRegisterProductViewModel() {
         };
 
         try {
-            await RegisterProductUseCase.execute(data);
-            await confirmForm();
+            await registerProductUseCase.execute(data);
+            onClose();
         } catch (error) {
+            console.log("Entrando al submit");
+            console.log(data);
             const status = error?.status;
 
             if (status === 409) {
@@ -291,8 +297,9 @@ function useRegisterProductViewModel() {
             text: "El producto se registró exitosamente.",
             confirmText: "Aceptar",
         });
-
+    
         if (result.isConfirmed) {
+            onClose();
             navigate("/inventario");
         }
     };

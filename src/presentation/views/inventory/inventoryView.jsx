@@ -10,8 +10,6 @@ import '../../../css/inventory/inventory.css';
 export default function InventoryView() {
     const [isRegisterProductModalOpen, setIsRegisterProductModalOpen] = useState(false);
 
-    const registerProductViewModel = useRegisterProductViewModel();
-
     const openRegisterProductModal = () => {
         setIsRegisterProductModalOpen(true);
     };
@@ -19,6 +17,8 @@ export default function InventoryView() {
     const closeRegisterProductModal = () => {
         setIsRegisterProductModalOpen(false);
     };
+
+    const registerProductViewModel = useRegisterProductViewModel(closeRegisterProductModal);
 
     return (
         <>

@@ -11,18 +11,34 @@ export class InventoryApiClient {
      */
     async registerProduct(productData) {
         try {
-            const response = await api.post('/inventario/productos-extra', {
-                name: productData.name,
-                price: productData.price,
-                description: productData.description,
-                quantity: productData.quantity,
-                imageUrl: productData.imageUrl,
-                color: productData.color,
-            });
+            const formData = new FormData();
+
+            formData.append('name', productData.name);
+            formData.append('price', productData.price);
+            formData.append('quantity', productData.quantity);
+            formData.append('color', productData.color);
+
+            if (productData.description) {
+                formData.append('description', productData.description);
+            }
+
+            if (productData.imageFile) {
+                formData.append('image', productData.imageFile);
+            }
+
+            const response = await api.post(
+                '/inventario/agregar-producto',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+
             return response.data.data;
         } catch (error) {
             handleHttpError(error);
         }
-    }; 
-    
+    }
 }

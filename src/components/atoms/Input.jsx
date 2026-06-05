@@ -24,6 +24,7 @@ const Input = forwardRef(({
     onChange = () => {},
     onFocus = () => {},
     onBlur = () => {},
+    onKeyDown = () => {},
     value = "",
     maxLength,
 }, ref) => {
@@ -36,6 +37,7 @@ const Input = forwardRef(({
             onChange={onChange}
             onFocus={onFocus}
             onBlur={onBlur}
+            onKeyDown={onKeyDown}
             value={value}
             maxLength={maxLength}
             ref={ref}
