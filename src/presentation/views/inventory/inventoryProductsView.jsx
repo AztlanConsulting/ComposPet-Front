@@ -10,7 +10,7 @@ export default function InventoryProductsView({
     viewModel,
 }) {
     const {
-        inventory = [],
+        inventory,
         selectedProduct,
         loading,
         error,

@@ -1,6 +1,7 @@
 import '../../css/molecules/inventoryCard.css';
 import Image from '../atoms/Image';
 import Icon from '../../components/atoms/Icon';
+import formatCurrency from '../../utilities/formatCurrency';
 
 /**
  * Tarjeta de producto para el inventario.
@@ -122,13 +123,13 @@ export default function InventoryCard({
 
                 {showPrice && (
                     <span className={`inventory-card-price ${responsiveClass} fw-bold`}>
-                        ${Number(price).toFixed(2)}
+                        {formatCurrency(Number(price))}
                     </span>
                 )}
 
                 {showQuantity && (
                     <span className={`inventory-card-quantity ${responsiveClass} ${getQuantityColor(quantity)}`}>
-                        {quantity} piezas
+                        {quantity.toLocaleString('en-US')} piezas
                     </span>
                 )}
 

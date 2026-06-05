@@ -1,5 +1,6 @@
 import '../../css/molecules/inventoryModal.css';
 import Icon from '../atoms/Icon';
+import formatCurrency from '../../utilities/formatCurrency';
 
 /**
  * Modal para mostrar detalles de un producto en el inventario.
@@ -92,11 +93,11 @@ export default function InventoryModal({
                     </p>
 
                     <p className="inventory-modal-price fw-bold">
-                        ${Number(product.price).toFixed(2)}
+                        {formatCurrency(Number(product.price))}
                     </p>
 
                     <p className={getQuantityColor(product.quantity)}>
-                        {product.quantity} piezas
+                        {product.quantity.toLocaleString('en-US')} piezas
                     </p>
 
                     {/* <div className="inventory-modal-actions">

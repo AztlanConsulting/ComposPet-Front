@@ -27,6 +27,7 @@ function GetInventoryViewModel(){
             setError(null);
 
             const inventoryData = await getInventoryUseCase.execute();
+            console.log("inventoryData", inventoryData);
 
             setInventory(inventoryData);
 
