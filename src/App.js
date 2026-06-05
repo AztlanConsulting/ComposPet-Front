@@ -17,7 +17,6 @@ import ClientInfo from './presentation/views/clientInfoView';
 import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 import ComponentMock from './components/componentMock';
-import Inventory from './presentation/views/inventory/inventoryView';
 import Button from './components/atoms/Button';
 import './css/atoms/button.css';
 

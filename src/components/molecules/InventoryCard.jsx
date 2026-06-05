@@ -2,7 +2,7 @@ import '../../css/molecules/inventoryCard.css';
 import Image from '../atoms/Image';
 import Icon from '../../components/atoms/Icon';
 import formatCurrency from '../../utilities/formatCurrency';
-
+import getProductImageUrl from '../../utilities/getProductImageUrl';
 /**
  * Tarjeta de producto para el inventario.
  * Muestra imagen, precio y cantidad con un acento de color personalizable.
@@ -61,6 +61,7 @@ export default function InventoryCard({
     };
     // Obtiene el color final para mostrar en la tarjeta
     const cardColor = getCardColor(color);
+    const productImageUrl = getProductImageUrl(imageUrl);
 
     // Maneja el clic en la tarjeta
     const handleCardClick = () => {
@@ -106,9 +107,9 @@ export default function InventoryCard({
             />
 
             {/* Solo muestra la imagen si showImage es true y imageUrl está definida */}
-            {showImage && imageUrl && (
+            {showImage && productImageUrl && (
                 <Image
-                    src={imageUrl}
+                    src={productImageUrl}
                     alt={name}
                     size="small"
                     variant="square"

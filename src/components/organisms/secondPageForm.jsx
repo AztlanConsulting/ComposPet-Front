@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 import '../../css/organisms/extraProductsPageForm.css';
 import Loading from '../Template/loading';
 import Error from '../Template/error';
-
+import getProductImageUrl from '../../utilities/getProductImageUrl';
 /**
  * Componente de la segunda sección del formulario de recolección.
  * Muestra los productos extra disponibles y permite agregarlos o eliminarlos.
@@ -34,7 +34,7 @@ function SecondPageForm({ secondSectionViewModel }) {
     if (error) {
         return <Error message={error} />;
     }
-
+    
     return (
         <div className="secondPage">
             <FormCard className="extra-products-form-card">
@@ -75,12 +75,13 @@ function SecondPageForm({ secondSectionViewModel }) {
 
                         const maxQuantity = isCompostProduct ? 1 : 999;
                         const currentQuantity = selectedProducts[product.idProduct] ?? 0;
+                        const imageUrl = getProductImageUrl(product.imageUrl);
 
                         return (
                             <SwiperSlide key={product.idProduct}>
                                 <div className="swiper-product-card">
                                     <ProductCard
-                                        imageUrl={product.imageUrl}
+                                        imageUrl={imageUrl}
                                         name={product.name}
                                         price={
                                             isCompostProduct ||

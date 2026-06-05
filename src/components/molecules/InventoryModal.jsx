@@ -1,7 +1,7 @@
 import '../../css/molecules/inventoryModal.css';
 import Icon from '../atoms/Icon';
 import formatCurrency from '../../utilities/formatCurrency';
-
+import getProductImageUrl from '../../utilities/getProductImageUrl';
 /**
  * Modal para mostrar detalles de un producto en el inventario.
  *
@@ -51,7 +51,7 @@ export default function InventoryModal({
 
     // Obtiene el color para el borde y acento del modal
     const modalColor = getProductColor(product.color);
-
+    const imageUrl = getProductImageUrl(product.imageUrl);
 
     return (
         <div className="inventory-modal-overlay" onClick={onClose}>
@@ -77,7 +77,7 @@ export default function InventoryModal({
 
                 {/* Imagen del producto */}
                 <img
-                    src={product.imageUrl}
+                    src={imageUrl}
                     alt={product.name}
                     className="inventory-modal-image"
                 />
