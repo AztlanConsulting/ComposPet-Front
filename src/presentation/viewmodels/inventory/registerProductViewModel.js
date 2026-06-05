@@ -154,7 +154,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
     const navigate = useNavigate();
 
     const hasUnsavedChanges =
-        name || price || quantity || color || description || imageFile;
+        name || price || quantity || description || imageFile;
 
     const validateField = (field, value) => {
         const updatedValues = {
@@ -254,7 +254,9 @@ function useRegisterProductViewModel(onClose = () => {}) {
 
         try {
             await registerProductUseCase.execute(data);
-            onClose();
+            resetForm();
+            onClose?.();
+            await confirmForm();
         } catch (error) {
             console.log("Entrando al submit");
             console.log(data);
@@ -297,8 +299,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
         });
     
         if (result.isConfirmed) {
-            onClose();
-            navigate("/inventario");
+            window.location.reload();
         }
     };
 
