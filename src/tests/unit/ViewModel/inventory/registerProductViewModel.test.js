@@ -152,7 +152,7 @@ describe('Unit - ViewModel - useRegisterProductViewModel', () => {
         });
 
         expect(result.current.imageFile).toBe(invalidFile);
-        expect(result.current.errors.imageFile).toBe('La imagen debe ser JPG, PNG o WEBP.');
+        expect(result.current.errors.imageFile).toBe('La imagen debe ser JPG, JPEG, SVG, AVIF, HEIC, PNG o WEBP.');
     });
 
     it('debe validar imagen mayor a 2 MB', () => {

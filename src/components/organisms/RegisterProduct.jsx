@@ -278,8 +278,10 @@ function RegisterProduct({
 
                     {!errors.imageFile && (
                         <p className="helper-message">
-                            Formatos permitidos: JPG, PNG o WEBP. Tamaño máximo: 2 MB.
-                        </p>
+                            Formatos permitidos: JPG, JPEG, SVG, AVIF, HEIC, PNG o WEBP.
+                            <br />
+                            Tamaño máximo: 2 MB.
+                        </p> 
                     )}
                 </div>
 

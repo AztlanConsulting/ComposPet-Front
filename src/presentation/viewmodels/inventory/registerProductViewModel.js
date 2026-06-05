@@ -115,7 +115,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
 
     if (imageFile) {
         if (!allowedImageTypes.includes(imageFile.type)) {
-            errors.imageFile = "La imagen debe ser JPG, PNG o WEBP.";
+            errors.imageFile = "La imagen debe ser JPG, JPEG, SVG, AVIF, HEIC, PNG o WEBP.";
             hasErrors = true;
         } else if (imageFile.size > MAX_IMAGE_SIZE) {
             errors.imageFile = "La imagen no puede exceder 2 MB.";
