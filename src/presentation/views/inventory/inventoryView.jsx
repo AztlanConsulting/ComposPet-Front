@@ -13,16 +13,25 @@ import '../../../css/inventory/inventory.css';
 export default function InventoryView() {
     const [isRegisterProductModalOpen, setIsRegisterProductModalOpen] = useState(false);
 
-    const openRegisterProductModal = () => {
-        setIsRegisterProductModalOpen(true);
-    };
+    const inventoryViewModel = GetInventoryViewModel();
 
     const closeRegisterProductModal = () => {
-        registerProductViewModel.resetForm();
         setIsRegisterProductModalOpen(false);
     };
 
-    const registerProductViewModel = useRegisterProductViewModel(closeRegisterProductModal);
+    const handleProductRegistered = async () => {
+        closeRegisterProductModal();
+        await inventoryViewModel.loadInventory();
+    };
+
+    const registerProductViewModel = useRegisterProductViewModel({
+        onClose: closeRegisterProductModal,
+        onProductRegistered: handleProductRegistered,
+    });
+
+    const openRegisterProductModal = () => {
+        setIsRegisterProductModalOpen(true);
+    };
 
     return (
         <>
@@ -41,13 +50,16 @@ export default function InventoryView() {
                 </section>
 
                 <section className="inventory-content">
-                    <InventoryProductsView viewModel={GetInventoryViewModel()}/>
+                    <InventoryProductsView viewModel={inventoryViewModel} />
                 </section>
             </main>
 
             <RegisterProductModal
                 isOpen={isRegisterProductModalOpen}
-                onClose={closeRegisterProductModal}
+                onClose={() => {
+                    registerProductViewModel.resetForm();
+                    closeRegisterProductModal();
+                }}
                 viewModel={registerProductViewModel}
             />
         </>

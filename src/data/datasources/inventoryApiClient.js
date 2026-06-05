@@ -40,7 +40,7 @@ export class InventoryApiClient {
         } catch (error) {
             handleHttpError(error);
         }
-    }; 
+    }
 
     /**
      * Obtiene los productos extra disponibles para la solicitud de recolección actual.

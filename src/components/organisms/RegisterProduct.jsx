@@ -48,23 +48,11 @@ function RegisterProduct({
         setIsPriceFocused,
     } = viewModel;
 
-    const colors = [
-        '#169B49',
-        '#54B435',
-        '#EF7100',
-        '#F6B00B',
-        '#4318FF',
-        '#42A5E8',
-        '#AD009E',
-        '#D960C4',
-        '#9D7BE0',
-    ];
-
     const isFormInvalid =
     !name.trim() ||
     !price ||
     !quantity ||
-    !color ||
+    !ALLOWED_PRODUCT_COLORS.includes(color) ||
     errors.name ||
     errors.price ||
     errors.quantity ||
@@ -246,7 +234,7 @@ function RegisterProduct({
                     </Label>
 
                     <ColorPicker
-                        colors={colors}
+                        colors={ALLOWED_PRODUCT_COLORS}
                         selectedColor={color}
                         onSelectColor={(selectedColor) => {
                             if (!ALLOWED_PRODUCT_COLORS.includes(selectedColor)) return;

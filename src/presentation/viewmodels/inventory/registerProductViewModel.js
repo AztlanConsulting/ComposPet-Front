@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
@@ -126,7 +125,10 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     return { errors, hasErrors };
 }
 
-function useRegisterProductViewModel(onClose = () => {}) {
+function useRegisterProductViewModel({
+    onClose = () => {},
+    onProductRegistered = async () => {},
+    } = {}) {
     const [errors, setErrors] = useState({
         name: "",
         price: "",
@@ -139,7 +141,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [color, setColor] = useState('#169B49');
+    const [color, setColor] = useState(ALLOWED_PRODUCT_COLORS[0]);
     const [description, setDescription] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [isPriceFocused, setIsPriceFocused] = useState(false);
@@ -150,8 +152,6 @@ function useRegisterProductViewModel(onClose = () => {}) {
     const colorRef = useRef(null);
     const descriptionRef = useRef(null);
     const imageFileRef = useRef(null);
-
-    const navigate = useNavigate();
 
     const hasUnsavedChanges =
         name || price || quantity || description || imageFile;
@@ -255,8 +255,8 @@ function useRegisterProductViewModel(onClose = () => {}) {
         try {
             await registerProductUseCase.execute(data);
             resetForm();
-            onClose?.();
             await confirmForm();
+            await onProductRegistered();
         } catch (error) {
             console.log("Entrando al submit");
             console.log(data);
@@ -285,22 +285,19 @@ function useRegisterProductViewModel(onClose = () => {}) {
             confirmText: "Sí, cancelar",
             cancelText: "Seguir editando",
         });
-
+    
         if (result.isConfirmed) {
-            navigate("/inventario");
+            resetForm();
+            onClose();
         }
     };
 
     const confirmForm = async () => {
-        const result = await AceptAlert({
+        await AceptAlert({
             title: "Producto registrado",
             text: "El producto se registró exitosamente.",
             confirmText: "Aceptar",
         });
-    
-        if (result.isConfirmed) {
-            window.location.reload();
-        }
     };
 
     const resetForm = () => {
@@ -308,7 +305,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
             name: "",
             price: "",
             quantity: "",
-            color: "#169B49",
+            color: "",
             description: "",
             imageFile: "",
         });
@@ -316,7 +313,7 @@ function useRegisterProductViewModel(onClose = () => {}) {
         setName('');
         setPrice('');
         setQuantity('');
-        setColor('#169B49');
+        setColor(ALLOWED_PRODUCT_COLORS[0]);
         setDescription('');
         setImageFile(null);
         setIsPriceFocused(false);
