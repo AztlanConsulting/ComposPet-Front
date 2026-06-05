@@ -1,0 +1,27 @@
+/* Contenedor principal de la vista de inventario */
+.inventory-products-container {
+    padding: 2rem 5rem;
+}
+
+/*
+   Contenedor del listado de productos.
+   Agrega padding lateral amplio para desktop.
+*/
+.inventory-content-wrapper {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+}
+
+/*
+   Ajustes responsivos para tablet y móvil:
+   - Reduce padding lateral
+   - Agrega separación superior
+   - Aprovecha mejor el espacio disponible
+*/
+@media (max-width: 768px) {
+    .inventory-content-wrapper {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-top: 1rem;
+    }
+}

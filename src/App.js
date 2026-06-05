@@ -9,6 +9,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import TemporaryView from './components/Template/temporaryView';
 import RegisterClient from './presentation/views/admin/RegisterClient';
+import Inventory from './presentation/views/inventory/inventoryView';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 import ClientInfo from './presentation/views/clientInfoView';
@@ -37,6 +38,7 @@ function AppRoutes() {
                 <Route path="/tabla-clientes" element={<ClientInfo />} />
                 <Route path="/registrar-cliente" element={<RegisterClient />} />
                 <Route path="/ruta" element={<RoutesInfo />} />
+                <Route path="/inventario" element={<Inventory />} />
             </Route>
 
             {/* Rutas de clientes - Protegidas por Rol */}

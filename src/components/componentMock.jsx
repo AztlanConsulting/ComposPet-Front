@@ -10,6 +10,8 @@ import AniluImg from '../public/img/Anilu.png';
 
 import ProductCard from './molecules/ProductCard';
 import Login from './organisms/Login';
+import InventoryCard from '../components/molecules/InventoryCard';
+import InventoryModal from '../components/molecules/InventoryModal';
 
 import YesNoQuestion from './molecules/YesNoQuestion';
 import CounterInput from './molecules/counterInput';
@@ -38,6 +40,40 @@ function ComponentMock() {
     };
 
     const [municipio, setMunicipio] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const inventoryMockData = [
+        {
+            productId: 1,
+            name: 'Servilleta de tela 1 pza',
+            price: 25,
+            description: 'Servilleta reutilizable para limpieza.',
+            quantity: 30,
+            color: '#6C2BFF',
+            status: true,
+            imageUrl: 'https://picsum.photos/200/300?1',
+        },
+        {
+            productId: 2,
+            name: 'Bolsa compostable chica',
+            price: 15,
+            description: 'Bolsa biodegradable para residuos.',
+            quantity: 120,
+            color: '#14B8A6',
+            status: true,
+            imageUrl: 'https://picsum.photos/200/300?2',
+        },
+        {
+            productId: 3,
+            name: 'Kit de limpieza premium',
+            price: 120,
+            description: 'Incluye varios productos para limpieza.',
+            quantity: 5,
+            color: '#F4B400',
+            status: true,
+            imageUrl: 'https://picsum.photos/200/300?3',
+        },
+    ]
 
     return (
         <div>
@@ -83,6 +119,7 @@ function ComponentMock() {
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
                     <Image src={PersonImg} alt='Foto de perfil' size='image-large' variant='circle'></Image>
                     <Image src={AniluImg} alt='Foto de Anilu' size='image-xl' variant='square'></Image>
+
                 </div>
 
                 <div className='col d-flex flex-column align-items-center flex-wrap'>
@@ -209,6 +246,39 @@ function ComponentMock() {
                             size='small'
                             color='primary'
                         />
+                    </div>
+
+                    <div className='col-12 mt-4'>
+                        <h4>Preview Inventory Cards</h4>
+
+                        <div className='row g-4'>
+
+                            {inventoryMockData.map(product => (
+
+                                <div
+                                    key={product.productId}
+                                    className='col-12 col-md-6 col-xl-3'
+                                >
+                                    <InventoryCard
+                                        product={product}
+                                        onClick={() => setSelectedProduct(product)}
+                                    />
+                                </div>
+
+                            ))}
+
+                            {selectedProduct && (
+                                <InventoryModal
+                                    product={selectedProduct}
+                                    onClose={() => setSelectedProduct(null)}
+                                    onEdit={(product) => console.log('Editar:', product)}
+                                    onDelete={(product) => console.log('Eliminar:', product)}
+                                    onToggleStatus={(product) => console.log('Cambiar estado:', product)}
+                                />
+                            )}
+
+                        </div>
+                        <br />
                     </div>
                 </div>
             </div>

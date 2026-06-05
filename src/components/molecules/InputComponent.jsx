@@ -29,10 +29,13 @@ const InputComponent = forwardRef(({
     classNameLabel = "",
     classNameInput = "",
     onChange = () => {},
+    onKeyDown = () => {},
     value = "",
     maxLength,
     error = "",
     children,
+    onFocus = () => {},
+    onBlur = () => {},
 }, ref) => { 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -57,20 +60,23 @@ const InputComponent = forwardRef(({
 
             <div className="input-container">
                 <div className='gap-1'>
-                    <Input
-                        placeholder={placeholder}
-                        id={id}
-                        size={size}
-                        type={inputType}
-                        onChange={handleChange}
-                        className={`
-                            ${classNameInput}
-                            ${type === "password" ? "password-input" : ""}
-                        `}
-                        value={value}
-                        maxLength={maxLength}
-                        ref={ref}
-                    />
+                <Input
+                    placeholder={placeholder}
+                    id={id}
+                    size={size}
+                    type={inputType}
+                    onChange={handleChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onKeyDown={onKeyDown}
+                    className={`
+                        ${classNameInput}
+                        ${type === "password" ? "password-input" : ""}
+                    `}
+                    value={value}
+                    maxLength={maxLength}
+                    ref={ref}
+                />
                 </div>
                 <div>
                     {type === "password" && (
@@ -85,8 +91,6 @@ const InputComponent = forwardRef(({
                     </div>
                 )}  
                 </div>                
-
-
             </div>
             {error && (
                 <p className="error-message">
