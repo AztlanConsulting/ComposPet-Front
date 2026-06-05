@@ -24,15 +24,13 @@ jest.mock('../../../../di/inventory/registerProductDependencies', () => ({
 }));
 
 describe('Unit - ViewModel - useRegisterProductViewModel', () => {
-    const mockOnClose = jest.fn();
+    let mockOnClose;
+    let mockOnProductRegistered;
 
     beforeEach(() => {
         jest.clearAllMocks();
-
-        delete window.location;
-        window.location = {
-            reload: jest.fn(),
-        };
+        mockOnClose = jest.fn();
+        mockOnProductRegistered = jest.fn();
     });
 
     it('debe inicializar con valores por defecto', () => {
@@ -192,17 +190,22 @@ describe('Unit - ViewModel - useRegisterProductViewModel', () => {
         expect(result.current.errors.quantity).toBe('La cantidad es requerida.');
     });
 
-    it('debe registrar producto exitosamente, cerrar modal y recargar página', async () => {
+    it('debe registrar producto exitosamente y notificar registro', async () => {
         registerProductUseCase.execute.mockResolvedValue({
             productId: 1,
         });
-
+    
         AceptAlert.mockResolvedValue({
             isConfirmed: true,
         });
-
-        const { result } = renderHook(() => useRegisterProductViewModel(mockOnClose));
-
+    
+        const { result } = renderHook(() =>
+            useRegisterProductViewModel({
+                onClose: mockOnClose,
+                onProductRegistered: mockOnProductRegistered,
+            })
+        );
+    
         act(() => {
             result.current.setName('Aserrín');
             result.current.setPrice('50.5');
@@ -210,13 +213,13 @@ describe('Unit - ViewModel - useRegisterProductViewModel', () => {
             result.current.setColor('#169B49');
             result.current.setDescription('Producto para compostaje');
         });
-
+    
         await act(async () => {
             await result.current.handleSubmit({
                 preventDefault: jest.fn(),
             });
         });
-
+    
         expect(registerProductUseCase.execute).toHaveBeenCalledWith({
             name: 'Aserrín',
             price: 50.5,
@@ -225,15 +228,15 @@ describe('Unit - ViewModel - useRegisterProductViewModel', () => {
             description: 'Producto para compostaje',
             imageFile: null,
         });
-
-        expect(mockOnClose).toHaveBeenCalled();
+    
         expect(AceptAlert).toHaveBeenCalledWith({
             title: 'Producto registrado',
             text: 'El producto se registró exitosamente.',
             confirmText: 'Aceptar',
         });
-
-        expect(window.location.reload).toHaveBeenCalled();
+    
+        expect(mockOnClose).not.toHaveBeenCalled();
+        expect(mockOnProductRegistered).toHaveBeenCalled();
     });
 
     it('debe mostrar alerta de producto duplicado si el caso de uso responde 409', async () => {
@@ -313,24 +316,30 @@ describe('Unit - ViewModel - useRegisterProductViewModel', () => {
         expect(result.current.isPriceFocused).toBe(false);
     });
 
-    it('debe navegar a inventario al confirmar cancelación', async () => {
+    it('debe cerrar el modal al confirmar cancelación', async () => {
         ConfirmAlert.mockResolvedValue({
             isConfirmed: true,
         });
-
-        const { result } = renderHook(() => useRegisterProductViewModel(mockOnClose));
-
+    
+        const { result } = renderHook(() =>
+            useRegisterProductViewModel({
+                onClose: mockOnClose,
+                onProductRegistered: mockOnProductRegistered,
+            })
+        );
+    
         await act(async () => {
             await result.current.cancelForm();
         });
-
+    
         expect(ConfirmAlert).toHaveBeenCalledWith({
             title: '¿Estás seguro que deseas salir del formulario?',
             text: 'Se perderán los cambios no guardados.',
             confirmText: 'Sí, cancelar',
             cancelText: 'Seguir editando',
         });
-
-        expect(mockNavigate).toHaveBeenCalledWith('/inventario');
+    
+        expect(mockOnClose).toHaveBeenCalled();
+        expect(mockNavigate).not.toHaveBeenCalled();
     });
 });
