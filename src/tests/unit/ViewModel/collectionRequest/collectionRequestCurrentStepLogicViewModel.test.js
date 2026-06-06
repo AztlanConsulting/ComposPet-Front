@@ -54,7 +54,7 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
-            routeDay: "Sábado",
+            routeDay: "Domingo",
             loading: false,
             error: null,
         });
