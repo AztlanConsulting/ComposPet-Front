@@ -639,7 +639,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             const pending = getPending(route);
 
             return pending > 0
-                ? total + pending
+                ? total - pending
                 : total;
 
         }, 0);
@@ -680,7 +680,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             const pending = getPending(route);
 
             return pending > 0
-                ? total + pending
+                ? total - pending
                 : total;
 
         }, 0);
