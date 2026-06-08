@@ -480,7 +480,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     useEffect(() => {
 
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return;
+        if (isNaN(selectedWeek) || selectedWeek < -1) return;
 
         async function fetchRoutes() {
             try {
@@ -505,14 +505,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     // carga todas las rutas de la semana seleccionada
     useEffect(() => {
-        if (
-            selectedWeek === null ||
-            isNaN(selectedWeek) ||
-            selectedWeek < 0 ||
-            !daysOfRoutes.length
-        ) {
-            return;
-        }
+        if (isNaN(selectedWeek) || selectedWeek < -1 || !daysOfRoutes.length) return;
 
         async function fetchWeeklyRoutes() {
             try {
@@ -520,7 +513,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     await Promise.all(
                         daysOfRoutes.map(day =>
                             getFilteredRoutes.execute(
-                                selectedWeek,
+                                selectedWeek !== null ? selectedWeek : null,
                                 day.dia_ruta
                             )
                         )
@@ -545,7 +538,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     const resetFilters = () => {
         const currentIndex = weeks.findIndex(week => {
             const now = new Date();
-
             return (
                 now >= new Date(week.weekStart) &&
                 now < new Date(week.weekEnd)
