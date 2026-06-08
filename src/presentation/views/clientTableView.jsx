@@ -58,7 +58,7 @@ return (
                     value={searchText}
                     onChange={(e) => handleSearchText(e.target.value)}
                     onInput={(e) => handleSearchText(e.target.value)}
-                    placeholder="Buscar a un cliente por nombre"
+                    placeholder="Buscar por nombre"
                 />
             </div>
         </div>

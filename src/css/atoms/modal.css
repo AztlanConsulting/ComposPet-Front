@@ -1,0 +1,36 @@
+@import "../tokens/colors.css";
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    position: relative;
+    width: 35rem;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-green-primary);
+    border-radius: 8px;
+    padding: 2rem 3rem;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.modal-close-button:hover {
+    opacity: 0.8;
+}

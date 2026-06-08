@@ -1,0 +1,36 @@
+.image-uploader {
+    width: 100%;
+    min-height: 95px;
+    border: 1.5px solid var(--color-green-secondary);
+    border-radius: 8px;
+    background-color: transparent;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+
+    cursor: pointer;
+}
+
+.image-uploader.error {
+    border-color: var(--color-red-primary);
+}
+
+.image-uploader-input {
+    display: none;
+}
+
+.image-uploader-icon {
+    color: var(--color-green-secondary);
+}
+
+.image-uploader-file-name {
+    font-size: 0.85rem;
+    color: var(--color-green-secondary);
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -81,6 +81,7 @@ export default function Navbar() {
         { component: <NavbarItem route="/ruta" active={location.pathname === "/ruta"}>Ruta</NavbarItem> },
         { component: <NavbarItem route="/tabla-clientes" active={location.pathname === "/tabla-clientes"}>Información clientes</NavbarItem>},
         { component: <NavbarItem route="/registrar-cliente" active={location.pathname === "/registrar-cliente"}>Registrar clientes</NavbarItem>},
+        { component: <NavbarItem route="/inventario" active={location.pathname === "/inventario"}>Inventario</NavbarItem>},
         //{ component: <NavbarItem route="/resumen">Resumen</NavbarItem> },
     ];
 

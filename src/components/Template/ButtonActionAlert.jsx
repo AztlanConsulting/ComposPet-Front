@@ -9,7 +9,7 @@ import Button from "../atoms/Button";
 export default function ButtonActionAlert({
     children = "Generar mensajes",
     successMessage = "",
-    errorMessage = "Ocurrió un error al generar los mensajes",
+    errorMessage = "Revisa que las solicitudes estén completas y agrega un horario a cada una",
     onAction,
     disabled = false,
     size = "medium",
@@ -38,7 +38,7 @@ export default function ButtonActionAlert({
             }
         } catch (error) {
             const message =
-                error.message === "No hay solicitudes para generar mensajes"
+                error.message === "Revisa que las solicitudes estén completas y agrega un horario a cada unaas y agrega un horario a cada una"
                     ? error.message
                     : errorMessage;
 
