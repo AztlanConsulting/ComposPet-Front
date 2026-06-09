@@ -3,6 +3,7 @@ import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/tokens/colors.css';
 import formatCurrency from '../../../utilities/formatCurrency';
+import priceOptions from "./bucketPriceOptions";
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
@@ -21,6 +22,11 @@ export function getClientTableColumns({
     loading,
     emails,
 }) {
+
+    const priceLabelToValue = priceOptions;
+    const priceValueToLabel = Object.fromEntries(
+        Object.entries(priceOptions).map(([label, value]) => [value, label])
+    );
 
     const modifiedClassRule = {
         'cell-modified': (params) => isCellChanged(params)
@@ -426,6 +432,20 @@ export function getClientTableColumns({
                 ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
+            },
+        },
+
+        {
+            field: "priceType",
+            headerName: "Tipo de precio",
+            tooltipValueGetter: () => null,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: Object.values(priceOptions)
+            },
+            valueFormatter: (params) => {
+                return priceValueToLabel[params.value] || params.value;
             },
         },
 
