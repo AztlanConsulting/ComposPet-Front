@@ -16,6 +16,7 @@ export default function CollectionResume({
     total,
     collection,
     paymentType,
+    bucketCost,
     className="",
 }) {
     const useBalance = paymentType === "Saldo";
@@ -44,7 +45,7 @@ export default function CollectionResume({
 
             <div className="recoleccion-title">
                 Recolección {collection.cubetas_entregadas} cubeta
-                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCostMap[collection.cubetas_entregadas])}
+                {collection.cubetas_entregadas === 1 ? "" : "s"}: {formatCurrency(bucketCost)}
             </div>
             {/* Lista de productos extra */}
             <div className="third-form-products">
@@ -61,7 +62,7 @@ export default function CollectionResume({
             <div>
                 <hr className="resume-divider" />
                 <p className="balance-text">
-                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCostMap[collection.cubetas_entregadas])}
+                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCost)}
                 </p>
 
                 {/* Totales de compra e info adicional */}

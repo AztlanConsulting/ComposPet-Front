@@ -167,7 +167,7 @@ export class CollectionRequestApiClient {
                     weekEndDate
                 }
             );
-
+            console.log("DATA: ", response.data);
             return response.data;
         }
 

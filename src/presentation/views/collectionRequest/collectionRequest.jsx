@@ -106,6 +106,7 @@ export default function CollectionRequestView() {
                         total={thirdSectionViewModel.collectionTotal}
                         removeProduct={thirdSectionViewModel.removeProduct}
                         collection={thirdSectionViewModel.collection}
+                        bucketCost={thirdSectionViewModel.bucketCost}
                     />
                 )}
 
