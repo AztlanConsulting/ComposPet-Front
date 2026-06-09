@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
@@ -35,7 +35,8 @@ function useRoutesViewModel(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
-    const [editingRowId, setEditingRowId] = useState(null);
+    const [editingRowId, setEditingRowId] = useState('');
+    console.log(editingRowId);
     const [searchText, setSearchText] = useState('');
     const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
@@ -50,7 +51,7 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
-        if (data?.name === editingRowId) {
+        if (data?.requestId === editingRowId) {
             classes.push("row-editing");
         }
         
@@ -73,10 +74,10 @@ function useRoutesViewModel(){
     }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
-        const rowId = params.data.name;
+        const rowId = params.data.requestId;
         const field = params.colDef.field;
 
-        const originalRow = originalRoutesList.find(c => c.name === rowId);
+        const originalRow = originalRoutesList.find(c => c.requestId === rowId);
 
         if(!originalRow) return false;
 
@@ -91,7 +92,7 @@ function useRoutesViewModel(){
     }, [originalRoutesList]);
 
     const hasPendingChanges = useMemo(() => {
-        return editingRowId !== null;
+        return editingRowId !== '';
     }, [editingRowId]);
 
     usePrompt(hasPendingChanges);
@@ -127,9 +128,9 @@ function useRoutesViewModel(){
 
     const handleEdit = useCallback((params) => {
 
-        if (editingRowId !== null) return;
+        if (editingRowId !== '') return;
 
-        setEditingRowId(params.data.name);
+        setEditingRowId(params.data.requestId);
 
         setTimeout(() => {
             params.api.startEditingCell({
@@ -144,8 +145,8 @@ function useRoutesViewModel(){
             setLoading(true);
 
             params.api.stopEditing(false);
-            const rowId = params.data.name;
-            const originalRow = originalRoutesList.find(r => r.name === rowId);
+            const rowId = params.data.requestId;
+            const originalRow = originalRoutesList.find(r => r.requestId === rowId);
 
             if(!originalRow) return;
 
@@ -153,7 +154,7 @@ function useRoutesViewModel(){
 
             ValidationObserver.clear();
 
-            setEditingRowId(null);
+            setEditingRowId('');
 
             requestAnimationFrame(() => {
                 params.api.redrawRows({
@@ -234,7 +235,7 @@ function useRoutesViewModel(){
 
             await refreshRoutes();
 
-            setEditingRowId(null);
+            setEditingRowId('');
             await AceptAlert({});
         } catch (error) {
             await ProblemAlert({
@@ -464,10 +465,16 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     const now = new Date();
                     return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
                 });
+
                 const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
-                setSelectedWeek(weekIdx);
                 const defaultDay = getDefaultDay(daysData);
-                setSelectedDay(defaultDay)
+
+                setSelectedWeek(weekIdx);
+                setSelectedDay(defaultDay);
+
+                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
+                setRoutesList(routes);
+                setOriginalRoutesList(JSON.parse(JSON.stringify(routes)));
 
             } catch (err) {
                 setError(err.message || "Error al inicializar");
@@ -478,7 +485,13 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         initialize();
     }, []);
 
+    const isInitialized = useRef(false);
+
     useEffect(() => {
+        if (!isInitialized.current) {
+            isInitialized.current = true;
+            return;
+        }
 
         if (isNaN(selectedWeek) || selectedWeek < -1) return;
 
