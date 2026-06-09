@@ -41,6 +41,7 @@ export class RegisterClient {
             notes: data.notes,
             address: data.address,
             id_ruta: data.selectedDay,
+            priceType: data.priceType,
         };
 
         const registerClient = await this.registerClientRepository.postRegisterClient(clientData);

@@ -203,7 +203,7 @@ function useRegisterClientViewModel(){
      * @param {Function} dropdownContext.setDropdownErrors - Setter de errores de los dropdowns.
      * @returns {Promise<void>}
      */
-    const handleSubmit = async (e, { selectedDay, validateDropdowns, setDropdownErrors }) => {
+    const handleSubmit = async (e, { selectedDay, priceType, validateDropdowns, setDropdownErrors }) => {
         
         e.preventDefault();
 
@@ -253,6 +253,7 @@ function useRegisterClientViewModel(){
             notes,
             address: address.trim(),
             selectedDay,
+            priceType,
         };
 
         try {

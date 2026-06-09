@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import priceOptions from '../utils/bucketPriceOptions';
+
 /**
  * ViewModel para la carga y validación de los catálogos del formulario de registro de clientes.
  * Gestiona la obtención asíncrona de los días de ruta disponibles y el estado
@@ -12,6 +14,7 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
     const [daysOfRoutes, setDaysOfRoutes] = useState([]);
 
     const [selectedDay, setSelectedDay] = useState(null);
+    const [priceType, setPriceType] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -21,6 +24,7 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
 
     const [dropdownErrors, setDropdownErrors] = useState({
         selectedDay: "",
+        priceType: "",
     });
 
     /**
@@ -32,13 +36,19 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
      */
     const validateDropdowns = () => {
         const errors = { 
-            selectedDay: "" 
+            selectedDay: "" ,
+            priceType: "", 
         };
 
         let hasErrors = false;
 
         if (!selectedDay) {
             errors.selectedDay = "El día de ruta es requerido.";
+            hasErrors = true;
+        }
+
+        if(!priceType){
+            errors.priceType = "El precio de cubetas es requerido.";
             hasErrors = true;
         }
 
@@ -83,12 +93,30 @@ function useRegisterClientCatalogViewModel(registerClientCatalogUseCase){
     }));
     };
 
+    /**
+     * Actualiza el tipo de precio de cubetas seleccionado para el cliente
+     *
+     * @param {string} price - Valor del tipo de precio seleccionado.
+     */
+    const handlePriceChange = (price) => {
+        setPriceType(price);
+
+        setDropdownErrors(prev => ({
+        ...prev,
+        priceType: price ? "" : "El tipo de precio es requerido."
+    }));
+    };
+
     return {
         daysOfRoutes,
 
         selectedDay,
 
         handleDayOfRouteChange,
+
+        priceOptions,
+        priceType,
+        handlePriceChange,
 
         loading,
         error,
