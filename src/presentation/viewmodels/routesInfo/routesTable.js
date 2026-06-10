@@ -36,7 +36,6 @@ function useRoutesViewModel(){
     const [error, setError] = useState(null);
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
     const [editingRowId, setEditingRowId] = useState('');
-    console.log(editingRowId);
     const [searchText, setSearchText] = useState('');
     const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
