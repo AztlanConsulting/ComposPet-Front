@@ -23,7 +23,6 @@ export function getClientTableColumns({
     emails,
 }) {
 
-    const priceLabelToValue = priceOptions;
     const priceValueToLabel = Object.fromEntries(
         Object.entries(priceOptions).map(([label, value]) => [value, label])
     );

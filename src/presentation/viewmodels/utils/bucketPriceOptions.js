@@ -5,4 +5,4 @@ const priceOptions = {
     "Pensiones / guarderías con iva": "pension_iva",
 }
 
-module.exports = priceOptions;
+export default priceOptions;

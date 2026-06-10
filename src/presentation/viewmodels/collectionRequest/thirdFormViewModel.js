@@ -69,7 +69,6 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
             setCollectionTotal(response.total);
             setPaymentMethods(response.payMethods);
             setNotes(response.collection.notes);
-            console.log(response);
             setBucketCost(response.bucketCost);
             const aviableMethods = response.payMethods.map((method) => {
                 if (
