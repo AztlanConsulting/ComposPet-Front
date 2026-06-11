@@ -69,6 +69,7 @@ return (
             columnDefinitions={columnDefinitions}
             defaultColDef={defaultColDef}
             editingRowId={editingRowId}
+            getRowClass={getRowClass}
         >
         </ClientTable>
     </div>

@@ -63,6 +63,12 @@
     height: 2.5rem;
 }
 
+.input-register-product{
+    width: 100%;
+    font-size: 16px;
+    height: 2.5rem;
+}
+
 /* Tablet */
 @media (max-width: 768px) {
     .lg {

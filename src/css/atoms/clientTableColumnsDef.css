@@ -165,3 +165,7 @@
 .cell-not-editable:focus-within {
     outline: none !important;
 }
+
+.row-inactive {
+    opacity: 0.4;
+}

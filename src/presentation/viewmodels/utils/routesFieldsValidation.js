@@ -56,7 +56,7 @@ export const validateSchedule = (value) => {
 
     if (emojiRegex.test(value)) return "El horario no puede contener emojis.";
 
-    const timeRegex = /^(0[1-9]|1[0-2]):[0-5]\d$/;
+    const timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d$/;
 
     if (!timeRegex.test(value)) return "Ingresa un horario con el formato HH:MM (12 hrs.)";
 

@@ -1,0 +1,43 @@
+.register-product-background {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.register-product-title {
+    display: flex;
+}
+
+.register-product-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-product-textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+}
+
+.register-product-color-container,
+.register-product-image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-error-message {
+    color: var(--color-red, #b00020);
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+}
+
+.register-input{
+    width: 100% !important;
+}
+
+.helper-message {
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-gray-medium);
+    text-align: right;
+}

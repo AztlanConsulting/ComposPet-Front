@@ -1,0 +1,32 @@
+.inventory-view {
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 4.5rem;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.inventory-content {
+    width: 100%;
+}
+
+@media (max-width: 768px){
+    .inventory-view {
+        width: 100%;
+        min-height: 100vh;
+        padding: 1rem 1rem;
+    }
+}
+
+@media (max-width: 1300px){
+    .inventory-view {
+        width: 100%;
+        min-height: 100vh;
+        padding: 2rem 2rem;
+    }
+}

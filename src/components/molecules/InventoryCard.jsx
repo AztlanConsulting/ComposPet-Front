@@ -1,0 +1,157 @@
+import '../../css/molecules/inventoryCard.css';
+import Image from '../atoms/Image';
+import Icon from '../../components/atoms/Icon';
+import formatCurrency from '../../utilities/formatCurrency';
+import getProductImageUrl from '../../utilities/getProductImageUrl';
+/**
+ * Tarjeta de producto para el inventario.
+ * Muestra imagen, precio y cantidad con un acento de color personalizable.
+ *
+ * @param {Object} product - Objeto con los datos del producto (name, price, quantity, color, imageUrl)
+ * @param {boolean} showImage - Muestra u oculta la imagen del producto (default: true)
+ * @param {boolean} showPrice - Muestra u oculta el precio (default: true)
+ * @param {boolean} showQuantity - Muestra u oculta la cantidad (default: true)
+ * @param {boolean} responsiveCompact - En móvil oculta imagen/precio/cantidad y muestra "Ver más" (default: true)
+ * @param {string} variant - Variante visual de la tarjeta, ej: 'default' (default: 'default')
+ * @param {Function} onClick - Callback al hacer clic en la tarjeta, recibe el objeto product
+ * @returns {JSX.Element}
+ */
+export default function InventoryCard({
+    product,
+    showImage = true,
+    showPrice = true,
+    showQuantity = true,
+    responsiveCompact = true,
+    variant = 'default',
+    onClick,
+    onActivate,
+}) {
+    // Valores por defecto
+    const {
+        name = 'Producto sin nombre',
+        price = 0,
+        quantity = 0,
+        color = '#00A99D',
+        imageUrl,
+        status,
+    } = product || {};
+
+    const isInactive = status === false; 
+
+    // Mapeo de colores predefinidos a códigos hexadecimales
+    const colorMap = {
+        verde: '#00A99D',
+        amarillo: '#F4B400',
+        naranja: '#F57C00',
+        morado: '#6C2DFF',
+        azul: '#4DB6E8',
+        rosa: '#D96BC6',
+        lila: '#A58BE8',
+    };
+
+    // Función para obtener el color del producto, acepta nombres de colores
+    // o códigos hexadecimales
+    const getCardColor = (color) => {
+        // Si no hay color, usa este por defecto
+        if (!color) return '#00A99D';
+        // si el color empieza con # se asume que es un código hexadecimal
+        if (color.startsWith('#')) return color;
+        // Mapea el color a su respectivo hexadecimal en caso de ser string.
+        return colorMap[color.toLowerCase()] || '#00A99D';
+    };
+    // Obtiene el color final para mostrar en la tarjeta
+    const cardColor = getCardColor(color);
+    const productImageUrl = getProductImageUrl(imageUrl);
+
+    // Maneja el clic en la tarjeta
+    const handleCardClick = () => {
+        onClick?.(product);
+    };
+
+    // Maneja la activación del producto desde el ícono
+    const handleActivateClick = (e) => {
+        console.log("Activo este producto");
+        e.stopPropagation();
+        onActivate?.(product);
+    };
+
+    // maneja el color dependiendo de la cantidad que tiene
+    const getQuantityColor = (quantity) => {
+        if (quantity < 0) return 'text-danger';
+        return '';
+    }
+
+    // Clase para ocultar elementos en móvil si responsiveCompact es true
+    const responsiveClass = responsiveCompact
+        ? 'd-none d-md-block'
+        : '';
+
+    return (
+        <div
+            className={`
+                inventory-card
+                inventory-card-${variant}
+                d-flex
+                align-items-center
+                position-relative
+                ${isInactive ? 'inventory-card-disabled' : ''}
+            `}
+                style={{ borderColor: cardColor }}
+                onClick={handleCardClick}
+                role="button"
+                tabIndex={0}
+            >
+            <div
+                className="inventory-card-accent"
+                style={{ backgroundColor: cardColor }}
+            />
+
+            {/* Solo muestra la imagen si showImage es true y imageUrl está definida */}
+            {showImage && productImageUrl && (
+                <Image
+                    src={productImageUrl}
+                    alt={name}
+                    size="small"
+                    variant="square"
+                    className={`inventory-card-image ${responsiveClass}`}
+                />
+            )}
+
+            <div className="inventory-card-content d-flex flex-column gap-1 flex-grow-1">
+                <span className="inventory-card-name">
+                    {name}
+                </span>
+
+                {showPrice && (
+                    <span className={`inventory-card-price ${responsiveClass} fw-bold`}>
+                        {formatCurrency(Number(price))}
+                    </span>
+                )}
+
+                {showQuantity && (
+                    <span className={`inventory-card-quantity ${responsiveClass} ${getQuantityColor(quantity)}`}>
+                        {quantity.toLocaleString('en-US')} piezas
+                    </span>
+                )}
+
+                {responsiveCompact && (
+                    <span className="inventory-card-toggle-text d-md-none">
+                        Ver más
+                    </span>
+                )}
+            </div>
+
+            {/* {isInactive && (
+                <div
+                    className="inventory-card-inactive-icon"
+                    onClick={handleActivateClick}
+                    role="button"
+                    tabIndex={0}
+                    title="Activar producto"
+                >
+                    <Icon name="eyeOpened" size="small" />
+                </div>
+            )} */}
+        </div>
+    );
+}
