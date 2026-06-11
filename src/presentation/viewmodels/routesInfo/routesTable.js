@@ -50,6 +50,9 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
+        if (data.requestId === null) {
+            classes.push("row--has-no-request");
+        }
         if (data?.name === editingRowId) {
             classes.push("row-editing");
         }

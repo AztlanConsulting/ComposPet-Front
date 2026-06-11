@@ -183,6 +183,10 @@
     background-color: var(--color-gray-bg) !important;
 }
 
+.custom-green-theme .ag-row.row--has-no-request .ag-cell {
+    background-color: var(--color-lightgray) !important;
+}
+
 .ag-cell {
     white-space: pre-line !important;
     line-height: 1.4rem;
@@ -209,7 +213,7 @@
 }
 
 .background-colors-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .legend-title {
