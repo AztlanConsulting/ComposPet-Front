@@ -38,20 +38,20 @@ export default function RoutesInfo() {
             <div className="main">
                 <div className="filters-container">
                     <div className="filters-dropdowns">
-                        <div className="today">
-                            <Label id="Hoy" className="label-today" size="md">
-                                Hoy
-                            </Label>
+                    <div className="today">
+                        <Label id="Mañana" className="label-today" size="md">
+                            Mañana
+                        </Label>
 
-                            <Button
-                                size='medium'
-                                csstype='accept'
-                                className='button button-today'
-                                onClick={routesViewModel.resetFilters}
-                            >
-                                {new Date().getDate()}
-                            </Button>
-                        </div>
+                        <Button
+                            size="medium"
+                            csstype="accept"
+                            className="button button-today"
+                            onClick={routesViewModel.resetFilters}
+                        >
+                            {new Date(new Date().setDate(new Date().getDate() + 1)).getDate()}
+                        </Button>
+                    </div>
 
                         <DropdownInput
                             id="weeks"

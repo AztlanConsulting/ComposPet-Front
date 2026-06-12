@@ -386,11 +386,12 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         },
     };
 
-    const getDefaultDay = (days) => {
-        const todayBase = DAY_NAME_MAP[new Date().getDay()];
+    const getDefaultDay = (days, date = new Date()) => {
+        const baseDay = DAY_NAME_MAP[date.getDay()];
+    
         return (
-            days.find(d => d.dia_ruta === `${todayBase} 1`)?.dia_ruta ||
-            days.find(d => d.dia_ruta.startsWith(todayBase))?.dia_ruta ||
+            days.find(d => d.dia_ruta === `${baseDay} 1`)?.dia_ruta ||
+            days.find(d => d.dia_ruta.startsWith(baseDay))?.dia_ruta ||
             null
         );
     };
@@ -545,13 +546,20 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     ]);
 
     const resetFilters = () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+    
         const currentIndex = weeks.findIndex(week => {
-            const now = new Date();
-            return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
+            return (
+                tomorrow >= new Date(week.weekStart) &&
+                tomorrow < new Date(week.weekEnd)
+            );
         });
-
-        setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
-        setSelectedDay(getDefaultDay(daysOfRoutes));
+    
+        const weekIndex = currentIndex >= 0 ? currentIndex : weeks.length - 1;
+    
+        setSelectedWeek(weekIndex);
+        setSelectedDay(getDefaultDay(daysOfRoutes, tomorrow));
     };
 
     const handleOpenRoutesSheet = () => {
