@@ -2,7 +2,10 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/tokens/colors.css';
+import '../../../css/atoms/balanceItem.css';
+
 import formatCurrency from '../../../utilities/formatCurrency';
+import priceOptions from "./bucketPriceOptions";
 
 import { validateField } from "./clientFieldsValidations";
 import ValidationObserver from "./validationObserver";
@@ -21,6 +24,10 @@ export function getClientTableColumns({
     loading,
     emails,
 }) {
+
+    const priceValueToLabel = Object.fromEntries(
+        Object.entries(priceOptions).map(([label, value]) => [value, label])
+    );
 
     const modifiedClassRule = {
         'cell-modified': (params) => isCellChanged(params)
@@ -194,7 +201,11 @@ export function getClientTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
 
-            cellClassRules: modifiedClassRule,
+            cellClassRules: {
+                ...modifiedClassRule,
+                'balance-item-value-negative': (params) =>
+                    Number(params.value) < 0,
+            },
             valueFormatter: (params) => {
                 return formatCurrency(params.value);
             },
@@ -426,6 +437,20 @@ export function getClientTableColumns({
                 ValidationObserver.removeError("family");
                 params.data.family = params.newValue;
                 return true;
+            },
+        },
+
+        {
+            field: "priceType",
+            headerName: "Tipo de precio",
+            tooltipValueGetter: () => null,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: Object.values(priceOptions)
+            },
+            valueFormatter: (params) => {
+                return priceValueToLabel[params.value] || params.value;
             },
         },
 

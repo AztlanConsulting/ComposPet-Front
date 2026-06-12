@@ -493,7 +493,7 @@ function useClientTableViewModel() {
             const balance = Number(client.balance || 0);
     
             return balance < 0
-                ? total + balance
+                ? total - balance
                 : total;
         }, 0);
     }, [clientList]);
@@ -514,12 +514,14 @@ function useClientTableViewModel() {
     const pendingAmountPerRoute = useMemo(() => {
         return clientList.reduce((total, client) => {
             const balance = Number(client.balance || 0);
-    
+
             if (Number(client.routeId) !== Number(selectedRoute)) {
                 return total;
             }
-    
-            return balance < 0 ? total + balance : total;
+
+            return balance < 0
+                ? total + balance
+                : total;
         }, 0);
     }, [clientList, selectedRoute]);
 

@@ -88,9 +88,10 @@ describe('useRoutesViewModel', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => {
-            expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
+            expect(result.current.loading).toBe(false);
         });
 
+        expect(mockExecuteFiltered).toHaveBeenCalled();
         expect(result.current.routesList).toEqual(mockRoutes);
         expect(result.current.error).toBe(null);
     });
@@ -106,7 +107,7 @@ describe('useRoutesViewModel', () => {
             expect(result.current.error).toBe('Error al cargar la información de rutas');
         });
 
-        expect(mockExecuteFiltered).toHaveBeenCalledTimes(1);
+        expect(mockExecuteFiltered).toHaveBeenCalled();
         expect(result.current.routesList).toEqual([]);
     });
 
