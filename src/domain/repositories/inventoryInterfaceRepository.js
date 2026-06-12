@@ -57,4 +57,19 @@ export class InventoryIRepository {
     async changeProductVisibility(productId, newStatus) {
         throw new Error('InventoryIRepository.changeProductVisibility not implemented');
     }
+
+    /**
+     * Elimina un producto extra.
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async deleteProduct(productid) {
+        throw new Error('InventoryIRepository.deleteProduct not implemented');
+    }
 }

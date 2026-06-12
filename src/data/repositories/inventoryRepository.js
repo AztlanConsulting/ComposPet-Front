@@ -92,4 +92,14 @@ export class InventoryRepository extends InventoryIRepository {
         const response = await this.apiClient.changeProductVisibility(productId, newStatus);
         return response;
     }
+
+    /**
+     * Elimina un producto extra.
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} success.
+     */
+    async deleteProduct(productId) {
+        const response = await this.apiClient.deleteProduct(productId);
+        return response;
+    }
 }

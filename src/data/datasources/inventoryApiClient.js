@@ -78,4 +78,25 @@ export class InventoryApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Elimina un producto extra.
+     *
+     * @async
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} Respuesta de la API con success.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async deleteProduct(productId) {
+        try {
+            const response = await api.post(
+                '/inventario/eliminar-producto',
+                {productId},
+            );
+
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

@@ -2,6 +2,7 @@ import InventoryCard from "../../../components/molecules/InventoryCard";
 import InventoryModal from "../../../components/molecules/InventoryModal";
 import Loading from "../../../components/Template/loading";
 import Error from '../../../components/Template/error';
+import { type } from "@testing-library/user-event/dist/type";
 
 /**
  *
@@ -17,6 +18,7 @@ export default function InventoryProductsView({
         setSelectedProduct,
         onClickCard,
         handleStatusChangeClick,
+        handleDelete,
     } = viewModel;
 
     // Si el estado es cargando muestra la pantalla
@@ -74,7 +76,7 @@ export default function InventoryProductsView({
                     product={selectedProduct}
                     onClose={() => setSelectedProduct(null)}
                     onEdit={(product) => console.log('Editar:', product)}
-                    onDelete={(product) => console.log('Eliminar:', product)}
+                    onDelete={(product) => handleDelete(product.productId)}
                     onToggleStatus={(product) => handleStatusChangeClick(product.productId, !product.status)}
                 />
             )}
