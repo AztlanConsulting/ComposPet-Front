@@ -2,6 +2,8 @@ import Button from "../../../components/atoms/Button";
 import Icon from "../../../components/atoms/Icon";
 import '../../../css/atoms/clientTableColumnsDef.css';
 import '../../../css/tokens/colors.css';
+import '../../../css/atoms/balanceItem.css';
+
 import formatCurrency from '../../../utilities/formatCurrency';
 
 import { validateField } from "./clientFieldsValidations";
@@ -194,7 +196,11 @@ export function getClientTableColumns({
                 suppressKeyboardEvent: blockInvalidNumberKeys
             },
 
-            cellClassRules: modifiedClassRule,
+            cellClassRules: {
+                ...modifiedClassRule,
+                'balance-item-value-negative': (params) =>
+                    Number(params.value) < 0,
+            },
             valueFormatter: (params) => {
                 return formatCurrency(params.value);
             },
