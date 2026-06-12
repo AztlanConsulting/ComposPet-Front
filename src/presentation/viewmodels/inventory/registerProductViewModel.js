@@ -25,7 +25,7 @@ import ALLOWED_PRODUCT_COLORS from '../../../utilities/productColors';
  * 
  * @return {Object} Un objeto con los errores de validación y un booleano indicando si hay errores.
  */
-function validateForm(name, price, quantity, color, description, imageFile) {
+function validateForm(name, price, quantity, color, description, imageFile, mode = "create") {
     const errors = {
         name: "",
         price: "",
@@ -83,7 +83,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     } else if (!Number.isInteger(numericQuantity)) {
         errors.quantity = "La cantidad debe ser un número entero.";
         hasErrors = true;
-    } else if (numericQuantity < 0) {
+    } else if (mode == "create" && numericQuantity < 0) {
         errors.quantity = "La cantidad no puede ser negativa.";
         hasErrors = true;
     } else if (numericQuantity > 999) {
@@ -188,7 +188,8 @@ function useRegisterProductViewModel({
             updatedValues.quantity,
             updatedValues.color,
             updatedValues.description,
-            updatedValues.imageFile
+            updatedValues.imageFile,
+            mode,
         );
 
         setErrors(prev => ({
@@ -229,7 +230,8 @@ function useRegisterProductViewModel({
             quantity,
             trimmedColor,
             trimmedDescription,
-            imageFile
+            imageFile,
+            mode,
         );
 
         if (validation.hasErrors) {
