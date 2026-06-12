@@ -1,7 +1,7 @@
 /**
  * Caso de uso para eliminar un producto extra
  */
-export class DeleteProducUseCase {
+export class DeleteProductUseCase {
 
     constructor(inventoryRepository) {
         this.inventoryRepository = inventoryRepository;

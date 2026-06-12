@@ -36,12 +36,13 @@ function GetInventoryViewModel(){
                 await AceptAlert({
                     title: `Producto extra ${status ? 'activado' : 'desactivado'} con éxito.`
                 });
-                loadInventory();
+                await loadInventory();
             } else {
                 await ProblemAlert({});
             }
 
         } catch (error) {
+            await ProblemAlert({});
             console.error(error);
         } finally {
             setLoading(false);
@@ -70,12 +71,13 @@ function GetInventoryViewModel(){
                 await AceptAlert({
                     title: "Producto eliminado con éxito.",
                 })
-                loadInventory();
+                await loadInventory();
             } else {
                 ProblemAlert({});
             }
 
         } catch (error) {
+            await ProblemAlert({});
             console.error(error);
         } finally {
             setLoading(false);
@@ -118,7 +120,7 @@ function GetInventoryViewModel(){
     }, []);
 
     useEffect(() => {
-        loadInventory();
+        await loadInventory();
     }, []);
 
     return {

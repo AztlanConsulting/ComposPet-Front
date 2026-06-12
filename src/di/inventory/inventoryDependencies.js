@@ -9,7 +9,7 @@ import { InventoryRepository } from '../../data/repositories/inventoryRepository
 // del inventario desde la capa de dominio
 import {GetInventoryUseCase} from '../../domain/useCases/inventory/getInventoryUseCase';
 import { ChangeVisibilityUseCase } from '../../domain/useCases/inventory/changeVisibilityUseCase';
-import { DeleteProducUseCase } from '../../domain/useCases/inventory/deleteProductUseCase';
+import { DeleteProductUseCase } from '../../domain/useCases/inventory/deleteProductUseCase';
 
 // Inicializa el cliente API para consumir endpoints de inventario
 const inventoryApiClient = new InventoryApiClient();

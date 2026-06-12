@@ -2,7 +2,6 @@ import InventoryCard from "../../../components/molecules/InventoryCard";
 import InventoryModal from "../../../components/molecules/InventoryModal";
 import Loading from "../../../components/Template/loading";
 import Error from '../../../components/Template/error';
-import { type } from "@testing-library/user-event/dist/type";
 
 /**
  *
