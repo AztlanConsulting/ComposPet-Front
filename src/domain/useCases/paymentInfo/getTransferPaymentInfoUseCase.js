@@ -4,7 +4,7 @@
  *
  * @see PaymentIRepository
  */
-export class GetTransferPaymentUseCase {
+export class GetTransferPaymentInfoUseCase {
     /**
      * Crea una instancia del caso de uso para obtener
      *
@@ -23,7 +23,7 @@ export class GetTransferPaymentUseCase {
      */
     async execute() {
 
-        const payment = await this.paymentRepository.getTransferPayment();
+        const payment = await this.paymentRepository.getTransferPaymentInfo();
 
         if (!payment) {
             throw new Error("No se encontró la información de pago por transferencia");

@@ -14,13 +14,13 @@ export class Payment{
     }){
         this.notes = notes;
     }
-
+    
     /**
-     * Retorna la información de la forma de pago.
+     * Retorna las notas de la forma de pago.
      *
-     * @returns {string} información de la forma de pago.
+     * @returns {string} notas de la forma de pago.
      */
-    getPaymentInfo(){
+    getNotes(){
         return this.notes;
     }
 }

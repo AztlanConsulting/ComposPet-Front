@@ -14,10 +14,12 @@ export class Client {
     constructor({
         clientId,
         routeId,
+        name,
         routeDay,
     }) {
         this.clientId = clientId;
         this.routeId = routeId;
+        this.name = name;
         this.routeDay = routeDay;
     }
     
@@ -30,12 +32,21 @@ export class Client {
         return this.clientId;
     }
 
-     /**
+    /**
      * Retorna el día de ruta asignado al cliente.
      *
      * @returns {string|null} Día de ruta.
      */
     getRouteDay() {
         return this.routeDay;
+    }
+
+    /**
+     * Retorna el nombre del cliente.
+     *
+     * @returns {string} Nombre del cliente.
+     */
+    getName() {
+        return this.name;
     }
 }

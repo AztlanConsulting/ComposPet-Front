@@ -16,6 +16,7 @@ export function useHomeViewModel() {
 
     const {
         clientId,
+        clientName,
         loading: clientLoading,
         error: clientError,
     } = useAuthenticatedClient();
@@ -27,7 +28,7 @@ export function useHomeViewModel() {
     } = useCreditBalance(clientId);
 
     const {
-        transferPayment,
+        notes,
         loading: paymentLoading,
         error: paymentError,
     } = useTransferPaymentInfo();
@@ -66,11 +67,13 @@ export function useHomeViewModel() {
 
     const paymentInfo = useMemo(() => {
         return {
-            text: transferPayment?.tipo || 'Datos de transferencia',
-            notes: transferPayment?.notas || '',
-            paymentType: transferPayment?.tipo || 'Transferencia',
+            text: 'Datos de transferencia',
+            notes: notes || '',
+            paymentType: 'Transferencia',
         };
-    }, [transferPayment]);
+    }, [notes]);
+
+    const welcomeName = clientName || 'Cliente';
 
     const goToCollectionForm = () => {
         navigate('/formulario-recoleccion');
@@ -78,6 +81,7 @@ export function useHomeViewModel() {
 
     return {
         clientId,
+        welcomeName,
         balance: numericBalance,
         formattedBalance,
         balanceStatus,

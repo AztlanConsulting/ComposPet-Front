@@ -9,7 +9,7 @@
  * @abstract
  */
 
-export class paymentIRepository{
+export class PaymentIRepository{
     /**
      * Obtiene la forma de pago de transferencia
      *
@@ -17,8 +17,8 @@ export class paymentIRepository{
      * @returns {Promise<Payment|null>} Objeto con el pago o `null` si no existe.
      * @throws {Error} Si el método no ha sido implementado.
      */
-    async getTransferPayment(){
-        throw new Error('paymentIRepository.getTransferPayment() not implemented')
+    async getTransferPaymentInfo(){
+        throw new Error('paymentIRepository.getTransferPaymentInfo() not implemented')
     }
 
 }

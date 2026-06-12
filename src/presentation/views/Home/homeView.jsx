@@ -12,6 +12,7 @@ import Error from '../../../components/Template/error';
 export default function HomeView() {
 
     const {
+        welcomeName,
         formattedBalance,
         balanceStatus,
         warningMessage,
@@ -33,6 +34,16 @@ export default function HomeView() {
         <main className="home-view-background">
             <Navbar />
             <section className="home-view-content">
+                <section className="home-view-welcome-section">
+                    <h1 className="home-view-welcome-title">
+                        ¡Bienvenido {welcomeName} a ComposPage!
+                    </h1>
+
+                    <p className="home-view-welcome-subtitle">
+                        Gracias por ser parte de nuestra comunidad
+                    </p>
+                </section>
+
                 <div className="home-view-main-info">
                     <section className="home-view-balance-section">
                         <Icon
@@ -58,10 +69,10 @@ export default function HomeView() {
                     </section>
 
                     <PaymentInfoCard
+                        className="payment-wrapper"
                         text={paymentInfo.text}
                         notes={paymentInfo.notes}
                         paymentType={paymentInfo.paymentType}
-                        className="home-view-payment-card"
                     />
                 </div>
 
@@ -74,6 +85,28 @@ export default function HomeView() {
                 >
                     Formulario de recolección
                 </Button>
+
+                <a
+                    className="home-view-instagram-link"
+                    href="https://www.instagram.com/compospet.qro/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span className="home-view-instagram-text">
+                        Unete a nuestra Comunidad:
+                    </span>
+
+                    <Icon
+                        name="instagram"
+                        className="home-view-instagram-icon"
+                    />
+
+
+                    <span className="home-view-instagram-user">
+                        @compospet.qro
+                    </span>
+                </a>
+
             </section>
         </main>
     );
