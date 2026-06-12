@@ -117,12 +117,12 @@
 }
 
 
-.home-view-payment-card {
+/* .home-view-payment-card {
     flex: 0 0 22.5rem;
     width: 22.5rem;
     max-width: 22.5rem;
     box-sizing: border-box;
-}
+} */
 
 .home-view-collection-button {
     width: 43rem;
@@ -179,11 +179,11 @@
         font-size: var(--font-size-2xl);
     }
 
-    .home-view-payment-card {
+    /* .home-view-payment-card {
         flex-basis: 21rem;
         width: 21rem;
         max-width: 21rem;
-    }
+    } */
 
     .home-view-collection-button {
         width: 38rem;
@@ -233,11 +233,11 @@
         text-align: center;
     }
 
-    .home-view-payment-card {
+    /* .home-view-payment-card {
         flex: none;
         width: 100%;
         max-width: 34rem;
-    }
+    } */
 
     .home-view-collection-button {
         width: 100%;
@@ -287,10 +287,10 @@
         font-size: var(--font-size-xl);
     }
 
-    .home-view-payment-card {
+    /* .home-view-payment-card {
         width: 100%;
         max-width: none;
-    }
+    } */
 
     .home-view-collection-button {
         width: 100%;
