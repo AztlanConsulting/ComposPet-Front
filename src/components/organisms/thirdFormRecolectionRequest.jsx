@@ -45,6 +45,7 @@ export default function ThirdFormCollectionRequest({
     total,
 
     removeProduct,
+    bucketCost,
 }) {
     const selectedMethod =
         selectedPaymentIndex !== null
@@ -89,6 +90,7 @@ export default function ThirdFormCollectionRequest({
                     balance={balance}
                     total={total}
                     collection={collection}
+                    bucketCost={bucketCost}
                 />
 
                     <span className="balance-check">

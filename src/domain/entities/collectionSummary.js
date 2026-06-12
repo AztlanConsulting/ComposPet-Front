@@ -19,13 +19,15 @@ export class CollectionSummary {
         products,
         balance,
         total,
-        payMethods
+        payMethods,
+        bucketCost,
     ) {
         this.collection = collection;
         this.products = products;
         this.balance = balance;
         this.total = total;
         this.payMethods = payMethods;
+        this.bucketCost = bucketCost;
     }
 
 }

@@ -35,7 +35,8 @@ export class CollectionSummaryRepositoryImpl {
             response.data.products,
             response.data.balance,
             response.data.collectionTotal,
-            response.data.payMethods
+            response.data.payMethods,
+            response.data.bucketCost,
         );
     }
 

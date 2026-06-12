@@ -167,7 +167,6 @@ export class CollectionRequestApiClient {
                     weekEndDate
                 }
             );
-
             return response.data;
         }
 

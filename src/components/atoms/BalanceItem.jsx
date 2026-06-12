@@ -11,8 +11,8 @@ import '../../css/atoms/balanceItem.css';
 export default function BalanceItem({
     subtitle = '',
     value = '',
+    variant = null,
 }) {
-
     const numericValue = Number(
         String(value)
             .replaceAll('$', '')
@@ -24,9 +24,12 @@ export default function BalanceItem({
     const resolvedVariant =
         numericValue === 0
             ? 'neutral'
-            : numericValue > 0
-                ? 'positive'
-                : 'negative';
+            : variant ??
+                (
+                    numericValue > 0
+                        ? 'positive'
+                        : 'negative'
+                );
 
     return (
         <div className="balance-item">
@@ -43,7 +46,6 @@ export default function BalanceItem({
             <span className="balance-item-subtitle">
                 {subtitle}
             </span>
-
         </div>
     );
 }

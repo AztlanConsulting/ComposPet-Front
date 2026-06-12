@@ -50,6 +50,9 @@ function RegisterClient(){
         dropdownErrors,
         setDropdownErrors, 
         validateDropdowns,
+        priceOptions,
+        priceType,
+        handlePriceChange,
     } = useRegisterClientCatalogViewModel(registerClientCatalogUseCase);
 
     const {
@@ -78,7 +81,7 @@ function RegisterClient(){
             </div>
 
             <form onSubmit={(e) => handleSubmit(e, 
-                { selectedDay, validateDropdowns, setDropdownErrors }
+                { selectedDay, priceType, validateDropdowns, setDropdownErrors }
                 )} className='register-client-form'>
                 
                 <section>
@@ -305,6 +308,32 @@ function RegisterClient(){
                             error={dropdownErrors.selectedDay}
                         >
                         Día de ruta <Icon name="requiredInput" size="mini" color="icon-required" />
+                        </DropdownInput>
+                    </div>
+
+                </section>
+
+                <br />
+
+                <section>
+                    <h5 className="section-title">Tipo de cliente</h5>
+                    <hr />
+                    <div className='route-dropdowns-containers'>
+                        <DropdownInput
+                            id="price_type"
+                            size="md"
+                            className="formField-registrar"
+                            value={priceType}
+                            onChange={(e) => handlePriceChange(e.target.value)}
+                            options={
+                                Object.entries(priceOptions).map(([key, value]) => ({
+                                    value,
+                                    label: key,
+                                }))
+                            }
+                            error={dropdownErrors.priceType}
+                        >
+                        Precio de cubetas <Icon name="requiredInput" size="mini" color="icon-required" />
                         </DropdownInput>
                     </div>
 
