@@ -22,8 +22,10 @@ export default function BalanceCountersGroup({
                     title={counter.title}
                     favorSubtitle={counter.favorSubtitle}
                     favorBalance={counter.favorBalance}
+                    favorVariant={counter.favorVariant}
                     pendingSubtitle={counter.pendingSubtitle}
                     pendingBalance={counter.pendingBalance}
+                    pendingVariant={counter.pendingVariant}
                     icon={counter.icon}
                     color={counter.color}
                     iconSize={counter.iconSize}
