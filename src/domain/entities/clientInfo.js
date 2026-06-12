@@ -35,6 +35,7 @@ export class ClientInfo {
         status,
         order,
         email,
+        priceType,
     }) {
         this.clientId = clientId;
         this.userId = userId;
@@ -51,6 +52,7 @@ export class ClientInfo {
         this.status = status;
         this.order = order;
         this.email = email;
+        this.priceType = priceType;
     }
     
 }

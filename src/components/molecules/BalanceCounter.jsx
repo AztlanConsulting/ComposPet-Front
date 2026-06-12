@@ -19,9 +19,12 @@ export default function BalanceCounter({
 
     favorSubtitle = '',
     favorBalance = 0,
+    favorVariant = null,
 
     pendingSubtitle = '',
     pendingBalance = 0,
+    pendingVariant = null,
+
     icon="",
     color="",
     iconSize="",
@@ -41,11 +44,13 @@ export default function BalanceCounter({
                 <BalanceItem
                     subtitle={favorSubtitle}
                     value={favorBalance}
+                    variant={favorVariant}
                 />
 
                 <BalanceItem
                     subtitle={pendingSubtitle}
                     value={pendingBalance}
+                    variant={pendingVariant}
                 />
 
             </div>

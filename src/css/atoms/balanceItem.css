@@ -36,7 +36,7 @@
 }
 
 .balance-item-value-negative{
-    color: var(--color-red-primary);
+    color: var(--color-red-primary) !important;;
 }
 
 .balance-item-value-neutral{

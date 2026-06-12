@@ -35,6 +35,7 @@ export class RouteInfo {
     notes,
     hasRequest,
     status,
+    date,
     wantsCollection,
     wantsExtraProducts,
     extraProductsDetails,
@@ -52,6 +53,7 @@ export class RouteInfo {
     this.totalToPay = totalToPay;
     this.totalPaid = totalPaid;
     this.notes = notes;
+    this.date = date ?? null;
 
     this.hasRequest = hasRequest;
     this.status = status;

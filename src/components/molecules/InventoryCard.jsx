@@ -71,7 +71,6 @@ export default function InventoryCard({
 
     // Maneja la activación del producto desde el ícono
     const handleActivateClick = (e) => {
-        console.log("Activo este producto");
         e.stopPropagation();
         onActivate?.(product);
     };

@@ -9,6 +9,7 @@ const TEXT_COLORS = [
 ];
 
 const BACKGROUND_COLORS = [
+    { text: "No ha iniciado su formulario de recolección", color: "var(--color-lightgray)"},
     { text: "No ha completado su formulario de recolección", color: "var(--color-red-secondary)" },
     { text: "No quiso recolección ni productos extra", color: "var(--color-gray-bg)" },
 ];

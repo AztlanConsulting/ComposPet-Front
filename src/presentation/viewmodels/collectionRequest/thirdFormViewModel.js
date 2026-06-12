@@ -22,6 +22,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
     const [balance, setBalance] = useState(0);
     const [collectionTotal, setCollectionTotal] = useState(0);
     const [paymentMethods, setPaymentMethods] = useState([]);
+    const [bucketCost, setBucketCost] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [paymentAviable, setPaymentAviable] = useState([]); 
@@ -68,6 +69,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
             setCollectionTotal(response.total);
             setPaymentMethods(response.payMethods);
             setNotes(response.collection.notes);
+            setBucketCost(response.bucketCost);
             const aviableMethods = response.payMethods.map((method) => {
                 if (
                     method.tipo === "Saldo" &&
@@ -147,6 +149,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         removeProduct,
         saveThirdSection,
         loadSummary,
+        bucketCost,
     };
 
 }
