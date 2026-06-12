@@ -81,4 +81,15 @@ export class InventoryRepository extends InventoryIRepository {
             });
         });
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} success.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        const response = await this.apiClient.changeProductVisibility(productId, newStatus);
+        return response;
+    }
 }

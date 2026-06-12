@@ -41,4 +41,20 @@ export class InventoryIRepository {
     async getInventory() {
         throw new Error('InventoryIRepository.getInventory() not implemented');
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        throw new Error('InventoryIRepository.changeProductVisibility not implemented');
+    }
 }

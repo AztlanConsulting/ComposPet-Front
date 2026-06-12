@@ -1,5 +1,8 @@
 import {useEffect, useState} from 'react';
-import { getInventoryUseCase } from '../../../di/inventory/inventoryDependencies';
+import { changeVisibilityUseCase, getInventoryUseCase } from '../../../di/inventory/inventoryDependencies';
+
+import ProblemAlert from "../../../components/Template/ProblemAlert";
+import AceptAlert from "../../../components/Template/AceptAlert";
 
 /**
  * ViewModel para la vista de inventario.
@@ -19,6 +22,24 @@ function GetInventoryViewModel(){
     const [selectedProduct, setSelectedProduct] = useState(null);
     // Estado para saber si la pantalla es pequeña
     const [isSmall, setIsSmall] = useState(window.innerWidth < 768);
+
+    // Maneja la activación del producto desde el ícono
+    const handleStatusChangeClick = async (productId, status) => {
+        try {
+
+            const result = await changeVisibilityUseCase.execute(productId, status);
+
+            if (result.success) {
+                await AceptAlert({});
+                loadInventory();
+            } else {
+                await ProblemAlert({});
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // Función para obtener el inventario
     const loadInventory = async () => {
@@ -68,6 +89,7 @@ function GetInventoryViewModel(){
         setSelectedProduct,
         onClickCard,
         isSmall,
+        handleStatusChangeClick,
     };
 }
 

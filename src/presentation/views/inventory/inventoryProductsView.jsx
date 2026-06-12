@@ -16,6 +16,7 @@ export default function InventoryProductsView({
         error,
         setSelectedProduct,
         onClickCard,
+        handleStatusChangeClick,
     } = viewModel;
 
     // Si el estado es cargando muestra la pantalla
@@ -57,6 +58,7 @@ export default function InventoryProductsView({
                             <InventoryCard
                                 product={product}
                                 onClick={onClickCard}
+                                handleStatusChangeClick={handleStatusChangeClick}
                             />
                         </div>
                     ))}

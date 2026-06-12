@@ -57,4 +57,25 @@ export class InventoryApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     *
+     * @async
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} Respuesta de la API con success.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        try {
+            const response = await api.post(
+                '/inventario/cambiar-visibilidad-producto',
+                {productId, newStatus},
+            );
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

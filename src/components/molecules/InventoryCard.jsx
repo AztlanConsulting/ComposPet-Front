@@ -25,6 +25,7 @@ export default function InventoryCard({
     variant = 'default',
     onClick,
     onActivate,
+    handleStatusChangeClick,
 }) {
     // Valores por defecto
     const {
@@ -141,17 +142,20 @@ export default function InventoryCard({
                 )}
             </div>
 
-            {/* {isInactive && (
+            {isInactive && (
                 <div
                     className="inventory-card-inactive-icon"
-                    onClick={handleActivateClick}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleStatusChangeClick?.(product.productId, true);
+                    }}
                     role="button"
                     tabIndex={0}
                     title="Activar producto"
                 >
-                    <Icon name="eyeOpened" size="small" />
+                    <Icon name="eyeClosed" size="small" />
                 </div>
-            )} */}
+            )}
         </div>
     );
 }
