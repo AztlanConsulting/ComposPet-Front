@@ -55,7 +55,7 @@
 .navbarRight {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    gap: 24px;
 }
 
 /* Da estilo a los links del navbar */
