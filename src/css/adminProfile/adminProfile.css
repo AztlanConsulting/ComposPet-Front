@@ -1,0 +1,90 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+html,
+body,
+#root {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+}
+
+.title{
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    margin-top: 2rem;
+}
+
+.main-container{
+    background: var(--color-green-quaternary);
+    border-radius: var(--border-radius-lg);
+    margin: 2rem auto;
+    padding: 2.5rem;
+    width: calc(100% - 80px); /* 40px de cada lado */
+    max-width: 60rem;
+    min-height: 28rem;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-buttons-container{
+    display: flex;
+    gap: 2.5rem;
+}
+
+.user-full-name{
+    font-size: 32px
+}
+
+.user-information{
+    display: flex;
+    
+}
+
+.personal-information-container,
+.transfer-information-container {
+    flex: 1;
+}
+
+.personal-information-container input,
+.transfer-information-container input {
+    max-width: 85%;
+}
+
+.section-container{
+    margin-top: 2.5rem;
+}
+
+#accountHolder, #accountNumber, #email, #phone{
+    font-size: 16px;
+    width: 24.5rem;
+    height: 2.5rem;
+}
+
+.profile-section-title{
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-green-secondary);
+    margin-top: 1rem;
+}
+
+.profile-element-title{
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-green-secondary);
+}
+
+.profile-element-text{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-green-secondary);
+    margin-top: -1rem;
+}
