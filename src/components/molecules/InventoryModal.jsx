@@ -100,7 +100,7 @@ export default function InventoryModal({
                         {product.quantity.toLocaleString('en-US')} piezas
                     </p>
 
-                    {/* <div className="inventory-modal-actions">
+                    <div className="inventory-modal-actions">
                         <button onClick={() => onToggleStatus?.(product)}>
                             <Icon name="eyeClosed" />
                         </button>
@@ -113,7 +113,7 @@ export default function InventoryModal({
                              <Icon name="edit" size="small"/>
                         </button>
                     </div>
-                     */}
+                    
                 </div>
             </div>
         </div>

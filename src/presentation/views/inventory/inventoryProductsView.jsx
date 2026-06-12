@@ -75,7 +75,7 @@ export default function InventoryProductsView({
                     onClose={() => setSelectedProduct(null)}
                     onEdit={(product) => console.log('Editar:', product)}
                     onDelete={(product) => console.log('Eliminar:', product)}
-                    onToggleStatus={(product) => console.log('Cambiar estado:', product)}
+                    onToggleStatus={(product) => handleStatusChangeClick(product.productId, !product.status)}
                 />
             )}
         </div>

@@ -30,7 +30,10 @@ function GetInventoryViewModel(){
             const result = await changeVisibilityUseCase.execute(productId, status);
 
             if (result.success) {
-                await AceptAlert({});
+                setSelectedProduct(null);
+                await AceptAlert({
+                    title: `Producto extra ${status ? 'activado' : 'desactivado'} con éxito`
+                });
                 loadInventory();
             } else {
                 await ProblemAlert({});
