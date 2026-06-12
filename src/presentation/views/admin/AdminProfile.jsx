@@ -11,7 +11,9 @@ export default function AdminProfileInformation(){
 
     const { 
         profile, loading, error,
+        fieldErrors,
         isEditing,
+        name, setName,
         phone, setPhone,
         email, setEmail,
         accountHolder, setAccountHolder,
@@ -32,7 +34,18 @@ export default function AdminProfileInformation(){
 
             <div className="main-container">
                 <div className="header">
-                    <p className="user-full-name">{profile.name}</p>
+                    {isEditing ? (
+                        <InputComponent 
+                            id="name" 
+                            value={name} 
+                            onChange={(e) => setName(e.target.value)}
+                            error={fieldErrors.name}
+                        >
+                            Nombre completo
+                        </InputComponent>
+                    ) : (
+                        <p className="user-full-name">{profile.name}</p>
+                    )}
 
                     {isEditing ? (
                         <>
@@ -136,7 +149,6 @@ export default function AdminProfileInformation(){
                     </div>
                 </div>
             </div>
-
         </main>
     )
 }
