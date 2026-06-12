@@ -703,5 +703,21 @@ export function getRoutesTableColumns({
             },
         },
 
+        {
+            field: "status",
+            headerName: "Estatus",
+            tooltipValueGetter: () => null,
+            minWidth: 100,
+            maxWidth: 140,
+            cellDataType: 'boolean',
+            editable: (params) => params.data.name === editingRowId,
+            cellClassRules: {
+                ...modifiedClassRule,
+                "cell-not-editable": (params) =>
+                    params.data.clientId !== editingRowId,
+            },
+            headerComponent: editableHeader("Estatus"),
+        }
+
     ];
 }
