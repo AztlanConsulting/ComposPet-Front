@@ -9,6 +9,7 @@ import { type } from "@testing-library/user-event/dist/type";
  */
 export default function InventoryProductsView({
     viewModel,
+    onEditProduct,
 }) {
     const {
         inventory,
@@ -75,7 +76,10 @@ export default function InventoryProductsView({
                 <InventoryModal
                     product={selectedProduct}
                     onClose={() => setSelectedProduct(null)}
-                    onEdit={(product) => console.log('Editar:', product)}
+                    onEdit={(product) => {
+                        setSelectedProduct(null);
+                        onEditProduct(product);
+                    }}
                     onDelete={(product) => handleDelete(product.productId)}
                     onToggleStatus={(product) => handleStatusChangeClick(product.productId, !product.status)}
                 />
