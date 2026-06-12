@@ -57,4 +57,81 @@ export class InventoryApiClient {
             handleHttpError(error);
         }
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     *
+     * @async
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} Respuesta de la API con success.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        try {
+            const response = await api.post(
+                '/inventario/cambiar-visibilidad-producto',
+                {productId, newStatus},
+            );
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Elimina un producto extra.
+     *
+     * @async
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} Respuesta de la API con success.
+     * @throws {Error} Si la respuesta HTTP no es exitosa o no regresa JSON válido.
+     */
+    async deleteProduct(productId) {
+        try {
+            const response = await api.post(
+                '/inventario/eliminar-producto',
+                {productId},
+            );
+
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
+
+    /**
+     * Actualiza la información de un producto.
+     * @async
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si ocurre un error en la solicitud o el token es inválido.
+     */
+    async updateProduct(productId, productData) {
+        try {
+            const formData = new FormData();
+
+            formData.append('productId', productId);
+
+            if (productData.name !== undefined) formData.append('name', productData.name);
+            if (productData.price !== undefined) formData.append('price', productData.price);
+            if (productData.quantity !== undefined) formData.append('quantity', productData.quantity);
+            if (productData.color !== undefined) formData.append('color', productData.color);
+            if (productData.description !== undefined) formData.append('description', productData.description);
+            if (productData.imageFile !== undefined) formData.append('image', productData.imageFile);
+
+            const response = await api.post(
+                '/inventario/modificar-producto',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            handleHttpError(error);
+        }
+    }
 }

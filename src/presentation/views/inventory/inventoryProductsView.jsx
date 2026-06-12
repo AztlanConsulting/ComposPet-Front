@@ -8,6 +8,7 @@ import Error from '../../../components/Template/error';
  */
 export default function InventoryProductsView({
     viewModel,
+    onEditProduct,
 }) {
     const {
         inventory,
@@ -16,6 +17,8 @@ export default function InventoryProductsView({
         error,
         setSelectedProduct,
         onClickCard,
+        handleStatusChangeClick,
+        handleDelete,
     } = viewModel;
 
     // Si el estado es cargando muestra la pantalla
@@ -57,6 +60,7 @@ export default function InventoryProductsView({
                             <InventoryCard
                                 product={product}
                                 onClick={onClickCard}
+                                handleStatusChangeClick={handleStatusChangeClick}
                             />
                         </div>
                     ))}
@@ -71,9 +75,12 @@ export default function InventoryProductsView({
                 <InventoryModal
                     product={selectedProduct}
                     onClose={() => setSelectedProduct(null)}
-                    onEdit={(product) => console.log('Editar:', product)}
-                    onDelete={(product) => console.log('Eliminar:', product)}
-                    onToggleStatus={(product) => console.log('Cambiar estado:', product)}
+                    onEdit={(product) => {
+                        setSelectedProduct(null);
+                        onEditProduct(product);
+                    }}
+                    onDelete={(product) => handleDelete(product.productId)}
+                    onToggleStatus={(product) => handleStatusChangeClick(product.productId, !product.status)}
                 />
             )}
         </div>

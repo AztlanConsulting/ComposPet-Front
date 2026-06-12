@@ -4,7 +4,7 @@ import ConfirmAlert from '../../../components/Template/confirmationAlert';
 import AceptAlert from '../../../components/Template/AceptAlert';
 import ProblemAlert from '../../../components/Template/ProblemAlert';
 
-import { registerProductUseCase } from '../../../di/inventory/registerProductDependencies';
+import { registerProductUseCase, updateProductUseCase } from '../../../di/inventory/registerProductDependencies';
 import ALLOWED_PRODUCT_COLORS from '../../../utilities/productColors';
 
 /**
@@ -25,7 +25,7 @@ import ALLOWED_PRODUCT_COLORS from '../../../utilities/productColors';
  * 
  * @return {Object} Un objeto con los errores de validación y un booleano indicando si hay errores.
  */
-function validateForm(name, price, quantity, color, description, imageFile) {
+function validateForm(name, price, quantity, color, description, imageFile, mode = "create") {
     const errors = {
         name: "",
         price: "",
@@ -83,7 +83,7 @@ function validateForm(name, price, quantity, color, description, imageFile) {
     } else if (!Number.isInteger(numericQuantity)) {
         errors.quantity = "La cantidad debe ser un número entero.";
         hasErrors = true;
-    } else if (numericQuantity < 0) {
+    } else if (mode == "create" && numericQuantity < 0) {
         errors.quantity = "La cantidad no puede ser negativa.";
         hasErrors = true;
     } else if (numericQuantity > 999) {
@@ -126,6 +126,8 @@ function validateForm(name, price, quantity, color, description, imageFile) {
 }
 
 function useRegisterProductViewModel({
+    mode = "create",
+    initialProduct = null,
     onClose = () => {},
     onProductRegistered = async () => {},
     } = {}) {
@@ -138,11 +140,15 @@ function useRegisterProductViewModel({
         imageFile: "",
     });
 
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [color, setColor] = useState(ALLOWED_PRODUCT_COLORS[0]);
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState(initialProduct?.name || '');
+    const [price, setPrice] = useState(initialProduct?.price ?? '');
+    const [quantity, setQuantity] = useState(initialProduct?.quantity ?? '');
+    const [color, setColor] = useState(
+        initialProduct?.color || ALLOWED_PRODUCT_COLORS[0]
+    );
+    const [description, setDescription] = useState(
+        initialProduct?.description || ''
+    );
     const [imageFile, setImageFile] = useState(null);
     const [isPriceFocused, setIsPriceFocused] = useState(false);
 
@@ -154,7 +160,16 @@ function useRegisterProductViewModel({
     const imageFileRef = useRef(null);
 
     const hasUnsavedChanges =
-        name || price || quantity || description || imageFile;
+        mode === "create"
+            ? (name || price || quantity || description || imageFile)
+            : (
+                name !== (initialProduct?.name || '') ||
+                Number(price) !== Number(initialProduct?.price ?? '') ||
+                Number(quantity) !== Number(initialProduct?.quantity ?? '') ||
+                color !== (initialProduct?.color || ALLOWED_PRODUCT_COLORS[0]) ||
+                description !== (initialProduct?.description || '') ||
+                imageFile !== null
+            );
 
     const validateField = (field, value) => {
         const updatedValues = {
@@ -173,7 +188,8 @@ function useRegisterProductViewModel({
             updatedValues.quantity,
             updatedValues.color,
             updatedValues.description,
-            updatedValues.imageFile
+            updatedValues.imageFile,
+            mode,
         );
 
         setErrors(prev => ({
@@ -214,7 +230,8 @@ function useRegisterProductViewModel({
             quantity,
             trimmedColor,
             trimmedDescription,
-            imageFile
+            imageFile,
+            mode,
         );
 
         if (validation.hasErrors) {
@@ -253,7 +270,16 @@ function useRegisterProductViewModel({
         };
 
         try {
-            await registerProductUseCase.execute(data);
+
+            if (mode === "create") {
+                await registerProductUseCase.execute(data);
+            } else {
+                await updateProductUseCase.execute(
+                    initialProduct.productId,
+                    data
+                );
+            }
+
             resetForm();
             await confirmForm();
             await onProductRegistered();
@@ -292,8 +318,14 @@ function useRegisterProductViewModel({
 
     const confirmForm = async () => {
         await AceptAlert({
-            title: "Producto registrado",
-            text: "El producto se registró exitosamente.",
+            title: mode === "create"
+                ? "Producto registrado"
+                : "Producto actualizado",
+
+            text: mode === "create"
+                ? "El producto se registró exitosamente."
+                : "El producto se actualizó exitosamente.",
+
             confirmText: "Aceptar",
         });
     };
@@ -308,14 +340,45 @@ function useRegisterProductViewModel({
             imageFile: "",
         });
     
-        setName('');
-        setPrice('');
-        setQuantity('');
-        setColor(ALLOWED_PRODUCT_COLORS[0]);
-        setDescription('');
+        if (mode === "create") {
+            setName('');
+            setPrice('');
+            setQuantity('');
+            setColor(ALLOWED_PRODUCT_COLORS[0]);
+            setDescription('');
+        } else {
+            setName(initialProduct?.name || '');
+            setPrice(initialProduct?.price ?? '');
+            setQuantity(initialProduct?.quantity ?? '');
+            setColor(initialProduct?.color || ALLOWED_PRODUCT_COLORS[0]);
+            setDescription(initialProduct?.description || '');
+        }
+
         setImageFile(null);
         setIsPriceFocused(false);
     };
+
+    useEffect(() => {
+        if (mode === "edit" && initialProduct) {
+            setName(initialProduct.name || '');
+            setPrice(initialProduct.price ?? '');
+            setQuantity(initialProduct.quantity ?? '');
+            setColor(
+                initialProduct.color || ALLOWED_PRODUCT_COLORS[0]
+            );
+            setDescription(initialProduct.description || '');
+            setImageFile(null);
+
+            setErrors({
+                name: "",
+                price: "",
+                quantity: "",
+                color: "",
+                description: "",
+                imageFile: "",
+            });
+        }
+    }, [initialProduct, mode]);
 
     return {
         errors,
