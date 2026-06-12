@@ -1,8 +1,14 @@
 const formatCurrency = (value) => {
-    return `$${new Intl.NumberFormat('en-US', {
+    const numericValue = Number(value) || 0;
+
+    const formattedValue = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-    }).format(value)}`;
+    }).format(Math.abs(numericValue));
+
+    return numericValue < 0
+        ? `-$${formattedValue}`
+        : `$${formattedValue}`;
 };
 
 export default formatCurrency;
