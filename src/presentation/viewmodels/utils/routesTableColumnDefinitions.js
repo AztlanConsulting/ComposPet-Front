@@ -252,7 +252,7 @@ export function getRoutesTableColumns({
         <EditableHeader
             title={title}
             subtitle={subtitle}
-            isEditing={editingRowId !== null}
+            isEditing={editingRowId !== ''}
         />
     );
 
@@ -716,7 +716,7 @@ export function getRoutesTableColumns({
             minWidth: 100,
             maxWidth: 140,
             cellDataType: 'boolean',
-            editable: (params) => params.data.name === editingRowId,
+            editable: (params) => params.data.requestId === editingRowId,
             cellClassRules: {
                 ...modifiedClassRule,
                 "cell-not-editable": (params) =>
