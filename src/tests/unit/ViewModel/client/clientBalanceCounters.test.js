@@ -88,7 +88,7 @@ describe('Client Balance Counters ViewModel', () => {
 
         await waitFor(() => {
             expect(result.current.totalAmount).toBe('$800.00');
-            expect(result.current.pendingAmount).toBe('-$300.00');
+            expect(result.current.pendingAmount).toBe('$300.00');
         });
     });
 

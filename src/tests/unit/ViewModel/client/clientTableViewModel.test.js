@@ -54,7 +54,7 @@ describe("useClientTableViewModel", () => {
         const mockData = [
             {
                 name: "Juan Manuel M",
-                lastRequest: "2026-05-01",
+                lastRequest: "01-05-2026",
                 balance: 1000,
                 notes: "La casa azul al lado del OXXO",
                 cellphone: "4426598564",
