@@ -63,12 +63,14 @@ function useAuthenticatedClient() {
     // Usa el metodo de la entidad para sacar la info básica del clientId, si no existe pone null
     const clientId = client?.getClientId() || null;
     const routeDay = client?.getRouteDay() || null;
+    const clientName = client?.getName() || null;
 
     // Le regresa el clientId a
     return {
         client,
         clientId,
         routeDay,
+        clientName,
         loading,
         error,
     };

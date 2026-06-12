@@ -5,7 +5,6 @@
  *
  * @see ClientIRepository
  */
-
 export class GetCreditBalanceUseCase {
     /**
      * Crea una instancia del caso de uso para obtener el saldo de un cliente.

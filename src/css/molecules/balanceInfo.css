@@ -1,0 +1,144 @@
+@import "../tokens/colors.css";
+@import "../tokens/layout.css";
+@import "../tokens/typography.css";
+
+.balance-info {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.75rem;
+
+    box-sizing: border-box;
+}
+
+/*
+ * Mantiene al cerdito a la izquierda y al monto a la derecha.
+ */
+.balance-info-main {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 1.25rem;
+
+    box-sizing: border-box;
+}
+
+.balance-info-icon {
+    width: 4.5rem;
+    min-width: 4.5rem;
+    height: 4.5rem;
+
+    color: var(--color-green-secondary);
+    justify-self: center;
+    align-self: center;
+}
+
+.balance-info-content {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.balance-info-title {
+    margin: 0;
+
+    color: var(--color-black);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-tight);
+    text-align: center;
+}
+
+.balance-info-amount {
+    margin: 0.25rem 0 0;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/*
+ * El mensaje abarca el ancho completo:
+ * desde el espacio del cerdito hasta el final del monto.
+ */
+.balance-info-message {
+    width: 100%;
+    margin: 0;
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    text-align: center;
+}
+
+.balance-info-positive {
+    color: var(--color-black);
+}
+
+.balance-info-warning {
+    color: var(--color-orange-primary);
+}
+
+.balance-info-critical {
+    color: var(--color-red-primary);
+}
+
+@media (max-width: 768px) {
+    .balance-info {
+        width: 100%;
+        max-width: 22rem;
+        margin: 0 auto;
+    }
+
+    .balance-info-main {
+        grid-template-columns: 4.5rem minmax(0, 1fr);
+        column-gap: 1rem;
+    }
+
+    .balance-info-message {
+        font-size: var(--font-size-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .balance-info {
+        max-width: 19rem;
+    }
+
+    .balance-info-main {
+        grid-template-columns: 4rem minmax(0, 1fr);
+        column-gap: 0.75rem;
+    }
+
+    .balance-info-icon {
+        width: 4rem;
+        min-width: 4rem;
+        height: 4rem;
+    }
+
+    .balance-info-title,
+    .balance-info-amount {
+        font-size: var(--font-size-xl);
+    }
+
+    .balance-info-message {
+        font-size: var(--font-size-sm);
+    }
+}

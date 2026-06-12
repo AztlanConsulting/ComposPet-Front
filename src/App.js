@@ -10,6 +10,7 @@ import RoutesInfo from '../src/presentation/views/routesInfo/routesInfo';
 import TemporaryView from './components/Template/temporaryView';
 import RegisterClient from './presentation/views/admin/RegisterClient';
 import Inventory from './presentation/views/inventory/inventoryView';
+import HomeView from './presentation/views/Home/homeView';
 
 import CollectionRequestView from './presentation/views/collectionRequest/collectionRequest';
 import ClientInfo from './presentation/views/clientInfoView';
@@ -18,7 +19,7 @@ import FirstLoginView from './presentation/views/auth/FirstLoginView';
 import UnauthorizedPage from './presentation/views/UnauthorizedPage';
 import ComponentMock from './components/componentMock';
 import Button from './components/atoms/Button';
-import './css/atoms/button.css';
+
 
 function AppRoutes() {
     const navigate = useNavigate();
@@ -43,39 +44,11 @@ function AppRoutes() {
 
             {/* Rutas de clientes - Protegidas por Rol */}
             <Route element={<ProtectedRoute roles={["Cliente"]} />}>
+
+                <Route path="/" element={<HomeView />} />
+
                 <Route path="/formulario-recoleccion" element={<CollectionRequestView />} />
-
-                <Route
-                    path="/"
-                    element={
-                        <TemporaryView
-                            navbarStatus={true}
-                            message={
-                                <div className="App">
-                                    ¡Bienvenido a ComposPage!
-                                    <br />
-                                    <br />
-                                    Gracias por ser parte de nuestra comunidad.
-
-                                    <div className="button-form ">
-                                        <Button
-                                            size="medium"
-                                            type="button"
-                                            csstype="accept"
-                                            className="button form"
-                                            onClick={() =>
-                                                navigate('/formulario-recoleccion')
-                                            }
-                                        >
-                                            Formulario de recolección
-                                        </Button>
-                                    </div>
-                                </div>
-                            }
-                            img={false}
-                        />
-                    }
-                />
+                
             </Route>
         </Routes>
     );
