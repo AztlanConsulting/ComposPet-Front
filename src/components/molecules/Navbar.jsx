@@ -90,9 +90,6 @@ export default function Navbar() {
         //{ component: <Dropdown title="Mis recolecciones" options={myRecolectionsOptions} />  },
         // //{ component: <NavbarItem route="/faq">Preguntas Frecuentes</NavbarItem> },
         // { component: <NavbarItem route="/">  </NavbarItem>},
-        /*{ component: <NavbarItem route="/formulario-recoleccion" active={location.pathname === "/formulario-recoleccion"}>
-                        Formulario de recolección
-                    </NavbarItem> }*/
     ];
 
     const centerLinks = isAdmin ? adminLinks : clientLinks;
