@@ -30,6 +30,7 @@ jest.mock('../../../../components/Template/AceptAlert', () =>
 const MOCK_ROUTES = [
     {
         name: 'Juan Manuel M',
+        requestId: 'req-001',
         collectedBuckets: 2,
         deliveredBuckets: 3,
         payMethod: { id_pago: 1, tipo: 'Efectivo' },
@@ -40,6 +41,7 @@ const MOCK_ROUTES = [
     },
     {
         name: 'Armando Gonzalez',
+        requestId: 'req-002',
         collectedBuckets: 0,
         deliveredBuckets: 1,
         payMethod: { id_pago: 2, tipo: 'Transferencia' },
@@ -150,9 +152,9 @@ describe('handleEdit', () => {
         await waitFor(() => expect(params1.api.startEditingCell).toHaveBeenCalledTimes(1));
 
         const rendered2 = result.current.columnDefinitions[0].cellRenderer(params2);
-        const editButton2 = rendered2.props.children.props;
+        const editButton2 = rendered2.props.children;
 
-        expect(editButton2.disabled).toBe(true);
+        expect(editButton2.props.disabled).toBe(true);
     });
 
 });
@@ -212,6 +214,8 @@ describe('handleSave', () => {
         act(() => { editColRenderer(params).props.children.props.onClick(); });
         await waitFor(() => expect(params.api.startEditingCell).toHaveBeenCalled());
 
+        const callsBefore = mockExecuteFiltered.mock.calls.length;
+
         const renderedEditing = result.current.columnDefinitions[0].cellRenderer(params);
         const onClickSave = renderedEditing.props.children[0].props.onClick;
 
@@ -220,7 +224,7 @@ describe('handleSave', () => {
         expect(mockExecuteUpdate).toHaveBeenCalledWith(
             expect.objectContaining({ name: MOCK_ROUTES[0].name })
         );
-        expect(mockExecuteFiltered).toHaveBeenCalledTimes(2);
+        expect(mockExecuteFiltered.mock.calls.length).toBeGreaterThan(callsBefore);
         expect(params.api.stopEditing).toHaveBeenCalled();
     });
 

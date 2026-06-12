@@ -60,15 +60,16 @@ export default function RoutesInfo() {
                             value={routesViewModel.selectedWeek ?? ""}
                             onChange={(e) =>
                                 routesViewModel.setSelectedWeek(
-                                    Number(e.target.value)
+                                    e.target.value !== "" ? Number(e.target.value) : null
                                 )
                             }
-                            options={
-                                routesViewModel.weeks.map((w, i) => ({
+                            options={[
+                                { value: "", label: "Todas las semanas" },
+                                ...routesViewModel.weeks.map((w, i) => ({
                                     value: i,
                                     label: w.label,
                                 }))
-                            }
+                            ]}
                         >
                             Semana
                         </DropdownInput>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { 
     GetAvailableWeeksUseCase, 
     GetDaysOfRoutesUseCase, 
@@ -17,6 +17,11 @@ import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
 import usePrompt from '../utils/usePrompt';
 import ValidationObserver from '../utils/validationObserver';
+
+const DAY_NAME_MAP = {
+    0: "Domingo", 1: "Lunes", 2: "Martes", 3: "Miércoles",
+    4: "Jueves", 5: "Viernes", 6: "Sábado",
+};
 
 /**
  * ViewModel para la gestión de información de rutas.
@@ -50,10 +55,7 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
-        if (data.requestId === null) {
-            classes.push("row--has-no-request");
-        }
-        if (data?.name === editingRowId) {
+        if (data?.requestId === editingRowId) {
             classes.push("row-editing");
         }
         
@@ -76,10 +78,10 @@ function useRoutesViewModel(){
     }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
-        const rowId = params.data.name;
+        const rowId = params.data.requestId;
         const field = params.colDef.field;
 
-        const originalRow = originalRoutesList.find(c => c.name === rowId);
+        const originalRow = originalRoutesList.find(c => c.requestId === rowId);
 
         if(!originalRow) return false;
 
@@ -132,7 +134,7 @@ function useRoutesViewModel(){
 
         if (editingRowId !== null) return;
 
-        setEditingRowId(params.data.name);
+        setEditingRowId(params.data.requestId);
 
         setTimeout(() => {
             params.api.startEditingCell({
@@ -147,8 +149,8 @@ function useRoutesViewModel(){
             setLoading(true);
 
             params.api.stopEditing(false);
-            const rowId = params.data.name;
-            const originalRow = originalRoutesList.find(r => r.name === rowId);
+            const rowId = params.data.requestId;
+            const originalRow = originalRoutesList.find(r => r.requestId === rowId);
 
             if(!originalRow) return;
 
@@ -251,19 +253,10 @@ function useRoutesViewModel(){
     }, [updateRequest, refreshRoutes]);
 
 
-    const generateRouteMessages = new GenerateRouteMessagesUseCase(
-        new RoutesRepository()
+    const generateRouteMessages = useMemo(
+        () => new GenerateRouteMessagesUseCase(new RoutesRepository()),
+        []
     );
-    
-    const DAY_NAME_MAP = {
-        0: "Domingo",
-        1: "Lunes",
-        2: "Martes",
-        3: "Miércoles",
-        4: "Jueves",
-        5: "Viernes",
-        6: "Sábado",
-    };
 
     const formPath = "/inicio-sesion?redirect=/formulario-recoleccion";
     const formUrl = `https://compospetmx.org${formPath}`;
@@ -289,7 +282,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
      * @returns {Promise<void>}
      * @throws {Error} Lanza un error si faltan filtros o si falla la generación de mensajes.
      */
-    const handleGenerateMessages = async () => {
+    const handleGenerateMessages = useCallback(async () => {
         if (selectedWeek === null || !selectedDay) {
             throw new Error("Selecciona una semana y un día de ruta");
         }
@@ -308,11 +301,10 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
             }
 
             return result.data.sheetUrl;
-            //window.open(result.data.sheetUrl, "_blank");
         } finally {
             setLoading(false);
         }
-    }
+    }, [selectedWeek, selectedDay, generateRouteMessages]);
 
 
 
@@ -474,10 +466,16 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                     const now = new Date();
                     return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
                 });
+
                 const weekIdx = currentIndex >= 0 ? currentIndex : weeksData.length - 1;
-                setSelectedWeek(weekIdx);
                 const defaultDay = getDefaultDay(daysData);
-                setSelectedDay(defaultDay)
+
+                setSelectedWeek(weekIdx);
+                setSelectedDay(defaultDay);
+
+                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
+                setRoutesList(routes);
+                setOriginalRoutesList(JSON.parse(JSON.stringify(routes)));
 
             } catch (err) {
                 setError(err.message || "Error al inicializar");
@@ -488,9 +486,15 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         initialize();
     }, []);
 
-    useEffect(() => {
+    const isInitialized = useRef(false);
 
-        if (selectedWeek === null || isNaN(selectedWeek) || selectedWeek < 0) return;
+    useEffect(() => {
+        if (!isInitialized.current) {
+            isInitialized.current = true;
+            return;
+        }
+
+        if (selectedWeek !== null && (isNaN(selectedWeek) || selectedWeek < 0)) return;
 
         async function fetchRoutes() {
             try {
@@ -498,11 +502,6 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 setError(null);
                 await refreshRoutes();
             } catch (error) {
-                setError(
-                    error.message ||
-                    "Error al cargar la información"
-                );
-
                 setError(error.message || "Error al cargar la información");
 
             } finally {
@@ -515,14 +514,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
 
     // carga todas las rutas de la semana seleccionada
     useEffect(() => {
-        if (
-            selectedWeek === null ||
-            isNaN(selectedWeek) ||
-            selectedWeek < 0 ||
-            !daysOfRoutes.length
-        ) {
-            return;
-        }
+        if (isNaN(selectedWeek) || selectedWeek < -1 || !daysOfRoutes.length) return;
 
         async function fetchWeeklyRoutes() {
             try {
@@ -555,20 +547,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     const resetFilters = () => {
         const currentIndex = weeks.findIndex(week => {
             const now = new Date();
-
-            return (
-                now >= new Date(week.weekStart) &&
-                now < new Date(week.weekEnd)
-            );
+            return now >= new Date(week.weekStart) && now < new Date(week.weekEnd);
         });
 
-        setSelectedWeek(
-            currentIndex >= 0
-                ? currentIndex
-                : weeks.length - 1
-        );
-
-        setSelectedDay(null);
         setSelectedWeek(currentIndex >= 0 ? currentIndex : weeks.length - 1);
         setSelectedDay(getDefaultDay(daysOfRoutes));
     };
