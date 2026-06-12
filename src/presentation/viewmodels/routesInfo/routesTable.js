@@ -96,7 +96,7 @@ function useRoutesViewModel(){
     }, [originalRoutesList]);
 
     const hasPendingChanges = useMemo(() => {
-        return editingRowId !== '';
+        return editingRowId !== null;
     }, [editingRowId]);
 
     usePrompt(hasPendingChanges);
@@ -132,7 +132,7 @@ function useRoutesViewModel(){
 
     const handleEdit = useCallback((params) => {
 
-        if (editingRowId !== '') return;
+        if (editingRowId !== null) return;
 
         setEditingRowId(params.data.requestId);
 
@@ -158,7 +158,7 @@ function useRoutesViewModel(){
 
             ValidationObserver.clear();
 
-            setEditingRowId('');
+            setEditingRowId(null);
 
             requestAnimationFrame(() => {
                 params.api.redrawRows({
@@ -239,7 +239,7 @@ function useRoutesViewModel(){
 
             await refreshRoutes();
 
-            setEditingRowId('');
+            setEditingRowId(null);
             await AceptAlert({});
         } catch (error) {
             await ProblemAlert({
