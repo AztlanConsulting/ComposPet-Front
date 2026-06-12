@@ -41,4 +41,51 @@ export class InventoryIRepository {
     async getInventory() {
         throw new Error('InventoryIRepository.getInventory() not implemented');
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        throw new Error('InventoryIRepository.changeProductVisibility not implemented');
+    }
+
+    /**
+     * Elimina un producto extra.
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async deleteProduct(productid) {
+        throw new Error('InventoryIRepository.deleteProduct not implemented');
+    }
+
+    /**
+     * Actualiza un producto extra
+     *
+     * Este método debe ser implementado por cualquier repositorio
+     * concreto que extienda esta interfaz.
+     *
+     * @abstract
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {Object} productData - Información nueva del producto.
+     * @returns {Promise<Object>} success.
+     * @throws {Error} Si el método no ha sido implementado.
+     */
+    async updateProduct(productId, productData) {
+        throw new Error('InventoryIRepository.updateProduct not implemented');
+    }
 }

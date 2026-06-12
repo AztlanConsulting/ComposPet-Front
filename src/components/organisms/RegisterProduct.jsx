@@ -50,8 +50,8 @@ function RegisterProduct({
 
     const isFormInvalid =
     !name.trim() ||
-    !price ||
-    !quantity ||
+    price === '' || price === null ||
+    quantity === '' || quantity === null ||
     !ALLOWED_PRODUCT_COLORS.includes(color) ||
     errors.name ||
     errors.price ||

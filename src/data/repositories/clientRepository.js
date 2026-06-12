@@ -41,11 +41,18 @@ export class ClientRepository extends ClientIRepository{
         //Importante para acceder a el cuerpo del backend
         const data = response.data;
 
+        if (!data) {
+            throw new Error(
+                'La respuesta no contiene información del cliente.'
+            );
+        }
+
         //Nace la entidad y la regresa al Repositorio de Interface con data
         return new Client({
-            clientId: data.id_cliente,
-            routeId: data.id_ruta,
-            routeDay: data.ruta?.dia_ruta,
+            clientId: data.clientId,
+            routeId: data.routeId,
+            name: data.name,
+            routeDay: data.routeDay,
         });
     }
 }

@@ -33,6 +33,28 @@ export default function InventoryView() {
         setIsRegisterProductModalOpen(true);
     };
 
+    const [editingProduct, setEditingProduct] = useState(null);
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+    const openEditModal = (product) => {
+        setEditingProduct(product);
+        setIsProductModalOpen(true);
+    }
+
+    const editProductViewModel = useRegisterProductViewModel({
+        mode: "edit",
+        initialProduct: editingProduct,
+        onClose: () => {
+            setIsProductModalOpen(false);
+            setEditingProduct(null);
+        },
+        onProductRegistered: async () => {
+            setIsProductModalOpen(false);
+            setEditingProduct(null);
+            await inventoryViewModel.loadInventory();
+        }
+    })
+
     return (
         <>
             <Navbar />
@@ -50,7 +72,10 @@ export default function InventoryView() {
                 </section>
 
                 <section className="inventory-content">
-                    <InventoryProductsView viewModel={inventoryViewModel} />
+                    <InventoryProductsView 
+                    viewModel={inventoryViewModel} 
+                    onEditProduct={openEditModal}
+                    />
                 </section>
             </main>
 
@@ -61,6 +86,15 @@ export default function InventoryView() {
                     closeRegisterProductModal();
                 }}
                 viewModel={registerProductViewModel}
+            />
+            <RegisterProductModal
+                isOpen={isProductModalOpen}
+                onClose={() => {
+                    editProductViewModel.resetForm();
+                    setIsProductModalOpen(false);
+                    setEditingProduct(null);
+                }}
+                viewModel={editProductViewModel}
             />
         </>
     );

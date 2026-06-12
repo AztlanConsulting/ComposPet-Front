@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
-import { getInventoryUseCase } from '../../../di/inventory/inventoryDependencies';
+import { changeVisibilityUseCase, deleteProductUseCase, getInventoryUseCase } from '../../../di/inventory/inventoryDependencies';
 
+import ProblemAlert from "../../../components/Template/ProblemAlert";
+import AceptAlert from "../../../components/Template/AceptAlert";
+import ConfirmAlert from '../../../components/Template/confirmationAlert';
 /**
  * ViewModel para la vista de inventario.
  * Maneja el estado y la lógica de obtención de productos,
@@ -19,6 +22,67 @@ function GetInventoryViewModel(){
     const [selectedProduct, setSelectedProduct] = useState(null);
     // Estado para saber si la pantalla es pequeña
     const [isSmall, setIsSmall] = useState(window.innerWidth < 768);
+
+    // Maneja la activación del producto desde el ícono
+    const handleStatusChangeClick = async (productId, status) => {
+        try {
+
+            setLoading(true);
+
+            const result = await changeVisibilityUseCase.execute(productId, status);
+
+            if (result.success) {
+                setSelectedProduct(null);
+                await AceptAlert({
+                    title: `Producto extra ${status ? 'activado' : 'desactivado'} con éxito.`
+                });
+                await loadInventory();
+            } else {
+                await ProblemAlert({});
+            }
+
+        } catch (error) {
+            await ProblemAlert({});
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Maneja la eliminación de un producto
+    const handleDelete = async (productId) => {
+        try {
+            setLoading(true);
+
+            const confirmation = await ConfirmAlert({
+                title: "¿Está seguro que desea eliminar el producto?",
+                text: "Esta acción no se puede deshacer.",
+                confirmText: "Sí, eliminar",
+                cancelText: "Cancelar",
+                icon: "warning",
+            });
+
+            if(!confirmation.isConfirmed) return;
+
+            const result = await deleteProductUseCase.execute(productId);
+
+            if(result.success) {
+                setSelectedProduct(null);
+                await AceptAlert({
+                    title: "Producto eliminado con éxito.",
+                })
+                await loadInventory();
+            } else {
+                ProblemAlert({});
+            }
+
+        } catch (error) {
+            await ProblemAlert({});
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     // Función para obtener el inventario
     const loadInventory = async () => {
@@ -68,6 +132,8 @@ function GetInventoryViewModel(){
         setSelectedProduct,
         onClickCard,
         isSmall,
+        handleStatusChangeClick,
+        handleDelete,
     };
 }
 

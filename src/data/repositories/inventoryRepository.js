@@ -81,4 +81,40 @@ export class InventoryRepository extends InventoryIRepository {
             });
         });
     }
+
+    /**
+     * Modifica la visibilidad de un producto extra.
+     * @param {INT} productId - Id del producto a modificar.
+     * @param {BOOL} newStatus - Nuevo estatus del produco extra.
+     * @returns {Promise<Object>} success.
+     */
+    async changeProductVisibility(productId, newStatus) {
+        const response = await this.apiClient.changeProductVisibility(productId, newStatus);
+        return response;
+    }
+
+    /**
+     * Elimina un producto extra.
+     * @param {INT} productId - Id del producto a eliminar.
+     * @returns {Promise<Object>} success.
+     */
+    async deleteProduct(productId) {
+        const response = await this.apiClient.deleteProduct(productId);
+        return response;
+    }
+
+    /**
+     * Modifica un producto del inventario.
+     *
+     * @async
+     * @param {number} productId - ID del producto a modificar.
+     * @param {Object} productData - Campos del producto a actualizar (parcial o completo).
+     * @returns {Promise<Object>} Respuesta de éxito del servidor.
+     * @throws {Error} Si la respuesta no es válida.
+     */
+    async updateProduct(productId, productData) {
+        const response = await this.apiClient.updateProduct(productId, productData);
+
+        return response;
+    }
 }

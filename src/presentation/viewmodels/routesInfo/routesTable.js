@@ -40,7 +40,7 @@ function useRoutesViewModel(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [originalRoutesList, setOriginalRoutesList] = useState([]);
-    const [editingRowId, setEditingRowId] = useState(null);
+    const [editingRowId, setEditingRowId] = useState('');
     const [searchText, setSearchText] = useState('');
     const [searchProduct, setSearchProduct] = useState('');
     const [weeklyRoutesList, setWeeklyRoutesList] = useState([]);
@@ -96,7 +96,7 @@ function useRoutesViewModel(){
     }, [originalRoutesList]);
 
     const hasPendingChanges = useMemo(() => {
-        return editingRowId !== null;
+        return editingRowId !== '';
     }, [editingRowId]);
 
     usePrompt(hasPendingChanges);
@@ -132,7 +132,7 @@ function useRoutesViewModel(){
 
     const handleEdit = useCallback((params) => {
 
-        if (editingRowId !== null) return;
+        if (editingRowId !== '') return;
 
         setEditingRowId(params.data.requestId);
 
@@ -158,7 +158,7 @@ function useRoutesViewModel(){
 
             ValidationObserver.clear();
 
-            setEditingRowId(null);
+            setEditingRowId('');
 
             requestAnimationFrame(() => {
                 params.api.redrawRows({
@@ -239,7 +239,7 @@ function useRoutesViewModel(){
 
             await refreshRoutes();
 
-            setEditingRowId(null);
+            setEditingRowId('');
             await AceptAlert({});
         } catch (error) {
             await ProblemAlert({

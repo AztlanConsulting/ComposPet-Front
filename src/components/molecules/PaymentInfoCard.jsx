@@ -13,6 +13,7 @@ export default function PaymentInfoCard({
     notes = "",
     paymentType = "",
     className = "",
+    showReminder = true,
 }) {
 
     const formattedNotes = notes.replace(/\\n/g, "\n");
@@ -29,9 +30,11 @@ export default function PaymentInfoCard({
 
     return (
         <FormCard className={`payment-info-card ${className}`}>
-            <strong className="payment-info-reminder">
-                No olvides realizar tu pago.
-            </strong>
+            {showReminder && (
+                <strong className="payment-info-reminder">
+                    No olvides realizar tu pago.
+                </strong>
+            )}
 
             <strong className="payment-info-title">
                 {text}
