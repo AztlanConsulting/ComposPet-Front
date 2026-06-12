@@ -57,6 +57,7 @@ export class ClientTableRepository extends ClientTableIRepository{
                 status: client.status,
                 order: client.order,
                 email: client.email,
+                priceType: client.priceType,
             });
 
             clientList.push(clientObject);
