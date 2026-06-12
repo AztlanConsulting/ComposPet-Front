@@ -22,4 +22,4 @@ const inventoryRepository = new InventoryRepository(inventoryApiClient);
 // inyectando las dependencias necesarias
 export const getInventoryUseCase = new GetInventoryUseCase(inventoryRepository);
 export const changeVisibilityUseCase = new ChangeVisibilityUseCase(inventoryRepository);
-export const deleteProductUseCase = new DeleteProducUseCase(inventoryRepository);
+export const deleteProductUseCase = new DeleteProductUseCase(inventoryRepository);

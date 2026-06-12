@@ -120,7 +120,7 @@ function GetInventoryViewModel(){
     }, []);
 
     useEffect(() => {
-        await loadInventory();
+        loadInventory();
     }, []);
 
     return {
