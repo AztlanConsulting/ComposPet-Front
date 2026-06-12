@@ -31,6 +31,7 @@ import { ReactComponent as Trash } from '../../public/icons/trash.svg';
 import { ReactComponent as CloseIcon } from '../../public/icons/x-lg.svg';
 import { ReactComponent as UploadIcon } from '../../public/icons/upload.svg';
 import { ReactComponent as CheckIcon } from '../../public/icons/check-circle-fill.svg';
+import { ReactComponent as ProfileIcon } from '../../public/icons/profile.svg';
 
 /**
  * Mapa de nombres de icono a sus componentes SVG correspondientes.
@@ -69,7 +70,8 @@ const icons = {
     trash: Trash,
     close: CloseIcon,
     upload: UploadIcon,
-    check: CheckIcon
+    check: CheckIcon,
+    profile: ProfileIcon
 };
 
 /**

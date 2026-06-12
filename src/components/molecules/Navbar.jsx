@@ -7,6 +7,7 @@ import NavbarItem from '../atoms/NavbarItem.jsx';
 import { useLogout } from '../../presentation/viewmodels/auth/logoutViewModel';
 import { useLocation } from 'react-router-dom';
 import ConfirmAlert from '../Template/confirmationAlert.jsx';
+import Icon from '../atoms/Icon.jsx';
 
 /**
  * Componente principal de navegación de la aplicación.
@@ -114,9 +115,14 @@ export default function Navbar() {
             {/* Cerrar sesión — solo desktop */}
             <div className="navbarRight">
                 {user != null ? (
-                    <NavbarItem route="/" logout={true} onClick={handleLogout}>
-                        Cerrar sesión
-                    </NavbarItem>
+                    <>
+                        <NavbarItem route="/mi-perfil" active={location.pathname === "/mi-perfil"}>
+                            <Icon name="profile" size="medium" color="primary" />
+                        </NavbarItem>
+                        <NavbarItem route="/" logout={true} onClick={handleLogout}>
+                            Cerrar sesión
+                        </NavbarItem>
+                    </>
                 ) : (
                     <div className="login">
                         <NavbarItem route="/inicio-sesion">
