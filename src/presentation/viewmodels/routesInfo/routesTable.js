@@ -50,6 +50,9 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
+        if (data.requestId === null) {
+            classes.push("row--has-no-request");
+        }
         if (data?.name === editingRowId) {
             classes.push("row-editing");
         }
@@ -423,15 +426,22 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         if (!isValidSearchText(value)) return;
         setSearchText(value);
     };
-
+    
     const filteredRoutesList = useMemo(() => {
-        return routesList.filter((route) => {
+        const filtered = routesList.filter((route) => {
             const fullName = `${route.name || ''}`.toLowerCase();
-            const matchesSearch = searchText.trim()
+
+            return searchText.trim()
                 ? fullName.includes(searchText.trim().toLowerCase())
                 : true;
-            return matchesSearch;
         });
+
+        return [...filtered].sort((a, b) => {
+            if (a.status === null && b.status !== null) return 1;
+            if (a.status !== null && b.status === null) return -1;
+            return 0;
+        });
+
     }, [routesList, searchText]);
 
     useEffect(() => {
