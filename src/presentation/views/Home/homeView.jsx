@@ -2,6 +2,7 @@ import '../../../css/home/homeView.css';
 import { useHomeViewModel } from '../../viewmodels/home/homeViewModel';
 import Navbar from '../../../components/molecules/Navbar';
 import PaymentInfoCard from '../../../components/molecules/PaymentInfoCard';
+import BalanceInfo from '../../../components/molecules/BalanceInfo';
 import Icon from '../../../components/atoms/Icon';
 import Button from '../../../components/atoms/Button';
 import Loading from '../../../components/Template/loading';
@@ -13,6 +14,7 @@ export default function HomeView() {
 
     const {
         welcomeName,
+        balanceTitle,
         formattedBalance,
         balanceStatus,
         warningMessage,
@@ -44,35 +46,21 @@ export default function HomeView() {
                     </p>
                 </section>
 
-                <div className="home-view-main-info">
-                    <section className="home-view-balance-section">
-                        <Icon
-                            name="piggy"
-                            className="home-view-pig-icon"
+                <div className="home-view-service-content">
+                    <div className="home-view-main-info">
+                        <BalanceInfo
+                            balanceTitle={balanceTitle}
+                            formattedBalance={formattedBalance}
+                            balanceStatus={balanceStatus}
+                            warningMessage={warningMessage}
                         />
 
-                        <div className="home-view-balance-info">
-                            <h1 className="home-view-balance-title">
-                                Mi saldo
-                            </h1>
-
-                            <p className={`home-view-balance-amount home-view-balance-${balanceStatus}`}>
-                                {formattedBalance}
-                            </p>
-
-                            {warningMessage && (
-                                <p className={`home-view-warning-message home-view-balance-${balanceStatus}`}>
-                                    {warningMessage}
-                                </p>
-                            )}
-                        </div>
-                    </section>
-
                     <PaymentInfoCard
-                        className="payment-wrapper"
+                        className="home-view-payment-card"
                         text={paymentInfo.text}
                         notes={paymentInfo.notes}
                         paymentType={paymentInfo.paymentType}
+                        showReminder={false}
                     />
                 </div>
 
@@ -85,27 +73,30 @@ export default function HomeView() {
                 >
                     Formulario de recolección
                 </Button>
+                </div>
 
-                <a
-                    className="home-view-instagram-link"
-                    href="https://www.instagram.com/compospet.qro/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <div className="home-view-instagram-section">
                     <span className="home-view-instagram-text">
-                        Unete a nuestra Comunidad:
+                        Únete a nuestra comunidad:
                     </span>
 
-                    <Icon
-                        name="instagram"
-                        className="home-view-instagram-icon"
-                    />
+                    <a
+                        className="home-view-instagram-link"
+                        href="https://www.instagram.com/compospet.qro/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visitar Instagram de ComposPet"
+                    >
+                        <Icon
+                            name="instagram"
+                            className="home-view-instagram-icon"
+                        />
 
-
-                    <span className="home-view-instagram-user">
-                        @compospet.qro
-                    </span>
-                </a>
+                        <span className="home-view-instagram-user">
+                            @compospet.qro
+                        </span>
+                    </a>
+                </div>
 
             </section>
         </main>

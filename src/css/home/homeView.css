@@ -18,15 +18,15 @@
     flex: 1;
     margin: 0 auto;
     padding: 4rem 3rem 3rem;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2.5rem;
-
     box-sizing: border-box;
 }
+
+/* Mensaje de bienvenida */
 
 .home-view-welcome-section {
     display: flex;
@@ -36,142 +36,148 @@
     text-align: center;
 }
 
-.home-view-welcome-title {
-    margin: 0;
-    color: var(--color-black);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-}
-
+.home-view-welcome-title,
 .home-view-welcome-subtitle {
     margin: 0;
     color: var(--color-black);
+    font-family: var(--font-family-primary);
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
 }
 
-.home-view-main-info {
+/* Contenedor del saldo, tarjeta y botón */
+
+.home-view-service-content {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4rem;
-}
-
-.home-view-balance-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-.home-view-pig-icon {
-    width: 5rem;
-    min-width: 5rem;
-    height: 5rem;
-    color: var(--color-green-secondary);
-}
-
-.home-view-balance-info {
+    max-width: 43rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-
-.home-view-balance-title {
-    margin: 0;
-    color: var(--color-black);
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-tight);
-}
-
-.home-view-balance-amount {
-    margin: 0.25rem 0 0;
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    white-space: nowrap;
-}
-
-.home-view-warning-message {
-    margin: 0.75rem 0 0;
-    max-width: 20rem;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
-}
-
-.home-view-balance-positive {
-    color: var(--color-black);
-}
-
-.home-view-balance-warning {
-    color: var(--color-orange-primary);
-}
-
-.home-view-balance-critical {
-    color: var(--color-red-primary);
-}
-
-
-/* .home-view-payment-card {
-    flex: 0 0 22.5rem;
-    width: 22.5rem;
-    max-width: 22.5rem;
+    align-items: stretch;
+    gap: 1.5rem;
     box-sizing: border-box;
-} */
+}
+
+/* Saldo y tarjeta */
+
+.home-view-main-info {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    align-items: center;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+/* Tarjeta de transferencia solo para Home */
+
+.form-card.payment-info-card.home-view-payment-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    min-height: 10.25rem;
+    height: auto;
+    padding: 1.25rem 1.5rem;
+    background-color: var(--color-green-quaternary);
+    border: 1px solid var(--color-green-primary);
+    border-radius: var(--border-radius-3xl);
+    box-sizing: border-box;
+}
+
+.home-view-payment-card .payment-info-reminder,
+.home-view-payment-card .payment-info-title,
+.home-view-payment-card .notes-info {
+    margin: 0;
+}
+
+.home-view-payment-card .payment-info-reminder {
+    display: none;
+}
+
+.home-view-payment-card .payment-info-title,
+.home-view-payment-card .notes-info,
+.home-view-payment-card .payment-copy-button {
+    color: var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+}
+
+.home-view-payment-card .payment-info-title,
+.home-view-payment-card .notes-info {
+    font-weight: var(--font-weight-semibold);
+}
+
+.home-view-payment-card .payment-copy-button {
+    font-weight: var(--font-weight-normal);
+}
+
+/* Botón principal */
 
 .home-view-collection-button {
-    width: 43rem;
-    max-width: 100%;
+    width: 100%;
     min-height: 3.5rem;
-
+    margin: 0;
+    font-family: var(--font-family-primary);
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
 }
 
-.home-view-instagram-link {
+/* Instagram */
+
+.home-view-instagram-section {
     margin-top: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    text-decoration: none;
-    color: var(--color-green-secondary);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    width: 100%;
 }
 
-.home-view-instagram-text {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
+.home-view-instagram-text,
+.home-view-instagram-user {
     color: var(--color-green-secondary);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-normal);
+}
+
+.home-view-instagram-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    color: var(--color-green-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.home-view-instagram-link:hover .home-view-instagram-user {
+    text-decoration: underline;
+}
+
+.home-view-instagram-link:focus-visible {
+    outline: 0.125rem solid var(--color-green-primary);
+    outline-offset: 0.25rem;
+    border-radius: var(--border-radius-sm);
 }
 
 .home-view-instagram-icon {
     width: 2.5rem;
     height: 2.5rem;
     object-fit: contain;
-}
-
-.home-view-instagram-user {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-green-secondary);
+    flex-shrink: 0;
 }
 
 /* <= 1400px */
+
 @media (max-width: 1400px) {
     .home-view-content {
         max-width: 68rem;
         padding: 4rem 2rem 3rem;
-    }
-
-    .home-view-main-info {
-        gap: 3rem;
     }
 
     .home-view-welcome-title,
@@ -179,20 +185,35 @@
         font-size: var(--font-size-2xl);
     }
 
-    /* .home-view-payment-card {
-        flex-basis: 21rem;
-        width: 21rem;
-        max-width: 21rem;
-    } */
+    .home-view-service-content {
+        max-width: 38rem;
+    }
 
-    .home-view-collection-button {
-        width: 38rem;
+    .home-view-main-info {
+        gap: 1.5rem;
+    }
+
+    .form-card.payment-info-card.home-view-payment-card {
+        min-height: 9.75rem;
+        padding: 1.1rem 1.25rem;
+    }
+
+    .home-view-pig-icon {
+        width: 4.5rem;
+        min-width: 4.5rem;
+        height: 4.5rem;
+    }
+
+    .home-view-warning-message {
+        max-width: 17rem;
     }
 }
 
 /* <= 768px */
+
 @media (max-width: 768px) {
     .home-view-content {
+        max-width: none;
         padding: 3.5rem 2rem 2.5rem;
         justify-content: flex-start;
         gap: 2.5rem;
@@ -202,118 +223,111 @@
         gap: 1.25rem;
     }
 
-    .home-view-welcome-title {
-        font-size: var(--font-size-2xl);
-    }
-
+    .home-view-welcome-title,
     .home-view-welcome-subtitle {
         font-size: var(--font-size-2xl);
     }
 
+    .home-view-service-content {
+        width: 100%;
+        max-width: 34rem;
+        gap: 2rem;
+    }
+
     .home-view-main-info {
+        display: flex;
         flex-direction: column;
         gap: 2rem;
     }
 
-    .home-view-balance-section {
-        justify-content: center;
-    }
-
-    .home-view-balance-info {
-        align-items: center;
-        text-align: center;
-    }
-
-    .home-view-balance-title,
-    .home-view-balance-amount {
-        font-size: var(--font-size-2xl);
-    }
-
-    .home-view-warning-message {
-        text-align: center;
-    }
-
-    /* .home-view-payment-card {
-        flex: none;
+    .form-card.payment-info-card.home-view-payment-card {
         width: 100%;
         max-width: 34rem;
-    } */
+        min-height: 10.5rem;
+        padding: 1.25rem 1.5rem;
+        border-radius: var(--border-radius-3xl);
+    }
 
     .home-view-collection-button {
         width: 100%;
         max-width: 34rem;
-    }
-
-    .home-view-instagram-text {
         font-size: var(--font-size-xl);
     }
 
+    .home-view-instagram-section {
+        gap: 0.6rem;
+    }
+
+    .home-view-instagram-text,
     .home-view-instagram-user {
         font-size: var(--font-size-lg);
+    }
+
+    .home-view-instagram-link {
+        gap: 0.5rem;
     }
 }
 
 /* <= 480px */
+
 @media (max-width: 480px) {
     .home-view-content {
         padding: 3rem 1.25rem 2rem;
         gap: 2rem;
     }
 
-    .home-view-welcome-title {
-        font-size: var(--font-size-xl);
-    }
-
+    .home-view-welcome-title,
     .home-view-welcome-subtitle {
         font-size: var(--font-size-xl);
     }
 
-    .home-view-balance-section {
-        flex-direction: row;
-        gap: 1rem;
-    }
-
-    .home-view-pig-icon {
-        width: 4rem;
-        min-width: 4rem;
-        height: 4rem;
-    }
-
-    .home-view-balance-title {
-        font-size: var(--font-size-xl);
-    }
-
-    .home-view-balance-amount {
-        font-size: var(--font-size-xl);
-    }
-
-    /* .home-view-payment-card {
+    .home-view-service-content {
         width: 100%;
         max-width: none;
-    } */
+    }
+
+    .home-view-main-info {
+        gap: 1.75rem;
+    }
+
+
+    .form-card.payment-info-card.home-view-payment-card {
+        width: 100%;
+        max-width: none;
+        min-height: 10rem;
+        padding: 1.25rem 1rem;
+        border-radius: var(--border-radius-2xl);
+    }
+
+    .home-view-payment-card .payment-info-title,
+    .home-view-payment-card .notes-info,
+    .home-view-payment-card .payment-copy-button {
+        font-size: var(--font-size-sm);
+    }
 
     .home-view-collection-button {
         width: 100%;
         max-width: none;
+        min-height: 4rem;
         font-size: var(--font-size-lg);
+    }
+
+    .home-view-instagram-section {
+        margin-top: 2rem;
+        gap: 0.45rem;
+    }
+
+    .home-view-instagram-text,
+    .home-view-instagram-user {
+        font-size: var(--font-size-md);
     }
 
     .home-view-instagram-link {
-        margin-top: 2rem;
-        gap: 0.5rem;
-    }
-
-    .home-view-instagram-text {
-        font-size: var(--font-size-lg);
-        text-align: center;
+        gap: 0.4rem;
     }
 
     .home-view-instagram-icon {
         width: 2rem;
         height: 2rem;
-    }
-
-    .home-view-instagram-user {
-        font-size: var(--font-size-md);
     }
 }

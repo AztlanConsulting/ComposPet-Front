@@ -50,6 +50,11 @@ export function useHomeViewModel() {
         return 'warning';
     }, [numericBalance]);
 
+
+    const balanceTitle = numericBalance < 0
+        ? 'Mi adeudo'
+        : 'Mi saldo';
+
     const warningMessage = useMemo(() => {
         if (numericBalance < 0) {
             return 'Recuerda liquidar tu saldo lo antes posible';
@@ -59,10 +64,14 @@ export function useHomeViewModel() {
     }, [numericBalance]);
 
     const formattedBalance = useMemo(() => {
+        const displayBalance = numericBalance < 0
+            ? Math.abs(numericBalance)
+            : numericBalance;
+
         return new Intl.NumberFormat('es-MX', {
             style: 'currency',
             currency: 'MXN',
-        }).format(numericBalance);
+        }).format(displayBalance);
     }, [numericBalance]);
 
     const paymentInfo = useMemo(() => {
@@ -83,6 +92,7 @@ export function useHomeViewModel() {
         clientId,
         welcomeName,
         balance: numericBalance,
+        balanceTitle,
         formattedBalance,
         balanceStatus,
         warningMessage,
