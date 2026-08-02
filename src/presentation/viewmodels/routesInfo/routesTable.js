@@ -397,20 +397,49 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     const formatWeeks = (weeks) => {
-        const countByMonth = {};
+        const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+        const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
 
         return weeks.map((week) => {
-            const date = new Date(week.weekEnd);
-            const month = date.toLocaleString("es-MX", { month: "long" });
-            const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-            countByMonth[monthKey] = (countByMonth[monthKey] || 0) + 1;
+            const startDate = new Date(week.weekStart);
+            const endDate = new Date(week.weekEnd);
 
-            const weekNumber = countByMonth[monthKey];
-            const monthFormat = month.charAt(0).toUpperCase() + month.slice(1);
+            const startMonth = capitalize(
+                startDate.toLocaleString("es-MX", { month: "long", timeZone: "UTC" })
+            );
+            const endMonth = capitalize(
+                endDate.toLocaleString("es-MX", { month: "long", timeZone: "UTC" })
+            );
+
+            // El mes "dueño" de la semana sigue siendo el de weekEnd (regla ya definida:
+            // la semana se nombra según el mes que empieza en ella).
+            const ownerYear = endDate.getUTCFullYear();
+            const ownerMonth = endDate.getUTCMonth();
+
+            // Lunes de la semana que contiene el día 1 de ese mes.
+            // Esto define, de forma fija y sin depender del arreglo truncado,
+            // dónde empieza la "Semana 1" real de ese mes.
+            const firstOfMonth = new Date(Date.UTC(ownerYear, ownerMonth, 1));
+            const dow = firstOfMonth.getUTCDay();
+            const diffToMonday = dow === 0 ? -6 : 1 - dow;
+            const firstWeekMonday = new Date(firstOfMonth);
+            firstWeekMonday.setUTCDate(firstWeekMonday.getUTCDate() + diffToMonday);
+
+            // NUEVO: número de semana calculado por posición real, no por conteo del arreglo.
+            const weekNumber = Math.round(
+                (startDate.getTime() - firstWeekMonday.getTime()) / MS_PER_WEEK
+            ) + 1;
+
+            const monthsOverlap = startDate.getUTCMonth() !== endDate.getUTCMonth()
+                || startDate.getUTCFullYear() !== endDate.getUTCFullYear();
+
+            const monthLabel = monthsOverlap
+                ? `${startMonth}/${endMonth}`
+                : endMonth;
 
             return {
                 ...week,
-                label: `Semana ${weekNumber} - ${monthFormat}`,
+                label: `Semana ${weekNumber} - ${monthLabel}`,
             };
         });
     };
