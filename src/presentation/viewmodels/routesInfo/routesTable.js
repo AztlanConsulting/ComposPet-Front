@@ -59,6 +59,10 @@ function useRoutesViewModel(){
         if (data && getRowKey(data) === editingRowId) {
             classes.push("row-editing");
         }
+
+        if (data?.hasRequest === false) {
+            classes.push("row--has-no-request");
+        }
         
         if (
             data?.hasRequest === true &&
