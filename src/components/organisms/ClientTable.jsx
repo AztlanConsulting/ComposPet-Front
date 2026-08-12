@@ -5,6 +5,8 @@ import { AG_GRID_LOCALE_ES } from '@ag-grid-community/locale';
 import '../../css/organisms/ClientTable.css';
 
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import { getRowKey } from '../../presentation/viewmodels/utils/rowKey';
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function ClientTable({
@@ -72,9 +74,12 @@ export default function ClientTable({
                     params.api.stopEditing(false);
                 }}
                 onCellClicked={(params) => {
+
+                    const rowKey = params.data.requestId ?? `new-${params.data.clientId}`;
+
                     if (
                         params.colDef.field === "extraProductsDetails" &&
-                        params.data.name === editingRowId
+                        rowKey === editingRowId
                     ) {
                         params.api.startEditingCell({
                             rowIndex: params.rowIndex,
@@ -82,7 +87,7 @@ export default function ClientTable({
                         });
                     }
 
-                    if (editingRowId && params.data.clientId === editingRowId) {
+                    if (editingRowId && rowKey === editingRowId) {
                         setTimeout(() => {
                             const input = document.querySelector('.ag-cell-edit-input');
                             if (input) {
