@@ -33,6 +33,28 @@ jest.mock("../../../../presentation/viewmodels/collectionRequest/thirdFormViewMo
 jest.mock("../../../../components/Template/confirmationAlert", () => jest.fn());
 jest.mock("../../../../components/Template/timerAlert", () => jest.fn());
 
+// Fija el reloj del sistema en un miércoles al mediodía, dentro de la
+// ventana válida de theClientIsInTime para cualquier routeDay usado en
+// estos tests (evita que el test dependa del día/hora real de ejecución).
+beforeAll(() => {
+    jest.useFakeTimers({
+        doNotFake: [
+            'setTimeout',
+            'clearTimeout',
+            'setInterval',
+            'clearInterval',
+            'setImmediate',
+            'clearImmediate',
+            'queueMicrotask',
+            'nextTick',
+        ],
+    });
+});
+
+afterAll(() => {
+    jest.useRealTimers();
+});
+
 describe("useCollectionRequestViewModel - progreso del formulario", () => {
     let saveFirstSectionMock;
     let loadCurrentCollectionRequestMock;
@@ -43,6 +65,8 @@ describe("useCollectionRequestViewModel - progreso del formulario", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+
+        jest.setSystemTime(new Date('2026-08-19T12:00:00'));
 
         //Simula las funciones utilizadas para cambiar de steps
         saveFirstSectionMock = jest.fn();
