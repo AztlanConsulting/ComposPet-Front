@@ -8,6 +8,7 @@ import formatCurrency from '../../../utilities/formatCurrency';
 import { validateField } from "./routesFieldsValidation";
 import ValidationObserver from "./validationObserver";
 import { forwardRef, useImperativeHandle, useState, useEffect, useRef , useMemo} from "react";
+import { getRowKey } from './rowKey';
 
 // Diccionario para asignar colores a los productos extra según su tipo
 const PRODUCT_COLORS = {
@@ -269,25 +270,21 @@ export function getRoutesTableColumns({
             lockPinned: true,
 
             tooltipValueGetter: (params) => {
-                if (!params.data?.hasRequest) {
-                    return "No hay registros para editar";
-                }
-            
-                if (editingRowId !== '' && params.data?.requestId !== editingRowId) {
+                if (editingRowId !== '' && getRowKey(params.data) !== editingRowId) {
                     return "Termina de editar la fila actual";
                 }
-            
+
                 return null;
             },
 
             cellRenderer: (params) => {
-                const isEditing = params.data.requestId === editingRowId;
-            
+                const rowKey = getRowKey(params.data);
+                const isEditing = rowKey === editingRowId;
+
                 const isAnotherRowEditing =
-                    editingRowId !== '' && params.data.requestId !== editingRowId;
-            
-                const isEditDisabled =
-                    isAnotherRowEditing || !params.data.hasRequest;
+                    editingRowId !== '' && rowKey !== editingRowId;
+
+                const isEditDisabled = isAnotherRowEditing;
             
                 if (isEditing) {
                     return (
@@ -351,7 +348,7 @@ export function getRoutesTableColumns({
             field: "collectedBuckets", 
             minWidth: 130,
             maxWidth: 170,
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             headerComponent: editableHeader("# Recolección"),
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
@@ -403,7 +400,7 @@ export function getRoutesTableColumns({
             field: "deliveredBuckets", 
             minWidth: 130,
             maxWidth: 170,
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             cellEditor: "agNumberCellEditor",
             cellEditorParams: {
                 suppressKeyboardEvent: blockInvalidNumberKeys
@@ -461,7 +458,7 @@ export function getRoutesTableColumns({
             cellDataType: false,
             headerComponent: editableHeader("Productos Extra"),
             valueFormatter: () => "",
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             cellClassRules: modifiedClassRule,
             cellEditor: ExtraProductsCellEditor,
             cellEditorParams: (params) => ({
@@ -556,7 +553,7 @@ export function getRoutesTableColumns({
 
                 return value || null;
             },
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             cellClassRules: modifiedClassRule,
             headerComponent: editableHeader("Horario", "HH:MM"),
             valueSetter: (params) => {
@@ -591,7 +588,7 @@ export function getRoutesTableColumns({
             field: "paymentId", 
             minWidth: 180,
             maxWidth: 200,
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             headerComponent: editableHeader("Forma de pago"),
             cellClassRules: modifiedClassRule,
             cellEditor: "agSelectCellEditor",
@@ -618,7 +615,7 @@ export function getRoutesTableColumns({
             field: "totalPaid", 
             minWidth: 150,
             maxWidth: 180,
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             headerComponent: editableHeader("Total pagado"),
             cellEditor: "agNumberCellEditor",
 
@@ -672,7 +669,7 @@ export function getRoutesTableColumns({
             },
             wrapText: true,
             autoHeight: true,
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             cellEditor: "agTextCellEditor",
             cellEditorParams: {
                 maxLength: 255,
@@ -716,11 +713,11 @@ export function getRoutesTableColumns({
             minWidth: 100,
             maxWidth: 140,
             cellDataType: 'boolean',
-            editable: (params) => params.data.requestId === editingRowId,
+            editable: (params) => getRowKey(params.data) === editingRowId,
             cellClassRules: {
                 ...modifiedClassRule,
                 "cell-not-editable": (params) =>
-                    params.data.clientId !== editingRowId,
+                    getRowKey(params.data) !== editingRowId,
             },
             headerComponent: editableHeader("Estatus"),
         }

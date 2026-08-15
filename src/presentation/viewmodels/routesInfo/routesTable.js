@@ -17,6 +17,7 @@ import ProblemAlert from "../../../components/Template/ProblemAlert";
 import AceptAlert from "../../../components/Template/AceptAlert";
 import usePrompt from '../utils/usePrompt';
 import ValidationObserver from '../utils/validationObserver';
+import { getRowKey } from '../utils/rowKey';
 
 const DAY_NAME_MAP = {
     0: "Domingo", 1: "Lunes", 2: "Martes", 3: "Miércoles",
@@ -55,8 +56,12 @@ function useRoutesViewModel(){
     const getRowClass = useCallback((params) => {
         const data = params.data;
         const classes = [];
-        if (data?.requestId === editingRowId) {
+        if (data && getRowKey(data) === editingRowId) {
             classes.push("row-editing");
+        }
+
+        if (data?.hasRequest === false) {
+            classes.push("row--has-no-request");
         }
         
         if (
@@ -78,10 +83,10 @@ function useRoutesViewModel(){
     }, [editingRowId]);
 
     const isCellChanged = useCallback((params) => {
-        const rowId = params.data.requestId;
+        const rowId = getRowKey(params.data);
         const field = params.colDef.field;
 
-        const originalRow = originalRoutesList.find(c => c.requestId === rowId);
+        const originalRow = originalRoutesList.find(c => getRowKey(c) === rowId);
 
         if(!originalRow) return false;
 
@@ -134,7 +139,23 @@ function useRoutesViewModel(){
 
         if (editingRowId !== '') return;
 
-        setEditingRowId(params.data.requestId);
+        if (!params.data.requestId && !params.data.clientId) {
+            ProblemAlert({
+                title: "No se puede editar esta fila",
+                text: "Este registro no tiene un cliente asociado válido."
+            });
+            return;
+        }
+
+        if (!params.data.requestId && (selectedWeek === null || selectedWeek === undefined)) {
+            ProblemAlert({
+                title: "Selecciona una semana",
+                text: "Para crear una solicitud manual primero selecciona una semana específica."
+            });
+            return;
+        }
+
+        setEditingRowId(getRowKey(params.data));
 
         setTimeout(() => {
             params.api.startEditingCell({
@@ -142,15 +163,15 @@ function useRoutesViewModel(){
                 colKey: 'collectedBuckets', 
             });
         });
-    }, [editingRowId]);
+    }, [editingRowId, selectedWeek]);
 
     const handleCancel = useCallback((params) => {
         try{
             setLoading(true);
 
             params.api.stopEditing(false);
-            const rowId = params.data.requestId;
-            const originalRow = originalRoutesList.find(r => r.requestId === rowId);
+            const rowId = getRowKey(params.data);
+            const originalRow = originalRoutesList.find(r => getRowKey(r) === rowId);
 
             if(!originalRow) return;
 
@@ -223,19 +244,25 @@ function useRoutesViewModel(){
             setLoading(true);
             params.api.stopEditing(false);
 
-            ValidationObserver.clear();
-
             if (ValidationObserver.hasErrors()) {
+                ValidationObserver.clear();
                 await ProblemAlert({
                     title: "Error en los datos ingresados",
                     text: "Corrige los campos inválidos antes de guardar."
                 });
-
                 return;
             }
 
-            const updatedData = params.data;
-            await updateRequest.execute(updatedData);
+            const updatedData = {
+                ...params.data,
+                weekIndex: selectedWeek,
+            };
+
+            const result = await updateRequest.execute(updatedData);
+
+            if (result?.success === false) {
+                throw new Error(result.message || "El servidor rechazó los cambios");
+            }
 
             await refreshRoutes();
 
@@ -250,7 +277,7 @@ function useRoutesViewModel(){
             ValidationObserver.clear();
             setLoading(false);
         }
-    }, [updateRequest, refreshRoutes]);
+    }, [updateRequest, refreshRoutes, selectedWeek]);
 
 
     const generateRouteMessages = useMemo(
