@@ -139,10 +139,18 @@ function useRoutesViewModel(){
 
         if (editingRowId !== '') return;
 
+        if (!params.data.requestId && !params.data.clientId) {
+            ProblemAlert({
+                title: "No se puede editar esta fila",
+                text: "Este registro no tiene un cliente asociado válido."
+            });
+            return;
+        }
+
         if (!params.data.requestId && (selectedWeek === null || selectedWeek === undefined)) {
             ProblemAlert({
                 title: "Selecciona una semana",
-                text: "Para crear una solicitud manual primero selecciona una semana específica (no 'Todas las semanas')."
+                text: "Para crear una solicitud manual primero selecciona una semana específica."
             });
             return;
         }
@@ -242,7 +250,6 @@ function useRoutesViewModel(){
                     title: "Error en los datos ingresados",
                     text: "Corrige los campos inválidos antes de guardar."
                 });
-
                 return;
             }
 

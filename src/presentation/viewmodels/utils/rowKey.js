@@ -8,5 +8,6 @@
  * @returns {string} Llave única de la fila.
  */
 export function getRowKey(row) {
+    if (!row) return null;
     return row.requestId ?? `new-${row.clientId}`;
 }

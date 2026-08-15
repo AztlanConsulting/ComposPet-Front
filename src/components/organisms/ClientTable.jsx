@@ -75,7 +75,7 @@ export default function ClientTable({
                 }}
                 onCellClicked={(params) => {
 
-                    const rowKey = params.data.requestId ?? `new-${params.data.clientId}`;
+                    const rowKey = getRowKey(params.data);
 
                     if (
                         params.colDef.field === "extraProductsDetails" &&
