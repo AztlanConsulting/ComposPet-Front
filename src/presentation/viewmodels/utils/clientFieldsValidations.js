@@ -56,6 +56,38 @@ export const validateAddress = (value) => {
     return true;
 };
 
+export const validateFirstName = (value) => {
+    const text = normalize(value);
+
+    if (!text) return "El nombre es requerido.";
+
+    if (text.length > 100) {
+        return "El campo nombre es demasiado largo.";
+    }
+
+    const nameRegex = /^[A-Za-zÀ-ÿ\s.'-]+$/;
+
+    if (!nameRegex.test(text)) return "El campo nombre debe ser válido.";
+
+    return true;
+};
+
+export const validateLastName = (value) => {
+    const text = normalize(value);
+
+    if (!text) return "El apellido es requerido.";
+
+    if (text.length > 100) {
+        return "El campo apellido es demasiado largo.";
+    }
+
+    const nameRegex = /^[A-Za-zÀ-ÿ\s.'-]+$/;
+
+    if (!nameRegex.test(text)) return "El campo apellido debe ser válido.";
+
+    return true;
+};
+
 export const validateText = (value, fieldName) => {
     if (value === null || value === undefined || value === '') {
         return true;
@@ -109,6 +141,12 @@ export const validateField = (field, value, emails=[], userId=[]) => {
     switch (field) {
         case "balance":
             return validateBalance(value);
+
+        case "firstName":
+            return validateFirstName(value);
+
+        case "lastName":
+            return validateLastName(value);
 
         case "notes":
             return validateNotes(value);

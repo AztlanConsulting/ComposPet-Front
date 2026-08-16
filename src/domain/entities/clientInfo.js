@@ -11,7 +11,8 @@ export class ClientInfo {
      * @param {string} params.familySize - Descripción de la familia del cliente
      * @param {string} params.address - Dirección del cliente
      * @param {string} params.notes - Notas relacionadas al cliente
-     * @param {string} params.name - Nombre y apellidos del cliente
+     * @param {string} params.firstName - Nombre del cliente
+     * @param {string} params.lastName - Apellidos del cliente
      * @param {string} params.cellphone - Teléfono del usuario
      * @param {Int} params.balance - Saldo del cliente
      * @param {string} params.lastRequest - Fecha (String) de la última recolección del cliente
@@ -26,7 +27,8 @@ export class ClientInfo {
         family,
         address,
         notes,
-        name,
+        firstName,
+        lastName,
         cellphone,
         balance,
         lastRequest,
@@ -43,7 +45,8 @@ export class ClientInfo {
         this.family = family;
         this.address = address;
         this.notes = notes;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.cellphone = cellphone;
         this.balance = balance;
         this.lastRequest = lastRequest;
