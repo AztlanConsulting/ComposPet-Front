@@ -18,9 +18,9 @@ jest.mock('../../../../di/admin/clientTableDependencies', () => ({
 }));
 
 const MOCK_CLIENTS = [
-    { clientId: '1', name: 'Alejandra A', routeId: 1 },
-    { clientId: '2', name: 'Leonardo Alvarado', routeId: 2 },
-    { clientId: '3', name: 'Andres Arredondo', routeId: 1 },
+    { clientId: '1', firstName: 'Alejandra', lastName: 'A', routeId: 1 },
+    { clientId: '2', firstName: 'Leonardo', lastName: 'Alvarado', routeId: 2 },
+    { clientId: '3', firstName: 'Andres', lastName: 'Arredondo', routeId: 1 },
 ];
 
 const MOCK_ROUTES = [
@@ -43,9 +43,9 @@ describe('ClientTableViewModel', () => {
             expect(result.current.clientList).toHaveLength(3);
         });
 
-        expect(result.current.clientList[0].name).toBe('Alejandra A');
-        expect(result.current.clientList[1].name).toBe('Leonardo Alvarado');
-        expect(result.current.clientList[2].name).toBe('Andres Arredondo');
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`).toBe('Alejandra A');
+        expect(`${result.current.clientList[1].firstName} ${result.current.clientList[1].lastName}`).toBe('Leonardo Alvarado');
+        expect(`${result.current.clientList[2].firstName} ${result.current.clientList[2].lastName}`).toBe('Andres Arredondo');
     });
 
     it('debe buscar cliente por nombre correctamente', async () => {
@@ -60,7 +60,7 @@ describe('ClientTableViewModel', () => {
         });
 
         expect(result.current.clientList).toHaveLength(1);
-        expect(result.current.clientList[0].name).toBe('Leonardo Alvarado');
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`).toBe('Leonardo Alvarado');
     });
 
     it('debe buscar sin distinguir mayúsculas y minúsculas', async () => {
@@ -75,7 +75,7 @@ describe('ClientTableViewModel', () => {
         });
 
         expect(result.current.clientList).toHaveLength(1);
-        expect(result.current.clientList[0].name).toBe('Alejandra A');
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`).toBe('Alejandra A');
     });
 
     it('debe retornar lista vacía si no hay clientes que coincidan con el nombre', async () => {
@@ -105,7 +105,7 @@ describe('ClientTableViewModel', () => {
         });
 
         expect(result.current.clientList).toHaveLength(1);
-        expect(result.current.clientList[0].name).toBe('Andres Arredondo');
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`).toBe('Andres Arredondo');
     });
 
     it('debe mostrar todos los clientes si el buscador está vacío y no hay filtro de ruta', async () => {
