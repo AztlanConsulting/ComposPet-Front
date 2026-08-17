@@ -43,7 +43,6 @@ export default function CollectionResume({
                 Resumen de compra
             </h2>
 
-            // Costo de las cubetas recolectadas
             <div className="recoleccion-title">
                 Recolección {collection.cubetas_recolectadas} cubeta
                 {collection.cubetas_recolectadas === 1 ? "" : "s"}: {formatCurrency(bucketCost)}
