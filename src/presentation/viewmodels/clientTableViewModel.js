@@ -272,6 +272,8 @@ function useClientTableViewModel() {
             "pets",
             "family",
             "email",
+            "firstName",
+            "lastName",
         ];
     
         for (const field of fieldsToValidate) {
@@ -386,7 +388,7 @@ function useClientTableViewModel() {
                 ? client.routeId === Number(selectedRoute)
                 : true;
 
-            const fullName = `${client.name || ''}`.toLowerCase();
+            const fullName = `${client.firstName || ''} ${client.lastName || ''}`.toLowerCase();
 
             const matechesSearch = searchText.trim()
                 ? fullName.includes(searchText.trim().toLowerCase())

@@ -176,12 +176,74 @@ export function getClientTableColumns({
                 return true;
             },
         },
-        { 
-            field: "name", 
+        {
+            field: "firstName",
             headerName: "Nombre",
-            minWidth: 200,
-            maxWidth: 300,
-         },
+            minWidth: 150,
+            maxWidth: 220,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+            headerComponent: editableHeader("Nombre"),
+            valueSetter: (params) => {
+                const validation = validateField("firstName", params.newValue);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("firstName");
+                    params.data.firstName = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "firstName",
+                            });
+                        }
+                    }, 0);
+
+                    return false;
+                }
+
+                ValidationObserver.removeError("firstName");
+                params.data.firstName = params.newValue;
+                return true;
+            },
+        },
+        {
+            field: "lastName",
+            headerName: "Apellido",
+            minWidth: 150,
+            maxWidth: 220,
+            editable: (params) => params.data.clientId === editingRowId,
+            cellClassRules: modifiedClassRule,
+            headerComponent: editableHeader("Apellido"),
+            valueSetter: (params) => {
+                const validation = validateField("lastName", params.newValue);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("lastName");
+                    params.data.lastName = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+
+                        if (!params.api.isDestroyed()) {
+                            params.api.startEditingCell({
+                                rowIndex: params.node.rowIndex,
+                                colKey: "lastName",
+                            });
+                        }
+                    }, 0);
+
+                    return false;
+                }
+
+                ValidationObserver.removeError("lastName");
+                params.data.lastName = params.newValue;
+                return true;
+            },
+        },
         { 
             field: "lastRequest", 
             headerName: "Última recolección",

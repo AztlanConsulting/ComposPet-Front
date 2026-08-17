@@ -22,9 +22,9 @@ jest.mock('../../../../di/admin/clientTableDependencies', () => ({
 }));
 
 const MOCK_CLIENTS = [
-    { clientId: '1', name: 'Alejandra A', routeId: 1 },
-    { clientId: '2', name: 'Leonardo Alvarado', routeId: 2 },
-    { clientId: '3', name: 'Andres Arredondo', routeId: 1 },
+    { clientId: '1', firstName: 'Alejandra', lastName: 'A', routeId: 1 },
+    { clientId: '2', firstName: 'Leonardo', lastName: 'Alvarado', routeId: 2 },
+    { clientId: '3', firstName: 'Andres', lastName: 'Arredondo', routeId: 1 },
 ];
 
 const MOCK_ROUTES = [
@@ -71,7 +71,7 @@ describe('useClientTableViewModel', () => {
 
         expect(result.current.clientList).toHaveLength(1);
 
-        expect(result.current.clientList[0].name)
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`)
             .toBe('Leonardo Alvarado');
     });
 
@@ -91,7 +91,7 @@ describe('useClientTableViewModel', () => {
 
         expect(result.current.clientList).toHaveLength(1);
 
-        expect(result.current.clientList[0].name)
+        expect(`${result.current.clientList[0].firstName} ${result.current.clientList[0].lastName}`)
             .toBe('Alejandra A');
     });
 
