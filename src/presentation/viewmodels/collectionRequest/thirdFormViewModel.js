@@ -1,4 +1,4 @@
-import {useEffect, useState, useMemo} from "react";
+import {useEffect, useState, useMemo, useRef} from "react";
 import {GetCollectionSummaryUseCase} from "../../../domain/useCases/getCollectionSummaryUseCase";
 import {DeleteProductSummaryUseCase} from "../../../domain/useCases/deleteProductSummaryUseCase";
 import { UpdateCollectionTotalUseCase } from "../../../domain/useCases/updateCollectionTotalUseCase";
@@ -23,11 +23,17 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
     const [collectionTotal, setCollectionTotal] = useState(0);
     const [paymentMethods, setPaymentMethods] = useState([]);
     const [bucketCost, setBucketCost] = useState(null);
+    const [priceType, setPriceType] = useState(null);
+    const [error, setError] = useState(null);
+    const notesRequestId = useRef(null);
 
     const [loading, setLoading] = useState(false);
     const [paymentAviable, setPaymentAviable] = useState([]); 
     const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(0);
     const [notes, setNotes] = useState('');
+    const requiresPayment = collectionTotal > 0;
+    const isFreeService = priceType === "gratis" && bucketCost === 0 &&
+        collection.quiere_recoleccion === true;
 
     const useCase = useMemo(() => {
         const datasource = new CollectionRequestApiClient();
@@ -45,7 +51,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         const datasource = new CollectionRequestApiClient();
         const repository = new CollectionSummaryRepositoryImpl(datasource);
         return new UpdateCollectionTotalUseCase(repository);
-    })
+    }, []);
 
     useEffect(() => {
         if(idClient) {
@@ -56,6 +62,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
     const loadSummary = async () => {
         try {
             setLoading(true);
+            setError(null);
 
             const response = await useCase.execute(
                 idClient,
@@ -68,8 +75,12 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
             setBalance(response.balance);
             setCollectionTotal(response.total);
             setPaymentMethods(response.payMethods);
-            setNotes(response.collection.notes);
+            if (notesRequestId.current !== response.collection.id_solicitud) {
+                setNotes(response.collection.notas ?? '');
+                notesRequestId.current = response.collection.id_solicitud;
+            }
             setBucketCost(response.bucketCost);
+            setPriceType(response.priceType);
             const aviableMethods = response.payMethods.map((method) => {
                 if (
                     method.tipo === "Saldo" &&
@@ -84,6 +95,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
 
         }
         catch(error) {
+            setError("No se pudo cargar el resumen de compra. Intenta cargarlo de nuevo.");
             console.log("Error loading summary: ", error);
         }
         finally {
@@ -108,13 +120,16 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
     }
 
     const saveThirdSection = async () => {
+        if (loading || error || !collection.id_solicitud || bucketCost == null) {
+            return { success: false };
+        }
         try {
             setLoading(true);
 
             await updateCollectionTotalUseCase.execute(
                 collection.id_solicitud,
                 collectionTotal,
-                paymentMethods[selectedPaymentIndex].id_pago,
+                requiresPayment ? paymentMethods[selectedPaymentIndex].id_pago : null,
                 notes,
             );
 
@@ -124,7 +139,9 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
             }
         }
         catch (error) {
+            setError("No se pudo guardar la solicitud. Intenta de nuevo.");
             console.log(error);
+            return { success: false };
         }
         finally {
             setLoading(false);
@@ -139,6 +156,9 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         paymentMethods,
         paymentAviable,
         loading,
+        error,
+        requiresPayment,
+        isFreeService,
 
         selectedPaymentIndex,
         setSelectedPaymentIndex,

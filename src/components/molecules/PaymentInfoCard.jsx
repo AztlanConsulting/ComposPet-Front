@@ -1,4 +1,5 @@
-import "../../css/molecules/paymentInfoCard.css"
+import "../../css/molecules/paymentInfoCard.css";
+
 import FormCard from "../Template/formCard";
 import CopyLink from "../molecules/CopyLink";
 
@@ -14,8 +15,9 @@ export default function PaymentInfoCard({
     paymentType = "",
     className = "",
     showReminder = true,
+    reminderText = "No olvides realizar tu pago.",
+    isFreeService = false,
 }) {
-
     const formattedNotes = notes.replace(/\\n/g, "\n");
 
     const getAccountNumber = () => {
@@ -26,13 +28,18 @@ export default function PaymentInfoCard({
         return numbers[0].replace(/\s/g, "");
     };
 
-    const shouldShowCopyButton = paymentType === "Transferencia";
+    const shouldShowCopyButton =
+        paymentType === "Transferencia";
 
     return (
         <FormCard className={`payment-info-card ${className}`}>
-            {showReminder && (
-                <strong className="payment-info-reminder">
-                    No olvides realizar tu pago.
+            {showReminder && reminderText && (
+                <strong
+                    className={`payment-info-reminder ${
+                        isFreeService ? "free-service-reminder" : ""
+                    }`}
+                >
+                    {reminderText}
                 </strong>
             )}
 

@@ -1,55 +1,64 @@
-import "../../css/molecules/paymentElement.css"
-import FormCard from "../Template/formCard";
+import "../../css/molecules/paymentElement.css";
+
 import PaymentMethod from "./PaymentMethod";
 import PaymentInfoCard from "./PaymentInfoCard";
 
-
 /**
- * Elemento con los cards de formas de pago, información adicional y notas.
+ * Elemento con los métodos de pago y la información
+ * del método seleccionado.
  *
- * @returns {JSX.Element} Tarjeta visual.
+ * @returns {JSX.Element} Sección de formas de pago.
  */
 export default function PaymentElement({
     paymentMethods,
     selectedMethod,
     selectedPaymentIndex,
     setSelectedPaymentIndex,
-    className="",
+    isFreeService = false,
+    hasPaidExtraProducts = false,
+    className = "",
 }) {
     const getPaymentIcon = (tipo) => {
         if (tipo === "Saldo") return "piggy";
         if (tipo === "Transferencia") return "card";
         if (tipo === "Efectivo") return "bills";
 
+        return "";
     };
+
+    const reminderText = isFreeService
+        ? hasPaidExtraProducts
+            ? "Tu servicio de recolección es gratis. Solo recuerda realizar el pago de tus productos extra."
+            : "Tu servicio de recolección es gratis."
+        : "No olvides realizar tu pago.";
+
     return (
-                <>
-                    {/* DIV IZQUIERDA (PAGO) */}
-                    <section className={`left-pay-section ${className}`}>
-                        <h2 className="pay-title">
-                            Forma de pago
-                        </h2>
+        <section className={`left-pay-section ${className}`}>
+            <h2 className="pay-title">
+                Forma de pago
+            </h2>
 
-                        <div className="payment-list">
-                            {paymentMethods.map((method, index) => (
-                                <PaymentMethod
-                                    key={method.id_pago}
-                                    method={method}
-                                    index={index}
-                                    selectedPaymentIndex={selectedPaymentIndex}
-                                    setSelectedPaymentIndex={setSelectedPaymentIndex}
-                                    icon={getPaymentIcon(method.tipo)}
-                                />
-                            ))}
-                        </div>
+            <div className="payment-list">
+                {paymentMethods.map((method, index) => (
+                    <PaymentMethod
+                        key={method.id_pago}
+                        method={method}
+                        index={index}
+                        selectedPaymentIndex={selectedPaymentIndex}
+                        setSelectedPaymentIndex={setSelectedPaymentIndex}
+                        icon={getPaymentIcon(method.tipo)}
+                    />
+                ))}
+            </div>
 
-                        <PaymentInfoCard
-                            className="payment-wrapper"
-                            text={selectedMethod?.texto || ""}
-                            notes={selectedMethod?.notas || ""}
-                            paymentType={selectedMethod?.tipo || ""}
-                        />
-                    </section>
-                </>
+            <PaymentInfoCard
+                className="payment-wrapper"
+                reminderText={reminderText}
+                text={selectedMethod?.texto || ""}
+                notes={selectedMethod?.notas || ""}
+                paymentType={selectedMethod?.tipo || ""}
+                isFreeService={isFreeService}
+            />
+        </section>
     );
-}   
+}

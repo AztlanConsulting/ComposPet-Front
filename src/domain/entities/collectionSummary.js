@@ -21,6 +21,7 @@ export class CollectionSummary {
         total,
         payMethods,
         bucketCost,
+        priceType,
     ) {
         this.collection = collection;
         this.products = products;
@@ -28,6 +29,7 @@ export class CollectionSummary {
         this.total = total;
         this.payMethods = payMethods;
         this.bucketCost = bucketCost;
+        this.priceType = priceType;
     }
 
 }

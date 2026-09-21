@@ -107,6 +107,11 @@ export default function CollectionRequestView() {
                         removeProduct={thirdSectionViewModel.removeProduct}
                         collection={thirdSectionViewModel.collection}
                         bucketCost={thirdSectionViewModel.bucketCost}
+                        requiresPayment={thirdSectionViewModel.requiresPayment}
+                        isFreeService={thirdSectionViewModel.isFreeService}
+                        loading={thirdSectionViewModel.loading}
+                        error={thirdSectionViewModel.error}
+                        reloadSummary={thirdSectionViewModel.loadSummary}
                     />
                 )}
 
@@ -139,7 +144,8 @@ export default function CollectionRequestView() {
                                 ? firstSectionViewModel.loading
                                 : currentStep === 2
                                     ? secondSectionViewModel.loading
-                                    : false
+                                    : thirdSectionViewModel.loading || !!thirdSectionViewModel.error ||
+                                        thirdSectionViewModel.bucketCost == null
                         }
                     >
                         {currentStep === 1 && firstSectionViewModel.loading

@@ -24,6 +24,11 @@
     color: var(--color-green-secondary)!important;
 }
 
+.free-service-reminder {
+    color: var(--color-green-primary)!important;
+    font-weight: 700;
+}
+
 .payment-info-title {
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-semibold);
