@@ -61,13 +61,16 @@ test.each([
     products.forEach(p => expect(screen.getByText(p.productos_extra.nombre)).toBeInTheDocument());
     expect(screen.getByText(`Subtotal ${count} artículo${count === 1 ? '' : 's'}: $${subtotal.toFixed(2)}`)).toBeInTheDocument();
     expect(screen.getByText(`Total: $${total.toFixed(2)}`)).toBeInTheDocument();
-    expect(Boolean(screen.queryByText('Forma de pago'))).toBe(total > 0);
-    expect(Boolean(screen.queryByText('Tu servicio de recolección es gratis.'))).toBe(type === 'gratis' && cost === 0);
+    expect(screen.getByRole('heading', { name: 'Forma de pago' })).toBeInTheDocument();
+    expect(screen.getByText('Efectivo')).toBeInTheDocument();
     if (type === 'gratis' && cost === 0) {
         expect(screen.getByText(total > 0
-            ? 'Solo recuerda realizar el pago de tus productos extra.'
-            : 'No necesitas realizar ningún pago.')).toBeInTheDocument();
+            ? 'Tu servicio de recolección es gratis. Solo recuerda realizar el pago de tus productos extra.'
+            : 'Tu servicio de recolección es gratis.')).toBeInTheDocument();
         expect(screen.queryByText('No olvides realizar tu pago.')).not.toBeInTheDocument();
+    } else {
+        expect(screen.getByText('No olvides realizar tu pago.')).toBeInTheDocument();
+        expect(screen.queryByText(/Tu servicio de recolección es gratis/)).not.toBeInTheDocument();
     }
     await act(async () => { await vm.saveThirdSection(); });
     expect(updateTotal).toHaveBeenCalledWith('request-1', total, total > 0 ? 1 : null, 'Nota guardada');
@@ -90,14 +93,17 @@ test('normal → gratis → pension → gratis conserva cubetas, productos, cant
     }
 });
 
-test('eliminar el último producto con costo oculta pagos y conserva aserrín y notas', async () => {
+test('eliminar el último producto con costo actualiza el mensaje y conserva las formas de pago, aserrín y notas', async () => {
     getSummary.mockResolvedValue(response('gratis', 0, [sawdust(2), leaves]));
     render(<Summary />);
     await screen.findByText('Resumen de compra');
     act(() => vm.setNotes('No borrar'));
     getSummary.mockResolvedValue(response('gratis', 0, [sawdust(2)]));
     await act(async () => { await vm.removeProduct(2, 'request-1', 1); });
-    expect(screen.queryByText('Forma de pago')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Forma de pago' })).toBeInTheDocument();
+    expect(screen.getByText('Tu servicio de recolección es gratis.')).toBeInTheDocument();
+    expect(screen.queryByText(/Solo recuerda realizar el pago de tus productos extra/)).not.toBeInTheDocument();
+    expect(vm.requiresPayment).toBe(false);
     expect(screen.getByText('Aserrín')).toBeInTheDocument();
     expect(vm.notes).toBe('No borrar');
     expect(deleteProduct).toHaveBeenCalledWith(2, 'request-1', 1);
