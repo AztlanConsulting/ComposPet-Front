@@ -28,8 +28,7 @@ export default function PaymentInfoCard({
         return numbers[0].replace(/\s/g, "");
     };
 
-    const shouldShowCopyButton =
-        paymentType === "Transferencia";
+    const shouldShowCopyButton = paymentType === "Transferencia";
 
     return (
         <FormCard className={`payment-info-card ${className}`}>

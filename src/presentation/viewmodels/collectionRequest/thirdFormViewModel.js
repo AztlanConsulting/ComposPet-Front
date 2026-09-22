@@ -69,40 +69,57 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
                 weekStartDate,
                 weekEndDate
             );
-            
+
+            const payMethods = response.payMethods ?? [];
+
             setCollection(response.collection);
             setProducts(response.products);
             setBalance(response.balance);
             setCollectionTotal(response.total);
-            setPaymentMethods(response.payMethods);
+            setPaymentMethods(payMethods);
+
+            setSelectedPaymentIndex((currentIndex) => {
+                if (payMethods.length === 0) {
+                    return 0;
+                }
+
+                return currentIndex < payMethods.length
+                    ? currentIndex
+                    : 0;
+            });
+
             if (notesRequestId.current !== response.collection.id_solicitud) {
                 setNotes(response.collection.notas ?? '');
                 notesRequestId.current = response.collection.id_solicitud;
             }
+
             setBucketCost(response.bucketCost);
             setPriceType(response.priceType);
-            const aviableMethods = response.payMethods.map((method) => {
+
+            const aviableMethods = payMethods.map((method) => {
                 if (
                     method.tipo === "Saldo" &&
                     response.balance < response.total
                 ) {
                     return false;
                 }
+
                 return true;
             });
 
             setPaymentAviable(aviableMethods);
-
         }
         catch(error) {
-            setError("No se pudo cargar el resumen de compra. Intenta cargarlo de nuevo.");
-            console.log("Error loading summary: ", error);
+            setError(
+                "No se pudo cargar el resumen de compra. Intenta cargarlo de nuevo."
+            );
+            console.error("Error loading summary: ", error);
         }
         finally {
             setLoading(false);
         }
     };
-
+    
     const removeProduct = async(idProduct, idRequest, quantity) => {
         try {
             setLoading(true);
@@ -112,7 +129,7 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
             await loadSummary();
         }
         catch (error) {
-            console.log("Error deleting product", error);
+            console.error("Error deleting product", error);
         }
         finally {
             setLoading(false);
@@ -123,30 +140,39 @@ function useCollectionRequestThirdSectionViewModel(idClient, weekStartDate, week
         if (loading || error || !collection.id_solicitud || bucketCost == null) {
             return { success: false };
         }
+
+        const selectedPaymentMethod =
+            paymentMethods[selectedPaymentIndex];
+
+        if (requiresPayment && !selectedPaymentMethod) {
+            setError("Selecciona una forma de pago.");
+            return { success: false };
+        }
+
         try {
             setLoading(true);
 
             await updateCollectionTotalUseCase.execute(
                 collection.id_solicitud,
                 collectionTotal,
-                requiresPayment ? paymentMethods[selectedPaymentIndex].id_pago : null,
+                requiresPayment ? selectedPaymentMethod.id_pago : null,
                 notes,
             );
 
             return {
                 success: true,
                 nextStep: 4,
-            }
+            };
         }
         catch (error) {
             setError("No se pudo guardar la solicitud. Intenta de nuevo.");
-            console.log(error);
+            console.error(error);
             return { success: false };
         }
         finally {
             setLoading(false);
         }
-    }
+    };
 
     return {
         collection,
