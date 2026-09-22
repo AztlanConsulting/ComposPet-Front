@@ -1,7 +1,5 @@
 import "../../css/molecules/collectionResume.css"
-import FormCard from "../Template/formCard";
 import SummaryProductCard from "./SummaryProductCard";
-import bucketCostMap from "../../presentation/viewmodels/utils/bucketCostMap";
 import formatCurrency from '../../utilities/formatCurrency';
 
 /**
@@ -17,25 +15,26 @@ export default function CollectionResume({
     collection,
     paymentType,
     bucketCost,
-    className="",
 }) {
-    const useBalance = paymentType === "Saldo";
+    /*const useBalance = paymentType === "Saldo";
 
     const balanceToDiscount = useBalance ? Math.abs(balance) : 0;
-    const finalTotal = useBalance ? total - balanceToDiscount : total;
+    const finalTotal = useBalance ? total - balanceToDiscount : total;*/
 
-    const getPaymentIcon = (tipo) => {
-        if (tipo === "Saldo") return "piggy";
-        if (tipo === "Transferencia") return "card";
-        if (tipo === "Efectivo") return "bills";
+    const useBalance = paymentType === "Saldo";
 
-    };
+    const availableBalance = Math.max(balance, 0);
 
-    let productsAmount = 0;
+    const balanceToDiscount = useBalance
+        ? Math.min(availableBalance, total)
+        : 0;
 
-    products.map((product, index) => {
-        productsAmount += product.cantidad;
-    });
+    const finalTotal = total - balanceToDiscount;
+
+    const productsAmount = products.reduce((amount, product) => amount + product.cantidad, 0);
+    const productsSubtotal = products.reduce(
+        (subtotal, product) => subtotal + product.cantidad * product.productos_extra.precio, 0
+    );
 
     return (
         <>
@@ -49,8 +48,9 @@ export default function CollectionResume({
             </div>
             {/* Lista de productos extra */}
             <div className="third-form-products">
-                {products.map((product, index) => (
+                {products.map((product) => (
                     <SummaryProductCard
+                    key={product.id_producto}
                     product={product.productos_extra}
                     cuantity={product.cantidad}
                     productTotal={product.cantidad * product.productos_extra.precio}
@@ -62,7 +62,7 @@ export default function CollectionResume({
             <div>
                 <hr className="resume-divider" />
                 <p className="balance-text">
-                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(total - bucketCost)}
+                Subtotal {productsAmount} artículo{productsAmount === 1 ? "" : "s"}: {formatCurrency(productsSubtotal)}
                 </p>
 
                 {/* Totales de compra e info adicional */}
@@ -72,13 +72,13 @@ export default function CollectionResume({
 
                 <p className="total-text">
                     Total: {formatCurrency(total)}
-                    {useBalance && (
-                        <>
-                            {" - "}
-                            {formatCurrency(balanceToDiscount)}
-                            {" = "}
-                            {formatCurrency(finalTotal)}
-                        </>
+                    {useBalance && balanceToDiscount > 0 && (
+                    <>
+                        {" - "}
+                        {formatCurrency(balanceToDiscount)}
+                        {" = "}
+                        {formatCurrency(finalTotal)}
+                    </>
                     )}
                 </p>
             </div>

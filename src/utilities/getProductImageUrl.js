@@ -1,9 +1,18 @@
 const getProductImageUrl = (imagePath) => {
+    const filesUrl = (
+        process.env.REACT_APP_FILES_URL ||
+        window.location.origin
+    ).replace(/\/$/, "");
+
     if (!imagePath) {
-        return `${process.env.REACT_APP_FILES_URL}/uploads/products/default-product.jpg`;
+        return `${filesUrl}/uploads/products/default-product.jpg`;
     }
 
-    return `${process.env.REACT_APP_FILES_URL}/${imagePath}`;
+    const normalizedPath = imagePath.startsWith("/")
+        ? imagePath
+        : `/${imagePath}`;
+
+    return `${filesUrl}${normalizedPath}`;
 };
 
 export default getProductImageUrl;

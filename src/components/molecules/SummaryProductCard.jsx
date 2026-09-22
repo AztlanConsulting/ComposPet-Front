@@ -5,6 +5,7 @@ import Button from '../atoms/Button';
 import Image from '../atoms/Image';
 import Producto from '../../public/img/product.png';
 import formatCurrency from '../../utilities/formatCurrency';
+import getProductImageUrl from '../../utilities/getProductImageUrl';
 
 /**
  * Tarjeta de presentación de un producto seleccionado en la solicitud.
@@ -27,7 +28,7 @@ export default function SummaryProductCard({
             {/* Imagen Producto */}
             <div className="summary-product-card-image">
                 <img
-                    src={product.imagen_url || Producto}
+                    src={getProductImageUrl(product.imagen_url)}
                     alt={product.nombre}
                     className="summary-product-card-img"
                 />

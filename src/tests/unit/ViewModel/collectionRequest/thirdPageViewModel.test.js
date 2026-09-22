@@ -71,13 +71,14 @@ describe("useCollectionRequestThirdSectionViewModel", () => {
     mockGetExecute.mockResolvedValue({
       collection: {
         id_solicitud: 10,
-        notes: "Sin observaciones",
+        notas: "Sin observaciones",
       },
       products: [
         { id_producto: 1, cantidad: 2 },
       ],
       balance: 300,
       total: 500,
+      bucketCost: 500,
       payMethods: [
         { id_pago: 1, tipo: "Efectivo" },
         { id_pago: 2, tipo: "Saldo" },
@@ -152,11 +153,12 @@ describe("useCollectionRequestThirdSectionViewModel", () => {
     mockGetExecute.mockResolvedValue({
       collection: {
         id_solicitud: 10,
-        notes: "Acceso lateral",
+        notas: "Acceso lateral",
       },
       products: [],
       balance: 100,
       total: 400,
+      bucketCost: 400,
       payMethods: [
         { id_pago: 1, tipo: "Efectivo" },
       ],
