@@ -161,7 +161,7 @@ function useRoutesViewModel(){
         setTimeout(() => {
             params.api.startEditingCell({
                 rowIndex: params.node.rowIndex,
-                colKey: 'collectedBuckets', 
+                colKey: 'deliveredBuckets', 
             });
         });
     }, [editingRowId, selectedWeek]);

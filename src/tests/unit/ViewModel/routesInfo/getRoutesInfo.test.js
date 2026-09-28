@@ -355,12 +355,13 @@ describe('useRoutesViewModel - handleExportRoute', () => {
 
         await waitFor(() => expect(result.current.loading).toBe(false));
 
+        let returnedUrl;
         await act(async () => {
-            await result.current.handleExportRoute();
+            returnedUrl = await result.current.handleExportRoute();
         });
 
         expect(mockExecuteExport).toHaveBeenCalledWith(0, 'Miércoles tarde');
-        expect(window.open).toHaveBeenCalledWith(mockUrl, "_blank", "noopener,noreferrer");
+        expect(returnedUrl).toBe(mockUrl);
     });
 
     it('debe lanzar error si el resultado indica fallo', async () => {
@@ -380,9 +381,11 @@ describe('useRoutesViewModel - handleExportRoute', () => {
 
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        await expect(result.current.handleExportRoute()).rejects.toThrow(
-            "No hay información para exportar"
-        );
+        await act(async () => {
+            await expect(result.current.handleExportRoute()).rejects.toThrow(
+                "No hay información para exportar"
+            );
+        });
 
         expect(window.open).not.toHaveBeenCalled();
     });

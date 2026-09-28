@@ -25,6 +25,7 @@ jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
     GetRoutesInfoUseCase: jest.fn(),
     GetDataForEditingRequestUseCase: jest.fn(),
     UpdateRequestUseCase: jest.fn(),
+    ExportFilteredRoutesUseCase: jest.fn(),
 }));
 
 jest.mock('../../../../presentation/viewmodels/utils/routesTableColumnDefinitions', () => ({
