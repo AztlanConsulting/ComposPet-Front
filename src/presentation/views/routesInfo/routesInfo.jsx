@@ -167,15 +167,15 @@ export default function RoutesInfo() {
                                                 </div>
 
                                                 <div className="disabled-tooltip-container">
-                                                    <Button
-                                                        size="medium"
-                                                        csstype="accept"
+                                                    <ButtonActionAlert
+                                                        onAction={routesViewModel.handleExportRoute}
+                                                        successMessage="Ruta exportada exitosamente"
+                                                        errorMessage="No se pudo exportar la ruta. Verifica los filtros seleccionados"
                                                         className="button-actions"
-                                                        onClick={routesViewModel.handleOpenRoutesSheet}
                                                         disabled={!isGoogleLoggedIn}
                                                     >
                                                         Resumen de ruta
-                                                    </Button>
+                                                    </ButtonActionAlert>
 
                                                     {!isGoogleLoggedIn && (
                                                         <span className="disabled-tooltip-text">
@@ -262,15 +262,15 @@ export default function RoutesInfo() {
                                 </div>
 
                                 <div className="disabled-tooltip-container">
-                                    <Button
-                                        size="medium"
-                                        csstype="accept"
+                                    <ButtonActionAlert
+                                        onAction={routesViewModel.handleExportRoute}
+                                        successMessage="Ruta exportada exitosamente"
+                                        errorMessage="No se pudo exportar la ruta. Verifica los filtros seleccionados"
                                         className="button-actions"
-                                        onClick={routesViewModel.handleOpenRoutesSheet}
                                         disabled={!isGoogleLoggedIn}
                                     >
                                         Resumen de ruta
-                                    </Button>
+                                    </ButtonActionAlert>
 
                                     {!isGoogleLoggedIn && (
                                         <span className="disabled-tooltip-text">

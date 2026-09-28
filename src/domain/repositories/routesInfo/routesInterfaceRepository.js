@@ -41,6 +41,10 @@ export class RoutesIRepository {
     throw new Error('Error al generar los mensajes de confirmación');
   }
 
+  async exportFilteredRoutes(){
+    throw new Error('Error al exportar el resumen de ruta');
+  }
+
   async getDropdownInfo(){
     throw new Error('Error al obtener la información necesaria para editar la recolección');
   }

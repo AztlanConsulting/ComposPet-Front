@@ -5,7 +5,8 @@ import {
     GetFilteredRoutesUseCase, 
     GetRoutesInfoUseCase,
     GetDataForEditingRequestUseCase,
-    UpdateRequestUseCase, 
+    UpdateRequestUseCase,
+    ExportFilteredRoutesUseCase, 
 } from "../../../domain/useCases/routesInfo/routesTableUseCase";
 import { GenerateRouteMessagesUseCase } from '../../../domain/useCases/routesInfo/generateRouteMessagesUseCase';
 import { RoutesRepository } from "../../../data/repositories/routesInfo/routesRepository";
@@ -220,6 +221,11 @@ function useRoutesViewModel(){
 
     const updateRequest = useMemo(
         () => new UpdateRequestUseCase(),
+        []
+    );
+
+    const exportFilteredRoutes = useMemo(
+        () => new ExportFilteredRoutesUseCase(),
         []
     );
 
@@ -618,14 +624,35 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         setSelectedDay(getDefaultDay(daysOfRoutes, tomorrow));
     };
 
-    const handleOpenRoutesSheet = () => {
-        const url = process.env.REACT_APP_SHEETS_ROUTES_URL;
-        if (!url) {
-            console.error("URL de Google Sheets no configurada");
-            return;
+    /**
+     * Exporta a Google Sheets la información de rutas correspondiente
+     * a la semana y día actualmente seleccionados en los filtros de la tabla.
+     * Abre la hoja resultante en una nueva pestaña si la exportación es exitosa.
+     *
+     * @async
+     * @returns {Promise<string>} URL de la hoja generada.
+     * @throws {Error} Si faltan filtros o falla la exportación.
+     */
+    const handleExportRoute = useCallback(async () => {
+        if (selectedWeek === null || selectedWeek === undefined || !selectedDay) {
+            throw new Error("Selecciona una semana y un día de ruta para exportar.");
         }
-        window.open(url, "_blank", "noopener,noreferrer");
-    };
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const result = await exportFilteredRoutes.execute(selectedWeek, selectedDay);
+
+            if (result?.success === false) {
+                throw new Error(result.message || "No se pudo exportar la información");
+            }
+
+            return result.data.sheetUrl;
+        } finally {
+            setLoading(false);
+        }
+    }, [selectedWeek, selectedDay, exportFilteredRoutes]);
 
     // formatea montos a moneda
     const formatCurrency = (amount) => {
@@ -766,7 +793,7 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
         routePendingAmount: formatCurrency(routePendingAmount),
         weeklyPayedAmount: formatCurrency(weeklyPayedAmount),
         weeklyPendingAmount: formatCurrency(weeklyPendingAmount),
-        handleOpenRoutesSheet,
+        handleExportRoute,
     }
 }
 

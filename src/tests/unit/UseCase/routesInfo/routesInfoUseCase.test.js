@@ -2,7 +2,8 @@ import {
   GetRoutesInfoUseCase, 
   GetAvailableWeeksUseCase, 
   GetDaysOfRoutesUseCase, 
-  GetFilteredRoutesUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
+  GetFilteredRoutesUseCase,
+  ExportFilteredRoutesUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 import { RoutesRepository } from '../../../../data/repositories/routesInfo/routesRepository';
 
 jest.mock('../../../../data/repositories/routesInfo/routesRepository', () => ({
@@ -190,4 +191,43 @@ describe('GetRoutesInfoUseCase - execute', () => {
 
     expect(mockGetRoutesInfo).toHaveBeenCalledTimes(1);
   });
+});
+
+describe('ExportFilteredRoutesUseCase - execute', () => {
+    let mockExportFilteredRoutes;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        mockExportFilteredRoutes = jest.fn();
+        RoutesRepository.mockImplementation(() => ({
+            exportFilteredRoutes: mockExportFilteredRoutes,
+        }));
+    });
+
+    it('debe crear el repository al instanciar', () => {
+        new ExportFilteredRoutesUseCase();
+        expect(RoutesRepository).toHaveBeenCalledTimes(1);
+    });
+
+    it('debe exportar las rutas con weekIndex y dayName y retornar la respuesta', async () => {
+        const mockResponse = {
+            success: true,
+            message: "Exportación exitosa",
+            data: { sheetUrl: "https://docs.google.com/spreadsheets/d/mock-id" },
+        };
+        mockExportFilteredRoutes.mockResolvedValue(mockResponse);
+
+        const useCase = new ExportFilteredRoutesUseCase();
+        const result = await useCase.execute(3, 'Miércoles tarde');
+
+        expect(mockExportFilteredRoutes).toHaveBeenCalledWith(3, 'Miércoles tarde');
+        expect(result).toEqual(mockResponse);
+    });
+
+    it('debe lanzar error si el repository falla', async () => {
+        mockExportFilteredRoutes.mockRejectedValue(new Error('Error exportando'));
+
+        const useCase = new ExportFilteredRoutesUseCase();
+        await expect(useCase.execute(1, 'Lunes')).rejects.toThrow('Error exportando');
+    });
 });

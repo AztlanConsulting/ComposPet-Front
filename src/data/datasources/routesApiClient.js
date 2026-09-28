@@ -113,8 +113,33 @@ export class RoutesApiClient {
             throw error;
         }
     }
+
+    /**
+     * Solicita al backend la exportación a Google Sheets de la información
+     * de rutas correspondiente a la semana y día actualmente seleccionados
+     * en los filtros de la tabla.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Object>} Respuesta del backend con éxito y la URL de la hoja generada.
+     * @throws {Error} Lanza un error si falla la petición.
+     */
+    async exportFilteredRoutes(weekIndex, dayName){
+        try {
+            const response = await api.post('/rutas/exportar-tabla-rutas', {
+                weekIndex,
+                dayName,
+            });
+
+            return response.data;
+        } catch (error) {
+            console.error("Error en exportFilteredRoutes:", error.response?.data || error.message);
+            throw error;
+        }
+    }
     
-    /*
+    /**
      * Obtiene la información de métodos de pago y productos extra disponibles.
      * Realiza una petición GET al endpoint de rutas y retorna los datos de la respuesta.
      *

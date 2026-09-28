@@ -18,7 +18,7 @@ export class GetRoutesInfoUseCase {
         this.routesRepository = new RoutesRepository();
     }
 
-     /**
+    /**
      * Ejecuta el caso de uso para obtener la información de rutas.
      * Delega la operación al repositorio y retorna la lista de rutas
      * como entidades de dominio.
@@ -85,5 +85,28 @@ export class GetEmailsUseCase {
     }
     async execute() {
         return await this.routesRepository.getEmails();
+    }
+}
+
+/**
+ * Caso de uso para exportar a Google Sheets la información de rutas
+ * correspondiente a los filtros de semana y día actualmente seleccionados.
+ *
+ * @class ExportFilteredRoutesUseCase
+ */
+export class ExportFilteredRoutesUseCase {
+    constructor() {
+        this.routesRepository = new RoutesRepository();
+    }
+
+    /**
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Object>} Respuesta del backend con éxito y la URL de la hoja generada.
+     * @throws {Error} Lanza un error si falla la exportación.
+     */
+    async execute(weekIndex, dayName) {
+        return await this.routesRepository.exportFilteredRoutes(weekIndex, dayName);
     }
 }
