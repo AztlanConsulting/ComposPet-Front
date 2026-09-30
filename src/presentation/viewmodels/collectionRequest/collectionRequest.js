@@ -13,31 +13,59 @@ import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 import useCreditBalance from '../utils/useCreditBalance';
 
 /**
- * Calcula el rango de la semana actual 
- * Considera domingo como inicio de semana y sábado como fin.
+ * Calcula el lunes de la semana de recolección (Sábado-Viernes) a la que
+ * pertenece una fecha dada. Replica el mismo criterio usado en el backend
+ * (Route.getCollectionWeekMonday) para que el formulario y la tabla de
+ * rutas agrupen las solicitudes de la misma forma y no se generen
+ * solicitudes duplicadas cuando un cliente entra en sábado y otro en
+ * domingo de la misma semana.
+ *
+ * @param {Date} date - Fecha a evaluar.
+ * @returns {Date} Lunes (hora local, medianoche) de la semana de recolección correspondiente.
+ */
+function getCollectionWeekMonday(date) {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const dow = d.getDay();
+
+    if (dow === 6) { // Sábado -> semana siguiente
+        d.setDate(d.getDate() + 2);
+        return d;
+    }
+    if (dow === 0) { // Domingo -> semana siguiente
+        d.setDate(d.getDate() + 1);
+        return d;
+    }
+    // Lunes a Viernes: retrocede al lunes de esa misma semana
+    d.setDate(d.getDate() - (dow - 1));
+    return d;
+}
+
+/**
+ * Calcula el rango de la semana de recolección actual (Sábado 00:00 a
+ * Viernes 23:59:59.999), usando el mismo criterio que la tabla de rutas.
+ * Antes usaba una semana domingo-sábado independiente, lo que provocaba
+ * que un cliente que entraba sábado y volvía domingo generara dos
+ * solicitudes distintas para la misma semana de recolección.
  *
  * @returns {{ weekStartDate: string, weekEndDate: string }}
  */
 function calculateCurrentWeekRange() {
     const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 (Domingo) a 6 (Sábado)
+    const monday = getCollectionWeekMonday(today);
 
-    const weekStartDate = new Date(today);
-    const weekEndDate = new Date(today);
-
-    // Ajusta la fecha de inicio al domingo.
-    weekStartDate.setDate(today.getDate() - dayOfWeek);
+    const weekStartDate = new Date(monday);
+    weekStartDate.setDate(weekStartDate.getDate() - 2); // Sábado de esa semana
     weekStartDate.setHours(0, 0, 0, 0);
 
-    // Ajusta la fecha de fin al sábado.
-    weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
+    const weekEndDate = new Date(monday);
+    weekEndDate.setDate(weekEndDate.getDate() + 4); // Viernes de esa semana
     weekEndDate.setHours(23, 59, 59, 999);
-    
-    return { 
+
+    return {
         weekStartDate: weekStartDate.toISOString(),
         weekEndDate: weekEndDate.toISOString(),
     };
-};  
+}
 
 
 function StandardRouteDay(routeDay) {
@@ -69,26 +97,53 @@ function getRouteDayNumber(routeDay) {
     return routeDayNumber[standardDay] ?? null;
 }
 
+/**
+ * Determina el desplazamiento en días, respecto al lunes de la semana
+ * de recolección (Sábado-Viernes), correspondiente a cada día de ruta.
+ */
+const ROUTE_DAY_OFFSET_FROM_MONDAY = {
+    1: 0,  // Lunes
+    2: 1,  // Martes
+    3: 2,  // Miércoles
+    4: 3,  // Jueves
+    5: 4,  // Viernes
+    6: -2, // Sábado
+    0: -1, // Domingo
+};
+
+/**
+ * Determina si el cliente está dentro del horario permitido para generar
+ * una solicitud de recolección, considerando su día de ruta.
+ *
+ * La semana de recolección va de Sábado a Viernes (mismo criterio usado
+ * en la tabla de rutas, vía getCollectionWeekMonday). El acceso se abre
+ * al inicio de esa semana (Sábado 00:00) y se cierra un día antes del
+ * día de ruta del cliente, a las 6:00 PM.
+ *
+ * @param {string} routeDay - Día de ruta del cliente (ej. "Lunes 1").
+ * @returns {boolean} true si el cliente puede acceder al formulario ahora.
+ */
 function theClientIsInTime(routeDay) {
     const today = new Date();
     const routeDayNumber = getRouteDayNumber(routeDay);
 
     if (routeDayNumber === null) return false;
 
-    const currentDay = today.getDay();
+    const monday = getCollectionWeekMonday(today);
 
-    const routeDate = new Date(today);
-    routeDate.setDate(today.getDate() + (routeDayNumber - currentDay));
+    const routeDate = new Date(monday);
+    routeDate.setDate(routeDate.getDate() + ROUTE_DAY_OFFSET_FROM_MONDAY[routeDayNumber]);
     routeDate.setHours(0, 0, 0, 0);
 
     const limitDate = new Date(routeDate);
-    limitDate.setHours(limitDate.getHours() - 1);
+    limitDate.setDate(limitDate.getDate() - 1); // día anterior a la ruta
+    limitDate.setHours(18, 0, 0, 0); // 6:00 PM
 
-    const weekStartDate = new Date(today);
-    weekStartDate.setDate(today.getDate() - currentDay);
+    const weekStartDate = new Date(monday);
+    weekStartDate.setDate(weekStartDate.getDate() - 2); // Sábado de esa semana
     weekStartDate.setHours(0, 0, 0, 0);
 
-    const access = today >= weekStartDate && today <= limitDate
+    const access = today >= weekStartDate && today <= limitDate;
 
     return access;
 }
