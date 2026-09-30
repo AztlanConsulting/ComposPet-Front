@@ -1,12 +1,13 @@
 import { 
-  GetRoutesInfoUseCase, 
-  GetAvailableWeeksUseCase, 
-  GetDaysOfRoutesUseCase, 
-  GetFilteredRoutesUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
+    GetRoutesInfoUseCase, 
+    GetAvailableWeeksUseCase, 
+    GetDaysOfRoutesUseCase, 
+    GetFilteredRoutesUseCase,
+    ExportFilteredRoutesUseCase } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 import { RoutesRepository } from '../../../../data/repositories/routesInfo/routesRepository';
 
 jest.mock('../../../../data/repositories/routesInfo/routesRepository', () => ({
-  RoutesRepository: jest.fn(),
+    RoutesRepository: jest.fn(),
 }));
 
 describe('GetAvailableWeeksUseCase - execute', () => {
@@ -65,12 +66,12 @@ describe('GetDaysOfRoutesUseCase - execute', () => {
     it('debe retornar los días de ruta', async () => {
         const mockDays = [
             { 
-              id_ruta: 1, 
-              dia_ruta: 'Lunes' 
+                id_ruta: 1, 
+                dia_ruta: 'Lunes' 
             },
             { 
-              id_ruta: 2, 
-              dia_ruta: 'Miércoles 1' 
+                id_ruta: 2, 
+                dia_ruta: 'Miércoles 1' 
             },
         ];
         mockGetDaysOfRoutes.mockResolvedValue(mockDays);
@@ -84,7 +85,7 @@ describe('GetDaysOfRoutesUseCase - execute', () => {
 
     it('debe lanzar error si el repository falla', async () => {
         mockGetDaysOfRoutes.mockRejectedValue(
-          new Error('Error días')
+            new Error('Error días')
         );
 
         const useCase = new GetDaysOfRoutesUseCase();
@@ -110,7 +111,7 @@ describe('GetFilteredRoutesUseCase - execute', () => {
 
     it('debe retornar las rutas filtradas con weekIndex y dayName', async () => {
         const mockRoutes = [
-          { name: 'Alejandra Arredondo' }
+            { name: 'Alejandra Arredondo' }
         ];
         mockGetFilteredRoutes.mockResolvedValue(mockRoutes);
 
@@ -139,31 +140,31 @@ describe('GetFilteredRoutesUseCase - execute', () => {
 });
 
 describe('GetRoutesInfoUseCase - execute', () => {
-  let mockGetRoutesInfo;
+    let mockGetRoutesInfo;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+    beforeEach(() => {
+        jest.clearAllMocks();
 
-    mockGetRoutesInfo = jest.fn();
+        mockGetRoutesInfo = jest.fn();
 
-    RoutesRepository.mockImplementation(() => ({
-      getRoutesInfo: mockGetRoutesInfo,
-    }));
-  });
+        RoutesRepository.mockImplementation(() => ({
+        getRoutesInfo: mockGetRoutesInfo,
+        }));
+    });
 
-  it('debe crear el repository al instanciar el use case', () => {
-    new GetRoutesInfoUseCase();
+    it('debe crear el repository al instanciar el use case', () => {
+        new GetRoutesInfoUseCase();
 
-    expect(RoutesRepository).toHaveBeenCalledTimes(1);
-  });
+        expect(RoutesRepository).toHaveBeenCalledTimes(1);
+    });
 
-  it('debe obtener la información de rutas correctamente', async () => {
-    const mockRoutes = [
-      {
-        name: 'Alejandra Arredondo',
-        collectedBuckets: 2,
-        deliveredBuckets: 3,
-      },
+    it('debe obtener la información de rutas correctamente', async () => {
+        const mockRoutes = [
+        {
+            name: 'Alejandra Arredondo',
+            collectedBuckets: 2,
+            deliveredBuckets: 3,
+        },
     ];
 
     mockGetRoutesInfo.mockResolvedValue(mockRoutes);
@@ -175,19 +176,58 @@ describe('GetRoutesInfoUseCase - execute', () => {
     expect(mockGetRoutesInfo).toHaveBeenCalledTimes(1);
 
     expect(result).toEqual(mockRoutes);
-  });
+});
 
-  it('debe lanzar el error cuando el repository falla', async () => {
-    mockGetRoutesInfo.mockRejectedValue(
-      new Error('Error al obtener rutas')
-    );
+    it('debe lanzar el error cuando el repository falla', async () => {
+        mockGetRoutesInfo.mockRejectedValue(
+        new Error('Error al obtener rutas')
+        );
 
-    const useCase = new GetRoutesInfoUseCase();
+        const useCase = new GetRoutesInfoUseCase();
 
-    await expect(useCase.execute()).rejects.toThrow(
-      'Error al obtener rutas'
-    );
+        await expect(useCase.execute()).rejects.toThrow(
+        'Error al obtener rutas'
+        );
 
-    expect(mockGetRoutesInfo).toHaveBeenCalledTimes(1);
-  });
+        expect(mockGetRoutesInfo).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('ExportFilteredRoutesUseCase - execute', () => {
+    let mockExportFilteredRoutes;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        mockExportFilteredRoutes = jest.fn();
+        RoutesRepository.mockImplementation(() => ({
+            exportFilteredRoutes: mockExportFilteredRoutes,
+        }));
+    });
+
+    it('debe crear el repository al instanciar', () => {
+        new ExportFilteredRoutesUseCase();
+        expect(RoutesRepository).toHaveBeenCalledTimes(1);
+    });
+
+    it('debe exportar las rutas con weekIndex y dayName y retornar la respuesta', async () => {
+        const mockResponse = {
+            success: true,
+            message: "Exportación exitosa",
+            data: { sheetUrl: "https://docs.google.com/spreadsheets/d/mock-id" },
+        };
+        mockExportFilteredRoutes.mockResolvedValue(mockResponse);
+
+        const useCase = new ExportFilteredRoutesUseCase();
+        const result = await useCase.execute(3, 'Miércoles tarde');
+
+        expect(mockExportFilteredRoutes).toHaveBeenCalledWith(3, 'Miércoles tarde');
+        expect(result).toEqual(mockResponse);
+    });
+
+    it('debe lanzar error si el repository falla', async () => {
+        mockExportFilteredRoutes.mockRejectedValue(new Error('Error exportando'));
+
+        const useCase = new ExportFilteredRoutesUseCase();
+        await expect(useCase.execute(1, 'Lunes')).rejects.toThrow('Error exportando');
+    });
 });

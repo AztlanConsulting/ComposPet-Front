@@ -142,7 +142,28 @@ export class RoutesRepository{
         return response;
     }
 
-    /*
+    /**
+     * Solicita al API la exportación a Google Sheets de la información
+     * de rutas correspondiente a la semana y día actualmente filtrados
+     * en la tabla.
+     *
+     * @async
+     * @param {number} weekIndex - Índice de la semana seleccionada.
+     * @param {string} dayName - Día de ruta seleccionado.
+     * @returns {Promise<Object>} Respuesta del backend con éxito y la URL de la hoja.
+     * @throws {Error} Lanza un error si falla la comunicación con el API.
+     * @see RoutesApiClient.exportFilteredRoutes
+     */
+    async exportFilteredRoutes(weekIndex, dayName) {
+        const response = await this.apiClient.exportFilteredRoutes(
+            weekIndex,
+            dayName
+        );
+
+        return response;
+    }
+
+    /**
      * Obtiene los productos extra y métodos de pago disponibles.
      * Realiza una petición al API, procesa la respuesta y convierte cada ruta
      *

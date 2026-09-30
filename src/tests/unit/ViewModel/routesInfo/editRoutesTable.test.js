@@ -17,6 +17,7 @@ jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
     GetFilteredRoutesUseCase:        jest.fn(),
     GetDataForEditingRequestUseCase: jest.fn(),
     UpdateRequestUseCase:            jest.fn(),
+    ExportFilteredRoutesUseCase: jest.fn(),
 }));
 
 jest.mock('../../../../components/Template/ProblemAlert', () =>
@@ -132,7 +133,7 @@ describe('handleEdit', () => {
         await waitFor(() => {
             expect(params.api.startEditingCell).toHaveBeenCalledWith({
                 rowIndex: params.node.rowIndex,
-                colKey:   'collectedBuckets',
+                colKey:   'deliveredBuckets',
             });
         });
     });

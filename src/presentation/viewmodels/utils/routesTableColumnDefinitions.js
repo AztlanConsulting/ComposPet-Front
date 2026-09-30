@@ -342,58 +342,7 @@ export function getRoutesTableColumns({
             maxWidth: 150,
             valueFormatter: (params) => params.value ?? "—",
         },
-        // Recoleccion
-        { 
-            headerName: "# Recolección",
-            field: "collectedBuckets", 
-            minWidth: 130,
-            maxWidth: 170,
-            editable: (params) => getRowKey(params.data) === editingRowId,
-            headerComponent: editableHeader("# Recolección"),
-            cellEditor: "agNumberCellEditor",
-            cellEditorParams: {
-                suppressKeyboardEvent: blockInvalidNumberKeys
-            },
-            cellClassRules: modifiedClassRule,
 
-            valueSetter: (params) => {
-                const raw = Number(params.newValue);
-
-                const validation = validateField("collectedBuckets", raw);
-
-                if (validation !== true) {
-                    ValidationObserver.addError("collectedBuckets");
-                    params.data.collectedBuckets = params.oldValue;
-
-                    setTimeout(async () => {
-                        await showProblemAlert("Error en los datos ingresados", validation);
-                        params.api.startEditingCell({
-                            rowIndex: params.node.rowIndex,
-                            colKey: "collectedBuckets",
-                        });
-                    }, 0);
-                    return false;
-                }
-
-                ValidationObserver.removeError("collectedBuckets");
-                params.data.collectedBuckets = Math.floor(raw);
-                return true;
-            },
-
-            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
-            cellStyle: (params) => {
-                const rowClass = getRowClass({ data: params.data });
-
-                if (rowClass === "row-inactive") {
-                    return {
-                        fontWeight: "var(--font-weight-bold)",
-                        color: "var(--color-red-primary)",
-                    };
-                }
-
-                return null;
-            },
-        },
         // Entrega
         { 
             headerName: "# Entrega", 
@@ -446,6 +395,59 @@ export function getRoutesTableColumns({
                 return null;
             },
         },
+        // Recoleccion
+        { 
+            headerName: "# Recolección",
+            field: "collectedBuckets", 
+            minWidth: 130,
+            maxWidth: 170,
+            editable: (params) => getRowKey(params.data) === editingRowId,
+            headerComponent: editableHeader("# Recolección"),
+            cellEditor: "agNumberCellEditor",
+            cellEditorParams: {
+                suppressKeyboardEvent: blockInvalidNumberKeys
+            },
+            cellClassRules: modifiedClassRule,
+
+            valueSetter: (params) => {
+                const raw = Number(params.newValue);
+
+                const validation = validateField("collectedBuckets", raw);
+
+                if (validation !== true) {
+                    ValidationObserver.addError("collectedBuckets");
+                    params.data.collectedBuckets = params.oldValue;
+
+                    setTimeout(async () => {
+                        await showProblemAlert("Error en los datos ingresados", validation);
+                        params.api.startEditingCell({
+                            rowIndex: params.node.rowIndex,
+                            colKey: "collectedBuckets",
+                        });
+                    }, 0);
+                    return false;
+                }
+
+                ValidationObserver.removeError("collectedBuckets");
+                params.data.collectedBuckets = Math.floor(raw);
+                return true;
+            },
+
+            // estilo de la celda para resaltar en rojo si el valor es 0, o si la fila tiene fondo rojo
+            cellStyle: (params) => {
+                const rowClass = getRowClass({ data: params.data });
+
+                if (rowClass === "row-inactive") {
+                    return {
+                        fontWeight: "var(--font-weight-bold)",
+                        color: "var(--color-red-primary)",
+                    };
+                }
+
+                return null;
+            },
+        },
+        
         // Productos extra con personalizado para mostrar cada producto en su color correspondiente
         {
             headerName: "Productos Extra", 

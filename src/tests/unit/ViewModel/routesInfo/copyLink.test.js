@@ -18,6 +18,7 @@ jest.mock(
         GetFilteredRoutesUseCase: jest.fn(),
         GetDataForEditingRequestUseCase: jest.fn(),
         UpdateRequestUseCase: jest.fn(),
+        ExportFilteredRoutesUseCase: jest.fn(),
     })
 );
 

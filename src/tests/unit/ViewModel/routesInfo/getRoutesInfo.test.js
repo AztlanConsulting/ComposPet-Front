@@ -7,6 +7,7 @@ import {
     GetFilteredRoutesUseCase,
     GetDataForEditingRequestUseCase,
     UpdateRequestUseCase,
+    ExportFilteredRoutesUseCase,
 } from '../../../../domain/useCases/routesInfo/routesTableUseCase';
 import { act } from '@testing-library/react';
 
@@ -17,15 +18,17 @@ jest.mock('../../../../domain/useCases/routesInfo/routesTableUseCase', () => ({
     GetFilteredRoutesUseCase: jest.fn(),
     GetDataForEditingRequestUseCase: jest.fn(),
     UpdateRequestUseCase:     jest.fn(),
+    ExportFilteredRoutesUseCase: jest.fn(),
 }));
 
 describe('useRoutesViewModel', () => {
-    let mockExecuteFiltered;
+    let mockExecuteFiltered, mockExecuteExport;
 
     beforeEach(() => {
         jest.clearAllMocks();
 
         mockExecuteFiltered = jest.fn();
+        mockExecuteExport = jest.fn();
 
         GetAvailableWeeksUseCase.mockImplementation(() => ({
             execute: jest.fn().mockResolvedValue([
@@ -53,6 +56,10 @@ describe('useRoutesViewModel', () => {
         }))
         UpdateRequestUseCase.mockImplementation(() => ({
             execute: jest.fn().mockResolvedValue([]),
+        }))
+
+        ExportFilteredRoutesUseCase.mockImplementation(() => ({
+            execute: mockExecuteExport,
         }))
     });
 
@@ -168,6 +175,9 @@ describe('useRoutesViewModel - semanas y días', () => {
         GetFilteredRoutesUseCase.mockImplementation(() => (
             { execute: mockExecuteFiltered }
         ));
+        ExportFilteredRoutesUseCase.mockImplementation(() => (
+            { execute: jest.fn() }
+        ));
     });
 
     it('debe cargar semanas al montar', async () => {
@@ -272,5 +282,111 @@ describe('useRoutesViewModel - semanas y días', () => {
         const { result } = renderHook(() => useRoutesViewModel());
 
         await waitFor(() => expect(result.current.error).toBe('Error días'));
+    });
+});
+
+describe('useRoutesViewModel - handleExportRoute', () => {
+    let mockExecuteWeeks, mockExecuteDays, mockExecuteFiltered, mockExecuteExport;
+    const originalWindowOpen = window.open;
+
+    const mockWeeks = [
+        { weekStart: '2026-03-01', weekEnd: '2026-03-08', label: '01/03/2026 - 07/03/2026' },
+    ];
+    const mockDays = [
+        { id_ruta: 1, dia_ruta: 'Miércoles tarde' },
+    ];
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        window.open = jest.fn();
+
+        mockExecuteWeeks = jest.fn().mockResolvedValue(mockWeeks);
+        mockExecuteDays = jest.fn().mockResolvedValue(mockDays);
+        mockExecuteFiltered = jest.fn().mockResolvedValue([]);
+        mockExecuteExport = jest.fn();
+
+        GetAvailableWeeksUseCase.mockImplementation(() => ({ execute: mockExecuteWeeks }));
+        GetDaysOfRoutesUseCase.mockImplementation(() => ({ execute: mockExecuteDays }));
+        GetRoutesInfoUseCase.mockImplementation(() => ({ execute: jest.fn().mockResolvedValue([]) }));
+        GetFilteredRoutesUseCase.mockImplementation(() => ({ execute: mockExecuteFiltered }));
+        GetDataForEditingRequestUseCase.mockImplementation(() => ({
+            execute: jest.fn().mockResolvedValue({ payMethods: [], extraProducts: [] }),
+        }));
+        UpdateRequestUseCase.mockImplementation(() => ({ execute: jest.fn() }));
+        ExportFilteredRoutesUseCase.mockImplementation(() => ({ execute: mockExecuteExport }));
+    });
+
+    afterAll(() => {
+        window.open = originalWindowOpen;
+    });
+
+    it('debe lanzar error si no hay semana o día seleccionados', async () => {
+        const { result } = renderHook(() => useRoutesViewModel());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        await act(async () => {
+            result.current.setSelectedDay(null);
+        });
+
+        await expect(result.current.handleExportRoute()).rejects.toThrow(
+            "Selecciona una semana y un día de ruta para exportar."
+        );
+
+        expect(mockExecuteExport).not.toHaveBeenCalled();
+        expect(window.open).not.toHaveBeenCalled();
+    });
+
+    it('debe exportar y abrir la URL de la hoja cuando la exportación es exitosa', async () => {
+        const mockUrl = 'https://docs.google.com/spreadsheets/d/mock-id';
+        mockExecuteExport.mockResolvedValue({
+            success: true,
+            data: { sheetUrl: mockUrl },
+        });
+
+        const { result } = renderHook(() => useRoutesViewModel());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        await act(async () => {
+            result.current.setSelectedWeek(0);
+            result.current.setSelectedDay('Miércoles tarde');
+        });
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        let returnedUrl;
+        await act(async () => {
+            returnedUrl = await result.current.handleExportRoute();
+        });
+
+        expect(mockExecuteExport).toHaveBeenCalledWith(0, 'Miércoles tarde');
+        expect(returnedUrl).toBe(mockUrl);
+    });
+
+    it('debe lanzar error si el resultado indica fallo', async () => {
+        mockExecuteExport.mockResolvedValue({
+            success: false,
+            message: "No hay información para exportar",
+        });
+
+        const { result } = renderHook(() => useRoutesViewModel());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        await act(async () => {
+            result.current.setSelectedWeek(0);
+            result.current.setSelectedDay('Miércoles tarde');
+        });
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        await act(async () => {
+            await expect(result.current.handleExportRoute()).rejects.toThrow(
+                "No hay información para exportar"
+            );
+        });
+
+        expect(window.open).not.toHaveBeenCalled();
     });
 });
