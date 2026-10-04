@@ -3,74 +3,20 @@ import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
 
-
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
 import TimerAlert from '../../../components/Template/timerAlert';
 
-
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 import useCreditBalance from '../utils/useCreditBalance';
 
-/**
- * Calcula el lunes de la semana de recolección (Sábado-Viernes) a la que
- * pertenece una fecha dada. Replica el mismo criterio usado en el backend
- * (Route.getCollectionWeekMonday) para que el formulario y la tabla de
- * rutas agrupen las solicitudes de la misma forma y no se generen
- * solicitudes duplicadas cuando un cliente entra en sábado y otro en
- * domingo de la misma semana.
- *
- * @param {Date} date - Fecha a evaluar.
- * @returns {Date} Lunes (hora local, medianoche) de la semana de recolección correspondiente.
- */
-function getCollectionWeekMonday(date) {
-    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const dow = d.getDay();
-
-    if (dow === 6) { // Sábado -> semana siguiente
-        d.setDate(d.getDate() + 2);
-        return d;
-    }
-    if (dow === 0) { // Domingo -> semana siguiente
-        d.setDate(d.getDate() + 1);
-        return d;
-    }
-    // Lunes a Viernes: retrocede al lunes de esa misma semana
-    d.setDate(d.getDate() - (dow - 1));
-    return d;
-}
-
-/**
- * Calcula el rango de la semana de recolección actual (Sábado 00:00 a
- * Viernes 23:59:59.999), usando el mismo criterio que la tabla de rutas.
- * Antes usaba una semana domingo-sábado independiente, lo que provocaba
- * que un cliente que entraba sábado y volvía domingo generara dos
- * solicitudes distintas para la misma semana de recolección.
- *
- * @returns {{ weekStartDate: string, weekEndDate: string }}
- */
-function calculateCurrentWeekRange() {
-    const today = new Date();
-    const monday = getCollectionWeekMonday(today);
-
-    const weekStartDate = new Date(monday);
-    weekStartDate.setDate(weekStartDate.getDate() - 2); // Sábado de esa semana
-    weekStartDate.setHours(0, 0, 0, 0);
-
-    const weekEndDate = new Date(monday);
-    weekEndDate.setDate(weekEndDate.getDate() + 4); // Viernes de esa semana
-    weekEndDate.setHours(23, 59, 59, 999);
-
-    return {
-        weekStartDate: weekStartDate.toISOString(),
-        weekEndDate: weekEndDate.toISOString(),
-    };
-}
-
+import {
+    calculateCurrentWeekRange,
+    theClientIsInTime,
+} from './collectionWeekUtils';
 
 function StandardRouteDay(routeDay) {
     if (!routeDay) return null;
-
 
     let day = routeDay
         .split(" ")[0]
@@ -98,57 +44,6 @@ function getRouteDayNumber(routeDay) {
 }
 
 /**
- * Determina el desplazamiento en días, respecto al lunes de la semana
- * de recolección (Sábado-Viernes), correspondiente a cada día de ruta.
- */
-const ROUTE_DAY_OFFSET_FROM_MONDAY = {
-    1: 0,  // Lunes
-    2: 1,  // Martes
-    3: 2,  // Miércoles
-    4: 3,  // Jueves
-    5: 4,  // Viernes
-    6: -2, // Sábado
-    0: -1, // Domingo
-};
-
-/**
- * Determina si el cliente está dentro del horario permitido para generar
- * una solicitud de recolección, considerando su día de ruta.
- *
- * La semana de recolección va de Sábado a Viernes (mismo criterio usado
- * en la tabla de rutas, vía getCollectionWeekMonday). El acceso se abre
- * al inicio de esa semana (Sábado 00:00) y se cierra un día antes del
- * día de ruta del cliente, a las 6:00 PM.
- *
- * @param {string} routeDay - Día de ruta del cliente (ej. "Lunes 1").
- * @returns {boolean} true si el cliente puede acceder al formulario ahora.
- */
-function theClientIsInTime(routeDay) {
-    const today = new Date();
-    const routeDayNumber = getRouteDayNumber(routeDay);
-
-    if (routeDayNumber === null) return false;
-
-    const monday = getCollectionWeekMonday(today);
-
-    const routeDate = new Date(monday);
-    routeDate.setDate(routeDate.getDate() + ROUTE_DAY_OFFSET_FROM_MONDAY[routeDayNumber]);
-    routeDate.setHours(0, 0, 0, 0);
-
-    const limitDate = new Date(routeDate);
-    limitDate.setDate(limitDate.getDate() - 1); // día anterior a la ruta
-    limitDate.setHours(18, 0, 0, 0); // 6:00 PM
-
-    const weekStartDate = new Date(monday);
-    weekStartDate.setDate(weekStartDate.getDate() - 2); // Sábado de esa semana
-    weekStartDate.setHours(0, 0, 0, 0);
-
-    const access = today >= weekStartDate && today <= limitDate;
-
-    return access;
-}
-
-/**
  * ViewModel padre de la vista completa del formulario de recolección.
  *
  * @returns {object} Estado general del formulario y acciones de navegación.
@@ -168,16 +63,16 @@ function useCollectionRequestViewModel() {
     const blockedDebtAlertShownRef = useRef(false);
 
     const navigate = useNavigate();
-    
-    const { clientId, 
-            routeDay,  
-            loading: clientloading, 
-            error: clientError 
+
+    const { clientId,
+            routeDay,
+            loading: clientloading,
+            error: clientError
         } = useAuthenticatedClient();
-    
-    const { balance, 
-            loading : creditLoading, 
-            error: creditError 
+
+    const { balance,
+            loading : creditLoading,
+            error: creditError
         } = useCreditBalance(clientId);
 
     const loading = clientloading || creditLoading;
@@ -200,10 +95,9 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-
     useEffect(() => {
         const validateFormAccess = async () => {
-        
+
         if (
             balance === null ||
             balance === undefined ||
@@ -222,7 +116,6 @@ function useCollectionRequestViewModel() {
 
         const requestIsCompleted = firstSectionViewModel.status === true;
 
-
         if (requestIsCompleted) {
             const result = await TimerAlert({
                 title: "Solicitud ya completada",
@@ -239,8 +132,8 @@ function useCollectionRequestViewModel() {
             return;
         }
 
-        const isInTimeToRequest = theClientIsInTime(routeDay);
-
+        const routeDayNumber = getRouteDayNumber(routeDay);
+        const isInTimeToRequest = theClientIsInTime(routeDayNumber);
 
         if (!isInTimeToRequest) {
             const result = await TimerAlert({
@@ -258,7 +151,6 @@ function useCollectionRequestViewModel() {
             return;
         }
 
-        
         if (balance > -500){
             setDebtAccess(true);
             setAccessValidated(true);
@@ -304,18 +196,6 @@ function useCollectionRequestViewModel() {
         firstSectionViewModel.loading,
         navigate,
     ]);
-    
-    
-    /**
-     * Regresa al formulario a un paso anterior desde la barra de progreso.
-     *
-     * Solo permite ir hacia atrás, evitando avanzar
-     * desde la barra. Antes de cambiar de paso, recarga la
-     * información correspondiente para mantener actualizados los datos
-     *
-     * @param {number} targetStep - Número del paso al que se desea regresar.
-     * @returns {Promise<void>} No retorna ningún valor.
-     */
 
     const goToPreviousStep = async (targetStep) => {
         if (targetStep >= currentStep) return;
