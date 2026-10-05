@@ -96,7 +96,7 @@ describe("useCollectionRequestViewModel - balance del cliente", () => {
 
         useAuthenticatedClient.mockReturnValue({
             clientId: "clientId",
-            routeDay: "Sábado",
+            routeDay: "Viernes",
             loading: false,
             error: null,
         });

@@ -3,46 +3,20 @@ import { useNavigate } from "react-router-dom";
 import useCollectionRequestFirstSectionViewModel from './firstFormViewModel';
 import useCollectionRequestThirdSectionViewModel from './thirdFormViewModel';
 
-
 import useSecondPageViewModel from './secondPageViewModel';
 import ConfirmAlert from "../../../components/Template/confirmationAlert";
 import TimerAlert from '../../../components/Template/timerAlert';
 
-
 import useAuthenticatedClient from '../utils/useAuthenticatedClient';
 import useCreditBalance from '../utils/useCreditBalance';
 
-/**
- * Calcula el rango de la semana actual 
- * Considera domingo como inicio de semana y sábado como fin.
- *
- * @returns {{ weekStartDate: string, weekEndDate: string }}
- */
-function calculateCurrentWeekRange() {
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 (Domingo) a 6 (Sábado)
-
-    const weekStartDate = new Date(today);
-    const weekEndDate = new Date(today);
-
-    // Ajusta la fecha de inicio al domingo.
-    weekStartDate.setDate(today.getDate() - dayOfWeek);
-    weekStartDate.setHours(0, 0, 0, 0);
-
-    // Ajusta la fecha de fin al sábado.
-    weekEndDate.setDate(today.getDate() + (6 - dayOfWeek));
-    weekEndDate.setHours(23, 59, 59, 999);
-    
-    return { 
-        weekStartDate: weekStartDate.toISOString(),
-        weekEndDate: weekEndDate.toISOString(),
-    };
-};  
-
+import {
+    calculateCurrentWeekRange,
+    theClientIsInTime,
+} from './collectionWeekUtils';
 
 function StandardRouteDay(routeDay) {
     if (!routeDay) return null;
-
 
     let day = routeDay
         .split(" ")[0]
@@ -69,30 +43,6 @@ function getRouteDayNumber(routeDay) {
     return routeDayNumber[standardDay] ?? null;
 }
 
-function theClientIsInTime(routeDay) {
-    const today = new Date();
-    const routeDayNumber = getRouteDayNumber(routeDay);
-
-    if (routeDayNumber === null) return false;
-
-    const currentDay = today.getDay();
-
-    const routeDate = new Date(today);
-    routeDate.setDate(today.getDate() + (routeDayNumber - currentDay));
-    routeDate.setHours(0, 0, 0, 0);
-
-    const limitDate = new Date(routeDate);
-    limitDate.setHours(limitDate.getHours() - 1);
-
-    const weekStartDate = new Date(today);
-    weekStartDate.setDate(today.getDate() - currentDay);
-    weekStartDate.setHours(0, 0, 0, 0);
-
-    const access = today >= weekStartDate && today <= limitDate
-
-    return access;
-}
-
 /**
  * ViewModel padre de la vista completa del formulario de recolección.
  *
@@ -113,16 +63,16 @@ function useCollectionRequestViewModel() {
     const blockedDebtAlertShownRef = useRef(false);
 
     const navigate = useNavigate();
-    
-    const { clientId, 
-            routeDay,  
-            loading: clientloading, 
-            error: clientError 
+
+    const { clientId,
+            routeDay,
+            loading: clientloading,
+            error: clientError
         } = useAuthenticatedClient();
-    
-    const { balance, 
-            loading : creditLoading, 
-            error: creditError 
+
+    const { balance,
+            loading : creditLoading,
+            error: creditError
         } = useCreditBalance(clientId);
 
     const loading = clientloading || creditLoading;
@@ -145,10 +95,9 @@ function useCollectionRequestViewModel() {
         weekEndDate,
     );
 
-
     useEffect(() => {
         const validateFormAccess = async () => {
-        
+
         if (
             balance === null ||
             balance === undefined ||
@@ -167,7 +116,6 @@ function useCollectionRequestViewModel() {
 
         const requestIsCompleted = firstSectionViewModel.status === true;
 
-
         if (requestIsCompleted) {
             const result = await TimerAlert({
                 title: "Solicitud ya completada",
@@ -184,8 +132,8 @@ function useCollectionRequestViewModel() {
             return;
         }
 
-        const isInTimeToRequest = theClientIsInTime(routeDay);
-
+        const routeDayNumber = getRouteDayNumber(routeDay);
+        const isInTimeToRequest = theClientIsInTime(routeDayNumber);
 
         if (!isInTimeToRequest) {
             const result = await TimerAlert({
@@ -203,7 +151,6 @@ function useCollectionRequestViewModel() {
             return;
         }
 
-        
         if (balance > -500){
             setDebtAccess(true);
             setAccessValidated(true);
@@ -249,18 +196,6 @@ function useCollectionRequestViewModel() {
         firstSectionViewModel.loading,
         navigate,
     ]);
-    
-    
-    /**
-     * Regresa al formulario a un paso anterior desde la barra de progreso.
-     *
-     * Solo permite ir hacia atrás, evitando avanzar
-     * desde la barra. Antes de cambiar de paso, recarga la
-     * información correspondiente para mantener actualizados los datos
-     *
-     * @param {number} targetStep - Número del paso al que se desea regresar.
-     * @returns {Promise<void>} No retorna ningún valor.
-     */
 
     const goToPreviousStep = async (targetStep) => {
         if (targetStep >= currentStep) return;
