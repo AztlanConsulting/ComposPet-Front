@@ -98,7 +98,11 @@ beforeEach(() => {
         execute: jest.fn().mockResolvedValue([MOCK_WEEK]),
     }));
     GetDaysOfRoutesUseCase.mockImplementation(() => ({
-        execute: jest.fn().mockResolvedValue([]),
+        execute: jest.fn().mockResolvedValue([{
+            id_ruta: 1,
+            dia_ruta: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][new Date().getDay()],
+            orden: 1,
+        }]),
     }));
     GetRoutesInfoUseCase.mockImplementation(() => ({
         execute: jest.fn().mockResolvedValue([]),
@@ -189,18 +193,17 @@ describe('handleCancel', () => {
         const result = await mountHook();
 
         const editColRenderer = result.current.columnDefinitions[0].cellRenderer;
-        const params = makeParams(MOCK_ROUTES[0]);
+        const params = makeParams({ ...MOCK_ROUTES[0], requestId: 'req-inexistente' });
         act(() => { editColRenderer(params).props.children.props.onClick(); });
         await waitFor(() => expect(params.api.startEditingCell).toHaveBeenCalled());
 
         const renderedEditing = result.current.columnDefinitions[0].cellRenderer(params);
         const onClickCancel = renderedEditing.props.children[1].props.onClick;
 
-        renderedEditing.props.children[1].props.onClick.call(null);
-
         expect(() => {
             act(() => { onClickCancel(); });
         }).not.toThrow();
+        expect(params.node.setData).not.toHaveBeenCalled();
     });
 
 });
