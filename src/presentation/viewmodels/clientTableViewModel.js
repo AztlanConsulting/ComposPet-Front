@@ -71,7 +71,6 @@ function useClientTableViewModel() {
 
             // Para las rutas del dropdown
             const mappedRoutes = response
-                .sort((a, b) => a.id_ruta - b.id_ruta)
                 .map(route => ({
                     value: route.id_ruta,
                     label: route.dia_ruta

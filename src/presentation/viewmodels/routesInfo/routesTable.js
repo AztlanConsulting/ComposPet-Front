@@ -230,10 +230,10 @@ function useRoutesViewModel(){
     );
 
     const refreshRoutes = useCallback(async () => {
-        const routes = await getFilteredRoutes.execute(
-            selectedWeek,
-            selectedDay || undefined
-        );
+        // Sin ruta para el día solicitado, no consultar el día por defecto del API.
+        const routes = selectedDay
+            ? await getFilteredRoutes.execute(selectedWeek, selectedDay)
+            : [];
 
         setRoutesList(routes);
         setOriginalRoutesList(
@@ -420,13 +420,17 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
     };
 
     const getDefaultDay = (days, date = new Date()) => {
-        const baseDay = DAY_NAME_MAP[date.getDay()];
-    
-        return (
-            days.find(d => d.dia_ruta === `${baseDay} 1`)?.dia_ruta ||
-            days.find(d => d.dia_ruta.startsWith(baseDay))?.dia_ruta ||
-            null
-        );
+        const normalizeDay = (text) => String(text ?? '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+        const baseDay = normalizeDay(DAY_NAME_MAP[date.getDay()]);
+
+        // El backend ya ordena el catálogo; no dar prioridad al sufijo "1".
+        return days.find(day => {
+            const words = normalizeDay(day.dia_ruta).match(/[a-z]+/g) ?? [];
+            return words.includes(baseDay);
+        })?.dia_ruta ?? null;
     };
 
     const formatWeeks = (weeks) => {
@@ -536,7 +540,9 @@ Apóyanos contestando el formulario de recolección de nuestra página ${formUrl
                 setSelectedWeek(weekIdx);
                 setSelectedDay(defaultDay);
 
-                const routes = await getFilteredRoutes.execute(weekIdx, defaultDay);
+                const routes = defaultDay === null
+                    ? []
+                    : await getFilteredRoutes.execute(weekIdx, defaultDay);
                 setRoutesList(routes);
                 setOriginalRoutesList(JSON.parse(JSON.stringify(routes)));
 

@@ -3,6 +3,7 @@ import useClientTableViewModel from '../../../../presentation/viewmodels/clientT
 import {
     getTableUseCase,
     getRoutesUseCase,
+    getCompostStatusUseCase,
 } from '../../../../di/admin/clientTableDependencies';
 
 jest.mock('../../../../di/admin/clientTableDependencies', () => ({
@@ -15,12 +16,16 @@ jest.mock('../../../../di/admin/clientTableDependencies', () => ({
     updateClientUseCase: {
         execute: jest.fn(),
     },
+    getCompostStatusUseCase: {
+        execute: jest.fn(),
+    },
 }));
 
 describe('ClientTableViewModel', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        getCompostStatusUseCase.execute.mockResolvedValue({ status: { data: false } });
     });
 
     it('debe cargar la información de clientes correctamente', async () => {
@@ -85,8 +90,8 @@ describe('ClientTableViewModel', () => {
             expect(result.current.clientList).toHaveLength(3);
         });
 
-        await act(() => {
-            result.current.setSelectedRoute(1);
+        await act(async () => {
+            await result.current.setSelectedRoute(1);
         });
 
         expect(result.current.clientList).toHaveLength(2);
@@ -130,14 +135,14 @@ describe('ClientTableViewModel', () => {
             expect(result.current.clientList).toHaveLength(2);
         });
 
-        await act(() => {
-            result.current.setSelectedRoute(1);
+        await act(async () => {
+            await result.current.setSelectedRoute(1);
         });
 
         expect(result.current.clientList).toHaveLength(1);
 
-        await act(() => {
-            result.current.setSelectedRoute('');
+        await act(async () => {
+            await result.current.setSelectedRoute('');
         });
 
         expect(result.current.clientList).toHaveLength(2);

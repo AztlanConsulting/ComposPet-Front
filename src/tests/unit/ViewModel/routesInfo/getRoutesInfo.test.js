@@ -40,7 +40,11 @@ describe('useRoutesViewModel', () => {
             ]),
         }));
         GetDaysOfRoutesUseCase.mockImplementation(() => ({
-            execute: jest.fn().mockResolvedValue([]),
+            execute: jest.fn().mockResolvedValue([{
+                id_ruta: 1,
+                dia_ruta: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][new Date().getDay()],
+                orden: 1,
+            }]),
         }));
         GetRoutesInfoUseCase.mockImplementation(() => ({
             execute: jest.fn().mockResolvedValue([]),
